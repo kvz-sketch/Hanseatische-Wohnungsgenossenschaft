@@ -1,0 +1,46 @@
+import type { AnchorHTMLAttributes, ReactNode } from "react";
+
+type Variant = "gold" | "on-navy" | "primary" | "outline";
+type Size = "sm" | "md" | "lg";
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-[3px] font-semibold tracking-wide transition-colors duration-200 whitespace-nowrap";
+
+const variants: Record<Variant, string> = {
+  gold: "bg-gold text-navy hover:bg-gold-deep",
+  "on-navy":
+    "bg-white/0 text-white border border-white/40 hover:border-white hover:bg-white/10",
+  primary: "bg-navy text-white hover:bg-navy-light",
+  outline: "bg-transparent text-navy border border-navy/25 hover:border-navy",
+};
+
+const sizes: Record<Size, string> = {
+  sm: "text-xs px-4 py-2",
+  md: "text-sm px-6 py-3",
+  lg: "text-[15px] px-7 py-3.5",
+};
+
+type ButtonProps = {
+  variant?: Variant;
+  size?: Size;
+  block?: boolean;
+  children: ReactNode;
+} & AnchorHTMLAttributes<HTMLAnchorElement>;
+
+export function Button({
+  variant = "primary",
+  size = "md",
+  block = false,
+  className = "",
+  children,
+  ...rest
+}: ButtonProps) {
+  return (
+    <a
+      className={`${base} ${variants[variant]} ${sizes[size]} ${block ? "w-full" : ""} ${className}`}
+      {...rest}
+    >
+      {children}
+    </a>
+  );
+}
