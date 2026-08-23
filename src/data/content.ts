@@ -18,7 +18,7 @@ export const nav = [
 ];
 
 export const stats = [
-  { value: "9", label: "Gesellschaften unter einem Dach" },
+  { value: "6", label: "Marken unter einem Dach" },
   { value: "7%", label: "Rendite p.a. bei Hanseatische Invest eG" },
   { value: "10 J.", label: "Mietgarantie auf vermittelte Wohnungen" },
   { value: "HH · K", label: "Standorte Hamburg und Köln" },
@@ -32,77 +32,51 @@ export type Brand = {
   accent: "gold" | "koralle" | "flat";
 };
 
+// NOTE: descriptions below are placeholder copy pending final text — swap
+// them out for the real wording when it's ready.
+const PLACEHOLDER_COPY = "Platzhaltertext — die finale Beschreibung folgt in Kürze.";
+
 export const brands: Brand[] = [
   {
     category: "Wohneigentum",
-    name: "Hanseatische Wohnungsgenossenschaft eG",
-    description:
-      "Kapitalanlage-Wohnungen kaufen — wir übernehmen Vermietung und Verwaltung, inklusive 10 Jahren Mietgarantie.",
+    name: "Hanseatische Wohnungsgenossenschaft",
+    description: PLACEHOLDER_COPY,
     href: "https://hansea.immo",
     accent: "gold",
   },
   {
     category: "Genossenschaft",
-    name: "Hanseatische Invest eG",
-    description:
-      "Genossenschaftlich investieren ab 10.000 € — 7 % Rendite p.a. mit quartalsweiser Ausschüttung nach einem Jahr Mindestlaufzeit.",
+    name: "Hansea Invest",
+    description: PLACEHOLDER_COPY,
     href: "https://www.hanseainvest.de/",
     accent: "gold",
   },
   {
-    category: "Familien-Vorsorge",
-    name: "Die Familiengenossenschaft",
-    description:
-      "Vermögen aufbauen, ohne Privileg zu sein: den Fremdkapitalhebel nutzen und die Altersvorsorge von Mietern abzahlen lassen.",
-    href: "https://www.diefamiliengenossenschaft.de/",
+    category: "Digitaler Einstieg",
+    name: "Hansea Grow",
+    description: PLACEHOLDER_COPY,
+    href: "#kontakt",
     accent: "koralle",
   },
   {
-    category: "Investoren-Netzwerk",
-    name: "Club der Kapitalanleger",
-    description:
-      "Exklusiver Zugang zu geprüften Immobilien, einem Expertennetzwerk und Investoren-Events.",
-    href: "https://clubderkapitalanleger.de/",
+    category: "Kapitalanlagevertrieb",
+    name: "kapitalanlagevertrieb.de",
+    description: PLACEHOLDER_COPY,
+    href: "https://kapitalanlagevertrieb.de/",
     accent: "flat",
   },
   {
-    category: "Miete & Verwaltung",
-    name: "wirmietendeinhaus.de",
-    description:
-      "Wir mieten Ihr Haus, sanieren und vermieten möbliert weiter — als Serviced Apartment oder Gewerbefläche.",
-    href: "https://wirmietendeinhaus.de/",
+    category: "Wohnen & Verwaltung",
+    name: "Hansea Living",
+    description: PLACEHOLDER_COPY,
+    href: "#kontakt",
     accent: "flat",
   },
   {
-    category: "Projektentwicklung",
-    name: "wiroptimierendeinhaus.de",
-    description:
-      "Projektentwicklung mit der Erfahrung aus mehreren hundert Transaktionen — Wertsteigerung für Ihre Immobilie.",
-    href: "https://wiroptimierendeinhaus.de/",
-    accent: "flat",
-  },
-  {
-    category: "Unternehmensnachfolge",
-    name: "wirkaufendeinenhandwerksbetrieb.de",
-    description:
-      "Wir übernehmen Handwerksbetriebe und sichern Nachfolge, Fortführung und Arbeitsplätze.",
-    href: "https://wirkaufendeinenhandwerksbetrieb.de/",
-    accent: "flat",
-  },
-  {
-    category: "Digitaler Einstieg",
-    name: "deintausender.de",
-    description:
-      "Der niedrigschwellige, digitale Einstieg in Immobilien — einfach und transparent erklärt.",
-    href: "https://deintausender.de/",
-    accent: "flat",
-  },
-  {
-    category: "Sportsponsoring",
-    name: "wirsponserndeinteam.de",
-    description:
-      "Sponsoring für Sportmannschaften und Athleten in Norddeutschland — mehr als ein Dutzend Teams.",
-    href: "https://wirsponserndeinteam.de/",
+    category: "Eigentum & Service",
+    name: "Hansea Home",
+    description: PLACEHOLDER_COPY,
+    href: "#kontakt",
     accent: "flat",
   },
 ];

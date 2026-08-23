@@ -17,14 +17,21 @@ export function BrandGrid() {
             Unsere Marken
           </span>
           <h2 className="font-serif-display mt-3 max-w-[560px] text-[26px] font-normal text-navy sm:text-[30px]">
-            Eine Gruppe, neun Wege zum gleichen Ziel
+            Eine Gruppe, sechs Wege zum gleichen Ziel
           </h2>
         </Reveal>
 
         <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {brands.map((b, i) => (
+          {brands.map((b, i) => {
+            const isExternal = b.href.startsWith("http");
+            return (
             <Reveal key={b.name} delay={(i % 3) * 90}>
-              <a href={b.href} target="_blank" rel="noreferrer" className="block h-full">
+              <a
+                href={b.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noreferrer" : undefined}
+                className="block h-full"
+              >
                 <Card
                   accent={b.accent}
                   className={`group h-full transition-shadow duration-300 ${glow[b.accent]}`}
@@ -42,7 +49,8 @@ export function BrandGrid() {
                 </Card>
               </a>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

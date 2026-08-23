@@ -23,7 +23,7 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-11 lg:px-11 lg:py-24">
         <div>
           <Reveal className="mb-6 flex flex-wrap gap-2">
-            <Badge variant="gold">9 Gesellschaften</Badge>
+            <Badge variant="gold">6 Marken</Badge>
             <Badge variant="koralle">Norddeutschland</Badge>
             <Badge variant="outline">Hamburg · Köln</Badge>
           </Reveal>
@@ -40,7 +40,7 @@ export function Hero() {
 
           <Reveal delay={200}>
             <p className="max-w-[440px] text-[15.5px] leading-relaxed text-fog">
-              Die Gerlach Immobilien Gruppe bündelt neun spezialisierte Gesellschaften unter einem
+              Die Gerlach Immobilien Gruppe bündelt sechs spezialisierte Marken unter einem
               Qualitätsstandard — von der eigenen Kapitalanlage-Wohnung über die
               genossenschaftliche Beteiligung bis zum digitalen Einstieg. Wir decken die gesamte
               Wertschöpfungskette ab: von der Auswahl bis zur Vermarktung Ihrer Immobilie.

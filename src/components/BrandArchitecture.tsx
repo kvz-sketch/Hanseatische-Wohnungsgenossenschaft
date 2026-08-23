@@ -25,7 +25,7 @@ export function BrandArchitecture() {
             Gerlach Immobilien Gruppe
           </div>
           <div className="h-4 w-px bg-navy/25" />
-          <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-9">
+          <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-6">
             {brands.map((b, i) => (
               <Reveal key={b.name} delay={400 + i * 45}>
                 <div

@@ -35,13 +35,21 @@ export function Footer() {
             Marken
           </div>
           <ul className="flex flex-col gap-2 text-[12.5px]">
-            {brands.slice(0, 5).map((b) => (
-              <li key={b.name}>
-                <a href={b.href} target="_blank" rel="noreferrer" className="hover:text-gold">
-                  {b.name}
-                </a>
-              </li>
-            ))}
+            {brands.map((b) => {
+              const isExternal = b.href.startsWith("http");
+              return (
+                <li key={b.name}>
+                  <a
+                    href={b.href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noreferrer" : undefined}
+                    className="hover:text-gold"
+                  >
+                    {b.name}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
 

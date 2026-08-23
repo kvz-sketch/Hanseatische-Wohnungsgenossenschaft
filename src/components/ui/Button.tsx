@@ -1,10 +1,10 @@
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 type Variant = "gold" | "on-navy" | "primary" | "outline" | "koralle";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[3px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap hover:-translate-y-0.5 active:translate-y-0";
+  "inline-flex items-center justify-center gap-2 rounded-[3px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0";
 
 const variants: Record<Variant, string> = {
   gold: "bg-gold text-navy hover:bg-gold-deep hover:shadow-[0_10px_24px_rgba(221,184,81,0.4)]",
@@ -22,12 +22,15 @@ const sizes: Record<Size, string> = {
   lg: "text-[15px] px-7 py-3.5",
 };
 
-type ButtonProps = {
+type Shared = {
   variant?: Variant;
   size?: Size;
   block?: boolean;
   children: ReactNode;
-} & AnchorHTMLAttributes<HTMLAnchorElement>;
+};
+
+type ButtonProps = Shared & AnchorHTMLAttributes<HTMLAnchorElement>;
+type NativeButtonProps = Shared & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Button({
   variant = "primary",
@@ -44,5 +47,27 @@ export function Button({
     >
       {children}
     </a>
+  );
+}
+
+// Same look as Button, but a real <button> — for form submits and in-page
+// actions where an anchor would be the wrong element.
+export function ButtonEl({
+  variant = "primary",
+  size = "md",
+  block = false,
+  className = "",
+  type = "button",
+  children,
+  ...rest
+}: NativeButtonProps) {
+  return (
+    <button
+      type={type}
+      className={`${base} ${variants[variant]} ${sizes[size]} ${block ? "w-full" : ""} ${className}`}
+      {...rest}
+    >
+      {children}
+    </button>
   );
 }
