@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 
-type Variant = "gold" | "on-navy" | "primary" | "outline";
+type Variant = "gold" | "on-navy" | "primary" | "outline" | "koralle";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -12,6 +12,8 @@ const variants: Record<Variant, string> = {
     "bg-white/0 text-white border border-white/40 hover:border-white hover:bg-white/10",
   primary: "bg-navy text-white hover:bg-navy-light hover:shadow-[0_10px_24px_rgba(20,26,70,0.35)]",
   outline: "bg-transparent text-navy border border-navy/25 hover:border-navy",
+  koralle:
+    "bg-koralle text-white hover:bg-[#f2604f] hover:shadow-[0_10px_24px_rgba(249,119,104,0.4)]",
 };
 
 const sizes: Record<Size, string> = {

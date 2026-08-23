@@ -6,7 +6,7 @@ import { BrandArchitecture } from "./components/BrandArchitecture";
 import { BrandGrid } from "./components/BrandGrid";
 import { ValueProps } from "./components/ValueProps";
 import { Process } from "./components/Process";
-import { AboutTeam } from "./components/AboutTeam";
+import { AboutUs } from "./components/AboutUs";
 import { Testimonials } from "./components/Testimonials";
 import { FAQSection } from "./components/FAQSection";
 import { CTA } from "./components/CTA";
@@ -24,7 +24,7 @@ function App() {
         <ValueProps />
         <BrandGrid />
         <Process />
-        <AboutTeam />
+        <AboutUs />
         <Testimonials />
         <FAQSection />
         <CTA />

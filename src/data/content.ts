@@ -186,6 +186,40 @@ export const faq = [
   },
 ];
 
+export const aboutIntro = {
+  eyebrow: "Über uns",
+  heading: "Wir haben unsere Geschäftsbereiche in den letzten Jahren strategisch erweitert",
+  paragraph:
+    "Die GIG spezialisiert sich auf den Erwerb und die Entwicklung von Mehrfamilienhäusern in Norddeutschland und verfolgt die Vision, sanierungsbedürftige Häuser nachhaltig zu gestalten. Durch unser umfangreiches Netzwerk erkennen wir schnell Potenziale und setzen Projekte effizient um, um moderne Wohnträume zu schaffen. Mit Beteiligungen und der Einbindung ausgewählter externer Investoren decken wir zusammen mit unseren Tochterunternehmen die gesamte Wertschöpfungskette von Bestandsimmobilien bis hin zu Kapitalanlagen ab. So tragen wir aktiv zur Klimawende bei und erweitern unser Portfolio um nachhaltig gestaltete Objekte.",
+};
+
+export const serviceModel = [
+  {
+    step: "1",
+    title: "Ankauf & Bestand",
+    description:
+      "Wir identifizieren Mehrfamilienhäuser mit Potenzial in den Wachstumsregionen Norddeutschlands.",
+  },
+  {
+    step: "2",
+    title: "Sanierung & Entwicklung",
+    description:
+      "Sanierungsbedürftige Objekte werden nachhaltig modernisiert und in zeitgemäßen Wohnraum verwandelt.",
+  },
+  {
+    step: "3",
+    title: "Vermietung & Verwaltung",
+    description:
+      "Tochterunternehmen wie wirmietendeinhaus.de übernehmen Vermietung, Betreuung und laufende Verwaltung.",
+  },
+  {
+    step: "4",
+    title: "Kapitalanlage & Beteiligung",
+    description:
+      "Über Hanseatische Invest eG und ausgewählte externe Investoren öffnen wir das Portfolio für Kapitalanleger.",
+  },
+];
+
 export const team = [
   { name: "Stephan Gerlach", role: "CEO" },
   { name: "Sophia Dobuch", role: "COO" },
