@@ -7,7 +7,7 @@ export function ValueProps() {
     <section className="bg-white px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <Reveal>
-          <h2 className="font-serif-display text-[24px] font-normal text-navy sm:text-[26px]">
+          <h2 className="font-serif-display text-[24px] text-navy sm:text-[26px]">
             Warum Genossenschaft und Gruppe
           </h2>
         </Reveal>

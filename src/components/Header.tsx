@@ -25,7 +25,7 @@ export function Header() {
           <span className="font-serif-display text-[19px] leading-none text-navy">GIG</span>
         </a>
 
-        <nav className="hidden items-center gap-7 text-[12.5px] font-medium text-navy lg:flex">
+        <nav className="hidden items-center gap-7 text-[11.5px] font-bold uppercase tracking-[0.06em] text-navy lg:flex">
           {nav.map((item) => (
             <a
               key={item.href}
@@ -55,7 +55,7 @@ export function Header() {
 
       {open && (
         <div className="border-t border-navy/8 bg-white px-5 py-4 lg:hidden">
-          <nav className="flex flex-col gap-4 text-sm font-medium text-navy">
+          <nav className="flex flex-col gap-4 text-[13px] font-bold uppercase tracking-[0.04em] text-navy">
             {nav.map((item) => (
               <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
                 {item.label}

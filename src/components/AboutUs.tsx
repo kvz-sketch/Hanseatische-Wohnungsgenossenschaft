@@ -77,24 +77,25 @@ export function AboutUs() {
                   href={m.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="group block overflow-hidden rounded-md border border-line bg-mist shadow-[0_2px_10px_rgba(20,26,70,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(20,26,70,0.14)]"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-sm shadow-[0_2px_10px_rgba(20,26,70,0.1)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(20,26,70,0.25)]"
                 >
-                  <div className="relative aspect-[3/4] overflow-hidden">
-                    <img
-                      src={m.photo}
-                      alt={m.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-end bg-gradient-to-t from-navy/70 to-transparent p-2.5 opacity-0 transition-opacity group-hover:opacity-100">
-                      <span className="subheading flex h-6 w-6 items-center justify-center rounded-full bg-white text-[11px] text-navy">
-                        in
-                      </span>
+                  <img
+                    src={m.photo}
+                    alt={m.name}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/10 to-transparent" />
+                  <span className="subheading absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-[11px] text-navy opacity-0 transition-opacity group-hover:opacity-100">
+                    in
+                  </span>
+                  <div className="absolute inset-x-0 bottom-0 p-3.5">
+                    <div className="subheading text-[13px] uppercase tracking-[0.02em] text-white">
+                      {m.name}
                     </div>
-                  </div>
-                  <div className="p-3.5">
-                    <div className="subheading text-[13px] text-navy">{m.name}</div>
-                    <div className="text-[11px] text-muted">{m.role}</div>
+                    <div className="text-[10.5px] uppercase tracking-[0.06em] text-gold">
+                      {m.role}
+                    </div>
                   </div>
                 </a>
               </Reveal>

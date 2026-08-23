@@ -1,12 +1,17 @@
 import { process } from "../data/content";
 import { Reveal } from "./Reveal";
+import { GhostWord } from "./GhostWord";
 
 export function Process() {
   return (
     <section className="relative overflow-hidden bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
-      <div className="mx-auto max-w-[1200px]">
+      <GhostWord className="text-navy">Prozess</GhostWord>
+      <div className="relative mx-auto max-w-[1200px]">
         <Reveal>
-          <h2 className="font-serif-display text-[26px] font-normal text-navy sm:text-[28px]">
+          <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">
+            Prozess
+          </span>
+          <h2 className="font-serif-display mt-3 text-[26px] text-navy sm:text-[28px]">
             So arbeiten wir mit Ihnen
           </h2>
         </Reveal>
@@ -24,7 +29,9 @@ export function Process() {
                   <div className="subheading relative z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-koralle text-[18px] text-white shadow-[0_8px_20px_rgba(249,119,104,0.35)]">
                     {p.step}
                   </div>
-                  <h3 className="subheading mt-4 mb-1.5 text-[15px] text-navy">{p.title}</h3>
+                  <h3 className="subheading mt-4 mb-1.5 text-[13.5px] uppercase tracking-[0.02em] text-navy">
+                    {p.title}
+                  </h3>
                   <p className="text-[12px] leading-relaxed text-muted">{p.description}</p>
                 </div>
               </Reveal>

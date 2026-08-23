@@ -1,12 +1,17 @@
 import { testimonials } from "../data/content";
 import { Reveal } from "./Reveal";
+import { GhostWord } from "./GhostWord";
 
 export function Testimonials() {
   return (
-    <section className="bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
-      <div className="mx-auto max-w-[1200px]">
+    <section className="relative overflow-hidden bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+      <GhostWord className="text-navy">Stimmen</GhostWord>
+      <div className="relative mx-auto max-w-[1200px]">
         <Reveal>
-          <h2 className="font-serif-display text-[26px] font-normal text-navy sm:text-[28px]">
+          <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">
+            Referenzen
+          </span>
+          <h2 className="font-serif-display mt-3 text-[26px] text-navy sm:text-[28px]">
             Was unsere Investoren sagen
           </h2>
         </Reveal>
@@ -34,7 +39,7 @@ export function Testimonials() {
                 >
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="subheading relative mt-4 text-[12.5px]">
+                <div className="subheading relative mt-4 text-[12.5px] uppercase tracking-[0.02em]">
                   <span className={i === 1 ? "text-white" : "text-navy"}>{t.name}</span>
                   <span className={`ml-1.5 font-normal ${i === 1 ? "text-fog" : "text-muted"}`}>
                     {t.meta}

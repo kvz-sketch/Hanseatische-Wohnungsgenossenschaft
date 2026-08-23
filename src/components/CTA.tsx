@@ -1,6 +1,7 @@
 import { company } from "../data/content";
 import { Reveal } from "./Reveal";
 import { ContactForm } from "./ContactForm";
+import { GhostWord } from "./GhostWord";
 
 export function CTA() {
   return (
@@ -13,13 +14,14 @@ export function CTA() {
         className="pointer-events-none absolute -top-24 left-1/2 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-koralle/15 blur-[100px]"
         aria-hidden="true"
       />
+      <GhostWord className="text-white">Kontakt</GhostWord>
 
       <div className="relative mx-auto grid max-w-[1100px] grid-cols-1 gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-start">
         <Reveal>
           <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold">
             Nächster Schritt
           </span>
-          <h2 className="font-serif-display mt-3 max-w-[420px] text-[28px] font-normal text-white sm:text-[34px]">
+          <h2 className="font-serif-display mt-3 max-w-[420px] text-[28px] text-white sm:text-[34px]">
             Lernen Sie die Gruppe im Gespräch kennen
           </h2>
           <p className="mt-4 max-w-[380px] text-[13.5px] leading-relaxed text-fog">

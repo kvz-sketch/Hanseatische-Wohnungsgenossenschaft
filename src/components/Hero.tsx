@@ -3,6 +3,7 @@ import { Button } from "./ui/Button";
 import { ArchitectureArt } from "./ArchitectureArt";
 import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
+import { GhostWord } from "./GhostWord";
 
 export function Hero() {
   return (
@@ -19,26 +20,33 @@ export function Hero() {
         className="pointer-events-none absolute bottom-[-20%] left-[15%] h-[320px] w-[320px] rounded-full bg-gold/15 blur-[100px]"
         aria-hidden="true"
       />
+      <GhostWord className="text-white">Werte</GhostWord>
 
       <div className="relative mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-11 lg:px-11 lg:py-24">
         <div>
-          <Reveal className="mb-6 flex flex-wrap gap-2">
+          <Reveal>
+            <span className="subheading text-[11px] uppercase tracking-[0.22em] text-gold">
+              Gerlach Immobilien Gruppe · Hamburg
+            </span>
+          </Reveal>
+
+          <Reveal delay={60} className="mt-4 mb-6 flex flex-wrap gap-2">
             <Badge variant="gold">6 Marken</Badge>
             <Badge variant="koralle">Norddeutschland</Badge>
             <Badge variant="outline">Hamburg · Köln</Badge>
           </Reveal>
 
-          <Reveal delay={80}>
-            <h1 className="font-serif-display max-w-[600px] text-[42px] font-normal leading-[1.06] text-white sm:text-[54px] lg:text-[68px]">
+          <Reveal delay={120}>
+            <h1 className="font-serif-display max-w-[600px] text-[42px] leading-[1.06] text-white sm:text-[54px] lg:text-[68px]">
               Wir entwickeln <span className="text-shimmer">Werte.</span>
               <br />
               Ihr Weg zum nachhaltigen Vermögensaufbau.
             </h1>
           </Reveal>
 
-          <Reveal delay={160} className="my-6 h-[3px] w-16 origin-left animate-draw bg-koralle" />
+          <Reveal delay={200} className="my-6 h-[3px] w-16 origin-left animate-draw bg-koralle" />
 
-          <Reveal delay={200}>
+          <Reveal delay={240}>
             <p className="max-w-[440px] text-[15.5px] leading-relaxed text-fog">
               Die Gerlach Immobilien Gruppe bündelt sechs spezialisierte Marken unter einem
               Qualitätsstandard — von der eigenen Kapitalanlage-Wohnung über die
@@ -47,7 +55,7 @@ export function Hero() {
             </p>
           </Reveal>
 
-          <Reveal delay={280} className="mt-8 flex flex-wrap gap-3">
+          <Reveal delay={320} className="mt-8 flex flex-wrap gap-3">
             <Button variant="gold" size="lg" href="#kontakt" className="animate-pulse-ring">
               Kostenloses Erstgespräch
             </Button>
@@ -65,8 +73,8 @@ export function Hero() {
             <div className="subheading text-[32px] leading-none text-navy">
               <CountUp value="10" /> Jahre
             </div>
-            <div className="mt-1 text-[11px] text-muted">
-              Mietgarantie auf vermittelte Wohnungen
+            <div className="subheading mt-1 text-[10px] uppercase tracking-[0.1em] text-muted">
+              Mietgarantie
             </div>
           </div>
         </Reveal>

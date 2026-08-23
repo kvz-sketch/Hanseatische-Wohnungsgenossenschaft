@@ -9,7 +9,7 @@ export function FAQSection() {
     <section id="wissen" className="bg-white px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[820px]">
         <Reveal>
-          <h2 className="font-serif-display text-[24px] font-normal text-navy sm:text-[26px]">
+          <h2 className="font-serif-display text-[24px] text-navy sm:text-[26px]">
             Häufige Fragen
           </h2>
         </Reveal>
