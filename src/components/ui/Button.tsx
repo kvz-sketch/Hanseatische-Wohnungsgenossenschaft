@@ -4,13 +4,13 @@ type Variant = "gold" | "on-navy" | "primary" | "outline";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[3px] font-semibold tracking-wide transition-colors duration-200 whitespace-nowrap";
+  "inline-flex items-center justify-center gap-2 rounded-[3px] font-semibold tracking-wide transition-all duration-200 whitespace-nowrap hover:-translate-y-0.5 active:translate-y-0";
 
 const variants: Record<Variant, string> = {
-  gold: "bg-gold text-navy hover:bg-gold-deep",
+  gold: "bg-gold text-navy hover:bg-gold-deep hover:shadow-[0_10px_24px_rgba(221,184,81,0.4)]",
   "on-navy":
     "bg-white/0 text-white border border-white/40 hover:border-white hover:bg-white/10",
-  primary: "bg-navy text-white hover:bg-navy-light",
+  primary: "bg-navy text-white hover:bg-navy-light hover:shadow-[0_10px_24px_rgba(20,26,70,0.35)]",
   outline: "bg-transparent text-navy border border-navy/25 hover:border-navy",
 };
 

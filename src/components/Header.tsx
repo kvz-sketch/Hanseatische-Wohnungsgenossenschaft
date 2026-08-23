@@ -27,8 +27,13 @@ export function Header() {
 
         <nav className="hidden items-center gap-7 text-[12.5px] font-medium text-navy lg:flex">
           {nav.map((item) => (
-            <a key={item.href} href={item.href} className="hover:text-koralle transition-colors">
+            <a
+              key={item.href}
+              href={item.href}
+              className="group relative py-1 transition-colors hover:text-koralle"
+            >
               {item.label}
+              <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-koralle transition-all duration-200 group-hover:w-full" />
             </a>
           ))}
         </nav>

@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
+import { Marquee } from "./components/Marquee";
 import { StatsBar } from "./components/StatsBar";
 import { BrandArchitecture } from "./components/BrandArchitecture";
 import { BrandGrid } from "./components/BrandGrid";
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <Marquee />
         <StatsBar />
         <BrandArchitecture />
         <ValueProps />

@@ -16,7 +16,7 @@ export function Footer() {
         </div>
 
         <div>
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">
+          <div className="subheading mb-3 text-[11px] uppercase tracking-[0.14em] text-white/70">
             Navigation
           </div>
           <ul className="flex flex-col gap-2 text-[12.5px]">
@@ -31,7 +31,7 @@ export function Footer() {
         </div>
 
         <div>
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">
+          <div className="subheading mb-3 text-[11px] uppercase tracking-[0.14em] text-white/70">
             Marken
           </div>
           <ul className="flex flex-col gap-2 text-[12.5px]">
@@ -46,7 +46,7 @@ export function Footer() {
         </div>
 
         <div>
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">
+          <div className="subheading mb-3 text-[11px] uppercase tracking-[0.14em] text-white/70">
             Kontakt
           </div>
           <address className="text-[12.5px] not-italic leading-relaxed">

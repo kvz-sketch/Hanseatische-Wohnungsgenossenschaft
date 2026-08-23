@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:wght@400..900&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -32,4 +32,84 @@ body {
 
 .font-serif-display {
   font-family: var(--font-serif);
+}
+
+/* Bolder Inter subheadings — the sans counterpart to the serif display type */
+.subheading {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, #ddb851 0%, #f97768 25%, #ddb851 50%, #f5d78e 75%, #ddb851 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(249, 119, 104, 0.45); }
+  100% { box-shadow: 0 0 0 10px rgba(249, 119, 104, 0); }
+}
+.animate-pulse-ring {
+  animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes draw-line {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.animate-draw {
+  transform-origin: left;
+  animation: draw-line 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float,
+  .text-shimmer,
+  .animate-marquee,
+  .animate-pulse-ring,
+  .animate-draw {
+    animation: none !important;
+  }
 }
