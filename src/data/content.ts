@@ -2,6 +2,13 @@
 // (fetched Aug 2026). Figures are the ones publicly stated by the group; nothing
 // below is invented.
 
+import stephanGerlach from "../assets/team/stephan-gerlach.jpg";
+import sophiaDobuch from "../assets/team/sophia-dobuch.jpg";
+import rainerBartlau from "../assets/team/rainer-bartlau.jpg";
+import kaiRaila from "../assets/team/kai-raila.jpg";
+import clemensLoescher from "../assets/team/clemens-loescher.jpg";
+import falkOstermann from "../assets/team/falk-ostermann.jpg";
+
 export const nav = [
   { label: "Gruppe", href: "#gruppe" },
   { label: "Marken", href: "#marken" },
@@ -220,13 +227,48 @@ export const serviceModel = [
   },
 ];
 
+export const teamIntro = {
+  eyebrow: "Unser Team",
+  heading: "Passionierte Experten treiben Innovation und Nachhaltigkeit voran",
+};
+
 export const team = [
-  { name: "Stephan Gerlach", role: "CEO" },
-  { name: "Sophia Dobuch", role: "COO" },
-  { name: "Rainer Bartlau", role: "Chief Rental Officer" },
-  { name: "Kai Raila", role: "CCO" },
-  { name: "Clemens Löscher", role: "CFO" },
-  { name: "Falk Ostermann", role: "Director Relationship Management" },
+  {
+    name: "Stephan Gerlach",
+    role: "CEO",
+    photo: stephanGerlach,
+    linkedin: "https://www.linkedin.com/in/stephan-gerlach-3798ba245/",
+  },
+  {
+    name: "Sophia Dobuch",
+    role: "COO",
+    photo: sophiaDobuch,
+    linkedin: "https://www.linkedin.com/in/sophia-dobuch-93a272306/",
+  },
+  {
+    name: "Rainer Bartlau",
+    role: "Chief Rental Officer",
+    photo: rainerBartlau,
+    linkedin: "https://www.linkedin.com/in/rainer-bartlau-5794b926a/",
+  },
+  {
+    name: "Kai Raila",
+    role: "CCO",
+    photo: kaiRaila,
+    linkedin: "https://www.linkedin.com/in/kai-raila-95a66a1a9/",
+  },
+  {
+    name: "Clemens Löscher",
+    role: "CFO",
+    photo: clemensLoescher,
+    linkedin: "https://www.linkedin.com/in/clemens-loescher-hamburg/",
+  },
+  {
+    name: "Falk Ostermann",
+    role: "Director Relationship Management",
+    photo: falkOstermann,
+    linkedin: "https://www.linkedin.com/in/falk-ostermann-b8943855/",
+  },
 ];
 
 export const company = {

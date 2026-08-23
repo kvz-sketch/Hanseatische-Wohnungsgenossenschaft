@@ -1,4 +1,4 @@
-import { aboutIntro, serviceModel, team } from "../data/content";
+import { aboutIntro, serviceModel, team, teamIntro } from "../data/content";
 import { Button } from "./ui/Button";
 import { Reveal } from "./Reveal";
 import { InteriorArt } from "./InteriorArt";
@@ -60,22 +60,47 @@ export function AboutUs() {
           </div>
         </div>
 
-        <Reveal delay={160} className="mt-16 rounded-md bg-navy p-7 shadow-[0_20px_44px_rgba(20,26,70,0.2)]">
-          <div className="subheading mb-4 text-[11px] uppercase tracking-[0.14em] text-fog">
-            Leitung
-          </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {team.map((m) => (
-              <div
-                key={m.name}
-                className="border-l-2 border-gold pl-3 transition-colors hover:border-koralle"
-              >
-                <div className="subheading text-[13.5px] text-white">{m.name}</div>
-                <div className="text-[11px] text-fog">{m.role}</div>
-              </div>
+        <div className="mt-16 border-t border-line pt-14">
+          <Reveal>
+            <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">
+              {teamIntro.eyebrow}
+            </span>
+            <h3 className="subheading mt-3 max-w-[560px] text-[20px] text-navy sm:text-[22px]">
+              {teamIntro.heading}
+            </h3>
+          </Reveal>
+
+          <div className="mt-9 grid grid-cols-2 gap-5 sm:grid-cols-3">
+            {team.map((m, i) => (
+              <Reveal key={m.name} delay={(i % 3) * 90}>
+                <a
+                  href={m.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group block overflow-hidden rounded-md border border-line bg-mist shadow-[0_2px_10px_rgba(20,26,70,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(20,26,70,0.14)]"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-end bg-gradient-to-t from-navy/70 to-transparent p-2.5 opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="subheading flex h-6 w-6 items-center justify-center rounded-full bg-white text-[11px] text-navy">
+                        in
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-3.5">
+                    <div className="subheading text-[13px] text-navy">{m.name}</div>
+                    <div className="text-[11px] text-muted">{m.role}</div>
+                  </div>
+                </a>
+              </Reveal>
             ))}
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );
