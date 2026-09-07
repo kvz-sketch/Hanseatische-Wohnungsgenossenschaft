@@ -148,7 +148,7 @@
   .step .idx{font-family:var(--font-serif);font-size:34px;font-weight:700;color:#3a4258;line-height:1;}
   .step .icon{width:44px;height:44px;border-radius:6px;background:var(--navy-mid);border:1px solid rgba(201,168,75,.3);display:flex;align-items:center;justify-content:center;margin:18px 0 20px;}
   .step .icon svg{width:20px;height:20px;stroke:var(--gold);}
-  .step h3{font-size:18px;margin-bottom:12px;color:#fff;font-weight:700;}
+  .step h3{font-family:var(--font-sans);font-size:18px;margin-bottom:12px;color:#fff;font-weight:700;}
   .step p{font-size:14px;color:var(--muted-dark);}
 
   /* products */
@@ -180,9 +180,11 @@
   .project-card.expanded .teaser-tail{display:none;}
 
   /* qualification */
-  .qual-inner{max-width:680px;margin:0 auto;text-align:center;}
-  .qual-inner h2{color:var(--muted-dark);}
-  .qual-inner p{color:#c6cad4;font-size:15.5px;margin-top:18px;}
+  .qual-inner{max-width:960px;margin:0 auto;text-align:center;}
+  .qual-inner h2{color:var(--muted-dark);font-size:clamp(30px,3.4vw,42px);}
+  .qual-inner p{color:#c6cad4;font-size:17px;margin-top:18px;}
+
+  .nowrap-desktop{white-space:nowrap;}
 
   /* contact options */
   .contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
@@ -267,6 +269,7 @@
     .steps, .products, .contact-cards, .projects, .field-row{grid-template-columns:1fr;}
     .hero{padding:56px 0 64px;}
     .product-banner{flex-direction:column;align-items:flex-start;}
+    .nowrap-desktop{white-space:normal;}
   }
 
   /* uploaded-photo state, kept last so it wins over section-specific placeholder tweaks */
@@ -417,8 +420,8 @@
   <section class="section section-cream" id="produkte">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow on-light">Zwei geprüfte Modelle</span>
-        <h2 class="serif" style="color:#e2e0da;">Die Investmentlösungen,<br>die du empfehlen kannst</h2>
+        <span class="eyebrow on-light" style="color:var(--navy);">Zwei geprüfte Modelle</span>
+        <h2 class="serif" style="color:var(--navy);">Die Investmentlösungen,<br>die du empfehlen kannst</h2>
       </div>
       <div class="products">
         <div class="product-card reveal">
@@ -476,8 +479,8 @@
   <!-- INVESTITION / PROJECTS -->
   <section class="section" style="background:#fff;">
     <div class="wrap">
-      <div class="head reveal" style="margin-bottom:48px;">
-        <h2 class="serif" style="color:var(--navy);">Investition der Hanseatischen Invest eG</h2>
+      <div class="head reveal" style="margin-bottom:48px;max-width:900px;">
+        <h2 class="serif nowrap-desktop" style="color:var(--navy);">Investition der Hanseatischen Invest eG</h2>
       </div>
       <div class="projects">
         <div class="project-card reveal">
@@ -518,7 +521,7 @@
   <section class="section section-navy" id="qualifikation">
     <div class="wrap qual-inner reveal">
       <span class="eyebrow">Qualifikation</span>
-      <h2 class="serif">Wann greift die<br>Netzwerkvergütung?</h2>
+      <h2 class="serif nowrap-desktop">Wann greift die Netzwerkvergütung?</h2>
       <p>Für die volle Netzwerkstruktur über mehrere Ebenen ist eine aktive Qualifikation pro Kalenderjahr erforderlich.</p>
     </div>
   </section>
