@@ -135,12 +135,19 @@
   .section-cream .head h2{color:var(--navy);}
   .head p{color:var(--muted-dark);font-size:15.5px;margin-top:16px;}
 
-  /* network section */
-  .network{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-  .network .copy{position:relative;padding-top:34px;}
-  .network p{color:var(--ink);font-size:16px;margin-bottom:16px;position:relative;z-index:1;}
-  .network-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:26px;position:relative;z-index:1;}
-  .network-art{aspect-ratio:4/3.6;border-radius:6px;}
+  /* network section — full-bleed photo column, no outer .wrap gutter on the right */
+  .network-section{background:var(--cream);}
+  .network{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:560px;}
+  .network .copy{position:relative;padding:90px 56px 90px max(28px, calc((100vw - 1200px) / 2 + 28px));display:flex;flex-direction:column;justify-content:center;}
+  .network h2{color:var(--navy);font-size:clamp(28px,3vw,38px);margin-bottom:22px;}
+  .network p{color:var(--ink);font-size:16px;margin-bottom:16px;max-width:520px;}
+  .network-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:26px;}
+  .network-art{border-radius:0;}
+  @media (max-width:980px){
+    .network{grid-template-columns:1fr;min-height:0;}
+    .network .copy{padding:64px 28px;}
+    .network-art{min-height:340px;}
+  }
 
   /* process */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line-dark);}
@@ -258,7 +265,7 @@
   @media (max-width:980px){
     nav.primary{display:none;}
     .burger{display:block;}
-    .hero-grid, .network, .qual-inner, .ref-grid, .form-inner{grid-template-columns:1fr;}
+    .hero-grid, .qual-inner, .ref-grid, .form-inner{grid-template-columns:1fr;}
     .steps, .products, .contact-cards, .projects{grid-template-columns:1fr 1fr;}
     .ref-copy{padding:40px 8px;}
     .ref-image{min-height:280px;}
@@ -355,11 +362,10 @@
   </section>
 
   <!-- NETWORK -->
-  <section class="section section-cream" id="ablauf">
-    <div class="wrap network">
+  <section class="network-section" id="ablauf">
+    <div class="network">
       <div class="copy reveal">
-        <div class="ghost-word" aria-hidden="true">Über 4 Affiliate-Ebenen</div>
-        <h2 class="sr-only">Über 4 Affiliate-Ebenen</h2>
+        <h2 class="serif">Über 4 Affiliate-Ebenen</h2>
         <p>Klassisches Affiliate Marketing belohnt die direkte Kundenempfehlung. Aber Du kennst auch jemanden, der jemanden kennt?</p>
         <p>Genau so wächst ein starkes Empfehlungsnetzwerk. Mit uns über 4 Empfehlungsebenen.</p>
         <div class="network-actions">
