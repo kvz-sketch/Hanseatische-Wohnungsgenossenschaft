@@ -231,14 +231,6 @@
   .contact-form{background:#fff;border:1px solid var(--line-light);border-radius:6px;padding:32px;margin-top:28px;position:relative;z-index:1;}
   .contact-form .ftitle{font-weight:700;font-size:15px;color:var(--navy);margin-bottom:8px;}
   .contact-form .fhint{font-size:12.5px;color:var(--muted-light);margin-bottom:18px;}
-  .field{margin-bottom:16px;}
-  .field label{display:block;font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:6px;}
-  .field label .req{color:#c0503f;}
-  .field input,.field textarea{width:100%;padding:12px 14px;border:1px solid var(--line-light);border-radius:4px;font-family:inherit;font-size:14px;background:var(--cream);color:var(--ink);}
-  .field input::placeholder{color:#9a988c;}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .form-note{font-size:12px;color:var(--muted-light);margin-top:6px;display:none;}
-  .form-note.show{display:block;}
 
   /* FAQ */
   .faq-list{max-width:840px;margin:0;}
@@ -281,7 +273,7 @@
   }
   @media (max-width:640px){
     .section{padding:72px 0;}
-    .steps, .products, .contact-cards, .projects, .field-row{grid-template-columns:1fr;}
+    .steps, .products, .contact-cards, .projects{grid-template-columns:1fr;}
     .hero{padding:56px 0 64px;}
     .product-banner{flex-direction:column;align-items:flex-start;}
     .nowrap-desktop{white-space:normal;}
@@ -625,36 +617,12 @@
       <div class="form-copy reveal">
         <h2 class="serif">Fragen?</h2>
         <div class="sub">Lass uns telefonieren.</div>
-        <form class="contact-form" id="contactForm">
+        <div class="contact-form">
           <div class="ftitle">Trage Dich hier ein und wir melden uns bei Dir:</div>
           <div class="fhint">Wie hast Du von uns erfahren? Gebe Name und falls bekannt PIN Deines Empfehlers. Wenn Du keinen Empfehler hast, dann schreibe „Direkt“.</div>
-          <div class="field">
-            <label>Empfehler / PIN</label>
-            <input type="text" placeholder="Max Mustermann 0007" />
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label>Vorname<span class="req">*</span></label>
-              <input type="text" required />
-            </div>
-            <div class="field">
-              <label>Nachname<span class="req">*</span></label>
-              <input type="text" required />
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label>E-Mail<span class="req">*</span></label>
-              <input type="email" required />
-            </div>
-            <div class="field">
-              <label>Telefon</label>
-              <input type="tel" />
-            </div>
-          </div>
-          <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;">Absenden</button>
-          <div class="form-note" id="formNote">Danke! Wir melden uns in Kürze bei Dir. (Dieses Formular ist im Export noch nicht an ein Backend angebunden.)</div>
-        </form>
+          <script src="https://js.hsforms.net/forms/embed/19607021.js" defer></script>
+          <div class="hs-form-frame" data-region="na1" data-form-id="830b7d2b-7e7f-4f77-b57f-3782173eb79d" data-portal-id="19607021"></div>
+        </div>
       </div>
       <div class="img-placeholder reveal on-light" style="min-height:420px;transition-delay:.1s;background:#fff;border-color:rgba(201,168,75,.55);" data-slot="portrait">
         <img class="ph-img" alt="" hidden>
@@ -773,12 +741,6 @@
       const expanded = card.classList.toggle('expanded');
       btn.textContent = expanded ? 'Weniger anzeigen' : 'Mehr anzeigen';
     });
-  });
-
-  const form = document.getElementById('contactForm');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    document.getElementById('formNote').classList.add('show');
   });
 
   // ---- Photo upload: click any dashed placeholder to pick a file from this device.
