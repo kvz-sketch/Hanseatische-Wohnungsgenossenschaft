@@ -22,7 +22,7 @@
     --muted-dark:#b8bcc5;
     --line-light:#e4e1d8;
     --line-dark:rgba(255,255,255,.14);
-    --maxw:1200px;
+    --maxw:1400px;
     --font-serif:"Times New Roman",Times,Georgia,serif;
     --font-sans:"Inter",ui-sans-serif,system-ui,sans-serif;
   }
@@ -90,6 +90,8 @@
     cursor:pointer;overflow:hidden;transition:border-color .2s ease;
   }
   .img-placeholder:hover{border-color:var(--gold);}
+  .ph-content{display:flex;flex-direction:column;align-items:center;}
+  .img-placeholder .ph-content{gap:10px;}
   .img-placeholder svg{width:34px;height:34px;opacity:.8;}
   .img-placeholder .ph-label{font-size:12px;font-weight:700;letter-spacing:.03em;max-width:220px;}
   .img-placeholder .ph-size{font-size:10.5px;color:var(--gold-deep);opacity:.75;text-transform:uppercase;letter-spacing:.08em;}
@@ -99,7 +101,7 @@
   /* Header */
   header{position:sticky;top:0;z-index:40;background:var(--navy);border-bottom:1px solid var(--line-dark);}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;height:96px;}
-  .logo{display:flex;flex-direction:column;align-items:center;color:var(--gold);}
+  .logo{display:flex;flex-direction:column;align-items:center;color:var(--gold);position:relative;height:88px;}
   .logo .roof{width:132px;height:36px;}
   .logo .word{font-family:var(--font-serif);font-weight:700;font-size:27px;letter-spacing:.01em;line-height:1;margin-top:2px;}
   .logo .sub{font-family:var(--font-serif);font-size:12.5px;font-weight:500;letter-spacing:.3em;color:var(--gold);margin-top:2px;}
@@ -138,7 +140,7 @@
   /* network section — full-bleed photo column, no outer .wrap gutter on the right */
   .network-section{background:var(--cream);}
   .network{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:560px;}
-  .network .copy{position:relative;padding:90px 56px 90px max(28px, calc((100vw - 1200px) / 2 + 28px));display:flex;flex-direction:column;justify-content:center;}
+  .network .copy{position:relative;padding:90px 56px 90px max(28px, calc((100vw - 1400px) / 2 + 28px));display:flex;flex-direction:column;justify-content:center;}
   .network h2{color:var(--navy);font-size:clamp(28px,3vw,38px);margin-bottom:22px;}
   .network p{color:var(--ink);font-size:16px;margin-bottom:16px;max-width:520px;}
   .network-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:26px;}
@@ -169,7 +171,7 @@
   .product-mark .roof{width:40px;height:16px;}
   .brand-badge{
     display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;
-    background:#fff;border-radius:6px;padding:10px 18px;
+    background:#fff;border-radius:6px;padding:10px 18px;position:relative;height:72px;
   }
   .brand-badge .roof{width:74px;height:26px;color:#111;}
   .brand-badge .word{font-family:var(--font-serif);font-weight:700;font-size:15px;color:#111;letter-spacing:.01em;line-height:1.1;margin-top:5px;text-align:center;white-space:nowrap;}
@@ -218,7 +220,7 @@
   .ref-thumbs .img-placeholder .ph-label{font-size:9.5px;}
 
   /* final CTA */
-  .final-cta{text-align:center;max-width:600px;margin:0 auto;}
+  .final-cta{text-align:center;max-width:760px;margin:0 auto;}
   .final-cta h2{font-size:clamp(34px,4.8vw,52px);margin:16px 0 6px;font-weight:600;}
   .final-cta p{color:#c6cad4;font-size:16px;margin:18px auto 32px;max-width:480px;}
 
@@ -246,7 +248,7 @@
   footer{background:var(--navy-deep);color:var(--muted-dark);padding:56px 0 34px;}
   .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:28px;padding-bottom:30px;}
   .foot-brand{display:flex;flex-direction:column;}
-  .foot-logo{display:flex;flex-direction:column;align-items:center;align-self:flex-start;}
+  .foot-logo{display:flex;flex-direction:column;align-items:center;align-self:flex-start;position:relative;height:70px;}
   .foot-brand .roof{width:112px;height:30px;margin-bottom:4px;}
   .foot-brand .word{font-family:var(--font-serif);font-weight:700;font-size:22px;color:var(--gold);line-height:1;}
   .foot-brand .sub{font-family:var(--font-serif);font-size:10.5px;font-weight:500;letter-spacing:.28em;color:var(--gold);margin-top:3px;}
@@ -278,6 +280,7 @@
     .hero{padding:56px 0 64px;}
     .product-banner{flex-direction:column;align-items:flex-start;}
     .nowrap-desktop{white-space:normal;}
+    .btn-lg{white-space:normal;text-align:center;}
   }
 
   /* uploaded-photo state, kept last so it wins over section-specific placeholder tweaks */
@@ -297,6 +300,23 @@
   .img-placeholder.has-image .ph-content{display:none;}
   .img-placeholder.has-image:hover .ph-overlay{opacity:1;}
   .on-dark .img-placeholder.has-image{border-color:rgba(255,255,255,.25);}
+
+  /* logo upload slots — header, footer and product-badge marks; the drawn
+     roof+wordmark is the fallback shown until a real logo file is uploaded */
+  .logo-slot{cursor:pointer;}
+  .logo-slot .ph-img{display:block;height:100%;width:auto;max-width:100%;object-fit:contain;}
+  .logo-slot .ph-remove{
+    position:absolute;top:-8px;right:-8px;z-index:3;width:20px;height:20px;border-radius:50%;
+    background:rgba(10,15,30,.75);color:#fff;border:none;font-size:10px;line-height:1;cursor:pointer;
+  }
+  .logo-slot .ph-remove:hover{background:rgba(10,15,30,.92);}
+  .logo-slot .ph-overlay{
+    position:absolute;inset:-6px;z-index:2;display:flex;align-items:center;justify-content:center;
+    background:rgba(10,15,30,.6);color:#fff;font-size:10px;font-weight:700;letter-spacing:.02em;
+    border-radius:6px;opacity:0;transition:opacity .2s ease;text-align:center;padding:4px;white-space:nowrap;
+  }
+  .logo-slot.has-image .ph-content{display:none;}
+  .logo-slot.has-image:hover .ph-overlay{opacity:1;}
 </style>
 </head>
 <body>
@@ -305,10 +325,15 @@
 
 <header>
   <div class="wrap nav-inner">
-    <a href="#top" class="logo">
-      <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="1.75"/></svg>
-      <span class="word">IMMO</span>
-      <span class="sub">AFFILIATE NETWORK</span>
+    <a href="#top" class="logo logo-slot" data-slot="logo-immo">
+      <img class="ph-img" alt="" hidden>
+      <button type="button" class="ph-remove" hidden aria-label="Logo entfernen">✕</button>
+      <div class="ph-overlay">Logo ersetzen</div>
+      <div class="ph-content">
+        <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="1.75"/></svg>
+        <span class="word">IMMO</span>
+        <span class="sub">AFFILIATE NETWORK</span>
+      </div>
     </a>
     <nav class="primary">
       <a href="#ablauf">Ablauf</a>
@@ -437,10 +462,15 @@
               <div class="tag">Hanseatische Wohnungsgenossenschaft eG</div>
               <div class="headline">Immobilien als Kapitalanlage</div>
             </div>
-            <div class="brand-badge">
-              <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
-              <span class="word">HANSEATISCHE</span>
-              <span class="sub">WOHNUNGSGENOSSENSCHAFT</span>
+            <div class="brand-badge logo-slot" data-slot="logo-wohnungsgenossenschaft">
+              <img class="ph-img" alt="" hidden>
+              <button type="button" class="ph-remove" hidden aria-label="Logo entfernen">✕</button>
+              <div class="ph-overlay">Logo ersetzen</div>
+              <div class="ph-content">
+                <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <span class="word">HANSEATISCHE</span>
+                <span class="sub">WOHNUNGSGENOSSENSCHAFT</span>
+              </div>
             </div>
           </div>
           <div class="product-body">
@@ -462,10 +492,15 @@
               <div class="tag">Hanseatische Invest eG</div>
               <div class="headline">Genossenschaftsanteile als Immobilien-Sachwert</div>
             </div>
-            <div class="brand-badge">
-              <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
-              <span class="word">HANSEA</span>
-              <span class="word" style="margin-top:0;">INVEST <span style="font-size:.6em;font-weight:500;">eG</span></span>
+            <div class="brand-badge logo-slot" data-slot="logo-hansea-invest">
+              <img class="ph-img" alt="" hidden>
+              <button type="button" class="ph-remove" hidden aria-label="Logo entfernen">✕</button>
+              <div class="ph-overlay">Logo ersetzen</div>
+              <div class="ph-content">
+                <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
+                <span class="word">HANSEA</span>
+                <span class="word" style="margin-top:0;">INVEST <span style="font-size:.6em;font-weight:500;">eG</span></span>
+              </div>
             </div>
           </div>
           <div class="product-body">
@@ -606,7 +641,7 @@
   <section class="section section-navy" id="start">
     <div class="wrap final-cta reveal">
       <span class="eyebrow">Jetzt beginnen</span>
-      <h2 class="serif">Starte heute.<br><span class="accent">Lass dein Netzwerk wachsen.</span></h2>
+      <h2 class="serif">Starte heute.<br><span class="accent nowrap-desktop">Lass dein Netzwerk wachsen.</span></h2>
       <p>Du musst nichts erklären, nichts präsentieren. Sicher Dir Deine PIN — der Rest läuft im System.</p>
       <a href="#anfrage" class="btn btn-gold btn-lg">Kostenlos registrieren &amp; PIN holen →</a>
     </div>
@@ -678,10 +713,15 @@
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <div class="foot-logo">
-          <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="1.75"/></svg>
-          <span class="word">IMMO</span>
-          <span class="sub">AFFILIATE NETWORK</span>
+        <div class="foot-logo logo-slot" data-slot="logo-immo">
+          <img class="ph-img" alt="" hidden>
+          <button type="button" class="ph-remove" hidden aria-label="Logo entfernen">✕</button>
+          <div class="ph-overlay">Logo ersetzen</div>
+          <div class="ph-content">
+            <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="1.75"/></svg>
+            <span class="word">IMMO</span>
+            <span class="sub">AFFILIATE NETWORK</span>
+          </div>
         </div>
         <div class="rule"></div>
         <a href="mailto:support@immoaffiliate.de">E-Mail: support@immoaffiliate.de</a>
@@ -743,7 +783,7 @@
   try { IMG_STATE = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { IMG_STATE = {}; }
 
   function applyImageState(){
-    document.querySelectorAll('.img-placeholder[data-slot]').forEach(el => {
+    document.querySelectorAll('[data-slot]').forEach(el => {
       const slot = el.dataset.slot;
       const url = IMG_STATE[slot];
       const img = el.querySelector('.ph-img');
@@ -767,7 +807,8 @@
     catch (e) { /* storage unavailable — image still shows for this page view */ }
   }
 
-  function resizeImageFile(file, maxDim, quality){
+  function resizeImageFile(file, maxDim, quality, mime){
+    mime = mime || 'image/jpeg';
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onerror = () => reject(reader.error);
@@ -783,7 +824,7 @@
           const canvas = document.createElement('canvas');
           canvas.width = width; canvas.height = height;
           canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL('image/jpeg', quality));
+          resolve(canvas.toDataURL(mime, quality));
         };
         img.src = reader.result;
       };
@@ -794,9 +835,10 @@
   let activeSlot = null;
   const imgFileInput = document.getElementById('imgFileInput');
 
-  document.querySelectorAll('.img-placeholder[data-slot]').forEach(el => {
+  document.querySelectorAll('[data-slot]').forEach(el => {
     el.addEventListener('click', (e) => {
       if (e.target.closest('.ph-remove')) return;
+      e.preventDefault();
       activeSlot = el.dataset.slot;
       imgFileInput.click();
     });
@@ -815,8 +857,11 @@
     const file = imgFileInput.files && imgFileInput.files[0];
     imgFileInput.value = '';
     if (!file || !activeSlot) return;
+    const isLogo = activeSlot.indexOf('logo-') === 0;
     try {
-      const dataUrl = await resizeImageFile(file, 1600, 0.85);
+      const dataUrl = isLogo
+        ? await resizeImageFile(file, 500, 1, 'image/png')
+        : await resizeImageFile(file, 1600, 0.85, 'image/jpeg');
       IMG_STATE[activeSlot] = dataUrl;
       applyImageState();
       saveImageState();
