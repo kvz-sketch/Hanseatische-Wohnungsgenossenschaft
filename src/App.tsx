@@ -11,8 +11,11 @@ import { Testimonials } from "./components/Testimonials";
 import { FAQSection } from "./components/FAQSection";
 import { CTA } from "./components/CTA";
 import { Footer } from "./components/Footer";
+import { RouterProvider, usePath } from "./router";
+import { MarketingDashboard } from "./pages/MarketingDashboard";
+import { BrandBook } from "./pages/BrandBook";
 
-function App() {
+function Site() {
   return (
     <div id="top">
       <Header />
@@ -31,6 +34,21 @@ function App() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function Routes() {
+  const path = usePath();
+  if (path === "/dashboard") return <MarketingDashboard />;
+  if (path === "/dashboard/brandbook") return <BrandBook />;
+  return <Site />;
+}
+
+function App() {
+  return (
+    <RouterProvider>
+      <Routes />
+    </RouterProvider>
   );
 }
 
