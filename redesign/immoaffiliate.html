@@ -161,8 +161,8 @@
   /* products */
   .products{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
   .product-card{background:#fff;border:1px solid var(--line-light);border-radius:4px;overflow:hidden;position:relative;z-index:1;}
-  .product-banner{background:var(--navy);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-  .product-banner .co{}
+  .product-banner{background:var(--navy);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .product-banner .co{min-width:0;}
   .product-banner .co .tag{font-size:12.5px;color:var(--muted-dark);margin-bottom:6px;}
   .product-banner .co .headline{font-family:var(--font-serif);font-weight:700;font-size:19px;color:#fff;}
   .product-mark{display:flex;align-items:center;gap:8px;flex:none;}
@@ -246,6 +246,7 @@
   footer{background:var(--navy-deep);color:var(--muted-dark);padding:56px 0 34px;}
   .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:28px;padding-bottom:30px;}
   .foot-brand{display:flex;flex-direction:column;}
+  .foot-logo{display:flex;flex-direction:column;align-items:center;align-self:flex-start;}
   .foot-brand .roof{width:112px;height:30px;margin-bottom:4px;}
   .foot-brand .word{font-family:var(--font-serif);font-weight:700;font-size:22px;color:var(--gold);line-height:1;}
   .foot-brand .sub{font-family:var(--font-serif);font-size:10.5px;font-weight:500;letter-spacing:.28em;color:var(--gold);margin-top:3px;}
@@ -687,9 +688,11 @@
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="1.75"/></svg>
-        <span class="word">IMMO</span>
-        <span class="sub">AFFILIATE NETWORK</span>
+        <div class="foot-logo">
+          <svg class="roof" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 34 L60 6 L116 34" fill="none" stroke="currentColor" stroke-width="1.75"/></svg>
+          <span class="word">IMMO</span>
+          <span class="sub">AFFILIATE NETWORK</span>
+        </div>
         <div class="rule"></div>
         <a href="mailto:support@immoaffiliate.de">E-Mail: support@immoaffiliate.de</a>
         <p>Eine Marke der Gerlach Verwaltungs- und Beteiligungsgesellschaft mbH</p>
