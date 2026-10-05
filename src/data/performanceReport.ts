@@ -16,6 +16,8 @@ import bgAd6 from "../assets/ads/280926_Bergedorf_Ad6.jpg";
 import bgAd7 from "../assets/ads/280926_Bergedorf_Ad7.jpg";
 import bgAd8 from "../assets/ads/280926_Bergedorf_Ad8.jpg";
 import bgAd9 from "../assets/ads/280926_Bergedorf_Ad9.jpg";
+import hohenfeldeAd1 from "../assets/ads/240926_HI_Hohenfelde_Ad1.jpg";
+import hohenfeldeAd2 from "../assets/ads/240926_HI_Hohenfelde_Ad2.jpg";
 
 // Performance Marketing Report — Meta Ads campaign data.
 //
@@ -152,8 +154,8 @@ export const campaigns: Campaign[] = [
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/hohenfeld/",
     leadStatus: { neu: 6, nichtErreicht: 3, disqualifiziert: 4 },
     ads: [
-      { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12 },
-      { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", metaResults: null, metaCostPerResult: null, spend: 131.11, reach: 2134, impressions: 1288, perspectiveLeads: 1 },
+      { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", image: hohenfeldeAd1, metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12 },
+      { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", image: hohenfeldeAd2, metaResults: null, metaCostPerResult: null, spend: 131.11, reach: 2134, impressions: 1288, perspectiveLeads: 1 },
     ],
   },
   {
