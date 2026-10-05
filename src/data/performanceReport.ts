@@ -1,0 +1,180 @@
+// Performance Marketing Report — Meta Ads campaign data.
+//
+// Source: screenshots provided 2026-10-05, cross-referenced against each other
+// (the two campaign-list screenshots are the same campaigns at two different
+// points in time — ad-level spend sums were used to confirm which snapshot
+// belongs to which total) and against real lead data pulled from Perspective
+// (CRM contacts matched to campaigns/ads via UTM + Meta campaign/adset/ad ID
+// on each contact record — no personal lead data is reproduced here, only
+// aggregated counts).
+//
+// The Meta connector was unavailable in this session (shows "needs_reconnect";
+// no mcp__Meta__ tools were loadable) — campaign/ad names, budgets, reach and
+// impressions below are as last captured in the screenshots, not live. Once
+// Meta is reachable from a session, re-pull via the Meta MCP tools to refresh
+// everything below and fill the one known gap (the qualified-lead campaign's
+// ad list is incomplete — see its `note`).
+
+export const reportMeta = {
+  asOf: "5. Oktober 2026",
+  note:
+    "Kampagnen- und Anzeigendaten laut Meta Ads Manager (Screenshots vom 05.10.2026) — der Meta-Connector war in dieser Session nicht erreichbar (Status „needs_reconnect“), daher keine Live-Daten. Lead-Zahlen sind mit den echten CRM-Kontakten aus Perspective abgeglichen (Zuordnung über Meta Campaign/Adset/Ad-ID je Kontakt) und ersetzen die von Meta gemeldeten Pixel-Zahlen, die Leads durchgehend unterzählen.",
+};
+
+export type AdStat = {
+  id: string;
+  name: string;
+  badge?: string; // "Unveröffentlichte Änderungen", "Kopie", "Keine Auslieferung"
+  metaResults: number | null;
+  metaCostPerResult: number | null;
+  spend: number;
+  reach: number;
+  impressions: number;
+  perspectiveLeads?: number;
+};
+
+export type Campaign = {
+  id: string;
+  name: string;
+  status: "active" | "off";
+  objective: string;
+  dailyBudget: number;
+  spend: number;
+  reach: number;
+  impressions: number;
+  delivery: string;
+  recommendations: number;
+  metaResults: number;
+  metaCostPerResult: number | null;
+  perspectiveLeads: number;
+  perspectiveFunnel: string;
+  ads: AdStat[];
+  incomplete?: boolean;
+  note?: string;
+};
+
+export const campaigns: Campaign[] = [
+  {
+    id: "bergedorf",
+    name: "290926_HSWG_Bergedorf_Static",
+    status: "active",
+    objective: "Website Leads",
+    dailyBudget: 150.0,
+    spend: 879.32,
+    reach: 39057,
+    impressions: 16260,
+    delivery: "29. Sep 2026 – laufend",
+    recommendations: 2,
+    metaResults: 2,
+    metaCostPerResult: 439.66,
+    perspectiveLeads: 5,
+    perspectiveFunnel: "Hamburg-Bergedorf Off-Market Landing Page",
+    ads: [
+      { id: "ad1", name: "280926_Bergedorf_Ad1", metaResults: null, metaCostPerResult: null, spend: 15.75, reach: 1973, impressions: 593 },
+      { id: "ad2", name: "280926_Bergedorf_Ad2", metaResults: null, metaCostPerResult: null, spend: 32.74, reach: 1580, impressions: 977 },
+      { id: "ad3", name: "280926_Bergedorf_Ad3", metaResults: null, metaCostPerResult: null, spend: 286.29, reach: 14598, impressions: 7619 },
+      { id: "ad4", name: "280926_Bergedorf_Ad4", metaResults: 1, metaCostPerResult: 258.05, spend: 258.05, reach: 5972, impressions: 3278, perspectiveLeads: 3 },
+      { id: "ad5", name: "280926_Bergedorf_Ad5", metaResults: 1, metaCostPerResult: 139.24, spend: 139.24, reach: 4269, impressions: 2207, perspectiveLeads: 1 },
+      { id: "ad6", name: "280926_Bergedorf_Ad6", metaResults: null, metaCostPerResult: null, spend: 24.7, reach: 1712, impressions: 814 },
+      { id: "ad7", name: "280926_Bergedorf_Ad7", metaResults: null, metaCostPerResult: null, spend: 26.23, reach: 4202, impressions: 1920 },
+      { id: "ad8", name: "280926_Bergedorf_Ad8", metaResults: null, metaCostPerResult: null, spend: 21.8, reach: 806, impressions: 453 },
+      { id: "ad9", name: "280926_Bergedorf_Ad9", metaResults: null, metaCostPerResult: null, spend: 74.52, reach: 3945, impressions: 2381 },
+    ],
+    note: "1 weiterer Lead im CRM ließ sich keiner einzelnen Anzeige zuordnen (Tracking-Parameter nicht aufgelöst) — in der Kampagnensumme enthalten.",
+  },
+  {
+    id: "hansea-invest-videos",
+    name: "250926_Hansea Invest_Videos",
+    status: "active",
+    objective: "Website Leads",
+    dailyBudget: 150.0,
+    spend: 292.38,
+    reach: 9567,
+    impressions: 6858,
+    delivery: "25. Sep 2026 – laufend",
+    recommendations: 5,
+    metaResults: 2,
+    metaCostPerResult: 146.19,
+    perspectiveLeads: 2,
+    perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    ads: [
+      { id: "video1", name: "250926_Hansea Invest_Videos", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2 },
+    ],
+  },
+  {
+    id: "hohenfelde",
+    name: "240926_HI_Hohenfelde_Static",
+    status: "active",
+    objective: "Website Leads",
+    dailyBudget: 150.0,
+    spend: 1592.61,
+    reach: 27297,
+    impressions: 12841,
+    delivery: "24. Sep 2026 – laufend",
+    recommendations: 5,
+    metaResults: 9,
+    metaCostPerResult: 176.96,
+    perspectiveLeads: 13,
+    perspectiveFunnel: "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
+    ads: [
+      { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12 },
+      { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", metaResults: null, metaCostPerResult: null, spend: 131.11, reach: 2134, impressions: 1288, perspectiveLeads: 1 },
+    ],
+  },
+  {
+    id: "hansea-invest-static",
+    name: "160926_Hansea Invest_Static Ads_Funnel",
+    status: "active",
+    objective: "Website Leads",
+    dailyBudget: 150.0,
+    spend: 1319.75,
+    reach: 270530,
+    impressions: 31798,
+    delivery: "24. Sep 2026 – laufend",
+    recommendations: 6,
+    metaResults: 8,
+    metaCostPerResult: 164.97,
+    perspectiveLeads: 7,
+    perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    ads: [
+      { id: "ad01", name: "01-HI_Immobilienwert", badge: "Unveröffentlichte Änderungen", metaResults: null, metaCostPerResult: null, spend: 24.36, reach: 2909, impressions: 746 },
+      { id: "ad02", name: "02-HI_Immobilienbeteiligung", metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 6 },
+      { id: "ad03", name: "03-HI_Kai_Investieren", metaResults: null, metaCostPerResult: null, spend: 2.76, reach: 890, impressions: 294 },
+      { id: "ad04", name: "04-HI_Connie_Immobilienentwicklung", metaResults: null, metaCostPerResult: null, spend: 6.16, reach: 5437, impressions: 915 },
+      { id: "ad05", name: "05-HI_So_entsteht_Rendite", metaResults: null, metaCostPerResult: null, spend: 24.14, reach: 65105, impressions: 3461 },
+      { id: "ad06", name: "06-HI_Selbstvermieter", metaResults: 1, metaCostPerResult: 83.01, spend: 83.01, reach: 93147, impressions: 6994, perspectiveLeads: 1 },
+      { id: "ad07", name: "07-HI_Kai_Testimonial", metaResults: null, metaCostPerResult: null, spend: 0.05, reach: 32, impressions: 16 },
+      { id: "ad08", name: "08-HI_Ja_Nein", metaResults: null, metaCostPerResult: null, spend: 9.75, reach: 1779, impressions: 498 },
+      { id: "ad09", name: "09-HI_EFT_Vergleich", metaResults: null, metaCostPerResult: null, spend: 48.31, reach: 6256, impressions: 1753 },
+    ],
+    note: "3 weitere CRM-Leads sind einer älteren Kampagnen-ID zugeordnet, die in den aktuellen Kampagnen nicht mehr auftaucht (vermutlich eine Vorgänger-Kampagne vor dem 16.09.) — nicht in der obigen Summe enthalten, wird nach Meta-Neuverbindung geklärt.",
+  },
+  {
+    id: "hansea-invest-qualified",
+    name: "160926_Hansea Invest_Static Ads_Funnel_qualified Lead",
+    status: "off",
+    objective: "Marketing-qualifizierter Lead",
+    dailyBudget: 150.0,
+    spend: 796.72,
+    reach: 151863,
+    impressions: 27005,
+    delivery: "21. Sep 2026 – laufend",
+    recommendations: 2,
+    metaResults: 0,
+    metaCostPerResult: null,
+    perspectiveLeads: 0,
+    perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    incomplete: true,
+    note: "8 von vermutlich 9 Anzeigen bekannt (bekannte Anzeigen summieren sich auf 423,08 € von 796,72 € Gesamtausgabe) — wahrscheinlich fehlt noch „09-HI_EFT_Vergleich_qualified Lead“. Vollständige Anzeigenliste folgt, sobald Meta in einer neuen Session erreichbar ist.",
+    ads: [
+      { id: "q-ad01", name: "01-HI_Immobilienwert_qualified Lead", badge: "Kopie", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "q-ad02", name: "02-HI_Immobilienbeteiligung_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "q-ad03", name: "03-HI_Kai_Investieren_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 150.97, reach: 44484, impressions: 10529 },
+      { id: "q-ad04", name: "04-HI_Connie_Immobilienentwicklung_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 16.25, reach: 1299, impressions: 413 },
+      { id: "q-ad05", name: "05-HI_So_entsteht_Rendite_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 42.55, reach: 23734, impressions: 2970 },
+      { id: "q-ad06", name: "06-HI_Selbstvermieter_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 125.69, reach: 35285, impressions: 6078 },
+      { id: "q-ad07", name: "07-HI_Kai_Testimonial_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 12.96, reach: 1768, impressions: 484 },
+      { id: "q-ad08", name: "08-HI_Ja_Nein_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 74.66, reach: 13933, impressions: 4955 },
+    ],
+  },
+];
