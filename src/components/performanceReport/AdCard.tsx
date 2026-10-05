@@ -18,7 +18,11 @@ function PlaceholderThumb() {
 export function AdCard({ ad }: { ad: AdStat }) {
   return (
     <div className="rounded-md border border-navy/8 bg-white p-3">
-      <PlaceholderThumb />
+      {ad.image ? (
+        <img src={ad.image} alt={ad.name} className="aspect-square w-full rounded-[3px] border border-navy/8 object-cover" />
+      ) : (
+        <PlaceholderThumb />
+      )}
       <div className="mt-2.5 flex items-start justify-between gap-2">
         <span className="text-[12px] font-bold leading-snug text-navy">{ad.name}</span>
       </div>

@@ -1,3 +1,13 @@
+import hiAd01 from "../assets/ads/01-HI_Immobilienwert.jpg";
+import hiAd02 from "../assets/ads/02-HI_Immobilienbeteiligung.jpg";
+import hiAd03 from "../assets/ads/03-HI_Kai_Investieren.jpg";
+import hiAd04 from "../assets/ads/04-HI_Connie_Immobilienentwicklung.jpg";
+import hiAd05 from "../assets/ads/05-HI_So_entsteht_Rendite.jpg";
+import hiAd06 from "../assets/ads/06-HI_Selbstvermieter.jpg";
+import hiAd07 from "../assets/ads/07-HI_Kai_Testimonial.jpg";
+import hiAd08 from "../assets/ads/08-HI_Ja_Nein.jpg";
+import hiAd09 from "../assets/ads/09-HI_EFT_Vergleich.jpg";
+
 // Performance Marketing Report — Meta Ads campaign data.
 //
 // Source: screenshots provided 2026-10-05, cross-referenced against each other
@@ -25,6 +35,7 @@ export type AdStat = {
   id: string;
   name: string;
   badge?: string; // "Unveröffentlichte Änderungen", "Kopie", "Keine Auslieferung"
+  image?: string;
   metaResults: number | null;
   metaCostPerResult: number | null;
   spend: number;
@@ -154,15 +165,15 @@ export const campaigns: Campaign[] = [
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     leadStatus: { neu: 2, nichtErreicht: 2, disqualifiziert: 4 },
     ads: [
-      { id: "ad01", name: "01-HI_Immobilienwert", badge: "Unveröffentlichte Änderungen", metaResults: null, metaCostPerResult: null, spend: 24.36, reach: 2909, impressions: 746 },
-      { id: "ad02", name: "02-HI_Immobilienbeteiligung", metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 7 },
-      { id: "ad03", name: "03-HI_Kai_Investieren", metaResults: null, metaCostPerResult: null, spend: 2.76, reach: 890, impressions: 294 },
-      { id: "ad04", name: "04-HI_Connie_Immobilienentwicklung", metaResults: null, metaCostPerResult: null, spend: 6.16, reach: 5437, impressions: 915 },
-      { id: "ad05", name: "05-HI_So_entsteht_Rendite", metaResults: null, metaCostPerResult: null, spend: 24.14, reach: 65105, impressions: 3461 },
-      { id: "ad06", name: "06-HI_Selbstvermieter", metaResults: 1, metaCostPerResult: 83.01, spend: 83.01, reach: 93147, impressions: 6994, perspectiveLeads: 1 },
-      { id: "ad07", name: "07-HI_Kai_Testimonial", metaResults: null, metaCostPerResult: null, spend: 0.05, reach: 32, impressions: 16 },
-      { id: "ad08", name: "08-HI_Ja_Nein", metaResults: null, metaCostPerResult: null, spend: 9.75, reach: 1779, impressions: 498 },
-      { id: "ad09", name: "09-HI_EFT_Vergleich", metaResults: null, metaCostPerResult: null, spend: 48.31, reach: 6256, impressions: 1753 },
+      { id: "ad01", name: "01-HI_Immobilienwert", badge: "Unveröffentlichte Änderungen", image: hiAd01, metaResults: null, metaCostPerResult: null, spend: 24.36, reach: 2909, impressions: 746 },
+      { id: "ad02", name: "02-HI_Immobilienbeteiligung", image: hiAd02, metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 7 },
+      { id: "ad03", name: "03-HI_Kai_Investieren", image: hiAd03, metaResults: null, metaCostPerResult: null, spend: 2.76, reach: 890, impressions: 294 },
+      { id: "ad04", name: "04-HI_Connie_Immobilienentwicklung", image: hiAd04, metaResults: null, metaCostPerResult: null, spend: 6.16, reach: 5437, impressions: 915 },
+      { id: "ad05", name: "05-HI_So_entsteht_Rendite", image: hiAd05, metaResults: null, metaCostPerResult: null, spend: 24.14, reach: 65105, impressions: 3461 },
+      { id: "ad06", name: "06-HI_Selbstvermieter", image: hiAd06, metaResults: 1, metaCostPerResult: 83.01, spend: 83.01, reach: 93147, impressions: 6994, perspectiveLeads: 1 },
+      { id: "ad07", name: "07-HI_Kai_Testimonial", image: hiAd07, metaResults: null, metaCostPerResult: null, spend: 0.05, reach: 32, impressions: 16 },
+      { id: "ad08", name: "08-HI_Ja_Nein", image: hiAd08, metaResults: null, metaCostPerResult: null, spend: 9.75, reach: 1779, impressions: 498 },
+      { id: "ad09", name: "09-HI_EFT_Vergleich", image: hiAd09, metaResults: null, metaCostPerResult: null, spend: 48.31, reach: 6256, impressions: 1753 },
     ],
     note: "1 weiterer CRM-Lead (Bodo Masuch, nicht erreicht) ist einer älteren Kampagnen-ID zugeordnet, die in den aktuellen Kampagnen nicht mehr auftaucht (vermutlich eine Vorgänger-Kampagne vor dem 16.09.) — nicht in der obigen Summe enthalten, wird nach Meta-Neuverbindung geklärt.",
   },
@@ -185,14 +196,14 @@ export const campaigns: Campaign[] = [
     incomplete: true,
     note: "8 von vermutlich 9 Anzeigen bekannt (bekannte Anzeigen summieren sich auf 423,08 € von 796,72 € Gesamtausgabe) — wahrscheinlich fehlt noch „09-HI_EFT_Vergleich_qualified Lead“. Vollständige Anzeigenliste folgt, sobald Meta in einer neuen Session erreichbar ist.",
     ads: [
-      { id: "q-ad01", name: "01-HI_Immobilienwert_qualified Lead", badge: "Kopie", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
-      { id: "q-ad02", name: "02-HI_Immobilienbeteiligung_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
-      { id: "q-ad03", name: "03-HI_Kai_Investieren_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 150.97, reach: 44484, impressions: 10529 },
-      { id: "q-ad04", name: "04-HI_Connie_Immobilienentwicklung_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 16.25, reach: 1299, impressions: 413 },
-      { id: "q-ad05", name: "05-HI_So_entsteht_Rendite_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 42.55, reach: 23734, impressions: 2970 },
-      { id: "q-ad06", name: "06-HI_Selbstvermieter_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 125.69, reach: 35285, impressions: 6078 },
-      { id: "q-ad07", name: "07-HI_Kai_Testimonial_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 12.96, reach: 1768, impressions: 484 },
-      { id: "q-ad08", name: "08-HI_Ja_Nein_qualified Lead", metaResults: null, metaCostPerResult: null, spend: 74.66, reach: 13933, impressions: 4955 },
+      { id: "q-ad01", name: "01-HI_Immobilienwert_qualified Lead", badge: "Kopie", image: hiAd01, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "q-ad02", name: "02-HI_Immobilienbeteiligung_qualified Lead", image: hiAd02, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "q-ad03", name: "03-HI_Kai_Investieren_qualified Lead", image: hiAd03, metaResults: null, metaCostPerResult: null, spend: 150.97, reach: 44484, impressions: 10529 },
+      { id: "q-ad04", name: "04-HI_Connie_Immobilienentwicklung_qualified Lead", image: hiAd04, metaResults: null, metaCostPerResult: null, spend: 16.25, reach: 1299, impressions: 413 },
+      { id: "q-ad05", name: "05-HI_So_entsteht_Rendite_qualified Lead", image: hiAd05, metaResults: null, metaCostPerResult: null, spend: 42.55, reach: 23734, impressions: 2970 },
+      { id: "q-ad06", name: "06-HI_Selbstvermieter_qualified Lead", image: hiAd06, metaResults: null, metaCostPerResult: null, spend: 125.69, reach: 35285, impressions: 6078 },
+      { id: "q-ad07", name: "07-HI_Kai_Testimonial_qualified Lead", image: hiAd07, metaResults: null, metaCostPerResult: null, spend: 12.96, reach: 1768, impressions: 484 },
+      { id: "q-ad08", name: "08-HI_Ja_Nein_qualified Lead", image: hiAd08, metaResults: null, metaCostPerResult: null, spend: 74.66, reach: 13933, impressions: 4955 },
     ],
   },
 ];
