@@ -14,6 +14,7 @@ import { Footer } from "./components/Footer";
 import { RouterProvider, usePath } from "./router";
 import { MarketingDashboard } from "./pages/MarketingDashboard";
 import { BrandBook } from "./pages/BrandBook";
+import { SocialMediaReport } from "./pages/SocialMediaReport";
 
 function Site() {
   return (
@@ -41,6 +42,7 @@ function Routes() {
   const path = usePath();
   if (path === "/dashboard") return <MarketingDashboard />;
   if (path === "/dashboard/brandbook") return <BrandBook />;
+  if (path === "/dashboard/social-media-report") return <SocialMediaReport />;
   return <Site />;
 }
 

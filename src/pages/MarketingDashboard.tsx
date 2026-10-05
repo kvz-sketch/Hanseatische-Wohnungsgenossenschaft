@@ -85,6 +85,15 @@ function IconChat({ className = "" }: { className?: string }) {
   );
 }
 
+function IconChart({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M4 20V10M11 20V4M18 20v-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M3 20h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 const tiles: Tile[] = [
   {
     id: "brandbook",
@@ -94,6 +103,14 @@ const tiles: Tile[] = [
     to: "/dashboard/brandbook",
     status: "live",
     icon: IconBook,
+  },
+  {
+    id: "social-media-report",
+    title: "Social Media Report",
+    description: "Reichweite, Follower-Wachstum und Top-Beiträge je Kanal — aktuell mit Beispieldaten.",
+    to: "/dashboard/social-media-report",
+    status: "live",
+    icon: IconChart,
   },
   {
     id: "templates",
