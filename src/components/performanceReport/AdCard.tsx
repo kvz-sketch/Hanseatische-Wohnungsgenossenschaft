@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { AdStat } from "../../data/performanceReport";
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
@@ -15,11 +16,52 @@ function PlaceholderThumb() {
   );
 }
 
+function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-navy/80 p-6"
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Schließen"
+        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+      >
+        ✕
+      </button>
+      <img
+        src={src}
+        alt={alt}
+        onClick={(e) => e.stopPropagation()}
+        className="max-h-full max-w-full rounded-md object-contain shadow-2xl"
+      />
+    </div>
+  );
+}
+
 export function AdCard({ ad }: { ad: AdStat }) {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   return (
     <div className="rounded-md border border-navy/8 bg-white p-3">
       {ad.image ? (
-        <img src={ad.image} alt={ad.name} className="aspect-square w-full rounded-[3px] border border-navy/8 object-cover" />
+        <>
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            className="block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[3px] border border-navy/8"
+          >
+            <img src={ad.image} alt={ad.name} className="h-full w-full object-cover transition-transform hover:scale-105" />
+          </button>
+          {lightboxOpen && <Lightbox src={ad.image} alt={ad.name} onClose={() => setLightboxOpen(false)} />}
+        </>
       ) : (
         <PlaceholderThumb />
       )}
