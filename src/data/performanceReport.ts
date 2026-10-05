@@ -7,6 +7,15 @@ import hiAd06 from "../assets/ads/06-HI_Selbstvermieter.jpg";
 import hiAd07 from "../assets/ads/07-HI_Kai_Testimonial.jpg";
 import hiAd08 from "../assets/ads/08-HI_Ja_Nein.jpg";
 import hiAd09 from "../assets/ads/09-HI_EFT_Vergleich.jpg";
+import bgAd1 from "../assets/ads/280926_Bergedorf_Ad1.jpg";
+import bgAd2 from "../assets/ads/280926_Bergedorf_Ad2.jpg";
+import bgAd3 from "../assets/ads/280926_Bergedorf_Ad3.jpg";
+import bgAd4 from "../assets/ads/280926_Bergedorf_Ad4.jpg";
+import bgAd5 from "../assets/ads/280926_Bergedorf_Ad5.jpg";
+import bgAd6 from "../assets/ads/280926_Bergedorf_Ad6.jpg";
+import bgAd7 from "../assets/ads/280926_Bergedorf_Ad7.jpg";
+import bgAd8 from "../assets/ads/280926_Bergedorf_Ad8.jpg";
+import bgAd9 from "../assets/ads/280926_Bergedorf_Ad9.jpg";
 
 // Performance Marketing Report — Meta Ads campaign data.
 //
@@ -92,15 +101,15 @@ export const campaigns: Campaign[] = [
     perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
     leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 2, abschluss: 1 },
     ads: [
-      { id: "ad1", name: "280926_Bergedorf_Ad1", metaResults: null, metaCostPerResult: null, spend: 15.75, reach: 1973, impressions: 593 },
-      { id: "ad2", name: "280926_Bergedorf_Ad2", metaResults: null, metaCostPerResult: null, spend: 32.74, reach: 1580, impressions: 977 },
-      { id: "ad3", name: "280926_Bergedorf_Ad3", metaResults: null, metaCostPerResult: null, spend: 286.29, reach: 14598, impressions: 7619 },
-      { id: "ad4", name: "280926_Bergedorf_Ad4", metaResults: 1, metaCostPerResult: 258.05, spend: 258.05, reach: 5972, impressions: 3278, perspectiveLeads: 3 },
-      { id: "ad5", name: "280926_Bergedorf_Ad5", metaResults: 1, metaCostPerResult: 139.24, spend: 139.24, reach: 4269, impressions: 2207, perspectiveLeads: 1 },
-      { id: "ad6", name: "280926_Bergedorf_Ad6", metaResults: null, metaCostPerResult: null, spend: 24.7, reach: 1712, impressions: 814 },
-      { id: "ad7", name: "280926_Bergedorf_Ad7", metaResults: null, metaCostPerResult: null, spend: 26.23, reach: 4202, impressions: 1920 },
-      { id: "ad8", name: "280926_Bergedorf_Ad8", metaResults: null, metaCostPerResult: null, spend: 21.8, reach: 806, impressions: 453 },
-      { id: "ad9", name: "280926_Bergedorf_Ad9", metaResults: null, metaCostPerResult: null, spend: 74.52, reach: 3945, impressions: 2381 },
+      { id: "ad1", name: "280926_Bergedorf_Ad1", image: bgAd1, metaResults: null, metaCostPerResult: null, spend: 15.75, reach: 1973, impressions: 593 },
+      { id: "ad2", name: "280926_Bergedorf_Ad2", image: bgAd2, metaResults: null, metaCostPerResult: null, spend: 32.74, reach: 1580, impressions: 977 },
+      { id: "ad3", name: "280926_Bergedorf_Ad3", image: bgAd3, metaResults: null, metaCostPerResult: null, spend: 286.29, reach: 14598, impressions: 7619 },
+      { id: "ad4", name: "280926_Bergedorf_Ad4", image: bgAd4, metaResults: 1, metaCostPerResult: 258.05, spend: 258.05, reach: 5972, impressions: 3278, perspectiveLeads: 3 },
+      { id: "ad5", name: "280926_Bergedorf_Ad5", image: bgAd5, metaResults: 1, metaCostPerResult: 139.24, spend: 139.24, reach: 4269, impressions: 2207, perspectiveLeads: 1 },
+      { id: "ad6", name: "280926_Bergedorf_Ad6", image: bgAd6, metaResults: null, metaCostPerResult: null, spend: 24.7, reach: 1712, impressions: 814 },
+      { id: "ad7", name: "280926_Bergedorf_Ad7", image: bgAd7, metaResults: null, metaCostPerResult: null, spend: 26.23, reach: 4202, impressions: 1920 },
+      { id: "ad8", name: "280926_Bergedorf_Ad8", image: bgAd8, metaResults: null, metaCostPerResult: null, spend: 21.8, reach: 806, impressions: 453 },
+      { id: "ad9", name: "280926_Bergedorf_Ad9", image: bgAd9, metaResults: null, metaCostPerResult: null, spend: 74.52, reach: 3945, impressions: 2381 },
     ],
     note: "1 weiterer Lead im CRM ließ sich keiner einzelnen Anzeige zuordnen (Tracking-Parameter nicht aufgelöst) — in der Kampagnensumme enthalten.",
   },
