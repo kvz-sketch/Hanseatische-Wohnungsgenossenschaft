@@ -124,6 +124,7 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: 176.96,
     perspectiveLeads: 13,
     perspectiveFunnel: "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
+    leadStatus: { neu: 6, nichtErreicht: 3, disqualifiziert: 4 },
     ads: [
       { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12 },
       { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", metaResults: null, metaCostPerResult: null, spend: 131.11, reach: 2134, impressions: 1288, perspectiveLeads: 1 },
