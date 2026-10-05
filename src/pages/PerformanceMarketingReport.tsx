@@ -6,10 +6,30 @@ import { reportMeta, campaigns } from "../data/performanceReport";
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
 
+type FunnelGroup = {
+  funnel: string;
+  funnelUrl: string;
+  campaigns: typeof campaigns;
+};
+
+function groupByFunnel(items: typeof campaigns): FunnelGroup[] {
+  const groups: FunnelGroup[] = [];
+  for (const c of items) {
+    let group = groups.find((g) => g.funnel === c.perspectiveFunnel);
+    if (!group) {
+      group = { funnel: c.perspectiveFunnel, funnelUrl: c.perspectiveFunnelUrl, campaigns: [] };
+      groups.push(group);
+    }
+    group.campaigns.push(c);
+  }
+  return groups;
+}
+
 export function PerformanceMarketingReport() {
   const totalSpend = campaigns.reduce((s, c) => s + c.spend, 0);
   const totalPerspectiveLeads = campaigns.reduce((s, c) => s + c.perspectiveLeads, 0);
   const blendedCplPerspective = totalPerspectiveLeads > 0 ? totalSpend / totalPerspectiveLeads : null;
+  const funnelGroups = groupByFunnel(campaigns);
 
   return (
     <div className="min-h-screen bg-mist">
@@ -70,10 +90,39 @@ export function PerformanceMarketingReport() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-4">
-            {campaigns.map((c) => (
-              <CampaignRow key={c.id} campaign={c} />
-            ))}
+          <div className="mt-8 flex flex-col gap-8">
+            {funnelGroups.map((group) => {
+              const funnelSpend = group.campaigns.reduce((s, c) => s + c.spend, 0);
+              const funnelLeads = group.campaigns.reduce((s, c) => s + c.perspectiveLeads, 0);
+              return (
+                <div key={group.funnel} className="flex flex-col gap-4">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-navy/10 pb-2">
+                    <div className="flex items-baseline gap-2.5">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">Funnel</span>
+                      <a
+                        href={group.funnelUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="subheading text-[14px] text-navy underline decoration-koralle/30 underline-offset-2 hover:text-koralle hover:decoration-koralle"
+                      >
+                        {group.funnel} ↗
+                      </a>
+                      <span className="text-[11px] text-muted">
+                        · {group.campaigns.length} {group.campaigns.length === 1 ? "Kampagne" : "Kampagnen"}
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-muted [font-variant-numeric:tabular-nums]">
+                      {fmtEur(funnelSpend)} · {fmtNum(funnelLeads)} Leads
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    {group.campaigns.map((c) => (
+                      <CampaignRow key={c.id} campaign={c} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

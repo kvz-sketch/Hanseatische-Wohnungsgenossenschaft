@@ -89,19 +89,6 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
           <span>{campaign.delivery}</span>
           <span>·</span>
           <span>{campaign.recommendations} Empfehlungen</span>
-          <span>·</span>
-          <span>
-            Perspective-Funnel:{" "}
-            <a
-              href={campaign.perspectiveFunnelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="font-bold text-koralle underline decoration-koralle/30 underline-offset-2 hover:decoration-koralle"
-            >
-              {campaign.perspectiveFunnel} ↗
-            </a>
-          </span>
         </div>
       </button>
 
