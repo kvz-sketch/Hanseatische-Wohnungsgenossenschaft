@@ -65,6 +65,21 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
           <Stat label="Impressionen" value={fmtNum(campaign.impressions)} />
         </div>
 
+        {campaign.leadStatus && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">Lead-Status:</span>
+            <span className="rounded-[2px] bg-navy/[0.06] px-2 py-0.5 text-[11px] font-bold text-navy">
+              {campaign.leadStatus.neu} Neu
+            </span>
+            <span className="rounded-[2px] bg-navy/[0.06] px-2 py-0.5 text-[11px] font-bold text-muted">
+              {campaign.leadStatus.nichtErreicht} Nicht erreicht
+            </span>
+            <span className="rounded-[2px] bg-koralle/10 px-2 py-0.5 text-[11px] font-bold text-koralle">
+              {campaign.leadStatus.disqualifiziert} Disqualifiziert
+            </span>
+          </div>
+        )}
+
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted">
           <span>{campaign.delivery}</span>
           <span>·</span>

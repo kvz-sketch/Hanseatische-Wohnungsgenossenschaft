@@ -33,6 +33,12 @@ export type AdStat = {
   perspectiveLeads?: number;
 };
 
+export type LeadStatus = {
+  neu: number;
+  nichtErreicht: number;
+  disqualifiziert: number;
+};
+
 export type Campaign = {
   id: string;
   name: string;
@@ -48,6 +54,7 @@ export type Campaign = {
   metaCostPerResult: number | null;
   perspectiveLeads: number;
   perspectiveFunnel: string;
+  leadStatus?: LeadStatus;
   ads: AdStat[];
   incomplete?: boolean;
   note?: string;
@@ -97,6 +104,7 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: 146.19,
     perspectiveLeads: 2,
     perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 0 },
     ads: [
       { id: "video1", name: "250926_Hansea Invest_Videos", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2 },
     ],
@@ -134,11 +142,12 @@ export const campaigns: Campaign[] = [
     recommendations: 6,
     metaResults: 8,
     metaCostPerResult: 164.97,
-    perspectiveLeads: 7,
+    perspectiveLeads: 8,
     perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    leadStatus: { neu: 2, nichtErreicht: 2, disqualifiziert: 4 },
     ads: [
       { id: "ad01", name: "01-HI_Immobilienwert", badge: "Unveröffentlichte Änderungen", metaResults: null, metaCostPerResult: null, spend: 24.36, reach: 2909, impressions: 746 },
-      { id: "ad02", name: "02-HI_Immobilienbeteiligung", metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 6 },
+      { id: "ad02", name: "02-HI_Immobilienbeteiligung", metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 7 },
       { id: "ad03", name: "03-HI_Kai_Investieren", metaResults: null, metaCostPerResult: null, spend: 2.76, reach: 890, impressions: 294 },
       { id: "ad04", name: "04-HI_Connie_Immobilienentwicklung", metaResults: null, metaCostPerResult: null, spend: 6.16, reach: 5437, impressions: 915 },
       { id: "ad05", name: "05-HI_So_entsteht_Rendite", metaResults: null, metaCostPerResult: null, spend: 24.14, reach: 65105, impressions: 3461 },
@@ -147,7 +156,7 @@ export const campaigns: Campaign[] = [
       { id: "ad08", name: "08-HI_Ja_Nein", metaResults: null, metaCostPerResult: null, spend: 9.75, reach: 1779, impressions: 498 },
       { id: "ad09", name: "09-HI_EFT_Vergleich", metaResults: null, metaCostPerResult: null, spend: 48.31, reach: 6256, impressions: 1753 },
     ],
-    note: "3 weitere CRM-Leads sind einer älteren Kampagnen-ID zugeordnet, die in den aktuellen Kampagnen nicht mehr auftaucht (vermutlich eine Vorgänger-Kampagne vor dem 16.09.) — nicht in der obigen Summe enthalten, wird nach Meta-Neuverbindung geklärt.",
+    note: "1 weiterer CRM-Lead (Bodo Masuch, nicht erreicht) ist einer älteren Kampagnen-ID zugeordnet, die in den aktuellen Kampagnen nicht mehr auftaucht (vermutlich eine Vorgänger-Kampagne vor dem 16.09.) — nicht in der obigen Summe enthalten, wird nach Meta-Neuverbindung geklärt.",
   },
   {
     id: "hansea-invest-qualified",
