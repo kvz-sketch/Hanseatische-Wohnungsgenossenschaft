@@ -8,9 +8,7 @@ const fmtNum = (v: number) => v.toLocaleString("de-DE");
 
 export function PerformanceMarketingReport() {
   const totalSpend = campaigns.reduce((s, c) => s + c.spend, 0);
-  const totalMetaLeads = campaigns.reduce((s, c) => s + c.metaResults, 0);
   const totalPerspectiveLeads = campaigns.reduce((s, c) => s + c.perspectiveLeads, 0);
-  const blendedCplMeta = totalMetaLeads > 0 ? totalSpend / totalMetaLeads : null;
   const blendedCplPerspective = totalPerspectiveLeads > 0 ? totalSpend / totalPerspectiveLeads : null;
 
   return (
@@ -50,7 +48,7 @@ export function PerformanceMarketingReport() {
 
       <section className="px-5 py-10 sm:px-8 lg:px-11">
         <div className="mx-auto max-w-[1240px]">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="rounded-md border border-navy/8 bg-white p-6">
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Ausgegeben gesamt</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
@@ -58,29 +56,16 @@ export function PerformanceMarketingReport() {
               </div>
               <div className="mt-1.5 text-[11px] text-muted">über {campaigns.length} Kampagnen</div>
             </div>
-            <div className="rounded-md border border-navy/8 bg-white p-6">
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Leads laut Meta</span>
-              <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
-                {fmtNum(totalMetaLeads)}
-              </div>
-              <div className="mt-1.5 text-[11px] text-muted">
-                {blendedCplMeta != null ? `${fmtEur(blendedCplMeta)} / Lead` : "—"}
-              </div>
-            </div>
             <div className="rounded-md border-2 border-koralle/30 bg-white p-6">
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-koralle">Leads laut Perspective</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-koralle">Leads</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
                 {fmtNum(totalPerspectiveLeads)}
               </div>
-              <div className="mt-1.5 text-[11px] text-muted">verifiziert über CRM-Kontakte</div>
             </div>
             <div className="rounded-md border border-navy/8 bg-white p-6">
-              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Neu berechnete CPL</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">CPL</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
                 {blendedCplPerspective != null ? fmtEur(blendedCplPerspective) : "—"}
-              </div>
-              <div className="mt-1.5 text-[11px] text-muted">
-                statt {blendedCplMeta != null ? fmtEur(blendedCplMeta) : "—"} laut Meta
               </div>
             </div>
           </div>

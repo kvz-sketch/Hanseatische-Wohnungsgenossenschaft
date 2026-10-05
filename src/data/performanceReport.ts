@@ -37,6 +37,7 @@ export type LeadStatus = {
   neu: number;
   nichtErreicht: number;
   disqualifiziert: number;
+  abschluss?: number;
 };
 
 export type Campaign = {
@@ -54,6 +55,7 @@ export type Campaign = {
   metaCostPerResult: number | null;
   perspectiveLeads: number;
   perspectiveFunnel: string;
+  perspectiveFunnelUrl: string;
   leadStatus?: LeadStatus;
   ads: AdStat[];
   incomplete?: boolean;
@@ -76,6 +78,8 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: 439.66,
     perspectiveLeads: 5,
     perspectiveFunnel: "Hamburg-Bergedorf Off-Market Landing Page",
+    perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
+    leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 2, abschluss: 1 },
     ads: [
       { id: "ad1", name: "280926_Bergedorf_Ad1", metaResults: null, metaCostPerResult: null, spend: 15.75, reach: 1973, impressions: 593 },
       { id: "ad2", name: "280926_Bergedorf_Ad2", metaResults: null, metaCostPerResult: null, spend: 32.74, reach: 1580, impressions: 977 },
@@ -104,6 +108,7 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: 146.19,
     perspectiveLeads: 2,
     perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 0 },
     ads: [
       { id: "video1", name: "250926_Hansea Invest_Videos", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2 },
@@ -124,6 +129,7 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: 176.96,
     perspectiveLeads: 13,
     perspectiveFunnel: "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
+    perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/hohenfeld/",
     leadStatus: { neu: 6, nichtErreicht: 3, disqualifiziert: 4 },
     ads: [
       { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12 },
@@ -145,6 +151,7 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: 164.97,
     perspectiveLeads: 8,
     perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     leadStatus: { neu: 2, nichtErreicht: 2, disqualifiziert: 4 },
     ads: [
       { id: "ad01", name: "01-HI_Immobilienwert", badge: "Unveröffentlichte Änderungen", metaResults: null, metaCostPerResult: null, spend: 24.36, reach: 2909, impressions: 746 },
@@ -174,6 +181,7 @@ export const campaigns: Campaign[] = [
     metaCostPerResult: null,
     perspectiveLeads: 0,
     perspectiveFunnel: "Hansea Invest – Investor Landing Page",
+    perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     incomplete: true,
     note: "8 von vermutlich 9 Anzeigen bekannt (bekannte Anzeigen summieren sich auf 423,08 € von 796,72 € Gesamtausgabe) — wahrscheinlich fehlt noch „09-HI_EFT_Vergleich_qualified Lead“. Vollständige Anzeigenliste folgt, sobald Meta in einer neuen Session erreichbar ist.",
     ads: [

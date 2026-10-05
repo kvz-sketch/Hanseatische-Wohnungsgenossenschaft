@@ -59,7 +59,7 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
           <Stat label="Ziel" value={campaign.objective} />
           <Stat label="Meta-Ergebnisse" value={String(campaign.metaResults)} sub={campaign.metaCostPerResult != null ? `${fmtEur(campaign.metaCostPerResult)} / Ergebnis` : undefined} />
           <Stat label="Perspective-Leads" value={String(campaign.perspectiveLeads)} />
-          <Stat label="Neu berechnete CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "—"} />
+          <Stat label="CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "—"} />
           <Stat label="Ausgegeben" value={fmtEur(campaign.spend)} sub={`${fmtEur(campaign.dailyBudget)} / Tag`} />
           <Stat label="Reichweite" value={fmtNum(campaign.reach)} />
           <Stat label="Impressionen" value={fmtNum(campaign.impressions)} />
@@ -68,6 +68,11 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
         {campaign.leadStatus && (
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">Lead-Status:</span>
+            {!!campaign.leadStatus.abschluss && (
+              <span className="rounded-[2px] bg-[#1f8a5a]/10 px-2 py-0.5 text-[11px] font-bold text-[#1f8a5a]">
+                {campaign.leadStatus.abschluss} Abschluss
+              </span>
+            )}
             <span className="rounded-[2px] bg-navy/[0.06] px-2 py-0.5 text-[11px] font-bold text-navy">
               {campaign.leadStatus.neu} Neu
             </span>
@@ -85,7 +90,18 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
           <span>·</span>
           <span>{campaign.recommendations} Empfehlungen</span>
           <span>·</span>
-          <span>Perspective-Funnel: {campaign.perspectiveFunnel}</span>
+          <span>
+            Perspective-Funnel:{" "}
+            <a
+              href={campaign.perspectiveFunnelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-bold text-koralle underline decoration-koralle/30 underline-offset-2 hover:decoration-koralle"
+            >
+              {campaign.perspectiveFunnel} ↗
+            </a>
+          </span>
         </div>
       </button>
 
