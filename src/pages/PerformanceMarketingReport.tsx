@@ -48,10 +48,6 @@ export function PerformanceMarketingReport() {
         </div>
       </header>
 
-      <div className="bg-[#fdf3da] px-5 py-2.5 text-center text-[12px] font-semibold leading-relaxed text-[#8a6a1f] sm:px-8">
-        {reportMeta.note}
-      </div>
-
       <section className="bg-navy px-5 py-12 sm:px-8 lg:px-11">
         <div className="mx-auto max-w-[1240px]">
           <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold">
