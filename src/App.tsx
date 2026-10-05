@@ -40,10 +40,10 @@ function Site() {
 
 function Routes() {
   const path = usePath();
-  if (path === "/dashboard") return <MarketingDashboard />;
+  if (path === "/website") return <Site />;
   if (path === "/dashboard/brandbook") return <BrandBook />;
   if (path === "/dashboard/performance-marketing-report") return <PerformanceMarketingReport />;
-  return <Site />;
+  return <MarketingDashboard />;
 }
 
 function App() {
