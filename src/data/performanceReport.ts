@@ -37,7 +37,7 @@ import hohenfeldeAd2 from "../assets/ads/240926_HI_Hohenfelde_Ad2.jpg";
 // ad list is incomplete — see its `note`).
 
 export const reportMeta = {
-  asOf: "5. Oktober 2026",
+  asOf: "6. Oktober 2026",
   note:
     "Kampagnen- und Anzeigendaten laut Meta Ads Manager (Screenshots vom 05.10.2026) — der Meta-Connector war in dieser Session nicht erreichbar (Status „needs_reconnect“), daher keine Live-Daten. Lead-Zahlen sind mit den echten CRM-Kontakten aus Perspective abgeglichen (Zuordnung über Meta Campaign/Adset/Ad-ID je Kontakt) und ersetzen die von Meta gemeldeten Pixel-Zahlen, die Leads durchgehend unterzählen.",
 };
@@ -53,6 +53,8 @@ export type AdStat = {
   reach: number;
   impressions: number;
   perspectiveLeads?: number;
+  /** Real Perspective contact conversion dates (YYYY-MM-DD, no personal data) — powers the week/month filter. */
+  leadDates?: string[];
 };
 
 export type LeadStatus = {
@@ -82,6 +84,21 @@ export type Campaign = {
   ads: AdStat[];
   incomplete?: boolean;
   note?: string;
+  /** Leads counted in perspectiveLeads that aren't tied to one specific ad (dates only, no personal data). */
+  unattributedLeadDates?: string[];
+};
+
+/**
+ * Leads that belong to a funnel but not to any currently-tracked campaign
+ * (e.g. a pre-16.09 predecessor campaign) — shown in the funnel-group total
+ * but excluded from every individual campaign's numbers.
+ */
+export const funnelExtraLeads: Record<string, { dates: string[]; note: string }> = {
+  "Hansea Invest – Investor Landing Page": {
+    dates: ["2026-09-28", "2026-09-28", "2026-09-29"],
+    note:
+      "3 weitere CRM-Kontakte in Perspective sind einer Vorgänger-Kampagne (vor dem 16.09.) zugeordnet, die in keiner aktuellen Kampagne mehr auftaucht — im Funnel-Gesamtwert enthalten, aber keiner Kampagne oben zugeordnet.",
+  },
 };
 
 export const campaigns: Campaign[] = [
@@ -98,16 +115,17 @@ export const campaigns: Campaign[] = [
     recommendations: 2,
     metaResults: 2,
     metaCostPerResult: 439.66,
-    perspectiveLeads: 5,
+    perspectiveLeads: 8,
     perspectiveFunnel: "Hamburg-Bergedorf Off-Market Landing Page",
     perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
-    leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 2, abschluss: 1 },
+    leadStatus: { neu: 5, nichtErreicht: 0, disqualifiziert: 2, abschluss: 1 },
+    unattributedLeadDates: ["2026-09-30"],
     ads: [
       { id: "ad1", name: "280926_Bergedorf_Ad1", image: bgAd1, metaResults: null, metaCostPerResult: null, spend: 15.75, reach: 1973, impressions: 593 },
       { id: "ad2", name: "280926_Bergedorf_Ad2", image: bgAd2, metaResults: null, metaCostPerResult: null, spend: 32.74, reach: 1580, impressions: 977 },
-      { id: "ad3", name: "280926_Bergedorf_Ad3", image: bgAd3, metaResults: null, metaCostPerResult: null, spend: 286.29, reach: 14598, impressions: 7619 },
-      { id: "ad4", name: "280926_Bergedorf_Ad4", image: bgAd4, metaResults: 1, metaCostPerResult: 258.05, spend: 258.05, reach: 5972, impressions: 3278, perspectiveLeads: 3 },
-      { id: "ad5", name: "280926_Bergedorf_Ad5", image: bgAd5, metaResults: 1, metaCostPerResult: 139.24, spend: 139.24, reach: 4269, impressions: 2207, perspectiveLeads: 1 },
+      { id: "ad3", name: "280926_Bergedorf_Ad3", image: bgAd3, metaResults: null, metaCostPerResult: null, spend: 286.29, reach: 14598, impressions: 7619, perspectiveLeads: 2, leadDates: ["2026-10-05", "2026-10-05"] },
+      { id: "ad4", name: "280926_Bergedorf_Ad4", image: bgAd4, metaResults: 1, metaCostPerResult: 258.05, spend: 258.05, reach: 5972, impressions: 3278, perspectiveLeads: 4, leadDates: ["2026-09-29", "2026-10-02", "2026-10-02", "2026-10-06"] },
+      { id: "ad5", name: "280926_Bergedorf_Ad5", image: bgAd5, metaResults: 1, metaCostPerResult: 139.24, spend: 139.24, reach: 4269, impressions: 2207, perspectiveLeads: 1, leadDates: ["2026-09-29"] },
       { id: "ad6", name: "280926_Bergedorf_Ad6", image: bgAd6, metaResults: null, metaCostPerResult: null, spend: 24.7, reach: 1712, impressions: 814 },
       { id: "ad7", name: "280926_Bergedorf_Ad7", image: bgAd7, metaResults: null, metaCostPerResult: null, spend: 26.23, reach: 4202, impressions: 1920 },
       { id: "ad8", name: "280926_Bergedorf_Ad8", image: bgAd8, metaResults: null, metaCostPerResult: null, spend: 21.8, reach: 806, impressions: 453 },
@@ -133,8 +151,9 @@ export const campaigns: Campaign[] = [
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 0 },
     ads: [
-      { id: "video1", name: "250926_Hansea Invest_Videos", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2 },
+      { id: "video1", name: "250926_Hansea Invest_Videos", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2, leadDates: ["2026-10-03", "2026-10-04"] },
     ],
+    note: "2 weitere Video-Anzeigen wurden hochgeladen, sind aber noch nicht mit Meta-Kampagnendaten (Ausgaben, Reichweite, Impressionen) hinterlegt — folgt, sobald diese Daten vorliegen.",
   },
   {
     id: "hohenfelde",
@@ -149,13 +168,13 @@ export const campaigns: Campaign[] = [
     recommendations: 5,
     metaResults: 9,
     metaCostPerResult: 176.96,
-    perspectiveLeads: 13,
+    perspectiveLeads: 14,
     perspectiveFunnel: "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/hohenfeld/",
-    leadStatus: { neu: 6, nichtErreicht: 3, disqualifiziert: 4 },
+    leadStatus: { neu: 7, nichtErreicht: 3, disqualifiziert: 4 },
     ads: [
-      { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", image: hohenfeldeAd1, metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12 },
-      { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", image: hohenfeldeAd2, metaResults: null, metaCostPerResult: null, spend: 131.11, reach: 2134, impressions: 1288, perspectiveLeads: 1 },
+      { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", image: hohenfeldeAd1, metaResults: 9, metaCostPerResult: 162.39, spend: 1461.5, reach: 25163, impressions: 12320, perspectiveLeads: 12, leadDates: ["2026-09-26", "2026-09-27", "2026-09-27", "2026-09-29", "2026-09-29", "2026-10-01", "2026-10-01", "2026-10-02", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-04"] },
+      { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", image: hohenfeldeAd2, metaResults: null, metaCostPerResult: null, spend: 131.11, reach: 2134, impressions: 1288, perspectiveLeads: 2, leadDates: ["2026-09-26", "2026-10-06"] },
     ],
   },
   {
@@ -177,16 +196,15 @@ export const campaigns: Campaign[] = [
     leadStatus: { neu: 2, nichtErreicht: 2, disqualifiziert: 4 },
     ads: [
       { id: "ad01", name: "01-HI_Immobilienwert", badge: "Unveröffentlichte Änderungen", image: hiAd01, metaResults: null, metaCostPerResult: null, spend: 24.36, reach: 2909, impressions: 746 },
-      { id: "ad02", name: "02-HI_Immobilienbeteiligung", image: hiAd02, metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 7 },
+      { id: "ad02", name: "02-HI_Immobilienbeteiligung", image: hiAd02, metaResults: 7, metaCostPerResult: 160.17, spend: 1121.21, reach: 94975, impressions: 21095, perspectiveLeads: 7, leadDates: ["2026-09-26", "2026-09-29", "2026-09-29", "2026-10-01", "2026-10-01", "2026-10-03", "2026-10-04"] },
       { id: "ad03", name: "03-HI_Kai_Investieren", image: hiAd03, metaResults: null, metaCostPerResult: null, spend: 2.76, reach: 890, impressions: 294 },
       { id: "ad04", name: "04-HI_Connie_Immobilienentwicklung", image: hiAd04, metaResults: null, metaCostPerResult: null, spend: 6.16, reach: 5437, impressions: 915 },
       { id: "ad05", name: "05-HI_So_entsteht_Rendite", image: hiAd05, metaResults: null, metaCostPerResult: null, spend: 24.14, reach: 65105, impressions: 3461 },
-      { id: "ad06", name: "06-HI_Selbstvermieter", image: hiAd06, metaResults: 1, metaCostPerResult: 83.01, spend: 83.01, reach: 93147, impressions: 6994, perspectiveLeads: 1 },
+      { id: "ad06", name: "06-HI_Selbstvermieter", image: hiAd06, metaResults: 1, metaCostPerResult: 83.01, spend: 83.01, reach: 93147, impressions: 6994, perspectiveLeads: 1, leadDates: ["2026-09-26"] },
       { id: "ad07", name: "07-HI_Kai_Testimonial", image: hiAd07, metaResults: null, metaCostPerResult: null, spend: 0.05, reach: 32, impressions: 16 },
       { id: "ad08", name: "08-HI_Ja_Nein", image: hiAd08, metaResults: null, metaCostPerResult: null, spend: 9.75, reach: 1779, impressions: 498 },
       { id: "ad09", name: "09-HI_EFT_Vergleich", image: hiAd09, metaResults: null, metaCostPerResult: null, spend: 48.31, reach: 6256, impressions: 1753 },
     ],
-    note: "1 weiterer CRM-Lead (Bodo Masuch, nicht erreicht) ist einer älteren Kampagnen-ID zugeordnet, die in den aktuellen Kampagnen nicht mehr auftaucht (vermutlich eine Vorgänger-Kampagne vor dem 16.09.) — nicht in der obigen Summe enthalten, wird nach Meta-Neuverbindung geklärt.",
   },
   {
     id: "hansea-invest-qualified",
@@ -215,6 +233,30 @@ export const campaigns: Campaign[] = [
       { id: "q-ad06", name: "06-HI_Selbstvermieter_qualified Lead", image: hiAd06, metaResults: null, metaCostPerResult: null, spend: 125.69, reach: 35285, impressions: 6078 },
       { id: "q-ad07", name: "07-HI_Kai_Testimonial_qualified Lead", image: hiAd07, metaResults: null, metaCostPerResult: null, spend: 12.96, reach: 1768, impressions: 484 },
       { id: "q-ad08", name: "08-HI_Ja_Nein_qualified Lead", image: hiAd08, metaResults: null, metaCostPerResult: null, spend: 74.66, reach: 13933, impressions: 4955 },
+    ],
+  },
+  {
+    id: "fullservice",
+    name: "051026_HSWG_FullService_Leads",
+    status: "active",
+    objective: "—",
+    dailyBudget: 0,
+    spend: 0,
+    reach: 0,
+    impressions: 0,
+    delivery: "Seit 5. Okt 2026 – laufend",
+    recommendations: 0,
+    metaResults: 0,
+    metaCostPerResult: null,
+    perspectiveLeads: 4,
+    perspectiveFunnel: "Full-Service-Modell für Kapitalanlage-Immobilien",
+    perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
+    incomplete: true,
+    note: "Neue Kampagne — Meta-Kampagnendaten (Budget, Ausgaben, Reichweite, Impressionen, Anzeigenbilder) stehen noch aus, da der Meta-Connector in dieser Session nicht erreichbar ist. Lead-Zahlen und Anzeigen-Zuordnung sind bereits aus echten Perspective-CRM-Kontakten abgeglichen.",
+    ads: [
+      { id: "ad4", name: "051026_HSWG_FullService_4", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 1, leadDates: ["2026-10-06"] },
+      { id: "ad5", name: "051026_HSWG_FullService_5", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 2, leadDates: ["2026-10-05", "2026-10-06"] },
+      { id: "ad6", name: "051026_HSWG_FullService_6", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 1, leadDates: ["2026-10-05"] },
     ],
   },
 ];

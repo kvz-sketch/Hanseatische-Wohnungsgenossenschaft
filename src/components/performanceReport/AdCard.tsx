@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AdStat } from "../../data/performanceReport";
+import { leadsInPeriod } from "../../lib/periodFilter";
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
@@ -46,8 +47,17 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
   );
 }
 
-export function AdCard({ ad }: { ad: AdStat }) {
+export function AdCard({
+  ad,
+  inPeriod,
+  isFiltered,
+}: {
+  ad: AdStat;
+  inPeriod: (dateStr: string) => boolean;
+  isFiltered: boolean;
+}) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const periodLeads = ad.leadDates ? leadsInPeriod(ad.leadDates, inPeriod) : null;
 
   return (
     <div className="rounded-md border border-navy/8 bg-white p-3">
@@ -76,27 +86,27 @@ export function AdCard({ ad }: { ad: AdStat }) {
 
       <div className="mt-2.5 grid grid-cols-2 gap-x-2 gap-y-1.5 border-t border-line pt-2.5 text-[11px] [font-variant-numeric:tabular-nums]">
         <div>
-          <div className="font-bold text-navy">{ad.metaResults ?? "—"}</div>
+          <div className="font-bold text-navy">{isFiltered ? "—" : ad.metaResults ?? "—"}</div>
           <div className="text-[10px] text-muted">Meta-Ergebnisse</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{ad.perspectiveLeads ?? "—"}</div>
+          <div className="font-bold text-navy">{isFiltered ? (periodLeads ?? 0) : ad.perspectiveLeads ?? "—"}</div>
           <div className="text-[10px] text-muted">Perspective-Leads</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{fmtEur(ad.spend)}</div>
+          <div className="font-bold text-navy">{isFiltered ? "—" : fmtEur(ad.spend)}</div>
           <div className="text-[10px] text-muted">Ausgegeben</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{ad.metaCostPerResult != null ? fmtEur(ad.metaCostPerResult) : "—"}</div>
+          <div className="font-bold text-navy">{isFiltered ? "—" : ad.metaCostPerResult != null ? fmtEur(ad.metaCostPerResult) : "—"}</div>
           <div className="text-[10px] text-muted">Pro Ergebnis</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{fmtNum(ad.reach)}</div>
+          <div className="font-bold text-navy">{isFiltered ? "—" : fmtNum(ad.reach)}</div>
           <div className="text-[10px] text-muted">Reichweite</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{fmtNum(ad.impressions)}</div>
+          <div className="font-bold text-navy">{isFiltered ? "—" : fmtNum(ad.impressions)}</div>
           <div className="text-[10px] text-muted">Impressionen</div>
         </div>
       </div>

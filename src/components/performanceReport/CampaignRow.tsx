@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Campaign } from "../../data/performanceReport";
+import { campaignLeadsInPeriod } from "../../lib/periodFilter";
 import { AdCard } from "./AdCard";
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
@@ -15,9 +16,18 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
   );
 }
 
-export function CampaignRow({ campaign }: { campaign: Campaign }) {
+export function CampaignRow({
+  campaign,
+  inPeriod,
+  isFiltered,
+}: {
+  campaign: Campaign;
+  inPeriod: (dateStr: string) => boolean;
+  isFiltered: boolean;
+}) {
   const [open, setOpen] = useState(false);
-  const recalculatedCpl = campaign.perspectiveLeads > 0 ? campaign.spend / campaign.perspectiveLeads : null;
+  const periodLeads = campaignLeadsInPeriod(campaign, inPeriod);
+  const recalculatedCpl = !isFiltered && periodLeads > 0 ? campaign.spend / periodLeads : null;
   const isActive = campaign.status === "active";
 
   return (
@@ -57,17 +67,27 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
           <Stat label="Ziel" value={campaign.objective} />
-          <Stat label="Meta-Ergebnisse" value={String(campaign.metaResults)} sub={campaign.metaCostPerResult != null ? `${fmtEur(campaign.metaCostPerResult)} / Ergebnis` : undefined} />
-          <Stat label="Perspective-Leads" value={String(campaign.perspectiveLeads)} />
+          <Stat
+            label="Meta-Ergebnisse"
+            value={isFiltered ? "—" : String(campaign.metaResults)}
+            sub={!isFiltered && campaign.metaCostPerResult != null ? `${fmtEur(campaign.metaCostPerResult)} / Ergebnis` : undefined}
+          />
+          <Stat label="Perspective-Leads" value={String(periodLeads)} />
           <Stat label="CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "—"} />
-          <Stat label="Ausgegeben" value={fmtEur(campaign.spend)} sub={`${fmtEur(campaign.dailyBudget)} / Tag`} />
-          <Stat label="Reichweite" value={fmtNum(campaign.reach)} />
-          <Stat label="Impressionen" value={fmtNum(campaign.impressions)} />
+          <Stat
+            label="Ausgegeben"
+            value={isFiltered ? "—" : fmtEur(campaign.spend)}
+            sub={isFiltered ? undefined : `${fmtEur(campaign.dailyBudget)} / Tag`}
+          />
+          <Stat label="Reichweite" value={isFiltered ? "—" : fmtNum(campaign.reach)} />
+          <Stat label="Impressionen" value={isFiltered ? "—" : fmtNum(campaign.impressions)} />
         </div>
 
         {campaign.leadStatus && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">Lead-Status:</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">
+              Lead-Status{isFiltered ? " (Gesamt)" : ""}:
+            </span>
             {!!campaign.leadStatus.abschluss && (
               <span className="rounded-[2px] bg-[#1f8a5a]/10 px-2 py-0.5 text-[11px] font-bold text-[#1f8a5a]">
                 {campaign.leadStatus.abschluss} Abschluss
@@ -101,7 +121,7 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
           )}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {campaign.ads.map((ad) => (
-              <AdCard key={ad.id} ad={ad} />
+              <AdCard key={ad.id} ad={ad} inPeriod={inPeriod} isFiltered={isFiltered} />
             ))}
           </div>
         </div>
