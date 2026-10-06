@@ -29,13 +29,21 @@ export function CampaignRow({
   const periodLeads = campaignLeadsInPeriod(campaign, inPeriod);
   const recalculatedCpl = !isFiltered && periodLeads > 0 ? campaign.spend / periodLeads : null;
   const isActive = campaign.status === "active";
+  const bestAd = campaign.ads
+    .filter((a) => a.image && (a.perspectiveLeads ?? 0) > 0)
+    .sort((a, b) => (b.perspectiveLeads ?? 0) - (a.perspectiveLeads ?? 0))[0];
 
   return (
-    <div className="rounded-md border border-navy/8 bg-white">
+    <div className="flex rounded-md border border-navy/8 bg-white">
+      {bestAd && (
+        <div className="hidden w-32 shrink-0 overflow-hidden rounded-l-md border-r border-navy/8 sm:block">
+          <img src={bestAd.image} alt={bestAd.name} className="h-full w-full object-cover" />
+        </div>
+      )}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full flex-col gap-4 p-5 text-left sm:p-6"
+        className="flex w-full min-w-0 flex-col gap-4 p-5 text-left sm:p-6"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">

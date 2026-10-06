@@ -155,7 +155,6 @@ export function PerformanceMarketingReport() {
               const funnelLeads =
                 group.campaigns.reduce((s, c) => s + campaignLeadsInPeriod(c, inPeriod), 0) +
                 leadsInPeriod(funnelExtraLeads[group.funnel]?.dates, inPeriod);
-              const extra = funnelExtraLeads[group.funnel];
               return (
                 <div key={group.funnel} className="flex flex-col gap-4">
                   <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-navy/10 pb-2">
@@ -177,11 +176,6 @@ export function PerformanceMarketingReport() {
                       {isFiltered ? "—" : fmtEur(funnelSpend)} · {fmtNum(funnelLeads)} Leads
                     </span>
                   </div>
-                  {extra && (
-                    <p className="rounded-[3px] bg-[#fdf3da] px-3 py-2 text-[11.5px] leading-relaxed text-[#8a6a1f]">
-                      {extra.note}
-                    </p>
-                  )}
                   <div className="flex flex-col gap-4">
                     {group.campaigns.map((c) => (
                       <CampaignRow key={c.id} campaign={c} inPeriod={inPeriod} isFiltered={isFiltered} />

@@ -18,6 +18,14 @@ import bgAd8 from "../assets/ads/280926_Bergedorf_Ad8.jpg";
 import bgAd9 from "../assets/ads/280926_Bergedorf_Ad9.jpg";
 import hohenfeldeAd1 from "../assets/ads/240926_HI_Hohenfelde_Ad1.jpg";
 import hohenfeldeAd2 from "../assets/ads/240926_HI_Hohenfelde_Ad2.jpg";
+import fsAd1 from "../assets/ads/051026_HSWG_FullService_1.jpg";
+import fsAd2 from "../assets/ads/051026_HSWG_FullService_2.jpg";
+import fsAd3 from "../assets/ads/051026_HSWG_FullService_3.jpg";
+import fsAd4 from "../assets/ads/051026_HSWG_FullService_4.jpg";
+import fsAd5 from "../assets/ads/051026_HSWG_FullService_5.jpg";
+import fsAd6 from "../assets/ads/051026_HSWG_FullService_6.jpg";
+import fsAd7 from "../assets/ads/051026_HSWG_FullService_7.jpg";
+import fsAd8 from "../assets/ads/051026_HSWG_FullService_8.jpg";
 
 // Performance Marketing Report — Meta Ads campaign data.
 //
@@ -239,24 +247,29 @@ export const campaigns: Campaign[] = [
     id: "fullservice",
     name: "051026_HSWG_FullService_Leads",
     status: "active",
-    objective: "—",
-    dailyBudget: 0,
-    spend: 0,
-    reach: 0,
-    impressions: 0,
+    objective: "Website Leads",
+    dailyBudget: 150.0,
+    spend: 72.18,
+    reach: 1248,
+    impressions: 975,
     delivery: "Seit 5. Okt 2026 – laufend",
     recommendations: 0,
-    metaResults: 0,
-    metaCostPerResult: null,
+    metaResults: 1,
+    metaCostPerResult: 72.18,
     perspectiveLeads: 4,
     perspectiveFunnel: "Full-Service-Modell für Kapitalanlage-Immobilien",
     perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
     incomplete: true,
-    note: "Neue Kampagne — Meta-Kampagnendaten (Budget, Ausgaben, Reichweite, Impressionen, Anzeigenbilder) stehen noch aus, da der Meta-Connector in dieser Session nicht erreichbar ist. Lead-Zahlen und Anzeigen-Zuordnung sind bereits aus echten Perspective-CRM-Kontakten abgeglichen.",
+    note: "Neue Kampagne — Kampagnen-Gesamtzahlen laut Meta Ads Manager erfasst, die Aufteilung der Ausgaben/Reichweite/Impressionen je einzelner Anzeige steht noch aus (Meta-Connector in dieser Session nicht erreichbar). Lead-Zahlen und Anzeigen-Zuordnung sind bereits aus echten Perspective-CRM-Kontakten abgeglichen.",
     ads: [
-      { id: "ad4", name: "051026_HSWG_FullService_4", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 1, leadDates: ["2026-10-06"] },
-      { id: "ad5", name: "051026_HSWG_FullService_5", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 2, leadDates: ["2026-10-05", "2026-10-06"] },
-      { id: "ad6", name: "051026_HSWG_FullService_6", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 1, leadDates: ["2026-10-05"] },
+      { id: "ad1", name: "051026_HSWG_FullService_1", image: fsAd1, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "ad2", name: "051026_HSWG_FullService_2", image: fsAd2, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "ad3", name: "051026_HSWG_FullService_3", image: fsAd3, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "ad4", name: "051026_HSWG_FullService_4", image: fsAd4, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 1, leadDates: ["2026-10-06"] },
+      { id: "ad5", name: "051026_HSWG_FullService_5", image: fsAd5, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 2, leadDates: ["2026-10-05", "2026-10-06"] },
+      { id: "ad6", name: "051026_HSWG_FullService_6", image: fsAd6, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0, perspectiveLeads: 1, leadDates: ["2026-10-05"] },
+      { id: "ad7", name: "051026_HSWG_FullService_7", image: fsAd7, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "ad8", name: "051026_HSWG_FullService_8", image: fsAd8, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
     ],
   },
 ];
