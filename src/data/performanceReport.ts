@@ -26,6 +26,9 @@ import fsAd5 from "../assets/ads/051026_HSWG_FullService_5.jpg";
 import fsAd6 from "../assets/ads/051026_HSWG_FullService_6.jpg";
 import fsAd7 from "../assets/ads/051026_HSWG_FullService_7.jpg";
 import fsAd8 from "../assets/ads/051026_HSWG_FullService_8.jpg";
+import kaiVideo1 from "../assets/ads/261005_hanseainvest_ads_kai_1.jpg";
+import kaiVideo2 from "../assets/ads/261005_hanseainvest_ads_kai_2.jpg";
+import kaiVideo3 from "../assets/ads/261005_hanseainvest_ads_kai_3.jpg";
 
 // Performance Marketing Report — Meta Ads campaign data.
 //
@@ -159,9 +162,12 @@ export const campaigns: Campaign[] = [
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 0 },
     ads: [
-      { id: "video1", name: "250926_Hansea Invest_Videos", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2, leadDates: ["2026-10-03", "2026-10-04"] },
+      { id: "video1", name: "250926_Hansea Invest_Videos", badge: "Kombinierte Meta-Daten", metaResults: 2, metaCostPerResult: 146.19, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2, leadDates: ["2026-10-03", "2026-10-04"] },
+      { id: "kai-video-1", name: "261005_hanseainvest_ads_kai_1", badge: "Video", image: kaiVideo1, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "kai-video-2", name: "261005_hanseainvest_ads_kai_2", badge: "Video", image: kaiVideo2, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "kai-video-3", name: "261005_hanseainvest_ads_kai_3", badge: "Video", image: kaiVideo3, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
     ],
-    note: "2 weitere Video-Anzeigen wurden hochgeladen, sind aber noch nicht mit Meta-Kampagnendaten (Ausgaben, Reichweite, Impressionen) hinterlegt — folgt, sobald diese Daten vorliegen.",
+    note: "3 neue Video-Anzeigen (261005_hanseainvest_ads_kai_1–3) wurden hochgeladen. Die Vorschaubilder sind Standbilder aus den Videos; Meta-Kampagnendaten je einzelner Video-Anzeige liegen noch nicht vor — die oben gezeigten Ausgaben/Ergebnisse sind die bisherigen kombinierten Zahlen für alle Video-Anzeigen dieser Kampagne.",
   },
   {
     id: "hohenfelde",
