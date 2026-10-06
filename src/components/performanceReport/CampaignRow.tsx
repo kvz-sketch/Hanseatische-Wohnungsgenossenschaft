@@ -37,8 +37,8 @@ export function CampaignRow({
     <div className="rounded-md border border-navy/8 bg-white">
       <div className="flex">
         {bestAd && (
-          <div className="hidden w-32 shrink-0 overflow-hidden rounded-l-md border-r border-navy/8 sm:block">
-            <img src={bestAd.image} alt={bestAd.name} className="h-full w-full object-cover" />
+          <div className="hidden w-32 shrink-0 self-start overflow-hidden rounded-l-md border-r border-navy/8 sm:block">
+            <img src={bestAd.image} alt={bestAd.name} className="aspect-square w-full object-cover" />
           </div>
         )}
         <button
