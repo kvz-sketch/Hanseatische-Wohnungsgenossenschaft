@@ -1,4 +1,4 @@
-# Builds the site and uploads dist/ to netcup Webhosting over FTPS.
+# Builds the site and uploads dist/ to netcup Webhosting over FTPS (lftp).
 #
 # Required repository secrets (Settings → Secrets and variables → Actions):
 #   FTP_SERVER      FTP host, e.g. the domain or the hostingXXXXXX.netcup.net host
@@ -38,16 +38,33 @@ jobs:
 
       - run: npm run build
 
+      - name: Install lftp
+        if: env.FTP_SERVER != ''
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      # Assets are uploaded before index.html so the live page never points at
+      # missing files; stale hashed assets are pruned only after the new
+      # index.html is in place. Nothing outside assets/ is ever deleted.
       - name: Upload to netcup
         if: env.FTP_SERVER != ''
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          local-dir: ./dist/
-          server-dir: ${{ secrets.FTP_SERVER_DIR || '/httpdocs/' }}
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR || '/httpdocs/' }}
+        run: |
+          lftp <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          set net:timeout 30
+          set cmd:fail-exit true
+          open --env-password -u "$FTP_USERNAME" "ftp://$FTP_SERVER"
+          mirror --reverse --no-perms --verbose dist/assets "${FTP_SERVER_DIR}assets"
+          mirror --reverse --no-perms --verbose --exclude ^assets/ dist "$FTP_SERVER_DIR"
+          mirror --reverse --no-perms --verbose --delete dist/assets "${FTP_SERVER_DIR}assets"
+          bye
+          EOF
 
       - name: Upload skipped
         if: env.FTP_SERVER == ''

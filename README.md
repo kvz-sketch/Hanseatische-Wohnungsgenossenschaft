@@ -33,7 +33,7 @@ website. Update that file to refresh content as the source site changes.
 ## Deployment (netcup Webhosting)
 
 `.github/workflows/deploy-netcup.yml` builds the site and uploads `dist/` to
-netcup over FTPS on every push to the default branch (or manually via
+netcup over FTPS (lftp) on every push to the default branch (or manually via
 *Actions → Deploy to netcup → Run workflow*).
 
 One-time setup:
