@@ -1,0 +1,54 @@
+# Builds the site and uploads dist/ to netcup Webhosting over FTPS.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   FTP_SERVER      FTP host, e.g. the domain or the hostingXXXXXX.netcup.net host
+#   FTP_USERNAME    FTP user created in the netcup WCP (Plesk)
+#   FTP_PASSWORD    password of that FTP user
+# Optional:
+#   FTP_SERVER_DIR  target folder on the server, ending in "/" (default: /httpdocs/)
+#
+# Until FTP_SERVER is set, the workflow only builds and skips the upload.
+
+name: Deploy to netcup
+
+on:
+  push:
+    branches:
+      - claude/gerlach-gig-website-recreation-szelo7
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-netcup
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Upload to netcup
+        if: env.FTP_SERVER != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR || '/httpdocs/' }}
+
+      - name: Upload skipped
+        if: env.FTP_SERVER == ''
+        run: echo "::notice::FTP_SERVER secret is not set — built the site but skipped the upload."
