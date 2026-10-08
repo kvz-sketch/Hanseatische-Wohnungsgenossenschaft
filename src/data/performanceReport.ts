@@ -29,6 +29,9 @@ import fsAd8 from "../assets/ads/051026_HSWG_FullService_8.jpg";
 import kaiVideo1 from "../assets/ads/261005_hanseainvest_ads_kai_1.jpg";
 import kaiVideo2 from "../assets/ads/261005_hanseainvest_ads_kai_2.jpg";
 import kaiVideo3 from "../assets/ads/261005_hanseainvest_ads_kai_3.jpg";
+import kaiTanemVideo1 from "../assets/ads/081026_Kai_Tanem_Video_1.jpg";
+import kaiTanemVideo2 from "../assets/ads/081026_Kai_Tanem_Video_2.jpg";
+import kaiTanemVideo3 from "../assets/ads/081026_Kai_Tanem_Video_3.jpg";
 
 // Performance Marketing Report — Meta Ads campaign data.
 //
@@ -66,6 +69,8 @@ export type AdStat = {
   perspectiveLeads?: number;
   /** Real Perspective contact conversion dates (YYYY-MM-DD, no personal data) — powers the week/month filter. */
   leadDates?: string[];
+  /** Link to watch the full video creative (Google Drive) — shown next to video ad thumbnails. */
+  videoUrl?: string;
 };
 
 export type LeadStatus = {
@@ -162,9 +167,9 @@ export const campaigns: Campaign[] = [
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/invest/",
     leadStatus: { neu: 2, nichtErreicht: 0, disqualifiziert: 0 },
     ads: [
-      { id: "video1", name: "250926_Hansea Invest_Videos", image: kaiVideo1, metaResults: 2, metaCostPerResult: 151.89, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2, leadDates: ["2026-10-03", "2026-10-04"] },
-      { id: "video2", name: "250926_Hansea Invest_Video 2", badge: "In Vorbereitung", image: kaiVideo2, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
-      { id: "video3", name: "250926_Hansea Invest_Video 3", badge: "In Vorbereitung", image: kaiVideo3, metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "video1", name: "250926_Hansea Invest_Videos", image: kaiVideo1, videoUrl: "https://drive.google.com/file/d/1j5hliFDCDd0NRZe8INuwqUecqNGB0D8c/view?usp=sharing", metaResults: 2, metaCostPerResult: 151.89, spend: 292.38, reach: 9567, impressions: 6858, perspectiveLeads: 2, leadDates: ["2026-10-03", "2026-10-04"] },
+      { id: "video2", name: "250926_Hansea Invest_Video 2", badge: "In Vorbereitung", image: kaiVideo2, videoUrl: "https://drive.google.com/file/d/10dbL2J4DB34mCyb85BSELPx4lFaXcJ_y/view?usp=sharing", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "video3", name: "250926_Hansea Invest_Video 3", badge: "In Vorbereitung", image: kaiVideo3, videoUrl: "https://drive.google.com/file/d/1fRYAqebui1OPbla3FC_MGmZWpszYK6Lr/view?usp=sharing", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
     ],
     note: "2 neue Video-Anzeigen (250926_Hansea Invest_Video 2 und 3) wurden angelegt und befinden sich laut Meta noch in Vorbereitung (noch keine Auslieferung). 250926_Hansea Invest_Videos ist die bereits laufende Original-Anzeige.",
   },
@@ -265,7 +270,7 @@ export const campaigns: Campaign[] = [
     perspectiveFunnel: "Full-Service-Modell für Kapitalanlage-Immobilien",
     perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
     incomplete: true,
-    note: "Neue Kampagne. Meta zeigt nur 1 Lead bei 051026_HSWG_FullService_5 — die tatsächliche Anzeigen-Zuordnung der 4 Perspective-Leads (Ad4: 1, Ad5: 2, Ad6: 1) kommt aus den echten UTM-Parametern je CRM-Kontakt, da Meta Leads durchgehend unterzählt.",
+    note: "Neue Kampagne. Meta zeigt nur 1 Lead bei 051026_HSWG_FullService_5 — die tatsächliche Anzeigen-Zuordnung der 4 Perspective-Leads (Ad4: 1, Ad5: 2, Ad6: 1) kommt aus den echten UTM-Parametern je CRM-Kontakt, da Meta Leads durchgehend unterzählt. 3 neue Video-Anzeigen (081026_Kai & Tanem Video 1–3) wurden hochgeladen und werden von Meta noch verarbeitet — noch keine Auslieferung, Daten folgen.",
     ads: [
       { id: "ad1", name: "051026_HSWG_FullService_1", image: fsAd1, metaResults: null, metaCostPerResult: null, spend: 25.31, reach: 526, impressions: 423 },
       { id: "ad2", name: "051026_HSWG_FullService_2", image: fsAd2, metaResults: null, metaCostPerResult: null, spend: 0.23, reach: 6, impressions: 6 },
@@ -275,6 +280,9 @@ export const campaigns: Campaign[] = [
       { id: "ad6", name: "051026_HSWG_FullService_6", image: fsAd6, metaResults: null, metaCostPerResult: null, spend: 12.57, reach: 205, impressions: 167, perspectiveLeads: 1, leadDates: ["2026-10-05"] },
       { id: "ad7", name: "051026_HSWG_FullService_7", image: fsAd7, metaResults: null, metaCostPerResult: null, spend: 11.86, reach: 49, impressions: 49 },
       { id: "ad8", name: "051026_HSWG_FullService_8", image: fsAd8, metaResults: null, metaCostPerResult: null, spend: 0.20, reach: 7, impressions: 7 },
+      { id: "ad9", name: "081026_Kai & Tanem Video 1", badge: "Wird verarbeitet", image: kaiTanemVideo1, videoUrl: "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "ad10", name: "081026_Kai & Tanem Video 2", badge: "Wird verarbeitet", image: kaiTanemVideo2, videoUrl: "https://drive.google.com/file/d/1lviaOcHK10y3lPFMsaa1yXS9QDJHmsB8/view?usp=sharing", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
+      { id: "ad11", name: "081026_Kai & Tanem Video 3", badge: "Wird verarbeitet", image: kaiTanemVideo3, videoUrl: "https://drive.google.com/file/d/1IJKysKs-8y_ZJuzxiHDP_WE6Svh7Wb6D/view?usp=sharing", metaResults: null, metaCostPerResult: null, spend: 0, reach: 0, impressions: 0 },
     ],
   },
 ];

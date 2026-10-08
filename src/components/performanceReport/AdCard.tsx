@@ -78,11 +78,24 @@ export function AdCard({
       <div className="mt-2.5 flex items-start justify-between gap-2">
         <span className="text-[12px] font-bold leading-snug text-navy">{ad.name}</span>
       </div>
-      {ad.badge && (
-        <span className="mt-1 inline-block rounded-[2px] bg-navy/[0.06] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.06em] text-muted">
-          {ad.badge}
-        </span>
-      )}
+      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+        {ad.badge && (
+          <span className="inline-block rounded-[2px] bg-navy/[0.06] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.06em] text-muted">
+            {ad.badge}
+          </span>
+        )}
+        {ad.videoUrl && (
+          <a
+            href={ad.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.04em] text-koralle underline decoration-koralle/30 underline-offset-2 hover:decoration-koralle"
+          >
+            ▶ Video ansehen
+          </a>
+        )}
+      </div>
 
       <div className="mt-2.5 grid grid-cols-2 gap-x-2 gap-y-1.5 border-t border-line pt-2.5 text-[11px] [font-variant-numeric:tabular-nums]">
         <div>
