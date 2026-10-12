@@ -1,0 +1,69 @@
+# Uploads dashboard-php/ to a PHP-capable host (netcup Webhosting/Plesk)
+# over FTPS. Code only — .env.php (real DB credentials + the dashboard
+# password) is never generated here; it must already exist on the server
+# from a one-time manual upload, see dashboard-php/README.md.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   DASHBOARD_FTP_SERVER      FTP host for the dashboard's (sub)domain
+#   DASHBOARD_FTP_USERNAME    FTP user for that (sub)domain, from Plesk
+#   DASHBOARD_FTP_PASSWORD    password of that FTP user
+# Optional:
+#   DASHBOARD_FTP_SERVER_DIR  target folder (default: /httpdocs/)
+#
+# Until DASHBOARD_FTP_SERVER is set, the workflow is a no-op.
+
+name: Deploy Marketing Dashboard (PHP)
+
+on:
+  push:
+    branches:
+      - claude/wonderful-franklin-fhyoau
+    paths:
+      - 'dashboard-php/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-dashboard-php
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.DASHBOARD_FTP_SERVER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install lftp
+        if: env.FTP_SERVER != ''
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      # .env.php, data/ (sqlite fallback) and .gitignore are never uploaded —
+      # the first two hold or imply secrets/local state, the last is useless
+      # on the server. Nothing outside dashboard-php/ is touched.
+      - name: Upload to host
+        if: env.FTP_SERVER != ''
+        env:
+          FTP_USERNAME: ${{ secrets.DASHBOARD_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.DASHBOARD_FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.DASHBOARD_FTP_SERVER_DIR || '/httpdocs/' }}
+        run: |
+          lftp <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          set net:timeout 30
+          set cmd:fail-exit true
+          open --env-password -u "$FTP_USERNAME" "ftp://$FTP_SERVER"
+          mirror --reverse --no-perms --verbose \
+            --exclude-glob .env.php \
+            --exclude-glob .gitignore \
+            --exclude '^data/' \
+            dashboard-php "$FTP_SERVER_DIR"
+          bye
+          EOF
+
+      - name: Upload skipped
+        if: env.FTP_SERVER == ''
+        run: echo "::notice::DASHBOARD_FTP_SERVER secret is not set — skipped the upload."
