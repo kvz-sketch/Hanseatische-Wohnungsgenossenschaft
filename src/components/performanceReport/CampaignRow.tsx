@@ -26,7 +26,7 @@ export function CampaignRow({
   isFiltered: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const periodLeads = campaignLeadsInPeriod(campaign, inPeriod);
+  const periodLeads = campaignLeadsInPeriod(campaign, inPeriod, !isFiltered);
   const recalculatedCpl = !isFiltered && periodLeads > 0 ? campaign.spend / periodLeads : null;
   const isActive = campaign.status === "active";
   const bestAd = campaign.ads

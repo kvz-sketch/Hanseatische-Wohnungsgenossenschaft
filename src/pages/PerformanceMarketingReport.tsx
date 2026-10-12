@@ -54,8 +54,11 @@ export function PerformanceMarketingReport() {
 
   const totalSpend = campaigns.reduce((s, c) => s + c.spend, 0);
   const totalPerspectiveLeads =
-    campaigns.reduce((s, c) => s + campaignLeadsInPeriod(c, inPeriod), 0) +
-    Object.values(funnelExtraLeads).reduce((s, f) => s + leadsInPeriod(f.dates, inPeriod), 0);
+    campaigns.reduce((s, c) => s + campaignLeadsInPeriod(c, inPeriod, !isFiltered), 0) +
+    Object.values(funnelExtraLeads).reduce(
+      (s, f) => s + leadsInPeriod(f.dates, inPeriod) + (!isFiltered ? f.undatedCount ?? 0 : 0),
+      0,
+    );
   const blendedCplPerspective =
     !isFiltered && totalPerspectiveLeads > 0 ? totalSpend / totalPerspectiveLeads : null;
   const funnelGroups = groupByFunnel(campaigns);
@@ -152,9 +155,11 @@ export function PerformanceMarketingReport() {
           <div className="mt-8 flex flex-col gap-8">
             {funnelGroups.map((group) => {
               const funnelSpend = group.campaigns.reduce((s, c) => s + c.spend, 0);
+              const funnelExtra = funnelExtraLeads[group.funnel];
               const funnelLeads =
-                group.campaigns.reduce((s, c) => s + campaignLeadsInPeriod(c, inPeriod), 0) +
-                leadsInPeriod(funnelExtraLeads[group.funnel]?.dates, inPeriod);
+                group.campaigns.reduce((s, c) => s + campaignLeadsInPeriod(c, inPeriod, !isFiltered), 0) +
+                leadsInPeriod(funnelExtra?.dates, inPeriod) +
+                (!isFiltered ? funnelExtra?.undatedCount ?? 0 : 0);
               return (
                 <div key={group.funnel} className="flex flex-col gap-4">
                   <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-navy/10 pb-2">

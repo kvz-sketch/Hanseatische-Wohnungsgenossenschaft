@@ -41,12 +41,18 @@ import kaiTanemVideo3 from "../assets/ads/081026_Kai_Tanem_Video_3.jpg";
 // being entered here (all sums matched exactly except Hohenfelde's impressions,
 // a known minor Meta reporting discrepancy between ad-set and ad-level windows).
 //
-// Perspective-side numbers (perspectiveLeads, leadDates, leadStatus) are left
-// at their last confirmed values from 2026-10-06 — the Perspective connector
-// was not authorized in this session, so the newer Meta lead counts above
-// could not be cross-checked against real CRM contacts yet. Where Meta now
-// reports more leads than Perspective has verified, campaign notes call this
-// out explicitly rather than guessing at an updated Perspective count.
+// Perspective-side totals (perspectiveLeads) were refreshed 2026-10-12 from
+// the funnel contact-count cards in the Perspective app (the MCP connector
+// itself stayed unreachable this session — list_contacts/list_funnels calls
+// never returned, so this is screenshot-sourced, not pulled live). Only the
+// per-funnel TOTAL contact count changed; it was not broken down to
+// individual contacts/dates, so the delta versus the already-dated
+// leadDates/leadStatus below is tracked as `unattributedLeadsCount` (campaign
+// level) or `funnelExtraLeads[...].undatedCount` (funnel level, for funnels
+// with more than one campaign) rather than invented as fake dates. These
+// undated counts are included in the all-time ("Gesamt") totals and CPL, but
+// excluded from the Woche/Monat views since there's no real date for them —
+// see `src/lib/periodFilter.ts`.
 //
 // 051026_HSWG_FullService_Leadform is a new campaign using Meta's native lead
 // form (not the Perspective-hosted funnel page), so it has no Perspective
@@ -110,6 +116,14 @@ export type Campaign = {
   note?: string;
   /** Leads counted in perspectiveLeads that aren't tied to one specific ad (dates only, no personal data). */
   unattributedLeadDates?: string[];
+  /**
+   * Real, Perspective-verified leads confirmed only as a funnel-level total
+   * (e.g. from a contact-count screenshot) with no individual conversion
+   * date or ad attribution yet. Included in the all-time ("Gesamt") total
+   * so the headline count is accurate, but excluded from week/month views
+   * since there's no real date to place them in — never a fabricated one.
+   */
+  unattributedLeadsCount?: number;
 };
 
 /**
@@ -117,11 +131,17 @@ export type Campaign = {
  * (e.g. a pre-16.09 predecessor campaign) — shown in the funnel-group total
  * but excluded from every individual campaign's numbers.
  */
-export const funnelExtraLeads: Record<string, { dates: string[]; note: string }> = {
+export const funnelExtraLeads: Record<
+  string,
+  { dates: string[]; note: string; undatedCount?: number; undatedNote?: string }
+> = {
   "Hansea Invest – Investor Landing Page": {
     dates: ["2026-09-28", "2026-09-28", "2026-09-29"],
     note:
       "3 weitere CRM-Kontakte in Perspective sind einer Vorgänger-Kampagne (vor dem 16.09.) zugeordnet, die in keiner aktuellen Kampagne mehr auftaucht — im Funnel-Gesamtwert enthalten, aber keiner Kampagne oben zugeordnet.",
+    undatedCount: 4,
+    undatedNote:
+      "4 weitere CRM-Kontakte laut Perspective-Funnel-Übersicht (Stand 12.10., 17 Contacts gesamt) — noch keiner Kampagne/Anzeige oder einem Datum zugeordnet, da nur der Gesamtkontaktstand vorlag.",
   },
 };
 
@@ -139,11 +159,12 @@ export const campaigns: Campaign[] = [
     recommendations: 2,
     metaResults: 12,
     metaCostPerResult: 162.67,
-    perspectiveLeads: 8,
+    perspectiveLeads: 20,
     perspectiveFunnel: "Hamburg-Bergedorf Off-Market Landing Page",
     perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
     leadStatus: { neu: 5, nichtErreicht: 0, disqualifiziert: 2, abschluss: 1 },
     unattributedLeadDates: ["2026-09-30"],
+    unattributedLeadsCount: 12,
     ads: [
       { id: "ad1", name: "280926_Bergedorf_Ad1", image: bgAd1, metaResults: null, metaCostPerResult: null, spend: 16.10, reach: 1975, impressions: 595 },
       { id: "ad2", name: "280926_Bergedorf_Ad2", image: bgAd2, metaResults: null, metaCostPerResult: null, spend: 33.45, reach: 1624, impressions: 996 },
@@ -155,7 +176,7 @@ export const campaigns: Campaign[] = [
       { id: "ad8", name: "280926_Bergedorf_Ad8", image: bgAd8, metaResults: null, metaCostPerResult: null, spend: 22.90, reach: 1004, impressions: 552 },
       { id: "ad9", name: "280926_Bergedorf_Ad9", image: bgAd9, metaResults: null, metaCostPerResult: null, spend: 87.78, reach: 4440, impressions: 2579 },
     ],
-    note: "1 weiterer Lead im CRM ließ sich keiner einzelnen Anzeige zuordnen (Tracking-Parameter nicht aufgelöst) — in der Kampagnensumme enthalten. Meta meldet jetzt 12 Website-Leads (Ad3: 7, Ad4: 4, Ad5: 1) zum Stand 12.10. — die 8 Perspective-verifizierten Leads stammen noch vom 06.10., ein erneuter CRM-Abgleich steht aus.",
+    note: "1 weiterer Lead im CRM ließ sich keiner einzelnen Anzeige zuordnen (Tracking-Parameter nicht aufgelöst) — in der Kampagnensumme enthalten. Perspective zeigt zum Stand 12.10. 20 Kontakte für diesen Funnel (vorher 8) — die Anzeigen-Zuordnung (Ad3: 2, Ad4: 4, Ad5: 1, +1 nicht zugeordnet) deckt weiterhin nur die ursprünglichen 8 ab; die 12 neuen Kontakte sind im Gesamtwert und in der CPL enthalten, aber noch keiner Anzeige oder einem Datum zugeordnet.",
   },
   {
     id: "hansea-invest-videos",
@@ -194,15 +215,16 @@ export const campaigns: Campaign[] = [
     recommendations: 5,
     metaResults: 11,
     metaCostPerResult: 241.74,
-    perspectiveLeads: 14,
+    perspectiveLeads: 15,
     perspectiveFunnel: "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
     perspectiveFunnelUrl: "https://hanseainvest.perspectivefunnel.com/hohenfeld/",
     leadStatus: { neu: 7, nichtErreicht: 3, disqualifiziert: 4 },
+    unattributedLeadsCount: 1,
     ads: [
       { id: "ad1", name: "240926_HI_Hohenfelde_Ad1", image: hohenfeldeAd1, metaResults: 10, metaCostPerResult: 213.73, spend: 2137.34, reach: 34761, impressions: 15964, perspectiveLeads: 12, leadDates: ["2026-09-26", "2026-09-27", "2026-09-27", "2026-09-29", "2026-09-29", "2026-10-01", "2026-10-01", "2026-10-02", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-04"] },
       { id: "ad2", name: "240926_HI_Hohenfelde_Ad2", image: hohenfeldeAd2, metaResults: 1, metaCostPerResult: 521.78, spend: 521.78, reach: 10122, impressions: 5980, perspectiveLeads: 2, leadDates: ["2026-09-26", "2026-10-06"] },
     ],
-    note: "Meta meldet zum Stand 12.10. 11 Website-Leads (Ad1: 10, Ad2: 1) bei €241,74 je Lead — die 14 Perspective-verifizierten Leads stammen noch vom 06.10., ein erneuter CRM-Abgleich steht aus.",
+    note: "Meta meldet zum Stand 12.10. 11 Website-Leads (Ad1: 10, Ad2: 1) bei €241,74 je Lead. Perspective zeigt 15 Kontakte für diesen Funnel (vorher 14) — die Anzeigen-Zuordnung deckt weiterhin die ursprünglichen 14 ab (Ad1: 12, Ad2: 2); der 1 neue Kontakt ist im Gesamtwert und in der CPL enthalten, aber noch keiner Anzeige oder einem Datum zugeordnet.",
   },
   {
     id: "hansea-invest-static",
@@ -276,11 +298,12 @@ export const campaigns: Campaign[] = [
     recommendations: 0,
     metaResults: 6,
     metaCostPerResult: 174.01,
-    perspectiveLeads: 4,
+    perspectiveLeads: 11,
     perspectiveFunnel: "Full-Service-Modell für Kapitalanlage-Immobilien",
     perspectiveFunnelUrl: "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
     incomplete: true,
-    note: "Meta zeigt zum Stand 12.10. 6 Website-Leads (Ad4: 1, Ad5: 4, Kai & Tanem Video 3: 1) bei €174,01 je Lead — die 4 Perspective-verifizierten Leads (Ad4: 1, Ad5: 2, Ad6: 1) stammen noch vom 06.10.; der Perspective-Connector ist in dieser Session nicht autorisiert, ein Abgleich der neuen Meta-Leads steht noch aus. Die 3 Video-Anzeigen (081026_Kai & Tanem Video 1–3) liefern jetzt aus.",
+    unattributedLeadsCount: 7,
+    note: "Meta zeigt zum Stand 12.10. 6 Website-Leads (Ad4: 1, Ad5: 4, Kai & Tanem Video 3: 1) bei €174,01 je Lead. Perspective zeigt 11 Kontakte für diesen Funnel (vorher 4) — die Anzeigen-Zuordnung deckt weiterhin nur die ursprünglichen 4 ab (Ad4: 1, Ad5: 2, Ad6: 1); die 7 neuen Kontakte sind im Gesamtwert und in der CPL enthalten, aber noch keiner Anzeige oder einem Datum zugeordnet.",
     ads: [
       { id: "ad1", name: "051026_HSWG_FullService_1", image: fsAd1, metaResults: null, metaCostPerResult: null, spend: 32.78, reach: 1992, impressions: 1071 },
       { id: "ad2", name: "051026_HSWG_FullService_2", image: fsAd2, metaResults: null, metaCostPerResult: null, spend: 32.95, reach: 786, impressions: 473 },

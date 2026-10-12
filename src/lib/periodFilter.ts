@@ -88,7 +88,18 @@ export function leadsInPeriod(dates: string[] | undefined, inPeriod: (d: string)
   return (dates ?? []).filter(inPeriod).length;
 }
 
-export function campaignLeadsInPeriod(c: Campaign, inPeriod: (d: string) => boolean): number {
+/**
+ * Sums a campaign's Perspective leads for the selected period.
+ *
+ * When `isAll` is true (the unfiltered "Gesamt" view), this also adds
+ * `c.unattributedLeadsCount` — real, Perspective-verified leads whose
+ * individual conversion dates aren't resolved yet, so they can't be placed
+ * in a specific week/month. They're included in the all-time total (the
+ * true current count) but can't contribute to a week/month breakdown
+ * without fabricating a date.
+ */
+export function campaignLeadsInPeriod(c: Campaign, inPeriod: (d: string) => boolean, isAll = false): number {
   const adSum = c.ads.reduce((s, a) => s + leadsInPeriod(a.leadDates, inPeriod), 0);
-  return adSum + leadsInPeriod(c.unattributedLeadDates, inPeriod);
+  const undated = isAll ? c.unattributedLeadsCount ?? 0 : 0;
+  return adSum + leadsInPeriod(c.unattributedLeadDates, inPeriod) + undated;
 }
