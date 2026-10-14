@@ -1,3 +1,4 @@
+import borgfelder from '../../assets/media/projekt-hamburg-borgfelder.jpg'
 import { aboutStats, glanceBullets } from '../../data/landing'
 import { ButtonLink, Eyebrow, Placeholder } from '../ui'
 
@@ -17,7 +18,7 @@ export function LandingHero() {
           </ButtonLink>
         </div>
         <img
-          src="/media/projekt-hamburg-borgfelder.jpg"
+          src={borgfelder}
           alt="Saniertes Mehrfamilienhaus in der Borgfelder Straße, Hamburg"
           width={800}
           height={600}

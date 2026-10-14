@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { currentMember, logout, type Member } from '../auth/auth'
 import Calculator from '../components/Calculator'
 import Faq from '../components/Faq'
@@ -9,6 +9,7 @@ import { CallbackForm } from '../components/LeadForms'
 import ProjectList from '../components/ProjectList'
 import ShareTracker from '../components/ShareTracker'
 import TrackRecord from '../components/TrackRecord'
+import { navigate } from '../routes'
 import { company, exampleShares, nextPayout, SHARE_PRICE } from '../data/content'
 
 const memberNav = [
@@ -101,12 +102,11 @@ function Service() {
 }
 
 export default function Dashboard() {
-  // Redirect to login before anything renders when there is no session
-  const [member] = useState(() => {
-    const m = currentMember()
-    if (!m) location.replace(`/login/?next=${encodeURIComponent(location.pathname)}`)
-    return m
-  })
+  const [member] = useState(currentMember)
+  // No session: send the visitor to the login page
+  useEffect(() => {
+    if (!member) navigate('login', { replace: true })
+  }, [member])
   if (!member) return null
 
   const aside = (
@@ -116,7 +116,7 @@ export default function Dashboard() {
         type="button"
         onClick={() => {
           logout()
-          location.assign('/')
+          navigate('home')
         }}
         className="cursor-pointer rounded-control border border-white/30 bg-transparent px-4 py-2 text-[14px] font-bold text-white hover:border-white"
       >

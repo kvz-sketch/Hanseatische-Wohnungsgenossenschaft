@@ -24,16 +24,43 @@ const SESSION_KEY = 'hs-demo-session'
 
 export class AuthError extends Error {}
 
+// localStorage can be missing or blocked (private mode, sandboxed previews);
+// fall back to memory so the flow still works for the current visit.
+const memory = new Map<string, string>()
+const store = {
+  get(key: string) {
+    try {
+      return localStorage.getItem(key)
+    } catch {
+      return memory.get(key) ?? null
+    }
+  },
+  set(key: string, value: string) {
+    try {
+      localStorage.setItem(key, value)
+    } catch {
+      memory.set(key, value)
+    }
+  },
+  remove(key: string) {
+    try {
+      localStorage.removeItem(key)
+    } catch {
+      memory.delete(key)
+    }
+  },
+}
+
 function readUsers(): Record<string, StoredMember> {
   try {
-    return JSON.parse(localStorage.getItem(USERS_KEY) ?? '{}')
+    return JSON.parse(store.get(USERS_KEY) ?? '{}')
   } catch {
     return {}
   }
 }
 
 function writeUsers(users: Record<string, StoredMember>) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  store.set(USERS_KEY, JSON.stringify(users))
 }
 
 const toHex = (buf: ArrayBuffer | Uint8Array) =>
@@ -67,7 +94,7 @@ export async function register(input: { firstName: string; lastName: string; ema
     hash: await hashPassword(input.password, salt),
   }
   writeUsers({ ...users, [email]: member })
-  localStorage.setItem(SESSION_KEY, email)
+  store.set(SESSION_KEY, email)
   return publicMember(member)
 }
 
@@ -78,22 +105,18 @@ export async function login(emailInput: string, password: string) {
   const fail = new AuthError('E-Mail-Adresse oder Passwort ist nicht korrekt.')
   if (!member) throw fail
   if ((await hashPassword(password, member.salt)) !== member.hash) throw fail
-  localStorage.setItem(SESSION_KEY, email)
+  store.set(SESSION_KEY, email)
   return publicMember(member)
 }
 
 export function logout() {
-  localStorage.removeItem(SESSION_KEY)
+  store.remove(SESSION_KEY)
 }
 
 export function currentMember(): Member | null {
-  try {
-    const email = localStorage.getItem(SESSION_KEY)
-    const member = email ? readUsers()[email] : undefined
-    return member ? publicMember(member) : null
-  } catch {
-    return null
-  }
+  const email = store.get(SESSION_KEY)
+  const member = email ? readUsers()[email] : undefined
+  return member ? publicMember(member) : null
 }
 
 function publicMember({ firstName, lastName, email, createdAt }: StoredMember): Member {

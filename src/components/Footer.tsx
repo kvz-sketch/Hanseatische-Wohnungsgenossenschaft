@@ -1,5 +1,6 @@
 import { company, legalNotice } from '../data/content'
 import { publicNav } from '../data/landing'
+import { href } from '../routes'
 import { Logo } from './ui'
 
 const columns = [
@@ -7,8 +8,8 @@ const columns = [
   {
     title: 'Mitglieder',
     links: [
-      { label: 'Mitglieder-Login', href: '/login/' },
-      { label: 'Konto erstellen', href: '/login/#registrieren' },
+      { label: 'Mitglieder-Login', href: href('login') },
+      { label: 'Konto erstellen', href: href('login', '#registrieren') },
       { label: 'Geprüfter Jahresabschluss auf Anfrage', href: `mailto:${company.email}` },
       { label: `Prüfungsverband: ${company.auditor}`, href: '#' },
     ],

@@ -28,6 +28,16 @@ npm run dev
 npm run build && npm run preview
 ```
 
+### Single-file preview
+
+```bash
+npm run build:preview
+```
+
+Writes `dist-preview/hansea-invest-vorschau.html`: all three pages in one
+self-contained file (images and fonts inlined) that opens without a server.
+The explainer film is left out to keep the file small.
+
 ## Content
 
 - Landing page copy: `src/data/landing.ts`

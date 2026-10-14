@@ -5,8 +5,7 @@ import Header from '../components/Header'
 import { ConsentCheckbox } from '../components/ui'
 import { company } from '../data/content'
 import { publicNav } from '../data/landing'
-
-const DASHBOARD = '/mitglieder/'
+import { href, navigate } from '../routes'
 
 const inputClass =
   'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:outline-none aria-invalid:border-brick'
@@ -183,11 +182,7 @@ function RegisterForm({ onDone }: { onDone: () => void }) {
 export default function Login() {
   const [mode, setMode] = useState<'login' | 'register'>(() => (location.hash === '#registrieren' ? 'register' : 'login'))
 
-  function goToDashboard() {
-    const next = new URLSearchParams(location.search).get('next')
-    // Only allow redirects within this site
-    location.assign(next && next.startsWith('/') && !next.startsWith('//') ? next : DASHBOARD)
-  }
+  const goToDashboard = () => navigate('dashboard')
 
   const tab = (m: typeof mode, label: string) => (
     <button
@@ -196,7 +191,11 @@ export default function Login() {
       aria-selected={mode === m}
       onClick={() => {
         setMode(m)
-        history.replaceState(null, '', m === 'register' ? '#registrieren' : location.pathname + location.search)
+        try {
+          history.replaceState(null, '', m === 'register' ? '#registrieren' : location.pathname + location.search)
+        } catch {
+          // not available in sandboxed previews
+        }
       }}
       className={`flex-1 cursor-pointer border-0 border-b-2 bg-transparent px-2 py-4 text-[16px] font-bold transition-colors ${
         mode === m ? 'border-brick text-ink' : 'border-transparent text-muted hover:text-ink'
@@ -208,7 +207,7 @@ export default function Login() {
 
   return (
     <>
-      <Header nav={publicNav} cta={{ label: 'Jetzt informieren', href: '/#kontakt' }} />
+      <Header nav={publicNav} cta={{ label: 'Jetzt informieren', href: href('home', '#kontakt') }} />
       <main className="bg-section px-5 py-14 lg:py-20">
         <div className="mx-auto max-w-[560px]">
           <p className="m-0 text-[13px] font-bold tracking-[0.08em] text-brick uppercase">Mitgliederbereich</p>

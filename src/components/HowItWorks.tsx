@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react'
+import poster from '../assets/media/erklaerfilm-poster.jpg'
 import { steps } from '../data/content'
+import { IS_PREVIEW } from '../routes'
 
 function ExplainerVideo() {
   const ref = useRef<HTMLVideoElement>(null)
@@ -22,12 +24,13 @@ function ExplainerVideo() {
           controls
           preload="none"
           playsInline
-          poster="/video/hansea-erklaerfilm-poster.jpg"
+          poster={poster}
           onPlay={() => setStarted(true)}
           aria-label="Erklärfilm: So funktioniert die Hanseatische Invest eG, rund 1,5 Minuten, mit Untertiteln im Bild"
           className="block aspect-video w-full rounded-card bg-section"
         >
-          <source src="/video/hansea-erklaerfilm.mp4" type="video/mp4" />
+          {/* The film is too large to embed in the single-file preview */}
+          {!IS_PREVIEW && <source src="/video/hansea-erklaerfilm.mp4" type="video/mp4" />}
         </video>
         <p className="m-0 mt-3 text-[13px] leading-relaxed text-muted">
           Zielrendite, nicht garantiert. Unternehmerische Beteiligung mit Verlustrisiko bis zum Totalverlust. Keine

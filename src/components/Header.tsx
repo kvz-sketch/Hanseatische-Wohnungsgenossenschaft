@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { href } from '../routes'
 import { ButtonLink, Logo } from './ui'
 
 type NavItem = { label: string; href: string }
@@ -11,7 +12,7 @@ export default function Header({
   nav,
   aside,
   cta,
-  homeHref = '/',
+  homeHref = href('home'),
 }: {
   nav: NavItem[]
   aside?: ReactNode
@@ -87,7 +88,7 @@ export default function Header({
 
 export function LoginLink() {
   return (
-    <a href="/login/" className="text-[15px] text-light-dark no-underline hover:text-white">
+    <a href={href('login')} className="text-[15px] text-light-dark no-underline hover:text-white">
       Mitglieder-Login
     </a>
   )

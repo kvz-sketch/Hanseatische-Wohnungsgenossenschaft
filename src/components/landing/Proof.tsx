@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import poster from '../../assets/media/erklaerfilm-poster.jpg'
 import { capitalSteps, caseStudies, seals, team } from '../../data/landing'
 import { ButtonLink, Eyebrow, Placeholder } from '../ui'
 
@@ -112,7 +113,7 @@ export function WebinarBanner() {
           </ButtonLink>
         </div>
         <img
-          src="/video/hansea-erklaerfilm-poster.jpg"
+          src={poster}
           alt="Standbild aus dem Erklärfilm der Hanseatischen Invest eG"
           width={1280}
           height={720}

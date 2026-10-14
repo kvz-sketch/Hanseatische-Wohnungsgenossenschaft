@@ -16,7 +16,7 @@ import { publicNav } from '../data/landing'
 export default function Landing() {
   return (
     <>
-      <Header nav={publicNav} aside={<LoginLink />} cta={{ label: 'Jetzt informieren', href: '/#kontakt' }} />
+      <Header nav={publicNav} aside={<LoginLink />} cta={{ label: 'Jetzt informieren', href: '#kontakt' }} />
       <main>
         <LandingHero />
         <AboutWithStats />

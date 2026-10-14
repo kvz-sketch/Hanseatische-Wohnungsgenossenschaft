@@ -1,15 +1,20 @@
+import portrait from '../assets/media/stephan-gerlach-portraet.jpg'
+import sealCoaches from '../assets/media/siegel-top-100-coaches-berater-2025.png'
+import sealEntrepreneurs from '../assets/media/siegel-top-100-unternehmer-2024.png'
+import sealExpert from '../assets/media/siegel-top-experte-2026.png'
+import { href } from '../routes'
 import type { Faq } from './content'
 
 // Copy for the public landing page, from the "Hansea Invest" wireframe brief.
 // Sections marked "copy exactly" in the brief are reproduced verbatim.
 
 export const publicNav = [
-  { label: 'Über uns', href: '/#ueber-uns' },
-  { label: "So funktioniert's", href: '/#so-funktionierts' },
-  { label: 'Case Studies', href: '/#case-studies' },
-  { label: 'Team', href: '/#team' },
-  { label: 'FAQ', href: '/#faq' },
-  { label: 'Kontakt', href: '/#kontakt' },
+  { label: 'Über uns', href: href('home', '#ueber-uns') },
+  { label: "So funktioniert's", href: href('home', '#so-funktionierts') },
+  { label: 'Case Studies', href: href('home', '#case-studies') },
+  { label: 'Team', href: href('home', '#team') },
+  { label: 'FAQ', href: href('home', '#faq') },
+  { label: 'Kontakt', href: href('home', '#kontakt') },
 ]
 
 export const aboutStats = [
@@ -47,14 +52,14 @@ export const capitalSteps = [
 ]
 
 export const seals = [
-  { src: '/media/siegel-top-experte-2026.png', alt: 'Siegel „Top-Experte 2026“, ERFOLG Magazin', label: 'TOP-Experten-Siegel 2026' },
+  { src: sealExpert, alt: 'Siegel „Top-Experte 2026“, ERFOLG Magazin', label: 'TOP-Experten-Siegel 2026' },
   {
-    src: '/media/siegel-top-100-coaches-berater-2025.png',
+    src: sealCoaches,
     alt: 'Siegel „Top 100 Coaches & Berater 2025“, ERFOLG Magazin',
     label: 'EM Top 100 Coaches + Berater',
   },
   {
-    src: '/media/siegel-top-100-unternehmer-2024.png',
+    src: sealEntrepreneurs,
     alt: 'Siegel „Top 100 Unternehmer 2024“, ERFOLG Magazin',
     label: 'Top 100 Unternehmer-Siegel',
   },
@@ -75,7 +80,7 @@ export const team = [
   {
     name: 'Stephan Gerlach',
     role: 'Vorstandsvorsitzender',
-    photo: '/media/stephan-gerlach-portraet.jpg',
+    photo: portrait,
     bio: 'Gründer der Gerlach Immobilien Gruppe und Experte für nachhaltige Kapitalanlage-Immobilien. Mit einem ganzheitlichen Ansatz begleitet er Anleger von der Objektwahl über die Finanzierung bis zur langfristigen Verwaltung.',
   },
   {
