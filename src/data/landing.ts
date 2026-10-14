@@ -1,3 +1,5 @@
+import type { Faq } from './content'
+
 // Copy for the public landing page, from the "Hansea Invest" wireframe brief.
 // Sections marked "copy exactly" in the brief are reproduced verbatim.
 
@@ -99,12 +101,34 @@ export const caseStudyStats = [
   { value: '3,2 M', label: 'Verkaufspreis' },
 ]
 
-export const publicFaqs = [
-  'Was bedeutet „investierendes Mitglied“ konkret?',
-  'Wie wird mein Kapital eingesetzt?',
-  'Welche Rendite kann ich erwarten?',
-  'Welche Laufzeiten und Kündigungsfristen gelten?',
-  'Welche Risiken bestehen bei einer Beteiligung?',
+// Answers taken from the FAQ and "So funktioniert's" copy of the reference site
+export const publicFaqs: Faq[] = [
+  {
+    q: 'Was bedeutet „investierendes Mitglied“ konkret?',
+    lead: 'Sie werden Mitglied, nicht Kunde.',
+    body: 'Ihr Geld bleibt im Unternehmen und fließt direkt in eigene Projekte. Die Wertschöpfung entsteht durch Arbeit an Häusern, nicht durch Finanzprodukte. Genossenschaften unterliegen dem Genossenschaftsgesetz und der Pflichtprüfung durch einen Prüfungsverband – ein Modell, das es in Deutschland seit über 150 Jahren gibt. Einmal im Jahr laden wir alle Mitglieder ein: Vorstand und Projektleiter berichten, Sie sehen die Häuser und lernen andere Mitglieder kennen.',
+  },
+  {
+    q: 'Wie wird mein Kapital eingesetzt?',
+    lead: 'In konkreten Häusern – mit Adresse und Fotos.',
+    body: 'Bestandshäuser günstig kaufen, sanieren, in einzelne Wohnungen aufteilen und verkaufen: Dieses Geschäft war bisher Profis mit viel Kapital vorbehalten. Die Genossenschaft bündelt das Geld vieler Mitglieder – so sind Sie schon ab 10.000 € dabei. Jeder Anteil wird einem Projekt zugeordnet. Im Mitgliederportal sehen Sie Phase, Baufortschritt und jede Ausschüttung.',
+  },
+  {
+    q: 'Welche Rendite kann ich erwarten?',
+    lead: 'Ziel sind 7 % im Jahr, ausgezahlt in vier Raten – nicht garantiert.',
+    body: 'Bei 25.000 € sind das als Ziel 437,50 € pro Quartal, brutto. Kein Zinseszins, vor Kapitalertragsteuer. Die Ausschüttung hängt vom wirtschaftlichen Erfolg der Genossenschaft ab.',
+  },
+  {
+    q: 'Welche Laufzeiten und Kündigungsfristen gelten?',
+    lead: 'Nach 12 Monaten entscheiden Sie.',
+    body: 'Weiterlaufen lassen, aufstocken oder mit neun Monaten Frist kündigen. Keine Nachschusspflicht.',
+  },
+  {
+    q: 'Welche Risiken bestehen bei einer Beteiligung?',
+    lead: 'Reale Häuser, geprüfte Genossenschaft – und trotzdem eine unternehmerische Beteiligung.',
+    body: 'Ihre Investition fließt in reale Wohnimmobilien in Deutschland. Die Hanseatische Invest eG ist eine eingetragene Genossenschaft und wird durch den DIVK Prüfungsverband regelmäßig geprüft. Bitte beachten Sie jedoch, dass es sich um eine unternehmerische Beteiligung handelt: Verlust bis zum Totalverlust ist möglich, und es besteht keine gesetzliche Einlagensicherung.',
+    link: { label: 'Risikohinweis lesen', href: '#' },
+  },
 ]
 
 export const referralSources = ['Bitte wählen', 'Empfehlung', 'Google / Suche', 'Social Media', 'Webinar', 'Buch', 'Presse', 'Makler', 'Sonstiges']

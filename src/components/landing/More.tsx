@@ -109,15 +109,26 @@ export function PublicFaq() {
       <div className="mx-auto max-w-[860px]">
         <h2 className="h2">Häufig gestellte Fragen</h2>
         <div className="mt-8 border-t border-line">
-          {publicFaqs.map((q) => (
-            <details key={q} className="group border-b border-line">
+          {publicFaqs.map((f) => (
+            <details key={f.q} className="group border-b border-line">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[17px] font-bold [&::-webkit-details-marker]:hidden">
-                {q}
+                {f.q}
                 <span className="text-xl font-medium transition-transform group-open:rotate-45" aria-hidden>
                   +
                 </span>
               </summary>
-              <p className="m-0 pb-6 text-[16px] leading-relaxed text-muted">[Antworttext folgt]</p>
+              <div className="pb-6 text-[16px] leading-relaxed text-ink-2">
+                <p className="m-0 font-bold text-ink">{f.lead}</p>
+                <p className="m-0 mt-2">
+                  {f.body}
+                  {f.link && (
+                    <>
+                      {' '}
+                      <a href={f.link.href}>{f.link.label}</a>
+                    </>
+                  )}
+                </p>
+              </div>
             </details>
           ))}
         </div>

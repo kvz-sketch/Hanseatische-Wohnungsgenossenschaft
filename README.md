@@ -50,7 +50,6 @@ Every member currently sees the same sample portfolio (marked "Beispieldaten").
 - Impressum, Datenschutz, Risikohinweis, Satzung, book shop and press links
   are placeholders (`href="#"`).
 - Image and logo placeholders (striped boxes) wait for real photos.
-- Public FAQ answers are "[Antworttext folgt]" per the brief.
 
 ## Deployment (netcup Webhosting)
 
