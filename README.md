@@ -1,50 +1,44 @@
-# Gerlach Immobilien Gruppe (GIG) — Website
+# Hanseatische Invest eG — Website
 
-Landing page for the GIG group, recreated per the GIG wireframe brief (bolder
-layered hero, full Navy/Gold/Koralle brand palette) with real content sourced
-from [gerlachgroup.de](https://gerlachgroup.de/) and its linked subsidiary
-sites.
+Rebuild of the Hanseatische Invest eG pages from the reference design at
+hansea.neo-labs.ai: the landing page (with calculator, share tracking, track
+record, FAQ) and the projects overview.
 
 ## Stack
 
 - [Vite](https://vite.dev/) + React + TypeScript
-- Tailwind CSS v4 (`@tailwindcss/vite`)
+- Tailwind CSS v4 (`@tailwindcss/vite`), Manrope self-hosted via Fontsource
+
+## Pages
+
+| URL          | Entry                                            |
+| ------------ | ------------------------------------------------ |
+| `/`          | `index.html` → `src/pages/Home.tsx`              |
+| `/projekte/` | `projekte/index.html` → `src/pages/Projekte.tsx` |
+
+Each page is its own HTML file (Vite multi-page build), so `dist/` runs on
+any static host without rewrite rules.
 
 ## Development
 
 ```bash
 npm install
 npm run dev
-```
-
-## Build
-
-```bash
-npm run build
-npm run preview
+npm run build && npm run preview
 ```
 
 ## Content
 
-All copy, statistics, brand names, testimonials, team, and contact details in
-`src/data/content.ts` are drawn from the public Gerlach Immobilien Gruppe
-website. Update that file to refresh content as the source site changes.
+Copy, figures and project lists live in `src/data/content.ts`.
+
+## Open items
+
+- Lead forms (`src/components/LeadForms.tsx`) have no backend yet: set
+  `LEAD_ENDPOINT` to start receiving requests.
+- Impressum, Datenschutz, Risikohinweis, Satzung, Magazin and Mitglieder-Login
+  are placeholder links.
 
 ## Deployment (netcup Webhosting)
 
 `.github/workflows/deploy-netcup.yml` builds the site and uploads `dist/` to
-netcup over FTPS (lftp) on every push to the default branch (or manually via
-*Actions → Deploy to netcup → Run workflow*).
-
-One-time setup:
-
-1. In the netcup CCP, open the Webhosting product → WCP (Plesk) →
-   *Websites & Domains → FTP Access* and create an FTP user for the site.
-2. In GitHub, add these repository secrets under
-   *Settings → Secrets and variables → Actions*:
-   - `FTP_SERVER` — FTP host (shown in the WCP, e.g. the domain)
-   - `FTP_USERNAME` / `FTP_PASSWORD` — the FTP user from step 1
-   - `FTP_SERVER_DIR` (optional) — target folder ending in `/`,
-     default `/httpdocs/`
-
-Until `FTP_SERVER` is set, the workflow only builds and skips the upload.
+netcup over FTPS (lftp). See the workflow file for the required secrets.

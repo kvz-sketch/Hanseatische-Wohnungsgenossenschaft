@@ -1,84 +1,47 @@
-import { Badge } from "./ui/Badge";
-import { Button } from "./ui/Button";
-import { ArchitectureArt } from "./ArchitectureArt";
-import { CountUp } from "./CountUp";
-import { Reveal } from "./Reveal";
-import { GhostWord } from "./GhostWord";
+import { heroStats } from '../data/content'
+import { CallbackForm } from './LeadForms'
 
-export function Hero() {
+export default function Hero() {
   return (
-    <section
-      id="gruppe"
-      className="relative overflow-hidden bg-gradient-to-br from-navy-light via-navy to-navy-deep"
-    >
-      <div className="absolute inset-y-0 left-0 w-1.5 bg-koralle" />
-      <div
-        className="pointer-events-none absolute -top-32 right-[-10%] h-[420px] w-[420px] rounded-full bg-koralle/20 blur-[110px]"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute bottom-[-20%] left-[15%] h-[320px] w-[320px] rounded-full bg-gold/15 blur-[100px]"
-        aria-hidden="true"
-      />
-      <GhostWord className="text-white">Werte</GhostWord>
+    <section id="top" className="bg-ink px-5 pt-14 pb-16 text-white lg:pt-[72px] lg:pb-16">
+      <div className="container-site grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-[120px]">
+        <div className="lg:pt-2">
+          <p className="m-0 text-[13px] text-light-dark">Hamburg · Genossenschaft seit 2018 · Beteiligung ab 10.000 €</p>
+          <h1 className="m-0 mt-4 text-[clamp(40px,5.2vw,62px)] leading-[1.04] font-extrabold tracking-[-0.025em] text-balance">
+            Wohnhäuser, die Sie sich ansehen können. 7&nbsp;% p.a. Ziel&shy;rendite.
+          </h1>
+          <p className="m-0 mt-7 max-w-[540px] text-[18px] leading-relaxed font-light text-lighter-dark">
+            Sie beteiligen sich an konkreten Objekten in Norddeutschland, mit Adresse, Fotos und Baustand. Ohne Kredit,
+            ohne Mieter, ohne Verwaltung. Ausschüttung jedes Quartal.
+          </p>
 
-      <div className="relative mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-11 lg:px-11 lg:py-24">
-        <div>
-          <Reveal>
-            <span className="subheading text-[11px] uppercase tracking-[0.22em] text-gold">
-              Gerlach Immobilien Gruppe · Hamburg
-            </span>
-          </Reveal>
-
-          <Reveal delay={60} className="mt-4 mb-6 flex flex-wrap gap-2">
-            <Badge variant="gold">6 Marken</Badge>
-            <Badge variant="koralle">Norddeutschland</Badge>
-            <Badge variant="outline">Hamburg · Köln</Badge>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <h1 className="font-serif-display max-w-[600px] text-[42px] leading-[1.06] text-white sm:text-[54px] lg:text-[68px]">
-              Wir entwickeln <span className="text-shimmer">Werte.</span>
+          <div className="mt-8 flex items-center gap-4">
+            <img
+              src="/media/stephan-gerlach-avatar.jpg"
+              alt=""
+              width={48}
+              height={48}
+              className="size-12 rounded-full object-cover"
+            />
+            <p className="m-0 text-[14px] leading-snug text-light-dark">
+              <strong className="font-bold text-white">Stephan Gerlach</strong>, Vorstandsvorsitzender
               <br />
-              Ihr Weg zum nachhaltigen Vermögensaufbau.
-            </h1>
-          </Reveal>
-
-          <Reveal delay={200} className="my-6 h-[3px] w-16 origin-left animate-draw bg-koralle" />
-
-          <Reveal delay={240}>
-            <p className="max-w-[440px] text-[15.5px] leading-relaxed text-fog">
-              Die Gerlach Immobilien Gruppe bündelt sechs spezialisierte Marken unter einem
-              Qualitätsstandard — von der eigenen Kapitalanlage-Wohnung über die
-              genossenschaftliche Beteiligung bis zum digitalen Einstieg. Wir decken die gesamte
-              Wertschöpfungskette ab: von der Auswahl bis zur Vermarktung Ihrer Immobilie.
+              Autor „Immobilien-Investitionen leicht gemacht“
             </p>
-          </Reveal>
+          </div>
 
-          <Reveal delay={320} className="mt-8 flex flex-wrap gap-3">
-            <Button variant="gold" size="lg" href="#kontakt" className="animate-pulse-ring">
-              Kostenloses Erstgespräch
-            </Button>
-            <Button variant="on-navy" size="lg" href="#marken">
-              Unsere Marken ansehen
-            </Button>
-          </Reveal>
+          <dl className="m-0 mt-8 grid max-w-[540px] grid-cols-3 gap-4 border-t border-white/15 pt-6">
+            {heroStats.map((s) => (
+              <div key={s.label}>
+                <dt className="text-[clamp(20px,2.2vw,26px)] font-extrabold tracking-tight text-white">{s.value}</dt>
+                <dd className="m-0 mt-1 text-[13px] text-light-dark">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        <Reveal delay={200} className="relative hidden min-h-[300px] lg:block">
-          <div className="absolute inset-0 left-4 top-8 animate-float overflow-hidden rounded-md border border-white/15 bg-white/[0.06]">
-            <ArchitectureArt className="h-full w-full" />
-          </div>
-          <div className="absolute -bottom-5 -left-6 w-[200px] rounded-md border-t-[3px] border-koralle bg-white p-5 shadow-[0_16px_34px_rgba(20,26,70,0.35)]">
-            <div className="subheading text-[32px] leading-none text-navy">
-              <CountUp value="10" /> Jahre
-            </div>
-            <div className="subheading mt-1 text-[10px] uppercase tracking-[0.1em] text-muted">
-              Mietgarantie
-            </div>
-          </div>
-        </Reveal>
+        <CallbackForm />
       </div>
     </section>
-  );
+  )
 }

@@ -1,137 +1,149 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&display=swap");
+@import "@fontsource-variable/manrope";
 @import "tailwindcss";
 
+/* Hanseatische Invest eG design tokens (navy ink, brick accent, Manrope) */
 @theme {
-  /* Single-typeface editorial system (Montserrat), GIG palette */
-  --font-serif: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
 
-  --color-navy: #141a46;
-  --color-navy-light: #1e2864;
-  --color-navy-deep: #0f1438;
-  --color-gold: #ddb851;
-  --color-gold-deep: #c6a248;
-  --color-koralle: #f97768;
-  --color-cream: #edede7;
-  --color-mist: #f5f5f5;
-  --color-line: #e7e8ec;
-  --color-ink: #3a3f58;
-  --color-muted: #5a5f78;
-  --color-fog: #c3c6d6;
-}
+  --color-ink: #10233a;
+  --color-ink-2: #34455a;
+  --color-muted: #6f7e8e;
+  --color-muted-dark: #8fa0b3;
+  --color-light-dark: #b8c4d1;
+  --color-lighter-dark: #dce3eb;
+  --color-brick: #8e3a2b;
+  --color-brick-hover: #7a3125;
+  --color-brick-active: #66281e;
+  --color-brick-tint: #f4e9e6;
+  --color-green: #1d7a57;
+  --color-green-tint: #e4f2ec;
+  --color-green-dark: #7bd0a5;
+  --color-amber: #a9720f;
+  --color-amber-tint: #f7eed8;
+  --color-link: #2f5f8f;
+  --color-link-tint: #e4ecf5;
+  --color-section: #eef1f4;
+  --color-line: #d6dde4;
+  --color-line-soft: #e7ecf0;
+  --color-ink-panel: #12233b;
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font-sans);
-  background: #ffffff;
-  color: var(--color-navy);
-  -webkit-font-smoothing: antialiased;
-}
-
-.font-serif-display {
-  font-family: var(--font-serif);
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  --radius-control: 7px;
+  --radius-card: 12px;
 }
 
-/* Bolder Inter subheadings — the sans counterpart to the serif display type */
-.subheading {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-/* Oversized, near-invisible uppercase watermark set behind a section title —
-   signature "ghost text" device borrowed from the reference layout. */
-.ghost-word {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-  font-family: var(--font-sans);
-  font-weight: 800;
-  text-transform: uppercase;
-  opacity: 0.05;
-  letter-spacing: 0.02em;
-  pointer-events: none;
-  z-index: 0;
-  font-size: clamp(64px, 14vw, 200px);
-  line-height: 1;
-}
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--reveal-delay, 0ms);
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+  a {
+    color: var(--color-link);
+  }
+  a:hover {
+    color: var(--color-ink);
+  }
 
-@keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-}
-.animate-float {
-  animation: float-y 7s ease-in-out infinite;
-}
+  :focus-visible {
+    outline: 2px solid var(--color-brick);
+    outline-offset: 2px;
+  }
 
-@keyframes shimmer {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-.text-shimmer {
-  background: linear-gradient(90deg, #ddb851 0%, #f97768 25%, #ddb851 50%, #f5d78e 75%, #ddb851 100%);
-  background-size: 250% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 6s linear infinite;
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 32s linear infinite;
-}
-
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(249, 119, 104, 0.45); }
-  100% { box-shadow: 0 0 0 10px rgba(249, 119, 104, 0); }
-}
-.animate-pulse-ring {
-  animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes draw-line {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.animate-draw {
-  transform-origin: left;
-  animation: draw-line 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  input[type="range"] {
+    accent-color: var(--color-brick);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  html {
+    scroll-behavior: auto;
   }
-  .animate-float,
-  .text-shimmer,
-  .animate-marquee,
-  .animate-pulse-ring,
-  .animate-draw {
+  * {
+    transition: none !important;
     animation: none !important;
   }
+}
+
+@layer components {
+  .container-site {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: 72px 20px;
+    scroll-margin-top: 80px;
+  }
+
+  .h2 {
+    margin: 0;
+    font-size: clamp(28px, 3.2vw, 40px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+
+  /* Placeholder for photos that are not available yet */
+  .stripe-light {
+    display: grid;
+    place-items: center;
+    color: var(--color-muted);
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-line) 0 8px,
+      var(--color-line-soft) 8px 16px
+    );
+  }
+}
+
+/* Map pins fade in one after another */
+@keyframes pin-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.map-pin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pin-in 0.4s ease-out both;
+}
+
+/* Calculator slider */
+.hs-range {
+  height: 6px;
+  border-radius: 999px;
+  appearance: none;
+  cursor: pointer;
+}
+.hs-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-brick);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px var(--color-brick);
+}
+.hs-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-brick);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px var(--color-brick);
 }

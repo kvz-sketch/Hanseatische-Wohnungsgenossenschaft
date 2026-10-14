@@ -1,72 +1,73 @@
-import { useEffect, useState } from "react";
-import { GigMark } from "./GigMark";
-import { Button } from "./ui/Button";
-import { nav } from "../data/content";
+import { useState } from 'react'
+import { nav } from '../data/content'
+import { ButtonLink, Logo } from './ui'
 
-export function Header() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+export default function Header() {
+  const [open, setOpen] = useState(false)
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-white transition-shadow ${
-        scrolled ? "shadow-[0_2px_10px_rgba(20,26,70,0.08)]" : ""
-      } border-b border-navy/8`}
-    >
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-8 lg:px-11">
-        <a href="#top" className="flex items-center gap-2.5">
-          <GigMark size={26} color="#141A46" />
-          <span className="font-serif-display text-[19px] leading-none text-navy">GIG</span>
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-ink text-white">
+      <div className="container-site flex h-[72px] items-center gap-8 px-5">
+        <a href="/" className="shrink-0 text-white hover:text-white" aria-label="Hanseatische Invest eG – Startseite">
+          <Logo className="h-[50px] w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-7 text-[11.5px] font-bold uppercase tracking-[0.06em] text-navy lg:flex">
+        <nav className="hidden flex-1 items-center gap-7 lg:flex" aria-label="Hauptnavigation">
           {nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="group relative py-1 transition-colors hover:text-koralle"
-            >
+            <a key={item.label} href={item.href} className="text-[15px] font-medium text-white no-underline hover:text-lighter-dark">
               {item.label}
-              <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-koralle transition-all duration-200 group-hover:w-full" />
             </a>
           ))}
         </nav>
 
-        <div className="hidden lg:block">
-          <Button variant="gold" size="sm" href="#kontakt">
-            Beratung sichern
-          </Button>
+        <div className="ml-auto hidden items-center gap-4 lg:flex">
+          <a href="#" className="text-[15px] text-light-dark no-underline hover:text-white">
+            Mitglieder-Login
+          </a>
+          <ButtonLink href="/#termin" className="px-4 py-2.5">
+            Mein Erstgespräch buchen
+          </ButtonLink>
         </div>
 
         <button
-          aria-label="Menü öffnen"
-          className="text-2xl text-navy lg:hidden"
-          onClick={() => setOpen((v) => !v)}
+          type="button"
+          className="ml-auto inline-flex size-11 items-center justify-center rounded-control border border-white/20 lg:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
+          onClick={() => setOpen((o) => !o)}
         >
-          ☰
+          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+          </svg>
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-navy/8 bg-white px-5 py-4 lg:hidden">
-          <nav className="flex flex-col gap-4 text-[13px] font-bold uppercase tracking-[0.04em] text-navy">
+        <nav id="mobile-nav" className="border-t border-white/10 px-5 pb-6 pt-2 lg:hidden" aria-label="Hauptnavigation">
+          <ul className="m-0 list-none p-0">
             {nav.map((item) => (
-              <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
-                {item.label}
-              </a>
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="block border-b border-white/10 py-3.5 text-base font-medium text-white no-underline"
+                >
+                  {item.label}
+                </a>
+              </li>
             ))}
-          </nav>
-          <Button variant="primary" size="sm" block href="#kontakt" className="mt-4">
-            Beratung sichern
-          </Button>
-        </div>
+            <li>
+              <a href="#" className="block py-3.5 text-base text-light-dark no-underline">
+                Mitglieder-Login
+              </a>
+            </li>
+          </ul>
+          <ButtonLink href="/#termin" className="mt-2 w-full">
+            Mein Erstgespräch buchen
+          </ButtonLink>
+        </nav>
       )}
     </header>
-  );
+  )
 }
