@@ -12,21 +12,6 @@ export const company = {
   auditor: 'DIVK Prüfungsverband',
 }
 
-export const nav = [
-  { label: 'Projekte', href: '/projekte/' },
-  { label: 'Bilanz', href: '/#bilanz' },
-  { label: "So funktioniert's", href: '/#modell' },
-  { label: 'Rechner', href: '/#rechner' },
-  { label: 'Magazin', href: '#' },
-  { label: 'Über uns', href: '/#ueber-uns' },
-]
-
-export const heroStats = [
-  { value: '15', label: 'Projekte abgeschlossen' },
-  { value: '52 Mio. €', label: 'Häuser verkauft' },
-  { value: '300+', label: 'Mitglieder' },
-]
-
 export const callSlots = ['Schnellstmöglich', '9–12 Uhr', '12–15 Uhr', '15–18 Uhr']
 
 // Beispielanteile für die Anteilsverfolgung
@@ -35,6 +20,7 @@ export const shareStages = ['Eingezahlt', 'Zugeordnet', 'Ankauf', 'Sanierung', '
 export type ShareEvent = { date: string; place: string; text: string; hasPhoto: boolean }
 export type ExampleShare = {
   id: string
+  units: number // Anteile à SHARE_PRICE
   city: string
   stage: number // index into shareStages of the current stage
   status: string
@@ -45,6 +31,7 @@ export type ExampleShare = {
 export const exampleShares: ExampleShare[] = [
   {
     id: 'A-24817',
+    units: 20,
     city: 'Kiel',
     stage: 2,
     status: 'In Bearbeitung',
@@ -57,6 +44,7 @@ export const exampleShares: ExampleShare[] = [
   },
   {
     id: 'A-19302',
+    units: 20,
     city: 'Oldenburg',
     stage: 3,
     status: 'In Bearbeitung',
@@ -69,6 +57,7 @@ export const exampleShares: ExampleShare[] = [
   },
   {
     id: 'A-11054',
+    units: 10,
     city: 'Hamburg',
     stage: 4,
     status: 'Fast abgeschlossen',
@@ -80,6 +69,9 @@ export const exampleShares: ExampleShare[] = [
     ],
   },
 ]
+
+// One share is 500 €: 7 % p.a. paid quarterly gives the 8,75 € per share above.
+export const SHARE_PRICE = 500
 
 export const nextPayout = { date: '31.12.2026', perShare: '8,75 € je Anteil (Ziel)' }
 
@@ -118,13 +110,6 @@ export const steps = [
     title: 'Nach 12 Monaten entscheiden Sie',
     text: 'Weiterlaufen lassen, aufstocken oder mit neun Monaten Frist kündigen. Keine Nachschusspflicht.',
   },
-]
-
-export const press = [
-  { name: 'FOCUS', kind: 'Porträt', href: null },
-  { name: 'Süddeutsche Zeitung', kind: 'Beitrag', href: null },
-  { name: 'Berliner Morgenpost', kind: 'Beitrag', href: '#' },
-  { name: 'founders Magazin', kind: 'Interview', href: '#' },
 ]
 
 export type Faq = { q: string; lead: string; body: string; link?: { label: string; href: string } }

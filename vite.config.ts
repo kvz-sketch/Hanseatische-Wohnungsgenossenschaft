@@ -12,7 +12,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
-        projekte: resolve(import.meta.dirname, 'projekte/index.html'),
+        login: resolve(import.meta.dirname, 'login/index.html'),
+        mitglieder: resolve(import.meta.dirname, 'mitglieder/index.html'),
       },
     },
   },

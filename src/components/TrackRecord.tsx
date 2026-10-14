@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { trackRecord } from '../data/content'
 import GermanyMap, { MapLegend } from './GermanyMap'
-import { ButtonLink } from './ui'
 
 const fmt1 = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 
@@ -39,7 +38,7 @@ function useCountUp(duration = 1200) {
   return { ref, t }
 }
 
-export default function TrackRecord() {
+export default function TrackRecord({ projectsHref = '#projekte' }: { projectsHref?: string }) {
   const { ref, t } = useCountUp()
   const stats = [
     { value: String(Math.round(trackRecord.completed * t)), label: 'Projekte abgeschlossen', accent: false },
@@ -90,15 +89,11 @@ export default function TrackRecord() {
               ))}
             </ul>
 
-            <div className="mt-8 flex flex-col items-start gap-4 rounded-card bg-section p-6 sm:flex-row sm:items-center sm:justify-between">
-              <p className="m-0 text-[15px] leading-snug font-semibold">
-                Alle 15 Projekte mit Adresse und Stand finden Sie unter <a href="/projekte/">Alle Projekte</a>; Kosten und
-                Verkaufspreis sehen Sie nach der Anmeldung.
-              </p>
-              <ButtonLink href="/projekte/#zugang" className="shrink-0">
-                Zugang anfordern →
-              </ButtonLink>
-            </div>
+            <p className="m-0 mt-8 text-[15px]">
+              <a href={projectsHref} className="font-bold">
+                Alle Projekte mit Adresse und Stand ansehen →
+              </a>
+            </p>
 
             <p className="m-0 mt-4 text-[12px] leading-relaxed text-muted">
               Zahlen der Gerlach Immobilien Gruppe, nicht der Genossenschaft. Vergangene Ergebnisse sind keine Zusage für

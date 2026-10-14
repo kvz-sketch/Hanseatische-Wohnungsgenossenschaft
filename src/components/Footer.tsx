@@ -1,21 +1,14 @@
 import { company, legalNotice } from '../data/content'
+import { publicNav } from '../data/landing'
 import { Logo } from './ui'
 
 const columns = [
+  { title: 'Navigation', links: publicNav },
   {
-    title: 'Anlegen',
+    title: 'Mitglieder',
     links: [
-      { label: 'Projekte', href: '/projekte/' },
-      { label: 'Magazin', href: '#' },
-      { label: 'Rendite-Rechner', href: '/#rechner' },
-      { label: 'Beitritt nach Gespräch', href: '/#termin' },
-    ],
-  },
-  {
-    title: 'Unterlagen',
-    links: [
-      { label: 'Risikohinweis', href: '#' },
-      { label: 'Satzung', href: '#' },
+      { label: 'Mitglieder-Login', href: '/login/' },
+      { label: 'Konto erstellen', href: '/login/#registrieren' },
       { label: 'Geprüfter Jahresabschluss auf Anfrage', href: `mailto:${company.email}` },
       { label: `Prüfungsverband: ${company.auditor}`, href: '#' },
     ],
@@ -25,6 +18,8 @@ const columns = [
     links: [
       { label: 'Impressum', href: '#' },
       { label: 'Datenschutz', href: '#' },
+      { label: 'Risikohinweis', href: '#' },
+      { label: 'Satzung', href: '#' },
     ],
   },
 ]

@@ -107,3 +107,20 @@ export function ConsentCheckbox({
     </label>
   )
 }
+
+/** Grey striped box standing in for a photo or logo that isn't supplied yet. */
+export function Placeholder({ label, className = '' }: { label: string; className?: string }) {
+  return (
+    <div className={`stripe-light rounded-card text-center ${className}`} role="img" aria-label={`Platzhalter: ${label}`}>
+      <span className="px-3">{label}</span>
+    </div>
+  )
+}
+
+export function Eyebrow({ children, onDark = false }: { children: ReactNode; onDark?: boolean }) {
+  return (
+    <p className={`m-0 mb-3 text-[13px] font-bold tracking-[0.08em] uppercase ${onDark ? 'text-green-dark' : 'text-brick'}`}>
+      {children}
+    </p>
+  )
+}

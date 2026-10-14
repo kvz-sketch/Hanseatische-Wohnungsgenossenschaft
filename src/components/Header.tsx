@@ -1,14 +1,29 @@
-import { useState } from 'react'
-import { nav } from '../data/content'
+import { useState, type ReactNode } from 'react'
 import { ButtonLink, Logo } from './ui'
 
-export default function Header() {
+type NavItem = { label: string; href: string }
+
+/**
+ * Sticky navy header. `aside` sits right of the nav on desktop and below the
+ * links in the mobile menu (e.g. login link, user name, logout).
+ */
+export default function Header({
+  nav,
+  aside,
+  cta,
+  homeHref = '/',
+}: {
+  nav: NavItem[]
+  aside?: ReactNode
+  cta?: NavItem
+  homeHref?: string
+}) {
   const [open, setOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-ink text-white">
       <div className="container-site flex h-[72px] items-center gap-8 px-5">
-        <a href="/" className="shrink-0 text-white hover:text-white" aria-label="Hanseatische Invest eG – Startseite">
+        <a href={homeHref} className="shrink-0 text-white hover:text-white" aria-label="Hanseatische Invest eG – Startseite">
           <Logo className="h-[50px] w-auto" />
         </a>
 
@@ -21,17 +36,17 @@ export default function Header() {
         </nav>
 
         <div className="ml-auto hidden items-center gap-4 lg:flex">
-          <a href="#" className="text-[15px] text-light-dark no-underline hover:text-white">
-            Mitglieder-Login
-          </a>
-          <ButtonLink href="/#termin" className="px-4 py-2.5">
-            Mein Erstgespräch buchen
-          </ButtonLink>
+          {aside}
+          {cta && (
+            <ButtonLink href={cta.href} className="px-4 py-2.5">
+              {cta.label}
+            </ButtonLink>
+          )}
         </div>
 
         <button
           type="button"
-          className="ml-auto inline-flex size-11 items-center justify-center rounded-control border border-white/20 lg:hidden"
+          className="ml-auto inline-flex size-11 cursor-pointer items-center justify-center rounded-control border border-white/20 bg-transparent text-white lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
@@ -57,17 +72,23 @@ export default function Header() {
                 </a>
               </li>
             ))}
-            <li>
-              <a href="#" className="block py-3.5 text-base text-light-dark no-underline">
-                Mitglieder-Login
-              </a>
-            </li>
           </ul>
-          <ButtonLink href="/#termin" className="mt-2 w-full">
-            Mein Erstgespräch buchen
-          </ButtonLink>
+          {aside && <div className="flex flex-wrap items-center gap-4 py-4">{aside}</div>}
+          {cta && (
+            <ButtonLink href={cta.href} className="w-full">
+              {cta.label}
+            </ButtonLink>
+          )}
         </nav>
       )}
     </header>
+  )
+}
+
+export function LoginLink() {
+  return (
+    <a href="/login/" className="text-[15px] text-light-dark no-underline hover:text-white">
+      Mitglieder-Login
+    </a>
   )
 }

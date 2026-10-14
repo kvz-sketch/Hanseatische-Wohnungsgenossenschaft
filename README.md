@@ -1,8 +1,8 @@
 # Hanseatische Invest eG — Website
 
-Rebuild of the Hanseatische Invest eG pages from the reference design at
-hansea.neo-labs.ai: the landing page (with calculator, share tracking, track
-record, FAQ) and the projects overview.
+Public landing page (built from the Hansea Invest wireframe brief) plus a
+members' area: members create an account with email and password, log in, and
+see their dashboard with shares, projects, track record and calculator.
 
 ## Stack
 
@@ -11,10 +11,11 @@ record, FAQ) and the projects overview.
 
 ## Pages
 
-| URL          | Entry                                            |
-| ------------ | ------------------------------------------------ |
-| `/`          | `index.html` → `src/pages/Home.tsx`              |
-| `/projekte/` | `projekte/index.html` → `src/pages/Projekte.tsx` |
+| URL            | Entry                                                   |
+| -------------- | ------------------------------------------------------- |
+| `/`            | `index.html` → `src/pages/Landing.tsx`                  |
+| `/login/`      | `login/index.html` → `src/pages/Login.tsx` (login + registration) |
+| `/mitglieder/` | `mitglieder/index.html` → `src/pages/Dashboard.tsx` (requires login) |
 
 Each page is its own HTML file (Vite multi-page build), so `dist/` runs on
 any static host without rewrite rules.
@@ -29,14 +30,27 @@ npm run build && npm run preview
 
 ## Content
 
-Copy, figures and project lists live in `src/data/content.ts`.
+- Landing page copy: `src/data/landing.ts`
+- Dashboard figures, sample shares and project lists: `src/data/content.ts`
+
+## Authentication (demo)
+
+`src/auth/auth.ts` stores accounts and the session in the browser's
+localStorage (passwords as salted PBKDF2 hashes). This is a preview only: it is
+not a security boundary and accounts don't sync between devices. When the site
+moves to WordPress, swap these functions for WordPress user accounts; the pages
+only use `register`, `login`, `logout` and `currentMember`.
+
+Every member currently sees the same sample portfolio (marked "Beispieldaten").
 
 ## Open items
 
 - Lead forms (`src/components/LeadForms.tsx`) have no backend yet: set
   `LEAD_ENDPOINT` to start receiving requests.
-- Impressum, Datenschutz, Risikohinweis, Satzung, Magazin and Mitglieder-Login
-  are placeholder links.
+- Impressum, Datenschutz, Risikohinweis, Satzung, book shop and press links
+  are placeholders (`href="#"`).
+- Image and logo placeholders (striped boxes) wait for real photos.
+- Public FAQ answers are "[Antworttext folgt]" per the brief.
 
 ## Deployment (netcup Webhosting)
 

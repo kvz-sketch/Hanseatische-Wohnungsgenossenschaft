@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { exampleShares, nextPayout, shareStages } from '../data/content'
+import { exampleShares, nextPayout, SHARE_PRICE, shareStages } from '../data/content'
 import { StageBar } from './ui'
+
+const euro = (v: number) => `${new Intl.NumberFormat('de-DE').format(v)} €`
 
 export default function ShareTracker() {
   const [active, setActive] = useState(0)
@@ -10,15 +12,15 @@ export default function ShareTracker() {
     <section id="verfolgen" className="section">
       <div className="container-site grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12">
         <div>
-          <p className="m-0 mb-3 text-[13px] font-bold text-brick">Anteilsverfolgung</p>
+          <p className="m-0 mb-3 text-[13px] font-bold text-brick">Meine Anteile</p>
           <h2 className="h2">Wo ist Ihr Geld gerade? Jeder Anteil hat ein Haus.</h2>
           <p className="m-0 mt-3 text-[17px] leading-relaxed text-ink-2">
-            Jeder Anteil steckt in einem konkreten Haus. Im Mitgliederportal sehen Sie Ihre Anteile genau so; hier drei
-            Beispiele.
+            Jeder Anteil steckt in einem konkreten Haus. Wählen Sie ein Anteilspaket, um Phase, Baufortschritt und
+            Ausschüttungen zu sehen.
           </p>
 
           <p id="hs-share-pick" className="m-0 mt-8 mb-3 text-[11px] font-bold tracking-[0.08em] text-muted uppercase">
-            Beispielanteil wählen
+            Anteilspaket wählen
           </p>
           <div role="radiogroup" aria-labelledby="hs-share-pick" className="grid max-w-[440px] gap-2">
             {exampleShares.map((s, i) => {
@@ -44,7 +46,7 @@ export default function ShareTracker() {
                   <span>
                     <span className="block text-[15px] font-bold">{s.city}</span>
                     <span className={`block text-[12px] ${on ? 'text-light-dark' : 'text-muted'}`}>
-                      {s.id} · {s.status}
+                      {s.id} · {s.units} Anteile · {euro(s.units * SHARE_PRICE)}
                     </span>
                   </span>
                 </button>
@@ -56,7 +58,9 @@ export default function ShareTracker() {
         <div className="rounded-card bg-section p-5 sm:p-6" aria-live="polite">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-0 flex-1 basis-[260px]">
-              <p className="m-0 text-[13px] text-muted">Beispielanteil {share.id}</p>
+              <p className="m-0 text-[13px] text-muted">
+                Anteilspaket {share.id} · {share.units} Anteile
+              </p>
               <p className="m-0 mt-1 flex items-center gap-2 text-[14px] font-bold text-brick">
                 <span className="size-2 rounded-full bg-brick" /> {share.status}
               </p>

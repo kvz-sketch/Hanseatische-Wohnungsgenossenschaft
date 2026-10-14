@@ -1,24 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { callSlots } from '../data/content'
+import { submitLead } from '../data/leads'
 import { toE164 } from '../data/phone'
 import { ConsentCheckbox } from './ui'
-
-// Lead forms have no backend yet. Set this to an endpoint that accepts a JSON
-// POST (e.g. a small PHP script on the host) to start receiving requests.
-const LEAD_ENDPOINT = ''
-
-async function submitLead(payload: Record<string, unknown>) {
-  if (!LEAD_ENDPOINT) {
-    console.warn('LEAD_ENDPOINT is not configured; lead not sent', payload)
-    return
-  }
-  const res = await fetch(LEAD_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
-  if (!res.ok) throw new Error(`Lead endpoint responded ${res.status}`)
-}
 
 const inputClass =
   'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:outline-none'
@@ -157,90 +141,6 @@ export function CallbackForm() {
           </p>
         </>
       )}
-    </form>
-  )
-}
-
-/** "Zugang anfordern" – access code request on the projects page. */
-export function AccessForm() {
-  const [contact, setContact] = useState('')
-  const [consent, setConsent] = useState(false)
-  const [errors, setErrors] = useState<{ contact?: string; consent?: boolean; send?: boolean }>({})
-  const [busy, setBusy] = useState(false)
-  const [done, setDone] = useState(false)
-
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault()
-    const value = contact.trim()
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-    const e164 = isEmail ? null : toE164(value)
-    const next = {
-      contact: isEmail || e164 ? undefined : 'Bitte geben Sie eine Mobilnummer oder E-Mail-Adresse ein.',
-      consent: !consent,
-    }
-    setErrors(next)
-    if (next.contact || next.consent) return
-    setBusy(true)
-    try {
-      await submitLead({ type: 'access', email: isEmail ? value : undefined, phone: e164 ?? undefined })
-      setDone(true)
-    } catch {
-      setErrors({ send: true })
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  return (
-    <form onSubmit={onSubmit} noValidate className="relative rounded-card bg-white p-6 text-ink sm:p-8">
-      <h2 className="m-0 text-[28px] font-extrabold tracking-tight">Zugang anfordern</h2>
-      <p className="m-0 mt-3 text-base text-ink-2">
-        Telefonnummer oder E-Mail-Adresse eingeben, Code empfangen, fertig. Kein Passwort, kein Konto.
-      </p>
-
-      {done ? (
-        <div className="mt-6">
-          <Done title="Code ist unterwegs." text="Prüfen Sie Ihre SMS oder Ihr Postfach." />
-        </div>
-      ) : (
-        <>
-          <label htmlFor="zugang-contact" className="mt-6 mb-2 block text-[14px] font-bold">
-            Telefonnummer oder E-Mail-Adresse
-          </label>
-          <input
-            id="zugang-contact"
-            autoComplete="email"
-            placeholder="0171 2345678 oder name@beispiel.de"
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
-            aria-invalid={!!errors.contact}
-            aria-describedby="zugang-contact-hint"
-            className={`${inputClass} ${errors.contact ? 'border-brick' : ''}`}
-          />
-          <p id="zugang-contact-hint" className={`m-0 mt-2 text-[13px] ${errors.contact ? 'text-brick' : 'text-muted'}`}>
-            {errors.contact ?? 'Mobilnummer so wie Sie sie wählen würden, oder Ihre E-Mail-Adresse.'}
-          </p>
-
-          <div className="mt-5">
-            <ConsentCheckbox checked={consent} onChange={setConsent} error={errors.consent}>
-              Ja, die Hanseatische Invest eG darf mir den Zugangscode an die angegebene Nummer oder Adresse senden und mich
-              zu meiner Anfrage kontaktieren. Ich kann diese Einwilligung jederzeit widerrufen.
-            </ConsentCheckbox>
-            {errors.consent && <p className="m-0 mt-2 text-[13px] text-brick">Bitte bestätigen Sie die Einwilligung.</p>}
-          </div>
-
-          <div className="mt-6">
-            <SubmitButton busy={busy}>Code senden</SubmitButton>
-          </div>
-          {errors.send && (
-            <p className="m-0 mt-3 text-[13px] text-brick">Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.</p>
-          )}
-        </>
-      )}
-
-      <p className="m-0 mt-4 text-[15px] text-ink-2">
-        Ihre Daten werden nur für den Zugang und eine mögliche Rückfrage verwendet. Keine Weitergabe, kein Newsletter.
-      </p>
     </form>
   )
 }
