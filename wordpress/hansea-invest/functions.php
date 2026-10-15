@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HANSEA_THEME_VERSION', '1.1.7' );
+define( 'HANSEA_THEME_VERSION', '1.1.8' );
 
 require_once __DIR__ . '/inc/views.php';
 require_once __DIR__ . '/inc/members.php';
@@ -20,4 +20,17 @@ require_once __DIR__ . '/inc/elementor.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
+} );
+
+/**
+ * HTML pages must be revalidated: the host's .htaccess default would let
+ * browsers keep a page for a week, hiding every edit made in Elementor.
+ * Static assets keep their long cache lifetimes.
+ */
+add_action( 'send_headers', function () {
+	if ( is_admin() || headers_sent() ) {
+		return;
+	}
+	header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
+	header_remove( 'Expires' );
 } );
