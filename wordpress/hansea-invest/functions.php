@@ -10,12 +10,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HANSEA_THEME_VERSION', '1.0.0' );
+define( 'HANSEA_THEME_VERSION', '1.1.7' );
 
 require_once __DIR__ . '/inc/views.php';
 require_once __DIR__ . '/inc/members.php';
 require_once __DIR__ . '/inc/rest.php';
 require_once __DIR__ . '/inc/leads.php';
+require_once __DIR__ . '/inc/elementor.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );

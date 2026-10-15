@@ -28,7 +28,10 @@ add_action( 'init', function () {
 	add_rewrite_rule( '^login/?$', 'index.php?hansea_view=login', 'top' );
 	add_rewrite_rule( '^mitglieder/?$', 'index.php?hansea_view=mitglieder', 'top' );
 
-	if ( get_option( 'hansea_rewrite_version' ) !== HANSEA_REWRITE_VERSION ) {
+	// Flush when our rules are new or missing: a plugin that flushes before
+	// the theme registers them (e.g. on activation) drops them otherwise.
+	$rules = get_option( 'rewrite_rules' );
+	if ( get_option( 'hansea_rewrite_version' ) !== HANSEA_REWRITE_VERSION || ! is_array( $rules ) || ! isset( $rules['^mitglieder/?$'] ) ) {
 		flush_rewrite_rules( false );
 		update_option( 'hansea_rewrite_version', HANSEA_REWRITE_VERSION );
 	}
@@ -45,7 +48,9 @@ function hansea_current_view() {
 	if ( $view && isset( HANSEA_VIEWS[ $view ] ) ) {
 		return $view;
 	}
-	return is_front_page() ? 'home' : null;
+	// A static front page (the Elementor landing page) renders itself;
+	// the React landing only stands in while the front page lists posts.
+	return is_front_page() && 'posts' === get_option( 'show_on_front' ) ? 'home' : null;
 }
 
 // Access rules: members' area needs a login, the login page doesn't.

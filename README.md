@@ -59,6 +59,24 @@ The theme provides REST endpoints under `/wp-json/hansea/v1/` (`register`,
 role; password reset uses WordPress's own email flow. Lead form submissions
 appear in wp-admin under *Anfragen* and are emailed to the admin address.
 
+## Elementor landing page
+
+The live front page is an Elementor page ("Startseite"), so the team can edit
+texts and images in WordPress. It was seeded from
+`scripts/build-elementor-landing.py`, which writes
+`wordpress/hansea-invest/elementor/landing.json`; the one-time importer
+`wordpress/mu-plugins/hansea-elementor-landing.php` (upload to
+`wp-content/mu-plugins/`, it deletes itself after running) creates the page,
+imports its images, makes it the front page and sets the brand colors and
+fonts in the Elementor kit. Re-running the importer only updates the page while
+nobody has edited it in Elementor.
+
+Supporting pieces in the theme: `elementor/hansea-elementor.css` (self-hosted
+Cormorant Garamond and Inter, sticky header, placeholders), the
+`[hansea_kontakt]` shortcode (contact form; Elementor's free version has no
+form widget) and `page.php` for other Elementor pages. Login and dashboard stay
+React pages from the theme.
+
 ## Authentication (demo)
 
 Outside the WordPress build, `src/auth/auth.ts` stores accounts and the session in the browser's
