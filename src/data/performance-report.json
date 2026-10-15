@@ -1,0 +1,933 @@
+{
+  "asOf": "15. Oktober 2026",
+  "updatedAt": "2026-10-15",
+  "note": "Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto GIGxHansea (Stand 15. Oktober 2026). Lead-Zahlen aus Perspective — echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt — ersetzen die von Meta gemeldeten Website-Leads. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.",
+  "metaAdAccount": {
+    "id": "1606528074401845",
+    "name": "GIGxHansea"
+  },
+  "funnelExtraLeads": {},
+  "campaigns": [
+    {
+      "id": "bergedorf",
+      "name": "290926_HSWG_Bergedorf_Static",
+      "meta": {
+        "level": "adset",
+        "id": "120250588064630344"
+      },
+      "status": "active",
+      "objective": "Website Leads",
+      "dailyBudget": 150,
+      "spend": 2516.45,
+      "reach": 25902,
+      "impressions": 63955,
+      "delivery": "29. Sep 2026 – laufend",
+      "recommendations": 2,
+      "metaResults": 17,
+      "metaCostPerResult": 148.03,
+      "perspectiveLeads": 23,
+      "perspectiveFunnel": "Hamburg-Bergedorf Off-Market Landing Page",
+      "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
+      "perspectiveFunnelId": "6a7ed6e71f79146cdd7611b7",
+      "leadStatus": {
+        "neu": 5,
+        "nichtErreicht": 0,
+        "disqualifiziert": 2,
+        "abschluss": 1
+      },
+      "ads": [
+        {
+          "id": "ad1",
+          "name": "280926_Bergedorf_Ad1",
+          "metaAdId": "120250588084060344",
+          "image": "280926_Bergedorf_Ad1",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 16.25,
+          "reach": 595,
+          "impressions": 1977
+        },
+        {
+          "id": "ad2",
+          "name": "280926_Bergedorf_Ad2",
+          "metaAdId": "120250588093350344",
+          "image": "280926_Bergedorf_Ad2",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 33.45,
+          "reach": 996,
+          "impressions": 1624
+        },
+        {
+          "id": "ad3",
+          "name": "280926_Bergedorf_Ad3",
+          "metaAdId": "120250588102310344",
+          "image": "280926_Bergedorf_Ad3",
+          "metaResults": 9,
+          "metaCostPerResult": 131.97,
+          "spend": 1187.69,
+          "reach": 12121,
+          "impressions": 24055,
+          "perspectiveLeads": 11,
+          "leadDates": [
+            "2026-10-05",
+            "2026-10-05",
+            "2026-10-07",
+            "2026-10-09",
+            "2026-10-09",
+            "2026-10-11",
+            "2026-10-11",
+            "2026-10-12",
+            "2026-10-12",
+            "2026-10-14",
+            "2026-10-15"
+          ]
+        },
+        {
+          "id": "ad4",
+          "name": "280926_Bergedorf_Ad4",
+          "metaAdId": "120250588111710344",
+          "image": "280926_Bergedorf_Ad4",
+          "metaResults": 6,
+          "metaCostPerResult": 136.22,
+          "spend": 817.29,
+          "reach": 8284,
+          "impressions": 18066,
+          "perspectiveLeads": 8,
+          "leadDates": [
+            "2026-09-29",
+            "2026-10-02",
+            "2026-10-02",
+            "2026-10-06",
+            "2026-10-07",
+            "2026-10-11",
+            "2026-10-12",
+            "2026-10-13"
+          ]
+        },
+        {
+          "id": "ad5",
+          "name": "280926_Bergedorf_Ad5",
+          "metaAdId": "120250588121750344",
+          "image": "280926_Bergedorf_Ad5",
+          "metaResults": 1,
+          "metaCostPerResult": 222.61,
+          "spend": 222.61,
+          "reach": 2546,
+          "impressions": 5127,
+          "perspectiveLeads": 1,
+          "leadDates": [
+            "2026-09-29"
+          ]
+        },
+        {
+          "id": "ad6",
+          "name": "280926_Bergedorf_Ad6",
+          "metaAdId": "120250588134270344",
+          "image": "280926_Bergedorf_Ad6",
+          "metaResults": 1,
+          "metaCostPerResult": 100.52,
+          "spend": 100.52,
+          "reach": 1558,
+          "impressions": 3321,
+          "perspectiveLeads": 2,
+          "leadDates": [
+            "2026-10-07",
+            "2026-10-15"
+          ]
+        },
+        {
+          "id": "ad7",
+          "name": "280926_Bergedorf_Ad7",
+          "metaAdId": "120250588148250344",
+          "image": "280926_Bergedorf_Ad7",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 27.88,
+          "reach": 1964,
+          "impressions": 4339
+        },
+        {
+          "id": "ad8",
+          "name": "280926_Bergedorf_Ad8",
+          "metaAdId": "120250588161530344",
+          "image": "280926_Bergedorf_Ad8",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 22.9,
+          "reach": 552,
+          "impressions": 1004
+        },
+        {
+          "id": "ad9",
+          "name": "280926_Bergedorf_Ad9",
+          "metaAdId": "120250588174230344",
+          "image": "280926_Bergedorf_Ad9",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 87.86,
+          "reach": 2579,
+          "impressions": 4442,
+          "perspectiveLeads": 1,
+          "leadDates": [
+            "2026-09-30"
+          ]
+        }
+      ],
+      "note": "Meta meldet 17 Website-Leads bei 148,03 € je Lead — Perspective bestätigt 23 echte Kontakte (280926_Bergedorf_Ad3: 11, 280926_Bergedorf_Ad4: 8, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 2, 280926_Bergedorf_Ad9: 1). 4 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 15. Oktober 2026.",
+      "incomplete": false
+    },
+    {
+      "id": "hansea-invest-videos",
+      "name": "250926_Hansea Invest_Videos",
+      "meta": {
+        "level": "adset",
+        "id": "120250504703280344"
+      },
+      "status": "off",
+      "objective": "Website Leads",
+      "dailyBudget": 150,
+      "spend": 396.92,
+      "reach": 7679,
+      "impressions": 11672,
+      "delivery": "25. Sep 2026 – pausiert",
+      "recommendations": 5,
+      "metaResults": 2,
+      "metaCostPerResult": 198.46,
+      "perspectiveLeads": 2,
+      "perspectiveFunnel": "Hansea Invest – Investor Landing Page",
+      "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
+      "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
+      "leadStatus": {
+        "neu": 2,
+        "nichtErreicht": 0,
+        "disqualifiziert": 0
+      },
+      "ads": [
+        {
+          "id": "video1",
+          "name": "250926_Hansea Invest_Videos",
+          "metaAdId": "120250504703270344",
+          "image": "261005_hanseainvest_ads_kai_1",
+          "videoUrl": "https://drive.google.com/file/d/1j5hliFDCDd0NRZe8INuwqUecqNGB0D8c/view?usp=sharing",
+          "metaResults": 2,
+          "metaCostPerResult": 183.83,
+          "spend": 367.66,
+          "reach": 7557,
+          "impressions": 11190,
+          "perspectiveLeads": 2,
+          "leadDates": [
+            "2026-10-03",
+            "2026-10-04"
+          ]
+        },
+        {
+          "id": "video2",
+          "name": "250926_Hansea Invest_Video 2",
+          "metaAdId": "120250746161120344",
+          "image": "261005_hanseainvest_ads_kai_2",
+          "videoUrl": "https://drive.google.com/file/d/10dbL2J4DB34mCyb85BSELPx4lFaXcJ_y/view?usp=sharing",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 4.61,
+          "reach": 77,
+          "impressions": 106
+        },
+        {
+          "id": "video3",
+          "name": "250926_Hansea Invest_Video 3",
+          "metaAdId": "120250746280360344",
+          "image": "261005_hanseainvest_ads_kai_3",
+          "videoUrl": "https://drive.google.com/file/d/1fRYAqebui1OPbla3FC_MGmZWpszYK6Lr/view?usp=sharing",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 24.65,
+          "reach": 222,
+          "impressions": 376
+        }
+      ],
+      "note": "Meta meldet 2 Website-Leads bei 198,46 € je Lead — Perspective bestätigt 2 echte Kontakte (250926_Hansea Invest_Videos: 2). Stand 15. Oktober 2026.",
+      "incomplete": false
+    },
+    {
+      "id": "hohenfelde",
+      "name": "240926_HI_Hohenfelde_Static",
+      "meta": {
+        "level": "adset",
+        "id": "120250488580350344"
+      },
+      "status": "off",
+      "objective": "Website Leads",
+      "dailyBudget": 150,
+      "spend": 2710.36,
+      "reach": 19081,
+      "impressions": 45947,
+      "delivery": "24. Sep 2026 – pausiert",
+      "recommendations": 5,
+      "metaResults": 11,
+      "metaCostPerResult": 246.4,
+      "perspectiveLeads": 15,
+      "perspectiveFunnel": "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
+      "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/hohenfeld/",
+      "perspectiveFunnelId": "6ab4ccdf135b22ad2053f63a",
+      "leadStatus": {
+        "neu": 7,
+        "nichtErreicht": 3,
+        "disqualifiziert": 4
+      },
+      "ads": [
+        {
+          "id": "ad1",
+          "name": "240926_HI_Hohenfelde_Ad1",
+          "metaAdId": "120250488580340344",
+          "image": "240926_HI_Hohenfelde_Ad1",
+          "metaResults": 10,
+          "metaCostPerResult": 214.21,
+          "spend": 2142.09,
+          "reach": 16006,
+          "impressions": 34814,
+          "perspectiveLeads": 13,
+          "leadDates": [
+            "2026-09-26",
+            "2026-09-27",
+            "2026-09-27",
+            "2026-09-29",
+            "2026-09-29",
+            "2026-10-01",
+            "2026-10-01",
+            "2026-10-02",
+            "2026-10-03",
+            "2026-10-03",
+            "2026-10-04",
+            "2026-10-04",
+            "2026-10-10"
+          ]
+        },
+        {
+          "id": "ad2",
+          "name": "240926_HI_Hohenfelde_Ad2",
+          "metaAdId": "120250488985380344",
+          "image": "240926_HI_Hohenfelde_Ad2",
+          "metaResults": 1,
+          "metaCostPerResult": 568.27,
+          "spend": 568.27,
+          "reach": 6596,
+          "impressions": 11133,
+          "perspectiveLeads": 2,
+          "leadDates": [
+            "2026-09-26",
+            "2026-10-06"
+          ]
+        }
+      ],
+      "note": "Meta meldet 11 Website-Leads bei 246,40 € je Lead — Perspective bestätigt 15 echte Kontakte (240926_HI_Hohenfelde_Ad1: 13, 240926_HI_Hohenfelde_Ad2: 2). Stand 15. Oktober 2026.",
+      "incomplete": false
+    },
+    {
+      "id": "hansea-invest-static",
+      "name": "160926_Hansea Invest_Static Ads_Funnel",
+      "meta": {
+        "level": "adset",
+        "id": "120250456208750344"
+      },
+      "status": "off",
+      "objective": "Website Leads",
+      "dailyBudget": 150,
+      "spend": 2324.03,
+      "reach": 43455,
+      "impressions": 297604,
+      "delivery": "24. Sep 2026 – pausiert",
+      "recommendations": 6,
+      "metaResults": 10,
+      "metaCostPerResult": 232.4,
+      "perspectiveLeads": 12,
+      "perspectiveFunnel": "Hansea Invest – Investor Landing Page",
+      "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
+      "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
+      "leadStatus": {
+        "neu": 2,
+        "nichtErreicht": 2,
+        "disqualifiziert": 4
+      },
+      "note": "Meta meldet 10 Website-Leads bei 232,40 € je Lead — Perspective bestätigt 12 echte Kontakte (02-HI_Immobilienbeteiligung: 11, 06-HI_Selbstvermieter: 1). Stand 15. Oktober 2026.",
+      "ads": [
+        {
+          "id": "ad01",
+          "name": "01-HI_Immobilienwert",
+          "metaAdId": "120250456208810344",
+          "badge": "Unveröffentlichte Änderungen",
+          "image": "01-HI_Immobilienwert",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 25.18,
+          "reach": 753,
+          "impressions": 2932
+        },
+        {
+          "id": "ad02",
+          "name": "02-HI_Immobilienbeteiligung",
+          "metaAdId": "120250456208830344",
+          "image": "02-HI_Immobilienbeteiligung",
+          "metaResults": 9,
+          "metaCostPerResult": 235.98,
+          "spend": 2123.85,
+          "reach": 32562,
+          "impressions": 121997,
+          "perspectiveLeads": 11,
+          "leadDates": [
+            "2026-09-26",
+            "2026-09-29",
+            "2026-09-29",
+            "2026-10-01",
+            "2026-10-01",
+            "2026-10-03",
+            "2026-10-04",
+            "2026-10-07",
+            "2026-10-09",
+            "2026-10-09",
+            "2026-10-10"
+          ]
+        },
+        {
+          "id": "ad03",
+          "name": "03-HI_Kai_Investieren",
+          "metaAdId": "120250456208740344",
+          "image": "03-HI_Kai_Investieren",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 2.97,
+          "reach": 296,
+          "impressions": 892
+        },
+        {
+          "id": "ad04",
+          "name": "04-HI_Connie_Immobilienentwicklung",
+          "metaAdId": "120250456208820344",
+          "image": "04-HI_Connie_Immobilienentwicklung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 6.16,
+          "reach": 915,
+          "impressions": 5437
+        },
+        {
+          "id": "ad05",
+          "name": "05-HI_So_entsteht_Rendite",
+          "metaAdId": "120250456208780344",
+          "image": "05-HI_So_entsteht_Rendite",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 24.47,
+          "reach": 3461,
+          "impressions": 65120
+        },
+        {
+          "id": "ad06",
+          "name": "06-HI_Selbstvermieter",
+          "metaAdId": "120250456208770344",
+          "image": "06-HI_Selbstvermieter",
+          "metaResults": 1,
+          "metaCostPerResult": 83.11,
+          "spend": 83.11,
+          "reach": 6994,
+          "impressions": 93150,
+          "perspectiveLeads": 1,
+          "leadDates": [
+            "2026-09-26"
+          ]
+        },
+        {
+          "id": "ad07",
+          "name": "07-HI_Kai_Testimonial",
+          "metaAdId": "120250456208790344",
+          "image": "07-HI_Kai_Testimonial",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0.09,
+          "reach": 19,
+          "impressions": 37
+        },
+        {
+          "id": "ad08",
+          "name": "08-HI_Ja_Nein",
+          "metaAdId": "120250456208800344",
+          "image": "08-HI_Ja_Nein",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 9.75,
+          "reach": 498,
+          "impressions": 1779
+        },
+        {
+          "id": "ad09",
+          "name": "09-HI_EFT_Vergleich",
+          "metaAdId": "120250456208760344",
+          "image": "09-HI_EFT_Vergleich",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 48.45,
+          "reach": 1758,
+          "impressions": 6260
+        }
+      ],
+      "incomplete": false
+    },
+    {
+      "id": "hansea-invest-qualified",
+      "name": "160926_Hansea Invest_Static Ads_Funnel_qualified Lead",
+      "meta": {
+        "level": "adset",
+        "id": "120250297705060344"
+      },
+      "status": "off",
+      "objective": "Marketing-qualifizierter Lead",
+      "dailyBudget": 150,
+      "spend": 796.72,
+      "reach": 27005,
+      "impressions": 151863,
+      "delivery": "21. Sep 2026 – pausiert",
+      "recommendations": 2,
+      "metaResults": 0,
+      "metaCostPerResult": null,
+      "perspectiveLeads": 2,
+      "perspectiveFunnel": "Hansea Invest – Investor Landing Page",
+      "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
+      "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
+      "incomplete": false,
+      "note": "Meta meldet keine Website-Leads — Perspective bestätigt 2 echte Kontakte (02-HI_Immobilienbeteiligung_qualified Lead: 2). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 15. Oktober 2026.",
+      "ads": [
+        {
+          "id": "q-ad01",
+          "name": "01-HI_Immobilienwert_qualified Lead",
+          "metaAdId": "120250297705050344",
+          "badge": "Kopie",
+          "image": "01-HI_Immobilienwert",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 20.2,
+          "reach": 579,
+          "impressions": 966
+        },
+        {
+          "id": "q-ad02",
+          "name": "02-HI_Immobilienbeteiligung_qualified Lead",
+          "metaAdId": "120250395167050344",
+          "image": "02-HI_Immobilienbeteiligung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 351.14,
+          "reach": 6680,
+          "impressions": 29642,
+          "perspectiveLeads": 2,
+          "leadDates": [
+            "2026-09-28",
+            "2026-09-28"
+          ]
+        },
+        {
+          "id": "q-ad03",
+          "name": "03-HI_Kai_Investieren_qualified Lead",
+          "metaAdId": "120250395175740344",
+          "image": "03-HI_Kai_Investieren",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 150.97,
+          "reach": 10529,
+          "impressions": 44484
+        },
+        {
+          "id": "q-ad04",
+          "name": "04-HI_Connie_Immobilienentwicklung_qualified Lead",
+          "metaAdId": "120250395183020344",
+          "image": "04-HI_Connie_Immobilienentwicklung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 16.25,
+          "reach": 413,
+          "impressions": 1299
+        },
+        {
+          "id": "q-ad05",
+          "name": "05-HI_So_entsteht_Rendite_qualified Lead",
+          "metaAdId": "120250395191210344",
+          "image": "05-HI_So_entsteht_Rendite",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 42.55,
+          "reach": 2970,
+          "impressions": 23734
+        },
+        {
+          "id": "q-ad06",
+          "name": "06-HI_Selbstvermieter_qualified Lead",
+          "metaAdId": "120250395202440344",
+          "image": "06-HI_Selbstvermieter",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 125.69,
+          "reach": 6078,
+          "impressions": 35285
+        },
+        {
+          "id": "q-ad07",
+          "name": "07-HI_Kai_Testimonial_qualified Lead",
+          "metaAdId": "120250395208070344",
+          "image": "07-HI_Kai_Testimonial",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 12.96,
+          "reach": 484,
+          "impressions": 1768
+        },
+        {
+          "id": "q-ad08",
+          "name": "08-HI_Ja_Nein_qualified Lead",
+          "metaAdId": "120250395211880344",
+          "image": "08-HI_Ja_Nein",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 74.66,
+          "reach": 4955,
+          "impressions": 13933
+        },
+        {
+          "id": "q-ad09",
+          "name": "09-HI_EFT Vergleich_qualified Lead",
+          "metaAdId": "120250395252060344",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 2.3,
+          "reach": 210,
+          "impressions": 752,
+          "image": "09-HI_EFT_Vergleich"
+        }
+      ]
+    },
+    {
+      "id": "fullservice",
+      "name": "051026_HSWG_FullService_Leads",
+      "meta": {
+        "level": "campaign",
+        "id": "120250714384470344"
+      },
+      "status": "active",
+      "objective": "Website Leads",
+      "dailyBudget": 150,
+      "spend": 1553.64,
+      "reach": 17665,
+      "impressions": 39364,
+      "delivery": "5. Okt 2026 – laufend",
+      "recommendations": 0,
+      "metaResults": 7,
+      "metaCostPerResult": 221.95,
+      "perspectiveLeads": 13,
+      "perspectiveFunnel": "Full-Service-Modell für Kapitalanlage-Immobilien",
+      "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
+      "perspectiveFunnelId": "6a7ee16e1f79146cdd766f9c",
+      "incomplete": false,
+      "note": "Meta meldet 7 Website-Leads bei 221,95 € je Lead — Perspective bestätigt 13 echte Kontakte (051026_HSWG_FullService_4: 1, 051026_HSWG_FullService_5: 6, 051026_HSWG_FullService_6: 1, 081026_Kai & Tanem Video 3: 5). Stand 15. Oktober 2026.",
+      "ads": [
+        {
+          "id": "ad1",
+          "name": "051026_HSWG_FullService_1",
+          "metaAdId": "120250719384410344",
+          "image": "051026_HSWG_FullService_1",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 32.78,
+          "reach": 1071,
+          "impressions": 1992
+        },
+        {
+          "id": "ad2",
+          "name": "051026_HSWG_FullService_2",
+          "metaAdId": "120250719385730344",
+          "image": "051026_HSWG_FullService_2",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 33.11,
+          "reach": 476,
+          "impressions": 792
+        },
+        {
+          "id": "ad3",
+          "name": "051026_HSWG_FullService_3",
+          "metaAdId": "120250719386930344",
+          "image": "051026_HSWG_FullService_3",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 26.16,
+          "reach": 559,
+          "impressions": 827
+        },
+        {
+          "id": "ad4",
+          "name": "051026_HSWG_FullService_4",
+          "metaAdId": "120250719389280344",
+          "image": "051026_HSWG_FullService_4",
+          "metaResults": 1,
+          "metaCostPerResult": 14.72,
+          "spend": 14.72,
+          "reach": 178,
+          "impressions": 299,
+          "perspectiveLeads": 1,
+          "leadDates": [
+            "2026-10-06"
+          ]
+        },
+        {
+          "id": "ad5",
+          "name": "051026_HSWG_FullService_5",
+          "metaAdId": "120250719390740344",
+          "image": "051026_HSWG_FullService_5",
+          "metaResults": 4,
+          "metaCostPerResult": 135.5,
+          "spend": 541.99,
+          "reach": 11064,
+          "impressions": 23619,
+          "perspectiveLeads": 6,
+          "leadDates": [
+            "2026-10-05",
+            "2026-10-06",
+            "2026-10-07",
+            "2026-10-08",
+            "2026-10-11",
+            "2026-10-13"
+          ]
+        },
+        {
+          "id": "ad6",
+          "name": "051026_HSWG_FullService_6",
+          "metaAdId": "120250719392200344",
+          "image": "051026_HSWG_FullService_6",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 31.44,
+          "reach": 632,
+          "impressions": 869,
+          "perspectiveLeads": 1,
+          "leadDates": [
+            "2026-10-06"
+          ]
+        },
+        {
+          "id": "ad7",
+          "name": "051026_HSWG_FullService_7",
+          "metaAdId": "120250719394690344",
+          "image": "051026_HSWG_FullService_7",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 27.92,
+          "reach": 773,
+          "impressions": 1619
+        },
+        {
+          "id": "ad8",
+          "name": "051026_HSWG_FullService_8",
+          "metaAdId": "120250719396180344",
+          "image": "051026_HSWG_FullService_8",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 6.37,
+          "reach": 199,
+          "impressions": 315
+        },
+        {
+          "id": "ad9",
+          "name": "081026_Kai & Tanem Video 1",
+          "metaAdId": "120250799158990344",
+          "image": "081026_Kai_Tanem_Video_1",
+          "videoUrl": "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 52.27,
+          "reach": 449,
+          "impressions": 579
+        },
+        {
+          "id": "ad10",
+          "name": "081026_Kai & Tanem Video 2",
+          "metaAdId": "120250799284710344",
+          "image": "081026_Kai_Tanem_Video_2",
+          "videoUrl": "https://drive.google.com/file/d/1lviaOcHK10y3lPFMsaa1yXS9QDJHmsB8/view?usp=sharing",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 7.31,
+          "reach": 55,
+          "impressions": 69
+        },
+        {
+          "id": "ad11",
+          "name": "081026_Kai & Tanem Video 3",
+          "metaAdId": "120250799378270344",
+          "image": "081026_Kai_Tanem_Video_3",
+          "videoUrl": "https://drive.google.com/file/d/1IJKysKs-8y_ZJuzxiHDP_WE6Svh7Wb6D/view?usp=sharing",
+          "metaResults": 2,
+          "metaCostPerResult": 389.79,
+          "spend": 779.57,
+          "reach": 4366,
+          "impressions": 8384,
+          "perspectiveLeads": 5,
+          "leadDates": [
+            "2026-10-09",
+            "2026-10-11",
+            "2026-10-12",
+            "2026-10-12",
+            "2026-10-14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fullservice-leadform",
+      "name": "051026_HSWG_FullService_Leadform",
+      "meta": {
+        "level": "campaign",
+        "id": "120250799876460344"
+      },
+      "status": "active",
+      "objective": "Leads (Formular)",
+      "dailyBudget": 200,
+      "spend": 1023.42,
+      "reach": 17361,
+      "impressions": 22824,
+      "delivery": "9. Okt 2026 – laufend",
+      "recommendations": 0,
+      "metaResults": 31,
+      "metaCostPerResult": 33.01,
+      "perspectiveLeads": 0,
+      "perspectiveFunnel": "Full-Service-Modell – Meta Lead-Formular (kein Perspective-Funnel)",
+      "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
+      "leadSource": "meta-form",
+      "incomplete": false,
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel — Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse.",
+      "ads": [
+        {
+          "id": "lf-ad1",
+          "name": "051026_HSWG_FullService_1_Leadform",
+          "metaAdId": "120250799876450344",
+          "image": "051026_HSWG_FullService_1",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 2.37,
+          "reach": 82,
+          "impressions": 111
+        },
+        {
+          "id": "lf-ad2",
+          "name": "051026_HSWG_FullService_2_Leadform",
+          "metaAdId": "120250799876440344",
+          "image": "051026_HSWG_FullService_2",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0.88,
+          "reach": 7,
+          "impressions": 11
+        },
+        {
+          "id": "lf-ad3",
+          "name": "051026_HSWG_FullService_3_Leadform",
+          "metaAdId": "120250799876430344",
+          "image": "051026_HSWG_FullService_3",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 3.74,
+          "reach": 61,
+          "impressions": 67
+        },
+        {
+          "id": "lf-ad4",
+          "name": "051026_HSWG_FullService_4_Leadform",
+          "metaAdId": "120250799876480344",
+          "image": "051026_HSWG_FullService_4",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0.16,
+          "reach": 2,
+          "impressions": 3
+        },
+        {
+          "id": "lf-ad5",
+          "name": "051026_HSWG_FullService_5_Leadform",
+          "metaAdId": "120250799876420344",
+          "image": "051026_HSWG_FullService_5",
+          "metaResults": 3,
+          "metaCostPerResult": 9.1,
+          "spend": 27.31,
+          "reach": 669,
+          "impressions": 925
+        },
+        {
+          "id": "lf-ad6",
+          "name": "051026_HSWG_FullService_6_Leadform",
+          "metaAdId": "120250799876530344",
+          "image": "051026_HSWG_FullService_6",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 1.14,
+          "reach": 15,
+          "impressions": 15
+        },
+        {
+          "id": "lf-ad7",
+          "name": "051026_HSWG_FullService_7_Leadform",
+          "metaAdId": "120250799876520344",
+          "image": "051026_HSWG_FullService_7",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 1.34,
+          "reach": 24,
+          "impressions": 28
+        },
+        {
+          "id": "lf-ad8",
+          "name": "051026_HSWG_FullService_8_Leadform",
+          "metaAdId": "120250799876410344",
+          "image": "051026_HSWG_FullService_8",
+          "metaResults": 1,
+          "metaCostPerResult": 12.6,
+          "spend": 12.6,
+          "reach": 214,
+          "impressions": 253
+        },
+        {
+          "id": "lf-ad9",
+          "name": "081026_Kai & Tanem Video 1_Leadform",
+          "metaAdId": "120250799876540344",
+          "image": "081026_Kai_Tanem_Video_1",
+          "videoUrl": "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing",
+          "metaResults": 6,
+          "metaCostPerResult": 32.42,
+          "spend": 194.51,
+          "reach": 1143,
+          "impressions": 1354
+        },
+        {
+          "id": "lf-ad10",
+          "name": "081026_Kai & Tanem Video 2_Leadform",
+          "metaAdId": "120250799876490344",
+          "image": "081026_Kai_Tanem_Video_2",
+          "videoUrl": "https://drive.google.com/file/d/1lviaOcHK10y3lPFMsaa1yXS9QDJHmsB8/view?usp=sharing",
+          "metaResults": 7,
+          "metaCostPerResult": 21.6,
+          "spend": 151.17,
+          "reach": 1024,
+          "impressions": 1079
+        },
+        {
+          "id": "lf-ad11",
+          "name": "081026_Kai & Tanem Video 3_Leadform",
+          "metaAdId": "120250799876470344",
+          "image": "081026_Kai_Tanem_Video_3",
+          "videoUrl": "https://drive.google.com/file/d/1IJKysKs-8y_ZJuzxiHDP_WE6Svh7Wb6D/view?usp=sharing",
+          "metaResults": 14,
+          "metaCostPerResult": 44.87,
+          "spend": 628.2,
+          "reach": 14860,
+          "impressions": 18978
+        }
+      ],
+      "unattributedLeadsCount": 31
+    }
+  ]
+}

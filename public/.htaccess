@@ -24,6 +24,10 @@
   <FilesMatch "^index\.html$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
+  # Refreshed daily in place (same name, no hash) — always revalidate.
+  <FilesMatch "^performance-report\.json$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
 # Vite outputs directory listings-free hashed filenames; block listing anyway.

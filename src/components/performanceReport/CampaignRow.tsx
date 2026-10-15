@@ -81,7 +81,10 @@ export function CampaignRow({
             value={isFiltered ? "—" : String(campaign.metaResults)}
             sub={!isFiltered && campaign.metaCostPerResult != null ? `${fmtEur(campaign.metaCostPerResult)} / Ergebnis` : undefined}
           />
-          <Stat label="Perspective-Leads" value={String(periodLeads)} />
+          <Stat
+            label={campaign.leadSource === "meta-form" ? "Formular-Leads (Meta)" : "Perspective-Leads"}
+            value={campaign.leadSource === "meta-form" && isFiltered ? "—" : String(periodLeads)}
+          />
           <Stat label="CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "—"} />
           <Stat
             label="Ausgegeben"

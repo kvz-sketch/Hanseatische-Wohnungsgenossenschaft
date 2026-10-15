@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Daily report refresh inputs (contain personal data) — never commit
+.report-input/

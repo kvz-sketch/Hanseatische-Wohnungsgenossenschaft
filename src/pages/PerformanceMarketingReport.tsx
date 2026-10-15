@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "../router";
 import { RoofIcon } from "../components/brandbook/RoofIcon";
 import { CampaignRow } from "../components/performanceReport/CampaignRow";
-import { reportMeta, campaigns, funnelExtraLeads } from "../data/performanceReport";
+import { useReport, type Campaign } from "../data/performanceReport";
 import {
   buildPeriodOptions,
   campaignLeadsInPeriod,
@@ -18,10 +18,10 @@ const fmtNum = (v: number) => v.toLocaleString("de-DE");
 type FunnelGroup = {
   funnel: string;
   funnelUrl: string;
-  campaigns: typeof campaigns;
+  campaigns: Campaign[];
 };
 
-function groupByFunnel(items: typeof campaigns): FunnelGroup[] {
+function groupByFunnel(items: Campaign[]): FunnelGroup[] {
   const groups: FunnelGroup[] = [];
   for (const c of items) {
     let group = groups.find((g) => g.funnel === c.perspectiveFunnel);
@@ -35,12 +35,13 @@ function groupByFunnel(items: typeof campaigns): FunnelGroup[] {
 }
 
 export function PerformanceMarketingReport() {
+  const { asOf, campaigns, funnelExtraLeads } = useReport();
   const [periodMode, setPeriodMode] = useState<PeriodMode>("all");
   const [periodKey, setPeriodKey] = useState<string | null>(null);
 
   const { weeks, months } = useMemo(
     () => buildPeriodOptions(collectAllLeadDates(campaigns, funnelExtraLeads)),
-    [],
+    [campaigns, funnelExtraLeads],
   );
   const options = periodMode === "week" ? weeks : periodMode === "month" ? months : [];
   const activeKey = periodKey ?? options[0]?.key ?? null;
@@ -88,7 +89,7 @@ export function PerformanceMarketingReport() {
           <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
             <h1 className="font-serif-display text-[30px] text-white sm:text-[38px]">Performance Marketing Report</h1>
             <span className="rounded-[2px] bg-white/10 px-3 py-1.5 text-[12px] font-bold text-white">
-              Stand: {reportMeta.asOf}
+              Stand: {asOf}
             </span>
           </div>
         </div>
@@ -195,7 +196,7 @@ export function PerformanceMarketingReport() {
 
       <footer className="border-t border-navy/8 px-5 py-8 sm:px-8 lg:px-11">
         <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-3 text-[11.5px] text-muted sm:flex-row sm:items-center">
-          <span>Performance Marketing Report · Stand {reportMeta.asOf} — Gerlach Immobilien Gruppe</span>
+          <span>Performance Marketing Report · Stand {asOf} — Gerlach Immobilien Gruppe</span>
           <Link to="/dashboard" className="font-bold uppercase tracking-[0.08em] text-navy hover:text-koralle">
             ← Zurück zum Dashboard
           </Link>
