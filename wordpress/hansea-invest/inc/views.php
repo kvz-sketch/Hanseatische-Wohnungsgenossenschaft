@@ -19,19 +19,24 @@ const HANSEA_VIEWS = array(
 		'entry' => 'src/mitglieder.tsx',
 		'title' => 'Mitgliederbereich',
 	),
+	'passwort'   => array(
+		'entry' => 'src/passwort.tsx',
+		'title' => 'Passwort festlegen',
+	),
 );
 
 // Bump when the rewrite rules change so they are flushed once.
-const HANSEA_REWRITE_VERSION = '1';
+const HANSEA_REWRITE_VERSION = '2';
 
 add_action( 'init', function () {
 	add_rewrite_rule( '^login/?$', 'index.php?hansea_view=login', 'top' );
 	add_rewrite_rule( '^mitglieder/?$', 'index.php?hansea_view=mitglieder', 'top' );
+	add_rewrite_rule( '^passwort-vergessen/?$', 'index.php?hansea_view=passwort', 'top' );
 
 	// Flush when our rules are new or missing: a plugin that flushes before
 	// the theme registers them (e.g. on activation) drops them otherwise.
 	$rules = get_option( 'rewrite_rules' );
-	if ( get_option( 'hansea_rewrite_version' ) !== HANSEA_REWRITE_VERSION || ! is_array( $rules ) || ! isset( $rules['^mitglieder/?$'] ) ) {
+	if ( get_option( 'hansea_rewrite_version' ) !== HANSEA_REWRITE_VERSION || ! is_array( $rules ) || ! isset( $rules['^mitglieder/?$'], $rules['^passwort-vergessen/?$'] ) ) {
 		flush_rewrite_rules( false );
 		update_option( 'hansea_rewrite_version', HANSEA_REWRITE_VERSION );
 	}
@@ -64,7 +69,7 @@ add_action( 'template_redirect', function () {
 		wp_safe_redirect( home_url( '/mitglieder/' ) );
 		exit;
 	}
-	if ( in_array( $view, array( 'login', 'mitglieder' ), true ) ) {
+	if ( in_array( $view, array( 'login', 'mitglieder', 'passwort' ), true ) ) {
 		nocache_headers();
 	}
 } );

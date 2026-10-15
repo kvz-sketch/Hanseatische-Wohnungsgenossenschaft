@@ -4,8 +4,9 @@ import { setPreviewNavigator, type Page } from '../routes'
 import Dashboard from './Dashboard'
 import Landing from './Landing'
 import Login from './Login'
+import Passwort from './Passwort'
 
-const pages = { home: Landing, login: Login, dashboard: Dashboard }
+const pages = { home: Landing, login: Login, dashboard: Dashboard, password: Passwort }
 
 function setHash(hash: string) {
   try {

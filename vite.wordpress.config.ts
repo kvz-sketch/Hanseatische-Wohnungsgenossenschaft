@@ -21,6 +21,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'src/main.tsx'),
         login: resolve(import.meta.dirname, 'src/login.tsx'),
         mitglieder: resolve(import.meta.dirname, 'src/mitglieder.tsx'),
+        passwort: resolve(import.meta.dirname, 'src/passwort.tsx'),
       },
     },
   },

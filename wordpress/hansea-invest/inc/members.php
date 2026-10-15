@@ -37,17 +37,24 @@ add_filter( 'logout_redirect', function () {
 	return home_url( '/' );
 } );
 
-/** Brand the WordPress login screen that handles password resets. */
+/** Brand the WordPress login screen (admin login); added after core's login.css so it wins. */
 add_action( 'login_enqueue_scripts', function () {
-	?>
-	<style>
-		body.login { background: #f5f5f5; }
-		.login h1 a { background-image: url(<?php echo esc_url( get_template_directory_uri() . '/dist/icon.svg' ); ?>); background-size: contain; width: 72px; height: 72px; }
-		.login .button-primary { background: #ddb851; border-color: #ddb851; color: #141a46; }
+	$logo = esc_url( get_template_directory_uri() . '/elementor/images/logo-navy.svg' );
+	wp_add_inline_style( 'login', "
+		body.login { background: #f5f5f5; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; }
+		.login h1 a { background-image: url({$logo}); background-size: contain; background-position: center; width: 160px; height: 104px; }
+		.login form { border: 1px solid #e7e8ec; border-radius: 8px; box-shadow: none; }
+		.login .button-primary { background: #ddb851; border-color: #ddb851; color: #141a46; font-weight: 600; border-radius: 4px; box-shadow: none; text-shadow: none; }
 		.login .button-primary:hover, .login .button-primary:focus { background: #c6a248; border-color: #c6a248; color: #141a46; }
-		.login #backtoblog a, .login #nav a { color: #141a46; }
-	</style>
-	<?php
+		.login input[type=text]:focus, .login input[type=password]:focus { border-color: #141a46; box-shadow: 0 0 0 3px rgba(221,184,81,.45); }
+		.login #backtoblog a, .login #nav a, .login .privacy-policy-link { color: #141a46; }
+		.login .message, .login .notice { border-left-color: #ddb851; }
+		.language-switcher { display: none; }
+	" );
+} );
+
+add_filter( 'login_headertext', function () {
+	return 'Hanseatische Invest eG';
 } );
 
 add_filter( 'login_headerurl', function () {

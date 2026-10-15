@@ -1,13 +1,13 @@
 // Page URLs and navigation in one place. The normal build uses real paths;
 // the single-file preview (VITE_PREVIEW=1) swaps pages in memory instead.
 
-export type Page = 'home' | 'login' | 'dashboard'
+export type Page = 'home' | 'login' | 'dashboard' | 'password'
 
 export const IS_PREVIEW = import.meta.env.VITE_PREVIEW === '1'
 
 const paths: Record<Page, string> = IS_PREVIEW
-  ? { home: '?p=home', login: '?p=login', dashboard: '?p=dashboard' }
-  : { home: '/', login: '/login/', dashboard: '/mitglieder/' }
+  ? { home: '?p=home', login: '?p=login', dashboard: '?p=dashboard', password: '?p=password' }
+  : { home: '/', login: '/login/', dashboard: '/mitglieder/', password: '/passwort-vergessen/' }
 
 /** URL of a page, optionally with an in-page anchor like "#kontakt". */
 export const href = (page: Page, hash = '') => paths[page] + hash
