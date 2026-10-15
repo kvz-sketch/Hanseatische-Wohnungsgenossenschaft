@@ -308,8 +308,7 @@ def header():
             image(None, "Hansea Invest eG", radius=0, url="{{THEME}}/images/logo-navy.svg", link="/", width=78),
             container([icon_list(NAV, inline=True, size=15, gap_px=28)], css="hs-nav"),
             container([
-                button("Mitglieder-Login", "/login/", variant="ghost", hide_mobile=True),
-                button("Jetzt informieren", "#kontakt"),
+                button("Mitglieder-Login", "/login/"),
             ], row=True, mobile_row=True, align="center", gap_px=16, css="hs-header-actions"),
         ], row=True, mobile_row=True, boxed=True, align="center", justify="space-between", pad=(12, 20), pad_mobile=(10, 16), gap_px=24),
     ], inner=False, bg=WHITE, css="hs-header", border=None)

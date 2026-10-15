@@ -92,3 +92,4 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 @media (max-width: 767px) {
 	.elementor-page .e-con > .elementor-element { flex-shrink: 0; }
 }
+.hs-header-actions { margin-left: auto; justify-content: flex-end !important; }
