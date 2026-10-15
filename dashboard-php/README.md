@@ -19,10 +19,11 @@ page is live and the editable-fields list is confirmed to be the right one.
 You need a PHP-capable (sub)domain and a MySQL database. If you already have
 both, skip to "GitHub secrets" below.
 
-1. **Create the (sub)domain**, if it doesn't exist yet — e.g.
-   `marketing.gerlachgroup.de` (the existing public site's preview banner
-   already names this as the intended final home). In Plesk: *Websites &
-   Domains → Add Subdomain*.
+1. **Create the (sub)domain**, if it doesn't exist yet. This app is deployed
+   to the `/dashboard/` subfolder of the existing `marketing.gerlach-group.de`
+   subdomain (not its own subdomain), so no new domain is needed — the
+   GitHub Actions workflow uploads it there automatically via the
+   `DASHBOARD_FTP_SERVER_DIR` secret.
 2. **Create a database.** In Plesk: *Websites & Domains → Databases → Add
    Database*. Name it something like `gig_dashboard`. Plesk will prompt you
    to add a database user — create one and **write down the password**, you
@@ -75,8 +76,8 @@ putenv('DASHBOARD_PASSWORD=...');   // pick something and share it with colleagu
 
 The database starts empty. Either run `seed.php` once via SSH
 (`php seed.php`) if you have shell access on the host, or visit
-`https://marketing.gerlachgroup.de/seed.php?key=<DASHBOARD_PASSWORD>` in a
-browser once the code and `.env.php` are both uploaded. It's safe to re-run:
+`https://marketing.gerlach-group.de/dashboard/seed.php?key=<DASHBOARD_PASSWORD>`
+in a browser once the code and `.env.php` are both uploaded. It's safe to re-run:
 it reloads campaigns/ads/leads from `seed-data.php` but never touches
 colleague comments or the edit history.
 

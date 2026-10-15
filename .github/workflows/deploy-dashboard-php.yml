@@ -11,6 +11,12 @@
 #   DASHBOARD_FTP_SERVER_DIR  target folder (default: /httpdocs/)
 #
 # Until DASHBOARD_FTP_SERVER is set, the workflow is a no-op.
+#
+# ssl:check-hostname is off below: netcup's shared FTPS hosts present one
+# certificate for the whole server pool, not a per-account hostname, so the
+# CN never matches DASHBOARD_FTP_SERVER. The cert chain is still verified
+# (ssl:verify-certificate yes) and the transfer stays TLS-encrypted — only
+# the hostname match is skipped.
 
 name: Deploy Marketing Dashboard (PHP)
 
@@ -52,6 +58,7 @@ jobs:
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ssl:verify-certificate yes
+          set ssl:check-hostname no
           set net:max-retries 3
           set net:timeout 30
           set cmd:fail-exit true
