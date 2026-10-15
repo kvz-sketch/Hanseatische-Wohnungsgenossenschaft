@@ -1,14 +1,13 @@
 // Member authentication.
 //
-// DEMO ONLY: accounts and the session live in this browser's localStorage, so
-// they are not shared between devices and are not a security boundary. The
-// password is stored as a salted PBKDF2 hash so it never sits in plain text,
-// but anyone with access to the browser can still read the dashboard data.
-//
-// When the site moves to WordPress, replace these functions with calls to
-// WordPress user accounts (registration + login handled by WordPress, the
-// dashboard reading the logged-in user via the REST API with a nonce). The
-// pages only use the exports below, so nothing else needs to change.
+// Two implementations behind the same exports:
+// - WordPress (theme build): real WordPress user accounts via the theme's REST
+//   endpoints; the logged-in member comes server-rendered in window.HANSEA.
+// - Demo (every other build): accounts and the session live in this browser's
+//   localStorage. Not shared between devices and not a security boundary; the
+//   password is stored as a salted PBKDF2 hash so it never sits in plain text.
+
+import { IS_WORDPRESS, WordPressError, wp, wpPost } from '../backend'
 
 export type Member = {
   firstName: string
@@ -77,7 +76,18 @@ const normalise = (email: string) => email.trim().toLowerCase()
 
 export const MIN_PASSWORD_LENGTH = 8
 
+/** Where "Passwort vergessen?" leads, or null when resets go through the member service. */
+export const passwordResetUrl = () => (IS_WORDPRESS ? wp().lostPasswordUrl : null)
+
 export async function register(input: { firstName: string; lastName: string; email: string; password: string }) {
+  if (IS_WORDPRESS) {
+    try {
+      const { member } = await wpPost<{ member: Member }>('register', { ...input, consent: true })
+      return member
+    } catch (err) {
+      throw err instanceof WordPressError ? new AuthError(err.message) : err
+    }
+  }
   const email = normalise(input.email)
   const users = readUsers()
   if (users[email]) throw new AuthError('Für diese E-Mail-Adresse gibt es bereits ein Konto. Bitte melden Sie sich an.')
@@ -99,6 +109,14 @@ export async function register(input: { firstName: string; lastName: string; ema
 }
 
 export async function login(emailInput: string, password: string) {
+  if (IS_WORDPRESS) {
+    try {
+      const { member } = await wpPost<{ member: Member }>('login', { email: emailInput.trim(), password })
+      return member
+    } catch (err) {
+      throw err instanceof WordPressError ? new AuthError(err.message) : err
+    }
+  }
   const email = normalise(emailInput)
   const member = readUsers()[email]
   // Same message for unknown email and wrong password
@@ -109,11 +127,16 @@ export async function login(emailInput: string, password: string) {
   return publicMember(member)
 }
 
-export function logout() {
+export async function logout() {
+  if (IS_WORDPRESS) {
+    await wpPost('logout', {}).catch(() => undefined)
+    return
+  }
   store.remove(SESSION_KEY)
 }
 
 export function currentMember(): Member | null {
+  if (IS_WORDPRESS) return wp().member
   const email = store.get(SESSION_KEY)
   const member = email ? readUsers()[email] : undefined
   return member ? publicMember(member) : null

@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent, type InputHTMLAttributes } from 'react'
-import { AuthError, login, MIN_PASSWORD_LENGTH, register } from '../auth/auth'
+import { AuthError, login, MIN_PASSWORD_LENGTH, passwordResetUrl, register } from '../auth/auth'
+import { IS_WORDPRESS } from '../backend'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { ConsentCheckbox } from '../components/ui'
@@ -55,6 +56,7 @@ function LoginForm({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [forgot, setForgot] = useState(false)
+  const resetUrl = passwordResetUrl()
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -86,13 +88,19 @@ function LoginForm({ onDone }: { onDone: () => void }) {
         </p>
       )}
       <SubmitButton busy={busy}>Anmelden</SubmitButton>
-      <button
-        type="button"
-        onClick={() => setForgot((f) => !f)}
-        className="cursor-pointer justify-self-start border-0 bg-transparent p-0 text-[14px] text-link underline"
-      >
-        Passwort vergessen?
-      </button>
+      {resetUrl ? (
+        <a href={resetUrl} className="justify-self-start text-[14px] text-link underline">
+          Passwort vergessen?
+        </a>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setForgot((f) => !f)}
+          className="cursor-pointer justify-self-start border-0 bg-transparent p-0 text-[14px] text-link underline"
+        >
+          Passwort vergessen?
+        </button>
+      )}
       {forgot && (
         <p className="m-0 text-[14px] text-ink-2">
           Bitte wenden Sie sich an unseren Mitgliederservice unter{' '}
@@ -230,10 +238,12 @@ export default function Login() {
             </div>
           </div>
 
-          <p className="m-0 mt-6 rounded-control border border-gold-400/50 bg-gold-100 px-4 py-3 text-[13px] leading-relaxed text-ink-2">
-            <strong>Vorschau-Version:</strong> Konten werden vorerst nur in diesem Browser gespeichert. Bitte verwenden Sie
-            keine echten Passwörter.
-          </p>
+          {!IS_WORDPRESS && (
+            <p className="m-0 mt-6 rounded-control border border-gold-400/50 bg-gold-100 px-4 py-3 text-[13px] leading-relaxed text-ink-2">
+              <strong>Vorschau-Version:</strong> Konten werden vorerst nur in diesem Browser gespeichert. Bitte verwenden Sie
+              keine echten Passwörter.
+            </p>
+          )}
         </div>
       </main>
       <Footer />

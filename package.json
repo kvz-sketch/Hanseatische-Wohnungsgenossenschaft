@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "build:preview": "vite build --config vite.preview.config.ts && node scripts/inline-preview.mjs"
+    "build:preview": "vite build --config vite.preview.config.ts && node scripts/inline-preview.mjs",
+    "build:wordpress": "tsc -b && vite build --config vite.wordpress.config.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.6",

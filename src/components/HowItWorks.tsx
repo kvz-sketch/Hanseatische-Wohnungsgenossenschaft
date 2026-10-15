@@ -30,7 +30,7 @@ function ExplainerVideo() {
           className="block aspect-video w-full rounded-card bg-section"
         >
           {/* The film is too large to embed in the single-file preview */}
-          {!IS_PREVIEW && <source src="/video/hansea-erklaerfilm.mp4" type="video/mp4" />}
+          {!IS_PREVIEW && <source src={`${import.meta.env.BASE_URL}video/hansea-erklaerfilm.mp4`} type="video/mp4" />}
         </video>
         <p className="m-0 mt-3 text-[13px] leading-relaxed text-muted">
           Zielrendite, nicht garantiert. Unternehmerische Beteiligung mit Verlustrisiko bis zum Totalverlust. Keine

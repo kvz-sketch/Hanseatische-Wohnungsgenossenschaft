@@ -114,8 +114,8 @@ export default function Dashboard() {
       <span className="text-[14px] text-muted">{member.email}</span>
       <button
         type="button"
-        onClick={() => {
-          logout()
+        onClick={async () => {
+          await logout()
           navigate('home')
         }}
         className="cursor-pointer rounded-control border-2 border-navy-200 bg-transparent px-4 py-2 text-[14px] font-semibold text-ink hover:border-ink hover:bg-navy-050"
