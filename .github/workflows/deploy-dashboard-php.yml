@@ -17,6 +17,12 @@
 # CN never matches DASHBOARD_FTP_SERVER. The cert chain is still verified
 # (ssl:verify-certificate yes) and the transfer stays TLS-encrypted — only
 # the hostname match is skipped.
+#
+# mirror runs WITHOUT --no-perms so it applies this repo's file modes
+# (644 files / 755 dirs, both world-readable) to the uploaded copies via
+# SITE CHMOD. Skipping that previously left files at the FTP account's
+# default (more restrictive) creation mode, which PHP-FPM couldn't read —
+# that's what caused the 403 on the first real deploy.
 
 name: Deploy Marketing Dashboard (PHP)
 
@@ -63,7 +69,7 @@ jobs:
           set net:timeout 30
           set cmd:fail-exit true
           open --env-password -u "$FTP_USERNAME" "ftp://$FTP_SERVER"
-          mirror --reverse --no-perms --verbose \
+          mirror --reverse --verbose \
             --exclude-glob .env.php \
             --exclude-glob .gitignore \
             --exclude '^data/' \
