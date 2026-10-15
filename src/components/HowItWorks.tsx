@@ -39,8 +39,8 @@ function ExplainerVideo() {
       </div>
 
       <div className="flex flex-col justify-center rounded-card bg-section p-8 lg:px-[72px]">
-        <p className="m-0 text-[13px] font-bold text-brick">Erklärfilm · 1:38 Min.</p>
-        <h3 className="m-0 mt-3 text-[clamp(26px,2.6vw,32px)] leading-[1.1] font-extrabold tracking-tight">
+        <p className="m-0 text-[13px] font-bold text-gold-700">Erklärfilm · 1:38 Min.</p>
+        <h3 className="m-0 mt-3 text-[clamp(26px,2.6vw,32px)] leading-[1.1] font-display font-normal">
           Sehen Sie, wie es funktioniert.
         </h3>
         <p className="m-0 mt-4 text-[16px] leading-relaxed text-ink-2">
@@ -51,7 +51,7 @@ function ExplainerVideo() {
             type="button"
             onClick={play}
             disabled={started}
-            className="inline-flex cursor-pointer items-center gap-3 rounded-control bg-brick px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-brick-hover disabled:cursor-default disabled:opacity-60"
+            className="inline-flex cursor-pointer items-center gap-3 rounded-control bg-gold px-6 py-3.5 text-[15px] font-bold text-ink transition-colors hover:bg-gold-600 disabled:cursor-default disabled:opacity-60"
           >
             <svg viewBox="0 0 12 14" className="h-3 w-3" fill="currentColor" aria-hidden>
               <path d="M0 0l12 7-12 7z" />
@@ -74,7 +74,7 @@ export default function HowItWorks() {
         <ol className="m-0 mt-8 grid list-none gap-8 p-0 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
           {steps.map((s, i) => (
             <li key={s.title} className="border-t-2 border-ink pt-6 lg:pr-4">
-              <p className="m-0 text-[13px] font-bold text-brick">{String(i + 1).padStart(2, '0')}</p>
+              <p className="m-0 text-[13px] font-bold text-gold-700">{String(i + 1).padStart(2, '0')}</p>
               <h3 className="m-0 mt-3 text-[18px] leading-snug font-bold">{s.title}</h3>
               <p className="m-0 mt-2 text-[15px] leading-relaxed text-ink-2">{s.text}</p>
             </li>

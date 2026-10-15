@@ -42,7 +42,7 @@ export default function Calculator() {
               <label htmlFor="hs-amt" className="text-[15px] font-bold">
                 Betrag
               </label>
-              <output htmlFor="hs-amt" className="text-[30px] font-extrabold tracking-tight tabular-nums">
+              <output htmlFor="hs-amt" className="text-[30px] font-display font-normal tabular-nums">
                 {euro(amount)}
               </output>
             </div>
@@ -56,7 +56,7 @@ export default function Calculator() {
               onChange={(e) => setAmount(Number(e.target.value))}
               aria-valuetext={euro(amount)}
               className="hs-range mt-4 w-full"
-              style={{ background: `linear-gradient(to right, var(--color-brick) ${fill}%, var(--color-line) ${fill}%)` }}
+              style={{ background: `linear-gradient(to right, var(--color-gold) ${fill}%, var(--color-line) ${fill}%)` }}
             />
             <div className="mt-4 grid grid-cols-4 gap-2">
               {PRESETS.map((p) => (
@@ -102,18 +102,18 @@ export default function Calculator() {
 
           <div className="flex flex-col rounded-card bg-ink-panel p-6 text-white" aria-live="polite">
             <p className="m-0 text-[14px] text-light-dark">Ausschüttungen gesamt über {yearsLabel(years)} (Ziel)</p>
-            <p className="m-0 mt-2 text-[clamp(40px,4.5vw,52px)] leading-none font-extrabold tracking-tight text-green-dark tabular-nums">
+            <p className="m-0 mt-2 text-[clamp(40px,4.5vw,52px)] leading-none font-display font-normal text-gold-400 tabular-nums">
               {euro(r.total)}
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-4 border-t border-white/15 pt-6">
               <div>
                 <p className="m-0 text-[13px] text-light-dark">Pro Quartal auf Ihr Konto</p>
-                <p className="m-0 mt-1 text-[22px] font-extrabold tabular-nums">{euro(r.quarter)}</p>
+                <p className="m-0 mt-1 text-[22px] font-display font-normal tabular-nums">{euro(r.quarter)}</p>
               </div>
               <div>
                 <p className="m-0 text-[13px] text-light-dark">Dasselbe auf dem Tagesgeld</p>
-                <p className="m-0 mt-1 text-[22px] font-extrabold tabular-nums">{euro(r.savings)}</p>
+                <p className="m-0 mt-1 text-[22px] font-display font-normal tabular-nums">{euro(r.savings)}</p>
               </div>
             </div>
 
@@ -124,7 +124,7 @@ export default function Calculator() {
                   <span className="tabular-nums">{euro(r.total)}</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-white/10">
-                  <div className="h-full rounded-full bg-green-dark" style={{ width: '100%' }} />
+                  <div className="h-full rounded-full bg-gold-400" style={{ width: '100%' }} />
                 </div>
               </div>
               <div>

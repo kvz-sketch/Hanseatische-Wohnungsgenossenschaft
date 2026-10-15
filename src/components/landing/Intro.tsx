@@ -4,10 +4,10 @@ import { ButtonLink, Eyebrow, Placeholder } from '../ui'
 
 export function LandingHero() {
   return (
-    <section id="top" className="bg-ink px-5 py-16 text-white lg:py-24">
+    <section id="top" className="bg-navy-gradient px-5 py-16 text-white lg:py-24">
       <div className="container-site grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <h1 className="m-0 text-[clamp(40px,5.2vw,62px)] leading-[1.04] font-extrabold tracking-[-0.025em] text-balance">
+          <h1 className="m-0 text-[clamp(40px,5.2vw,62px)] leading-[1.04] font-display font-normal text-balance">
             Investieren in reale Wohnimmobilien
           </h1>
           <p className="m-0 mt-5 text-[clamp(18px,1.8vw,22px)] font-semibold text-lighter-dark">
@@ -53,7 +53,7 @@ export function AboutWithStats() {
         <dl className="m-0 mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line lg:grid-cols-4">
           {aboutStats.map((s) => (
             <div key={s.label} className="bg-white px-6 py-7 text-center">
-              <dt className="text-[clamp(32px,3.4vw,44px)] leading-none font-extrabold tracking-tight">{s.value}</dt>
+              <dt className="text-[clamp(32px,3.4vw,44px)] leading-none font-display font-normal">{s.value}</dt>
               <dd className="m-0 mt-2 text-[14px] text-muted">{s.label}</dd>
             </div>
           ))}
@@ -66,10 +66,10 @@ export function AboutWithStats() {
 export function AtAGlance() {
   return (
     <section className="px-5 pb-[72px]">
-      <div className="container-site grid grid-cols-1 gap-10 rounded-card bg-ink px-6 py-10 text-white sm:px-12 sm:py-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
+      <div className="container-site grid grid-cols-1 gap-10 rounded-card bg-navy-gradient px-6 py-10 text-white sm:px-12 sm:py-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
         <div>
           <Eyebrow onDark>Auf einen Blick</Eyebrow>
-          <p className="m-0 text-[clamp(22px,2.2vw,28px)] leading-snug font-extrabold">
+          <p className="m-0 text-[clamp(22px,2.2vw,28px)] leading-snug font-display font-normal">
             Kurz zusammengefasst: So funktioniert Ihre Beteiligung bei der Hanseatischen Invest eG.
           </p>
           <p className="m-0 mt-5 text-[16px] leading-relaxed text-lighter-dark">
@@ -82,7 +82,7 @@ export function AtAGlance() {
           <ul className="m-0 list-none space-y-3 p-0">
             {glanceBullets.map((b) => (
               <li key={b} className="flex items-center gap-3 rounded-control bg-white/5 px-4 py-3 text-[16px] font-semibold">
-                <svg viewBox="0 0 20 20" className="size-5 shrink-0 text-green-dark" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
+                <svg viewBox="0 0 20 20" className="size-5 shrink-0 text-gold-400" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
                   <path d="M4 10.5l4 4 8-9" />
                 </svg>
                 {b}

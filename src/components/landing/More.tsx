@@ -26,7 +26,7 @@ export function PressSection() {
 
 export function CaseStudyNumbers() {
   return (
-    <section className="bg-ink px-5 py-16 text-white lg:py-20">
+    <section className="bg-navy-gradient px-5 py-16 text-white lg:py-20">
       <div className="container-site">
         <h2 className="h2 max-w-[760px]">Case Study: Ein Mehrfamilienhaus in Hamburg</h2>
         <p className="m-0 mt-5 max-w-[860px] text-[17px] leading-relaxed text-lighter-dark">
@@ -40,7 +40,7 @@ export function CaseStudyNumbers() {
           {caseStudyStats.map((s, i) => (
             <div key={s.label} className="rounded-card border border-white/15 bg-white/5 px-4 py-5">
               <dt
-                className={`text-[clamp(22px,2.2vw,28px)] leading-none font-extrabold tracking-tight ${i === caseStudyStats.length - 1 ? 'text-green-dark' : ''}`}
+                className={`text-[clamp(22px,2.2vw,28px)] leading-none font-display font-normal ${i === caseStudyStats.length - 1 ? 'text-gold-400' : ''}`}
               >
                 {s.value}
               </dt>
@@ -84,9 +84,9 @@ export function Subsidiaries() {
 export function BrokerBanner() {
   return (
     <section className="px-5 pb-[72px]">
-      <div className="container-site flex flex-col gap-8 rounded-card bg-ink px-6 py-10 text-white sm:px-12 sm:py-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+      <div className="container-site flex flex-col gap-8 rounded-card bg-navy-gradient px-6 py-10 text-white sm:px-12 sm:py-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
         <div className="max-w-[760px]">
-          <h2 className="m-0 text-[clamp(24px,2.6vw,32px)] leading-snug font-extrabold tracking-tight">
+          <h2 className="m-0 text-[clamp(24px,2.6vw,32px)] leading-snug font-display font-normal">
             Mehrwert für Makler: 7&nbsp;% p.a. Rendite-Chance für Ihre Verkaufskunden
           </h2>
           <p className="m-0 mt-4 text-[16px] leading-relaxed text-lighter-dark">
@@ -161,7 +161,7 @@ export function Sponsoring() {
 }
 
 const fieldClass =
-  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:outline-none aria-invalid:border-brick'
+  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:shadow-[0_0_0_3px_rgba(221,184,81,0.45)] focus:outline-none aria-invalid:border-coral-600'
 
 type ContactErrors = Partial<Record<'firstName' | 'lastName' | 'email' | 'phone' | 'send', boolean>>
 
@@ -214,7 +214,7 @@ export function ContactSection() {
         className={fieldClass}
       />
       {errors[key] && (
-        <p className="m-0 mt-1.5 text-[13px] text-brick">
+        <p className="m-0 mt-1.5 text-[13px] text-coral-600">
           {key === 'email' ? 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' : key === 'phone' ? 'Bitte prüfen Sie die Telefonnummer.' : 'Bitte ausfüllen.'}
         </p>
       )}
@@ -265,12 +265,12 @@ export function ContactSection() {
                 <button
                   type="submit"
                   disabled={busy}
-                  className="w-full cursor-pointer rounded-control bg-brick px-5 py-4 text-base font-bold text-white transition-colors hover:bg-brick-hover disabled:opacity-60"
+                  className="w-full cursor-pointer rounded-control bg-gold px-5 py-4 text-base font-bold text-ink transition-colors hover:bg-gold-600 disabled:opacity-60"
                 >
                   {busy ? 'Wird gesendet …' : 'Anfrage senden'}
                 </button>
                 {errors.send && (
-                  <p className="m-0 mt-3 text-[13px] text-brick">Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.</p>
+                  <p className="m-0 mt-3 text-[13px] text-coral-600">Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.</p>
                 )}
                 <p className="m-0 mt-3 text-[12px] text-muted">
                   * Pflichtfelder. Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage.{' '}

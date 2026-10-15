@@ -12,14 +12,14 @@ export default function ShareTracker() {
     <section id="verfolgen" className="section">
       <div className="container-site grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12">
         <div>
-          <p className="m-0 mb-3 text-[13px] font-bold text-brick">Meine Anteile</p>
+          <p className="m-0 mb-3 text-[13px] font-bold text-gold-700">Meine Anteile</p>
           <h2 className="h2">Wo ist Ihr Geld gerade? Jeder Anteil hat ein Haus.</h2>
           <p className="m-0 mt-3 text-[17px] leading-relaxed text-ink-2">
             Jeder Anteil steckt in einem konkreten Haus. Wählen Sie ein Anteilspaket, um Phase, Baufortschritt und
             Ausschüttungen zu sehen.
           </p>
 
-          <p id="hs-share-pick" className="m-0 mt-8 mb-3 text-[11px] font-bold tracking-[0.08em] text-muted uppercase">
+          <p id="hs-share-pick" className="m-0 mt-8 mb-3 text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
             Anteilspaket wählen
           </p>
           <div role="radiogroup" aria-labelledby="hs-share-pick" className="grid max-w-[440px] gap-2">
@@ -38,7 +38,7 @@ export default function ShareTracker() {
                 >
                   <span
                     className={`grid size-7 shrink-0 place-items-center rounded-full text-[12px] font-bold ${
-                      on ? 'bg-brick text-white' : 'border border-line text-ink-2'
+                      on ? 'bg-gold text-ink' : 'border border-line text-ink-2'
                     }`}
                   >
                     {i + 1}
@@ -61,14 +61,14 @@ export default function ShareTracker() {
               <p className="m-0 text-[13px] text-muted">
                 Anteilspaket {share.id} · {share.units} Anteile
               </p>
-              <p className="m-0 mt-1 flex items-center gap-2 text-[14px] font-bold text-brick">
-                <span className="size-2 rounded-full bg-brick" /> {share.status}
+              <p className="m-0 mt-1 flex items-center gap-2 text-[14px] font-bold text-gold-700">
+                <span className="size-2 rounded-full bg-gold" /> {share.status}
               </p>
-              <p className="m-0 mt-1 text-[20px] leading-tight font-extrabold">{share.where}</p>
+              <p className="m-0 mt-1 text-[20px] leading-tight font-semibold">{share.where}</p>
             </div>
             <div className="text-right">
               <p className="m-0 text-[13px] text-muted">Nächste Ausschüttung</p>
-              <p className="m-0 mt-1 text-[18px] font-extrabold">{nextPayout.date}</p>
+              <p className="m-0 mt-1 text-[18px] font-semibold">{nextPayout.date}</p>
               <p className="m-0 text-[13px] font-bold text-green">{nextPayout.perShare}</p>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function ShareTracker() {
           <ol className="m-0 mt-5 list-none overflow-hidden rounded-control border border-line bg-white p-0">
             {share.events.map((ev, i) => (
               <li key={ev.text} className="flex items-center gap-4 border-b border-line-soft px-4 py-3.5 last:border-b-0">
-                <span className={`size-2 shrink-0 rounded-full ${i === 0 ? 'bg-brick' : 'bg-muted'}`} />
+                <span className={`size-2 shrink-0 rounded-full ${i === 0 ? 'bg-gold' : 'bg-muted'}`} />
                 <div className="min-w-0 flex-1">
                   <p className="m-0 text-[14px] font-bold">{ev.text}</p>
                   <p className="m-0 mt-0.5 text-[12px] text-muted">

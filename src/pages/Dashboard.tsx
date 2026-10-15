@@ -43,13 +43,13 @@ function Welcome({ member }: { member: Member }) {
     { label: 'Nächste Ausschüttung', value: euro(quarterly, 2), note: `am ${nextPayout.date} (Ziel)`, accent: true },
   ]
   return (
-    <section id="uebersicht" className="scroll-mt-20 bg-ink px-5 pt-12 pb-14 text-white">
+    <section id="uebersicht" className="scroll-mt-20 bg-navy-gradient px-5 pt-12 pb-14 text-white">
       <div className="container-site">
         <div className="flex flex-wrap items-center gap-3">
-          <p className="m-0 text-[13px] font-bold tracking-[0.08em] text-green-dark uppercase">Mitgliederbereich</p>
-          <span className="rounded-full bg-amber-tint px-2.5 py-0.5 text-[12px] font-bold text-amber">Beispieldaten</span>
+          <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-400 uppercase">Mitgliederbereich</p>
+          <span className="rounded-full bg-gold-100 px-2.5 py-0.5 text-[12px] font-bold text-gold-700">Beispieldaten</span>
         </div>
-        <h1 className="m-0 mt-3 text-[clamp(30px,3.6vw,44px)] leading-tight font-extrabold tracking-[-0.02em]">
+        <h1 className="m-0 mt-3 text-[clamp(30px,3.6vw,44px)] leading-tight font-display font-normal">
           {greeting()}, {member.firstName} {member.lastName}
         </h1>
         <p className="m-0 mt-3 max-w-[720px] text-[17px] text-lighter-dark">
@@ -62,7 +62,7 @@ function Welcome({ member }: { member: Member }) {
             <div key={k.label} className="rounded-card border border-white/15 bg-white/5 p-5">
               <dt className="text-[13px] text-light-dark">{k.label}</dt>
               <dd className="m-0 mt-2">
-                <span className={`block text-[28px] leading-none font-extrabold tracking-tight tabular-nums ${k.accent ? 'text-green-dark' : ''}`}>
+                <span className={`block text-[28px] leading-none font-display font-normal tabular-nums ${k.accent ? 'text-gold-400' : ''}`}>
                   {k.value}
                 </span>
                 <span className="mt-2 block text-[13px] text-muted-dark">{k.note}</span>
@@ -77,10 +77,10 @@ function Welcome({ member }: { member: Member }) {
 
 function Service() {
   return (
-    <section id="kontakt" className="section bg-ink text-white">
+    <section id="kontakt" className="section bg-navy-gradient text-white">
       <div className="container-site grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-[120px]">
         <div>
-          <p className="m-0 text-[13px] font-bold tracking-[0.08em] text-green-dark uppercase">Mitgliederservice</p>
+          <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-400 uppercase">Mitgliederservice</p>
           <h2 className="h2 mt-3">Fragen zu Ihren Anteilen?</h2>
           <p className="m-0 mt-4 text-[17px] leading-relaxed text-lighter-dark">
             Aufstocken, Kündigung, Ausschüttungen oder Steuerbescheinigung: Ihr Berater ruft Sie im gewählten Zeitfenster an.
@@ -111,14 +111,14 @@ export default function Dashboard() {
 
   const aside = (
     <>
-      <span className="text-[14px] text-light-dark">{member.email}</span>
+      <span className="text-[14px] text-muted">{member.email}</span>
       <button
         type="button"
         onClick={() => {
           logout()
           navigate('home')
         }}
-        className="cursor-pointer rounded-control border border-white/30 bg-transparent px-4 py-2 text-[14px] font-bold text-white hover:border-white"
+        className="cursor-pointer rounded-control border-2 border-navy-200 bg-transparent px-4 py-2 text-[14px] font-semibold text-ink hover:border-ink hover:bg-navy-050"
       >
         Abmelden
       </button>

@@ -22,7 +22,7 @@ export function ButtonLink({
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-control bg-brick px-5 py-3 text-[15px] font-bold text-white no-underline transition-colors hover:bg-brick-hover active:bg-brick-active ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-control bg-gold px-5 py-3 text-[15px] font-semibold tracking-[0.01em] text-ink no-underline transition-colors hover:bg-gold-600 active:bg-gold-700 ${className}`}
     >
       {children}
     </a>
@@ -30,10 +30,10 @@ export function ButtonLink({
 }
 
 const badgeStyles: Record<ProjectStatus | 'Verkauf läuft', string> = {
-  'Im Verkauf': 'bg-amber-tint text-amber',
+  'Im Verkauf': 'bg-gold-100 text-gold-700',
   Verkauft: 'bg-green-tint text-green',
   'Verkauf läuft': 'bg-green-tint text-green',
-  'Im Ankauf': 'bg-brick-tint text-brick',
+  'Im Ankauf': 'bg-coral-100 text-coral-600',
 }
 
 export function StatusBadge({ status }: { status: keyof typeof badgeStyles }) {
@@ -44,7 +44,7 @@ export function StatusBadge({ status }: { status: keyof typeof badgeStyles }) {
   )
 }
 
-/** Segmented progress bar: finished stages green, the current stage brick, the rest grey. */
+/** Segmented progress bar: finished stages green, the current stage gold, the rest grey. */
 export function StageBar({ stages, current }: { stages: string[]; current: number }) {
   return (
     <div>
@@ -52,7 +52,7 @@ export function StageBar({ stages, current }: { stages: string[]; current: numbe
         {stages.map((s, i) => (
           <span
             key={s}
-            className={`h-1 flex-1 rounded-full ${i < current ? 'bg-green' : i === current ? 'bg-brick' : 'bg-line'}`}
+            className={`h-1 flex-1 rounded-full ${i < current ? 'bg-green' : i === current ? 'bg-gold' : 'bg-line'}`}
           />
         ))}
       </div>
@@ -101,7 +101,7 @@ export function ConsentCheckbox({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className={`mt-0.5 size-5 shrink-0 accent-ink ${error ? 'outline-2 outline-brick' : ''}`}
+        className={`mt-0.5 size-5 shrink-0 accent-ink ${error ? 'outline-2 outline-coral-600' : ''}`}
       />
       <span>{children}</span>
     </label>
@@ -119,7 +119,7 @@ export function Placeholder({ label, className = '' }: { label: string; classNam
 
 export function Eyebrow({ children, onDark = false }: { children: ReactNode; onDark?: boolean }) {
   return (
-    <p className={`m-0 mb-3 text-[13px] font-bold tracking-[0.08em] uppercase ${onDark ? 'text-green-dark' : 'text-brick'}`}>
+    <p className={`m-0 mb-3 text-[13px] font-semibold tracking-[0.18em] uppercase ${onDark ? 'text-gold-400' : 'text-gold-700'}`}>
       {children}
     </p>
   )

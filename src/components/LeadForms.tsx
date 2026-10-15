@@ -5,14 +5,14 @@ import { toE164 } from '../data/phone'
 import { ConsentCheckbox } from './ui'
 
 const inputClass =
-  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:outline-none'
+  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:shadow-[0_0_0_3px_rgba(221,184,81,0.45)] focus:outline-none'
 
 function SubmitButton({ busy, children }: { busy: boolean; children: string }) {
   return (
     <button
       type="submit"
       disabled={busy}
-      className="w-full cursor-pointer rounded-control bg-brick px-5 py-4 text-base font-bold text-white transition-colors hover:bg-brick-hover active:bg-brick-active disabled:opacity-60"
+      className="w-full cursor-pointer rounded-control bg-gold px-5 py-4 text-base font-bold text-ink transition-colors hover:bg-gold-600 active:bg-gold-700 disabled:opacity-60"
     >
       {busy ? 'Wird gesendet …' : children}
     </button>
@@ -66,7 +66,7 @@ export function CallbackForm() {
       noValidate
       className="relative scroll-mt-24 rounded-card bg-white p-7 text-ink shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
     >
-      <h2 className="m-0 text-[26px] font-extrabold tracking-tight">Wir rufen Sie an</h2>
+      <h2 className="m-0 text-[26px] font-display font-normal">Wir rufen Sie an</h2>
       <p className="m-0 mt-2 text-[15px] text-muted">Kostenlos, 20 Minuten, kein Vertrag. Einmal – nicht fünfmal.</p>
 
       {done ? (
@@ -110,9 +110,9 @@ export function CallbackForm() {
             onChange={(e) => setPhone(e.target.value)}
             aria-invalid={!!errors.phone}
             aria-describedby="hs-tel-hint"
-            className={`${inputClass} ${errors.phone ? 'border-brick' : ''}`}
+            className={`${inputClass} ${errors.phone ? 'border-coral-600' : ''}`}
           />
-          <p id="hs-tel-hint" className={`m-0 mt-2 text-[13px] ${errors.phone ? 'text-brick' : 'text-muted'}`}>
+          <p id="hs-tel-hint" className={`m-0 mt-2 text-[13px] ${errors.phone ? 'text-coral-600' : 'text-muted'}`}>
             {errors.phone ?? 'So wie Sie sie wählen würden, zum Beispiel 0171 2345678.'}
           </p>
 
@@ -127,14 +127,14 @@ export function CallbackForm() {
               und mir einen Zugangscode für mein Portal per SMS an diese Nummer senden. Ich kann diese Einwilligung
               jederzeit widerrufen. <a href="#">Datenschutzhinweise</a>
             </ConsentCheckbox>
-            {errors.consent && <p className="m-0 mt-2 text-[13px] text-brick">Bitte bestätigen Sie die Einwilligung.</p>}
+            {errors.consent && <p className="m-0 mt-2 text-[13px] text-coral-600">Bitte bestätigen Sie die Einwilligung.</p>}
           </div>
 
           <div className="mt-6">
             <SubmitButton busy={busy}>Rückruf anfordern</SubmitButton>
           </div>
           {errors.send && (
-            <p className="m-0 mt-3 text-[13px] text-brick">Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.</p>
+            <p className="m-0 mt-3 text-[13px] text-coral-600">Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.</p>
           )}
           <p className="m-0 mt-3 text-center text-[12px] text-muted">
             Keine weiteren Daten nötig · Server in Deutschland · Keine Weitergabe

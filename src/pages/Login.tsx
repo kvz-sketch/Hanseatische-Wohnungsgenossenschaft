@@ -8,7 +8,7 @@ import { publicNav } from '../data/landing'
 import { href, navigate } from '../routes'
 
 const inputClass =
-  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:outline-none aria-invalid:border-brick'
+  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:shadow-[0_0_0_3px_rgba(221,184,81,0.45)] focus:outline-none aria-invalid:border-coral-600'
 
 function Field({
   id,
@@ -29,7 +29,7 @@ function Field({
       </label>
       <input id={id} aria-invalid={!!error || undefined} aria-describedby={`${id}-hint`} className={inputClass} {...input} />
       {(error || hint) && (
-        <p id={`${id}-hint`} className={`m-0 mt-1.5 text-[13px] ${error ? 'text-brick' : 'text-muted'}`}>
+        <p id={`${id}-hint`} className={`m-0 mt-1.5 text-[13px] ${error ? 'text-coral-600' : 'text-muted'}`}>
           {error ?? hint}
         </p>
       )}
@@ -42,7 +42,7 @@ function SubmitButton({ busy, children }: { busy: boolean; children: string }) {
     <button
       type="submit"
       disabled={busy}
-      className="w-full cursor-pointer rounded-control bg-brick px-5 py-4 text-base font-bold text-white transition-colors hover:bg-brick-hover active:bg-brick-active disabled:opacity-60"
+      className="w-full cursor-pointer rounded-control bg-gold px-5 py-4 text-base font-bold text-ink transition-colors hover:bg-gold-600 active:bg-gold-700 disabled:opacity-60"
     >
       {busy ? 'Bitte warten …' : children}
     </button>
@@ -81,7 +81,7 @@ function LoginForm({ onDone }: { onDone: () => void }) {
         onChange={(e) => setPassword(e.target.value)}
       />
       {error && (
-        <p role="alert" className="m-0 rounded-control bg-brick-tint px-4 py-3 text-[14px] text-brick">
+        <p role="alert" className="m-0 rounded-control bg-coral-100 px-4 py-3 text-[14px] text-coral-600">
           {error}
         </p>
       )}
@@ -165,10 +165,10 @@ function RegisterForm({ onDone }: { onDone: () => void }) {
           Ich habe die <a href="#">Datenschutzhinweise</a> gelesen und bin einverstanden, dass die Hanseatische Invest eG
           meine Angaben für mein Mitgliederkonto speichert.
         </ConsentCheckbox>
-        {errors.consent && <p className="m-0 mt-2 text-[13px] text-brick">{errors.consent}</p>}
+        {errors.consent && <p className="m-0 mt-2 text-[13px] text-coral-600">{errors.consent}</p>}
       </div>
       {errors.form && (
-        <p role="alert" className="m-0 rounded-control bg-brick-tint px-4 py-3 text-[14px] text-brick sm:col-span-2">
+        <p role="alert" className="m-0 rounded-control bg-coral-100 px-4 py-3 text-[14px] text-coral-600 sm:col-span-2">
           {errors.form}
         </p>
       )}
@@ -198,7 +198,7 @@ export default function Login() {
         }
       }}
       className={`flex-1 cursor-pointer border-0 border-b-2 bg-transparent px-2 py-4 text-[16px] font-bold transition-colors ${
-        mode === m ? 'border-brick text-ink' : 'border-transparent text-muted hover:text-ink'
+        mode === m ? 'border-gold text-ink' : 'border-transparent text-muted hover:text-ink'
       }`}
     >
       {label}
@@ -210,8 +210,8 @@ export default function Login() {
       <Header nav={publicNav} cta={{ label: 'Jetzt informieren', href: href('home', '#kontakt') }} />
       <main className="bg-section px-5 py-14 lg:py-20">
         <div className="mx-auto max-w-[560px]">
-          <p className="m-0 text-[13px] font-bold tracking-[0.08em] text-brick uppercase">Mitgliederbereich</p>
-          <h1 className="m-0 mt-3 text-[clamp(30px,3.4vw,40px)] leading-tight font-extrabold tracking-[-0.02em]">
+          <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-700 uppercase">Mitgliederbereich</p>
+          <h1 className="m-0 mt-3 text-[clamp(30px,3.4vw,40px)] leading-tight font-display font-normal">
             {mode === 'login' ? 'Willkommen zurück' : 'Ihr Mitgliederkonto erstellen'}
           </h1>
           <p className="m-0 mt-3 text-[17px] leading-relaxed text-ink-2">
@@ -230,7 +230,7 @@ export default function Login() {
             </div>
           </div>
 
-          <p className="m-0 mt-6 rounded-control border border-amber/30 bg-amber-tint px-4 py-3 text-[13px] leading-relaxed text-ink-2">
+          <p className="m-0 mt-6 rounded-control border border-gold-400/50 bg-gold-100 px-4 py-3 text-[13px] leading-relaxed text-ink-2">
             <strong>Vorschau-Version:</strong> Konten werden vorerst nur in diesem Browser gespeichert. Bitte verwenden Sie
             keine echten Passwörter.
           </p>

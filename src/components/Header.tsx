@@ -22,15 +22,15 @@ export default function Header({
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-ink text-white">
+    <header className="sticky top-0 z-40 border-b border-line-soft bg-white/90 text-ink backdrop-blur-md">
       <div className="container-site flex h-[72px] items-center gap-8 px-5">
-        <a href={homeHref} className="shrink-0 text-white hover:text-white" aria-label="Hanseatische Invest eG – Startseite">
+        <a href={homeHref} className="shrink-0 text-ink hover:text-ink" aria-label="Hanseatische Invest eG – Startseite">
           <Logo className="h-[50px] w-auto" />
         </a>
 
         <nav className="hidden flex-1 items-center gap-7 lg:flex" aria-label="Hauptnavigation">
           {nav.map((item) => (
-            <a key={item.label} href={item.href} className="text-[15px] font-medium text-white no-underline hover:text-lighter-dark">
+            <a key={item.label} href={item.href} className="text-[15px] font-medium text-ink no-underline hover:text-gold-600">
               {item.label}
             </a>
           ))}
@@ -47,7 +47,7 @@ export default function Header({
 
         <button
           type="button"
-          className="ml-auto inline-flex size-11 cursor-pointer items-center justify-center rounded-control border border-white/20 bg-transparent text-white lg:hidden"
+          className="ml-auto inline-flex size-11 cursor-pointer items-center justify-center rounded-control border border-line bg-transparent text-ink lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
@@ -60,14 +60,14 @@ export default function Header({
       </div>
 
       {open && (
-        <nav id="mobile-nav" className="border-t border-white/10 px-5 pb-6 pt-2 lg:hidden" aria-label="Hauptnavigation">
+        <nav id="mobile-nav" className="border-t border-line-soft bg-white px-5 pb-6 pt-2 lg:hidden" aria-label="Hauptnavigation">
           <ul className="m-0 list-none p-0">
             {nav.map((item) => (
               <li key={item.label}>
                 <a
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block border-b border-white/10 py-3.5 text-base font-medium text-white no-underline"
+                  className="block border-b border-line-soft py-3.5 text-base font-medium text-ink no-underline"
                 >
                   {item.label}
                 </a>
@@ -88,7 +88,7 @@ export default function Header({
 
 export function LoginLink() {
   return (
-    <a href={href('login')} className="text-[15px] text-light-dark no-underline hover:text-white">
+    <a href={href('login')} className="text-[15px] text-ink-2 no-underline hover:text-gold-600">
       Mitglieder-Login
     </a>
   )

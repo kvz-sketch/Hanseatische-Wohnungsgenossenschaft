@@ -1,36 +1,54 @@
-@import "@fontsource-variable/manrope";
+@import "@fontsource/cormorant-garamond/300.css";
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource-variable/inter";
 @import "tailwindcss";
 
-/* Hanseatische Invest eG design tokens (navy ink, brick accent, Manrope) */
+/* Hansea Invest design tokens (GIG Markenbuch: Navy, Gold, Koralle, Hellgrau;
+   Cormorant Garamond for display, Inter for UI), as in the Hansea Invest
+   design system artifact. */
 @theme {
-  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
 
-  --color-ink: #10233a;
-  --color-ink-2: #34455a;
-  --color-muted: #6f7e8e;
-  --color-muted-dark: #8fa0b3;
-  --color-light-dark: #b8c4d1;
-  --color-lighter-dark: #dce3eb;
-  --color-brick: #8e3a2b;
-  --color-brick-hover: #7a3125;
-  --color-brick-active: #66281e;
-  --color-brick-tint: #f4e9e6;
-  --color-green: #1d7a57;
-  --color-green-tint: #e4f2ec;
-  --color-green-dark: #7bd0a5;
-  --color-amber: #a9720f;
-  --color-amber-tint: #f7eed8;
-  --color-link: #2f5f8f;
-  --color-link-tint: #e4ecf5;
-  --color-section: #eef1f4;
-  --color-line: #d6dde4;
-  --color-line-soft: #e7ecf0;
-  --color-ink-panel: #12233b;
-  --color-cream: #f4ece0;
-  --color-cream-line: #e6d8c3;
+  /* Navy */
+  --color-ink: #141a46;
+  --color-ink-2: #2a2f52;
+  --color-ink-panel: #101642;
+  --color-navy-600: #262c5c;
+  --color-navy-200: #bfc2d6;
+  --color-navy-050: #f1f2f7;
+  --color-muted: #7a7d89;
+  --color-muted-dark: #8a8fb2;
+  --color-light-dark: #bfc2d6;
+  --color-lighter-dark: #e3e4ee;
 
-  --radius-control: 7px;
-  --radius-card: 12px;
+  /* Gold */
+  --color-gold: #ddb851;
+  --color-gold-400: #e6c978;
+  --color-gold-600: #c6a248;
+  --color-gold-700: #a9863a;
+  --color-gold-100: #fbf6e7;
+
+  /* Koralle (sparingly: errors, pipeline) */
+  --color-coral: #f97768;
+  --color-coral-600: #e85a49;
+  --color-coral-100: #fde4e0;
+
+  /* Status */
+  --color-green: #3f8f6b;
+  --color-green-tint: #e6f2ec;
+  --color-link: #141a46;
+
+  /* Neutrals */
+  --color-section: #f5f5f5;
+  --color-line: #d2d4da;
+  --color-line-soft: #e7e8ec;
+  --color-cream: #fbf6e7;
+  --color-cream-line: #eedca2;
+
+  --radius-control: 4px;
+  --radius-card: 8px;
 }
 
 @layer base {
@@ -50,16 +68,16 @@
     color: var(--color-link);
   }
   a:hover {
-    color: var(--color-ink);
+    color: var(--color-gold-600);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brick);
+    outline: 2px solid var(--color-gold);
     outline-offset: 2px;
   }
 
   input[type="range"] {
-    accent-color: var(--color-brick);
+    accent-color: var(--color-gold);
   }
 }
 
@@ -86,11 +104,19 @@
 
   .h2 {
     margin: 0;
-    font-size: clamp(28px, 3.2vw, 40px);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 3.6vw, 44px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     text-wrap: pretty;
+  }
+
+  /* Display serif sizes run small; nudge headings set with font-display */
+  h1.font-display {
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
   }
 
   /* Placeholder for photos that are not available yet */
@@ -137,15 +163,26 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--color-brick);
+  background: var(--color-gold-600);
   border: 3px solid #fff;
-  box-shadow: 0 0 0 1px var(--color-brick);
+  box-shadow: 0 0 0 1px var(--color-gold-600);
 }
 .hs-range::-moz-range-thumb {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--color-brick);
+  background: var(--color-gold-600);
   border: 3px solid #fff;
-  box-shadow: 0 0 0 1px var(--color-brick);
+  box-shadow: 0 0 0 1px var(--color-gold-600);
+}
+
+/* Navy banner background */
+@utility bg-navy-gradient {
+  background: linear-gradient(158deg, #1b2354 0%, #141a46 55%, #0e1338 100%);
+}
+
+/* Cormorant defaults to old-style figures; amounts read better lining */
+.font-display,
+.h2 {
+  font-variant-numeric: lining-nums;
 }

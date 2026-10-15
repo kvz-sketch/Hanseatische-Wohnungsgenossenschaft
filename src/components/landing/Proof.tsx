@@ -18,10 +18,10 @@ export function CapitalSteps() {
           {capitalSteps.map((s, i) => (
             <li key={s.title} className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16">
               <div className={i % 2 === 1 ? 'lg:order-2' : ''}>
-                <p className="m-0 text-[clamp(40px,4vw,56px)] leading-none font-extrabold text-brick">
+                <p className="m-0 text-[clamp(40px,4vw,56px)] leading-none font-display font-normal text-gold-700">
                   {String(i + 1).padStart(2, '0')}
                 </p>
-                <h3 className="m-0 mt-4 text-[clamp(22px,2.2vw,28px)] leading-snug font-extrabold tracking-tight">{s.title}</h3>
+                <h3 className="m-0 mt-4 text-[clamp(22px,2.2vw,28px)] leading-snug font-display font-normal">{s.title}</h3>
                 <p className="m-0 mt-4 text-[16px] leading-relaxed text-ink-2">{s.text}</p>
               </div>
               <Placeholder label={`Bild Schritt ${i + 1}`} className={`aspect-[4/3] w-full ${i % 2 === 1 ? 'lg:order-1' : ''}`} />
@@ -39,7 +39,7 @@ export function CapitalSteps() {
 
 export function TrustBanner() {
   return (
-    <section className="bg-ink px-5 py-16 text-white">
+    <section className="bg-navy-gradient px-5 py-16 text-white">
       <div className="container-site text-center">
         <h2 className="h2">Mehr Rendite, weniger Risiko. Kein Aufwand</h2>
         <ul className="m-0 mt-10 grid list-none grid-cols-1 gap-8 p-0 sm:grid-cols-3">
@@ -62,7 +62,7 @@ function CaseStudyCard({ title, text }: { title: string; text: string }) {
     <article className="overflow-hidden rounded-card border border-line bg-white">
       <Placeholder label={`Projektfoto ${title}`} className="aspect-[16/10] w-full rounded-none" />
       <div className="p-6">
-        <h3 className="m-0 text-[22px] font-extrabold">{title}</h3>
+        <h3 className="m-0 text-[22px] font-display font-normal">{title}</h3>
         <p id={id} className={`m-0 mt-3 text-[16px] leading-relaxed text-ink-2 ${open ? '' : 'line-clamp-4'}`}>
           {text}
         </p>
@@ -71,7 +71,7 @@ function CaseStudyCard({ title, text }: { title: string; text: string }) {
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen((o) => !o)}
-          className="mt-3 cursor-pointer border-0 bg-transparent p-0 text-[15px] font-bold text-brick underline underline-offset-4"
+          className="mt-3 cursor-pointer border-0 bg-transparent p-0 text-[15px] font-bold text-gold-700 underline underline-offset-4"
         >
           {open ? 'Weniger anzeigen' : 'Mehr anzeigen'}
         </button>
@@ -98,7 +98,7 @@ export function CaseStudies() {
 
 export function WebinarBanner() {
   return (
-    <section className="bg-ink px-5 py-16 text-white lg:py-20">
+    <section className="bg-navy-gradient px-5 py-16 text-white lg:py-20">
       <div className="container-site grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div>
           <Eyebrow onDark>Live Webinar</Eyebrow>
@@ -147,8 +147,8 @@ export function Team() {
                 <Placeholder label={`Foto ${m.name}`} className="aspect-[4/5] w-full rounded-none" />
               )}
               <div className="p-6">
-                <h3 className="m-0 text-[20px] font-extrabold">{m.name}</h3>
-                <p className="m-0 mt-1 text-[14px] font-bold text-brick">{m.role}</p>
+                <h3 className="m-0 text-[20px] font-semibold">{m.name}</h3>
+                <p className="m-0 mt-1 text-[14px] font-bold text-gold-700">{m.role}</p>
                 <p className="m-0 mt-3 text-[15px] leading-relaxed text-ink-2">{m.bio}</p>
               </div>
             </li>

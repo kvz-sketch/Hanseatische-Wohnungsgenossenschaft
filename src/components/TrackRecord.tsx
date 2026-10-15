@@ -69,7 +69,7 @@ export default function TrackRecord({ projectsHref = '#projekte' }: { projectsHr
             <dl className="m-0 grid gap-6 sm:grid-cols-3">
               {stats.map((s) => (
                 <div key={s.label} className="border-l-[3px] border-ink pl-4">
-                  <dt className={`text-[clamp(28px,3vw,36px)] leading-tight font-extrabold tracking-tight tabular-nums ${s.accent ? 'text-green' : ''}`}>
+                  <dt className={`text-[clamp(28px,3vw,36px)] leading-tight font-display font-normal tabular-nums ${s.accent ? 'text-green' : ''}`}>
                     {s.value}
                   </dt>
                   <dd className="m-0 mt-1 text-[14px] text-muted">{s.label}</dd>

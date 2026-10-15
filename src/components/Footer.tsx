@@ -29,7 +29,7 @@ const linkClass = 'text-lighter-dark underline underline-offset-2 hover:text-whi
 
 export default function Footer() {
   return (
-    <footer className="bg-ink px-5 py-16 text-[14px] leading-relaxed text-lighter-dark">
+    <footer className="bg-navy-gradient px-5 py-16 text-[14px] leading-relaxed text-lighter-dark">
       <div className="container-site">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>

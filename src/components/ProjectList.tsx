@@ -5,7 +5,7 @@ import { StatusBadge } from './ui'
 function ProjectGroup({ title, projects, offset }: { title: string; projects: Project[]; offset?: number }) {
   return (
     <section aria-label={title} className="mt-8 first:mt-0">
-      <h3 className="m-0 mb-3 text-[13px] font-bold tracking-[0.08em] uppercase">
+      <h3 className="m-0 mb-3 text-[13px] font-semibold tracking-[0.18em] uppercase">
         {title} <span className="ml-1.5 font-semibold text-muted">{projects.length}</span>
       </h3>
       <ul className="m-0 list-none overflow-hidden rounded-card border border-line bg-white p-0">
@@ -14,7 +14,7 @@ function ProjectGroup({ title, projects, offset }: { title: string; projects: Pr
             key={`${p.city}-${p.street ?? i}`}
             className="flex items-center gap-4 border-b border-line-soft px-4 py-4 last:border-b-0 sm:px-5"
           >
-            <span className="w-6 shrink-0 text-[13px] font-bold text-brick tabular-nums">
+            <span className="w-6 shrink-0 text-[13px] font-bold text-gold-700 tabular-nums">
               {offset !== undefined ? String(offset + i + 1).padStart(2, '0') : '·'}
             </span>
             <span className="min-w-0 flex-1">
@@ -75,7 +75,7 @@ export default function ProjectList() {
                   key={s.label}
                   className={`p-5 ${i % 2 === 1 ? 'border-l border-line' : ''} ${i > 1 ? 'border-t border-line' : ''}`}
                 >
-                  <dt className="text-[28px] leading-none font-extrabold tracking-tight tabular-nums">{s.value}</dt>
+                  <dt className="text-[28px] leading-none font-display font-normal tabular-nums">{s.value}</dt>
                   <dd className="m-0 mt-2 text-[13px] text-muted">{s.label}</dd>
                 </div>
               ))}
