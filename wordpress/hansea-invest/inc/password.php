@@ -32,24 +32,7 @@ add_action( 'login_init', function () {
 	}
 } );
 
-add_filter( 'retrieve_password_title', function () {
-	return 'Ihr Passwort für den Mitgliederbereich – Hanseatische Invest eG';
-} );
-
-add_filter( 'retrieve_password_message', function ( $message, $key, $user_login, $user ) {
-	$link = hansea_password_url( array( 'key' => $key, 'login' => rawurlencode( $user_login ) ) );
-	$name = trim( $user->first_name . ' ' . $user->last_name );
-	return ( $name ? "Guten Tag {$name},\n\n" : "Guten Tag,\n\n" )
-		. "Sie haben ein neues Passwort für Ihren Mitgliederbereich der Hanseatischen Invest eG angefordert.\n\n"
-		. "Über diesen Link legen Sie Ihr Passwort fest:\n{$link}\n\n"
-		. "Der Link ist 24 Stunden gültig. Wenn Sie kein neues Passwort angefordert haben, können Sie diese E-Mail ignorieren; Ihr bisheriges Passwort bleibt bestehen.\n\n"
-		. "Mit freundlichen Grüßen\nIhr Mitgliederservice der Hanseatischen Invest eG\n"
-		. "Langenhorner Chaussee 155 · 22415 Hamburg · +49 40 22862372-0\n";
-}, 10, 4 );
-
-add_filter( 'wp_mail_from_name', function ( $name ) {
-	return 'WordPress' === $name ? 'Hanseatische Invest eG' : $name;
-} );
+// The reset email itself is built in inc/email.php.
 
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'hansea/v1', '/password/request', array(

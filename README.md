@@ -87,6 +87,8 @@ only use `register`, `login`, `logout` and `currentMember`.
 
 Every member currently sees the same sample portfolio (marked "Beispieldaten").
 
+See `docs/ROADMAP.md` for the full requirements list and status.
+
 ## Open items
 
 - Lead forms only reach a backend in the WordPress build.
