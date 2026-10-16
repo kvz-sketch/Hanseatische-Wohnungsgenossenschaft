@@ -15,6 +15,7 @@ import { RouterProvider, usePath } from "./router";
 import { MarketingDashboard } from "./pages/MarketingDashboard";
 import { BrandBook } from "./pages/BrandBook";
 import { PerformanceMarketingReport } from "./pages/PerformanceMarketingReport";
+import { VideoPlan } from "./pages/VideoPlan";
 
 function Site() {
   return (
@@ -43,6 +44,7 @@ function Routes() {
   if (path === "/website") return <Site />;
   if (path === "/dashboard/brandbook") return <BrandBook />;
   if (path === "/dashboard/performance-marketing-report") return <PerformanceMarketingReport />;
+  if (path === "/dashboard/videoplan") return <VideoPlan />;
   return <MarketingDashboard />;
 }
 

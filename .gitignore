@@ -25,3 +25,7 @@ dist-ssr
 
 # Daily report refresh inputs (contain personal data) — never commit
 .report-input/
+
+# Videoplan SQLite data when running the PHP API locally
+public/api/.data/
+videoplan-data/

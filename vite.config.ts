@@ -22,4 +22,7 @@ function publishReportData(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), publishReportData()],
+  // Local dev: run the PHP API with `php -S 127.0.0.1:8099 -t public` next to `npm run dev`.
+  server: { proxy: { '/api': 'http://127.0.0.1:8099' } },
+  preview: { proxy: { '/api': 'http://127.0.0.1:8099' } },
 })

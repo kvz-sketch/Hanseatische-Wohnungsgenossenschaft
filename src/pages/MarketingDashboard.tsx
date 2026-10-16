@@ -85,6 +85,16 @@ function IconChat({ className = "" }: { className?: string }) {
   );
 }
 
+function IconCalendar({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <rect x="3.5" y="5" width="17" height="15" rx="1.4" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="m10 13 4.5 2.5L10 18v-5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function IconChart({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -111,6 +121,14 @@ const tiles: Tile[] = [
     to: "/dashboard/performance-marketing-report",
     status: "live",
     icon: IconChart,
+  },
+  {
+    id: "videoplan",
+    title: "Videoplan & Freigaben",
+    description: "Shoot-Kalender Okt–Dez 2026 mit Briefings, Schnitt-Status und Creative-Freigaben mit Feedback.",
+    to: "/dashboard/videoplan",
+    status: "live",
+    icon: IconCalendar,
   },
   {
     id: "templates",
