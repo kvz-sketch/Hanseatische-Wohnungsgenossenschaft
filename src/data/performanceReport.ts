@@ -72,6 +72,8 @@ export type Campaign = {
   /** "meta-form": leads come from Meta's own lead form, so there is no Perspective count. */
   leadSource?: "meta-form";
   leadStatus?: LeadStatus;
+  /** Where/when the lead status counts come from, e.g. "HubSpot, 18.10.2026". */
+  leadStatusSource?: string;
   ads: AdStat[];
   incomplete?: boolean;
   note?: string;

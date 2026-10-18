@@ -98,7 +98,7 @@ export function CampaignRow({
         {campaign.leadStatus && (
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">
-              Lead-Status{isFiltered ? " (Gesamt)" : ""}:
+              Lead-Status{campaign.leadStatusSource ? ` (${campaign.leadStatusSource})` : ""}{isFiltered ? " · Gesamt" : ""}:
             </span>
             {!!campaign.leadStatus.abschluss && (
               <span className="rounded-[2px] bg-[#1f8a5a]/10 px-2 py-0.5 text-[11px] font-bold text-[#1f8a5a]">
