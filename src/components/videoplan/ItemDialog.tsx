@@ -24,12 +24,15 @@ export type DialogTarget = { item: Item } | { draft: ItemDraft };
 
 export function ItemDialog({
   target,
+  readOnly = false,
   author,
   onAuthor,
   onClose,
   onSaved,
 }: {
   target: DialogTarget;
+  /** View-only: the brief can be read but not changed (edit password not entered). */
+  readOnly?: boolean;
   author: string;
   onAuthor: (name: string) => void;
   onClose: () => void;
@@ -148,7 +151,7 @@ export function ItemDialog({
           </button>
         </div>
 
-        <div className="flex flex-col gap-5 px-5 py-5 sm:px-6">
+        <fieldset disabled={readOnly} className="flex min-w-0 flex-col gap-5 px-5 py-5 disabled:[&_input]:bg-mist/60 disabled:[&_select]:bg-mist/60 disabled:[&_textarea]:bg-mist/60 sm:px-6">
           <div>
             <label className={labelCls} htmlFor="vp-title">Titel</label>
             <input id="vp-title" className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Shoot Bergedorf – Außenaufnahmen" autoFocus />
@@ -203,7 +206,7 @@ export function ItemDialog({
                 <input type="checkbox" checked={allDay} onChange={(e) => setAllDay(e.target.checked)} />
                 Ganztägig
               </label>
-              {date && (
+              {date && !readOnly && (
                 <button type="button" onClick={() => setDate("")} className="text-[11.5px] font-bold text-koralle hover:underline">
                   Termin entfernen (→ ungeplant)
                 </button>
@@ -247,10 +250,19 @@ export function ItemDialog({
               </button>
             </div>
           </div>
-        </div>
+        </fieldset>
 
         <div className="flex flex-col gap-3 border-t border-navy/10 bg-mist/40 px-5 py-4 sm:px-6">
-          {error && <p className="rounded-md bg-koralle/10 px-3 py-2 text-[12.5px] font-semibold text-[#b8402f]">{error}</p>}
+          {readOnly && (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-[12.5px] text-muted">🔒 Nur Ansicht — zum Bearbeiten oben auf der Seite das Team-Passwort eingeben.</p>
+              <button type="button" onClick={onClose} className="rounded-md bg-navy px-4 py-2 text-[11.5px] font-bold uppercase tracking-[0.06em] text-white">
+                Schließen
+              </button>
+            </div>
+          )}
+          {!readOnly && error && <p className="rounded-md bg-koralle/10 px-3 py-2 text-[12.5px] font-semibold text-[#b8402f]">{error}</p>}
+          {!readOnly && (
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div className="w-full sm:w-56">
               <label className={labelCls} htmlFor="vp-author">Dein Name</label>
@@ -277,6 +289,7 @@ export function ItemDialog({
               </button>
             </div>
           </div>
+          )}
           {existing?.updatedBy && (
             <p className="text-[10.5px] text-fog">
               Zuletzt geändert von {existing.updatedBy} · {new Date(existing.updatedAt).toLocaleString("de-DE")}

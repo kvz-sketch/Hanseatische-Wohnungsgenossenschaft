@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from "react";
+import { createContext, useContext, useRef, useState, type FormEvent, type ReactNode, type RefObject } from "react";
 import { Link } from "../router";
 import { RoofIcon } from "../components/brandbook/RoofIcon";
 import { Calendar } from "../components/videoplan/Calendar";
@@ -14,6 +14,7 @@ import {
   isDriveFolder,
   toLocal,
   useAuthorName,
+  useEditAccess,
   useVideoplan,
   type Category,
   type DriveLink,
@@ -89,9 +90,14 @@ function BriefCard({ item, onOpen, footer }: { item: Item; onOpen: (i: Item) => 
   );
 }
 
+/** Whether this visitor has unlocked editing (team password). Viewing and feedback are open to all. */
+const EditContext = createContext(false);
+
 function StatusMove({ item, to, label, author, onDone }: { item: Item; to: Status; label: string; author: string; onDone: () => void }) {
+  const canEdit = useContext(EditContext);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  if (!canEdit) return null;
   return (
     <div className="flex flex-wrap items-center gap-2">
       <button
@@ -249,6 +255,7 @@ function ApprovalCard({
   onDone: () => void;
 }) {
   const approved = item.status === "freigegeben";
+  const canEdit = useContext(EditContext);
   return (
     <div className="flex flex-col gap-4 rounded-md border border-navy/8 bg-white p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -271,7 +278,7 @@ function ApprovalCard({
       </div>
       <div className="flex flex-wrap items-center gap-4">
         <button type="button" onClick={() => onOpen(item)} className="text-[11px] font-bold uppercase tracking-[0.06em] text-koralle hover:underline">
-          Briefing & Links bearbeiten
+          {canEdit ? "Briefing & Links bearbeiten" : "Briefing ansehen"}
         </button>
         {!approved ? (
           <StatusMove item={item} to="freigegeben" label="✓ Freigeben" author={author} onDone={onDone} />
@@ -286,21 +293,98 @@ function ApprovalCard({
   );
 }
 
+function UnlockBar({
+  canEdit,
+  hint,
+  inputRef,
+  onUnlock,
+  onLock,
+}: {
+  canEdit: boolean;
+  hint: string | null;
+  inputRef: RefObject<HTMLInputElement | null>;
+  onUnlock: (password: string) => Promise<void>;
+  onLock: () => void;
+}) {
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  if (canEdit) {
+    return (
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-[#1f8a5a]/25 bg-[#1f8a5a]/[0.07] px-4 py-3">
+        <span className="text-[12.5px] font-semibold text-[#1f6a46]">🔓 Bearbeitungsmodus — Termine, Briefings und Status können geändert werden.</span>
+        <button type="button" onClick={onLock} className="text-[11px] font-bold uppercase tracking-[0.06em] text-muted hover:text-navy">
+          Sperren
+        </button>
+      </div>
+    );
+  }
+  return (
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        if (!password) return;
+        setBusy(true);
+        setError(null);
+        try {
+          await onUnlock(password);
+          setPassword("");
+        } catch (err) {
+          setError((err as Error).message);
+        } finally {
+          setBusy(false);
+        }
+      }}
+      className={`flex flex-wrap items-center gap-3 rounded-md border px-4 py-3 ${hint ? "border-koralle/40 bg-koralle/[0.07]" : "border-navy/10 bg-white"}`}
+    >
+      <span className="flex-1 basis-[260px] text-[12.5px] text-ink">
+        <span className="font-bold text-navy">🔒 Ansichtsmodus.</span>{" "}
+        {hint ?? "Ansehen und Feedback geben kann jede:r. Zum Bearbeiten das Team-Passwort eingeben."}
+      </span>
+      <input
+        ref={inputRef}
+        type="password"
+        autoComplete="current-password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Team-Passwort"
+        className="w-48 rounded-md border border-navy/15 px-3 py-1.5 text-[12.5px] text-navy placeholder:text-fog focus:border-navy focus:outline-none"
+      />
+      <button type="submit" disabled={busy || !password} className="rounded-md bg-navy px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-white hover:bg-navy-light disabled:opacity-50">
+        {busy ? "Prüft …" : "Entsperren"}
+      </button>
+      {error && <span className="w-full text-[11.5px] font-semibold text-[#b8402f]">{error}</span>}
+    </form>
+  );
+}
+
 export function VideoPlan() {
   const { items, feedback, error, loaded, reload } = useVideoplan();
   const [author, setAuthor] = useAuthorName();
   const [dialog, setDialog] = useState<DialogTarget | null>(null);
+  const { canEdit, unlock, lock } = useEditAccess();
+  const [unlockHint, setUnlockHint] = useState<string | null>(null);
+  const unlockInput = useRef<HTMLInputElement>(null);
+
+  /** Runs an editing action, or points the visitor to the unlock field first. */
+  const guarded = (action: () => void) => () => {
+    if (canEdit) return action();
+    setUnlockHint("Zum Anlegen und Bearbeiten bitte zuerst das Team-Passwort eingeben.");
+    unlockInput.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    unlockInput.current?.focus({ preventScroll: true });
+  };
   const [showApproved, setShowApproved] = useState(false);
 
   const open = (item: Item) => setDialog({ item });
   const createAt = (date: string, hour?: number) =>
-    setDialog({
+    guarded(() => setDialog({
       draft: newDraft({
         status: "geplant",
         start: toLocal(date, hour !== undefined ? `${String(hour).padStart(2, "0")}:00` : "09:00"),
         end: toLocal(date, hour !== undefined ? `${String(Math.min(hour + 2, 23)).padStart(2, "0")}:00` : "12:00"),
       }),
-    });
+    }))();
 
   const byUpdated = (a: Item, b: Item) => b.updatedAt.localeCompare(a.updatedAt);
   const unscheduled = items.filter((i) => i.status === "ungeplant").sort(byUpdated);
@@ -309,6 +393,7 @@ export function VideoPlan() {
   const approved = items.filter((i) => i.status === "freigegeben").sort(byUpdated);
 
   return (
+    <EditContext.Provider value={canEdit}>
     <div className="min-h-screen bg-mist">
       <header className="border-b border-navy/8 bg-white">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-5 py-4 sm:px-8 lg:px-11">
@@ -333,7 +418,7 @@ export function VideoPlan() {
           </div>
           <button
             type="button"
-            onClick={() => setDialog({ draft: newDraft() })}
+            onClick={guarded(() => setDialog({ draft: newDraft() }))}
             className="rounded-[2px] bg-gold px-5 py-3 text-[12px] font-bold uppercase tracking-[0.08em] text-navy hover:bg-gold-deep"
           >
             + Neues Briefing
@@ -343,6 +428,17 @@ export function VideoPlan() {
 
       <main className="px-5 py-10 sm:px-8 lg:px-11">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-12">
+          <UnlockBar
+            canEdit={canEdit}
+            hint={unlockHint}
+            inputRef={unlockInput}
+            onUnlock={async (pw) => {
+              await unlock(pw);
+              setUnlockHint(null);
+            }}
+            onLock={lock}
+          />
+
           {error && (
             <div className="rounded-md border border-koralle/30 bg-koralle/10 px-4 py-3 text-[12.5px] font-semibold text-[#b8402f]">
               Daten konnten nicht geladen werden: {error}
@@ -358,7 +454,7 @@ export function VideoPlan() {
             hint="Briefings ohne Termin. Sobald ein Datum eingetragen ist, erscheint der Shoot im Kalender."
             count={unscheduled.length}
             action={
-              <button type="button" onClick={() => setDialog({ draft: newDraft() })} className="text-[11px] font-bold uppercase tracking-[0.06em] text-koralle hover:underline">
+              <button type="button" onClick={guarded(() => setDialog({ draft: newDraft() }))} className="text-[11px] font-bold uppercase tracking-[0.06em] text-koralle hover:underline">
                 + Briefing ohne Termin
               </button>
             }
@@ -387,7 +483,7 @@ export function VideoPlan() {
                     item={i}
                     onOpen={open}
                     footer={
-                      i.links.length ? (
+                      !canEdit ? undefined : i.links.length ? (
                         <StatusMove item={i} to="freigabe" label="Zur Freigabe geben →" author={author} onDone={reload} />
                       ) : (
                         <button type="button" onClick={() => open(i)} className="text-[11px] font-bold uppercase tracking-[0.06em] text-navy hover:text-koralle">
@@ -408,7 +504,7 @@ export function VideoPlan() {
             action={
               <button
                 type="button"
-                onClick={() => setDialog({ draft: newDraft({ status: "freigabe", category: "creative", links: [{ url: "", label: "" }] }) })}
+                onClick={guarded(() => setDialog({ draft: newDraft({ status: "freigabe", category: "creative", links: [{ url: "", label: "" }] }) }))}
                 className="text-[11px] font-bold uppercase tracking-[0.06em] text-koralle hover:underline"
               >
                 + Creative zur Freigabe
@@ -451,7 +547,17 @@ export function VideoPlan() {
         </div>
       </footer>
 
-      {dialog && <ItemDialog target={dialog} author={author} onAuthor={setAuthor} onClose={() => setDialog(null)} onSaved={reload} />}
+      {dialog && (
+        <ItemDialog
+          target={dialog}
+          readOnly={!canEdit}
+          author={author}
+          onAuthor={setAuthor}
+          onClose={() => setDialog(null)}
+          onSaved={reload}
+        />
+      )}
     </div>
+    </EditContext.Provider>
   );
 }

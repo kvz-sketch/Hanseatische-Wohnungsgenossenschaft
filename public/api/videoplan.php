@@ -12,11 +12,21 @@
 //                       {action:"update",   id, item}       (partial item)
 //                       {action:"delete",   id}             (soft delete, logged)
 //                       {action:"feedback", itemId, author, text}
+//                       {action:"unlock"}                (checks the edit password)
 //   GET  videoplan.php?health=1              → storage diagnostics
 //
-// Open to every visitor by design (the page has no login). Every write is
-// logged with its full before/after state in `log`, deletes are soft, and
-// writes are rate-limited per IP, so nothing a visitor does is unrecoverable.
+// Viewing and feedback are open to every visitor. create / update / delete
+// need the team edit password in the X-Edit-Password header. Only its bcrypt
+// hash is stored, in the data folder outside the web root. To set or change
+// it, upload api/videoplan-password.php containing
+//   <?php return '<password_hash(...) output>';
+// — the next request moves the hash into the data folder and deletes that
+// file. With no password configured, editing is refused (fails closed).
+// After 10 wrong passwords from one IP within 15 minutes, that IP is locked
+// out for the rest of the window.
+//
+// Every write is also logged with its full before/after state in `log`,
+// deletes are soft, and writes are rate-limited per IP.
 
 declare(strict_types=1);
 
@@ -31,6 +41,8 @@ const BRIEF_FIELDS = [
     'talent', 'shotlist', 'equipment', 'formate', 'deadline', 'notizen',
 ];
 const MAX_WRITES_PER_MINUTE = 40;
+const MAX_FAILED_UNLOCKS = 10;
+const FAILED_UNLOCK_WINDOW = 900;
 
 function fail(int $code, string $message): void
 {
@@ -216,9 +228,56 @@ function logWrite(string $action, string $id, ?string $author, $before, $after):
         ]);
 }
 
+function ipHash(): string
+{
+    return hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . '|videoplan');
+}
+
+/** bcrypt hash of the edit password, or null if none is configured yet. */
+function editPasswordHash(): ?string
+{
+    $file = dataDir() . '/edit-password.hash';
+    // One-time hand-over: a freshly uploaded api/videoplan-password.php
+    // replaces the stored hash and is then deleted from the web root.
+    $bootstrap = __DIR__ . '/videoplan-password.php';
+    if (is_file($bootstrap)) {
+        $new = include $bootstrap;
+        if (is_string($new) && str_starts_with($new, '$2y$') && strlen($new) >= 60) {
+            file_put_contents($file, $new, LOCK_EX);
+            @chmod($file, 0600);
+        }
+        @unlink($bootstrap);
+    }
+    $hash = is_file($file) ? trim((string) file_get_contents($file)) : '';
+    return $hash !== '' ? $hash : null;
+}
+
+function requireEditor(): void
+{
+    $hash = editPasswordHash();
+    if ($hash === null) {
+        fail(503, 'Bearbeiten ist noch nicht eingerichtet (kein Team-Passwort hinterlegt).');
+    }
+    $pdo = db();
+    $pdo->exec('CREATE TABLE IF NOT EXISTS auth_failures (ip_hash TEXT NOT NULL, at INTEGER NOT NULL)');
+    $pdo->prepare('DELETE FROM auth_failures WHERE at < ?')->execute([time() - FAILED_UNLOCK_WINDOW]);
+    $st = $pdo->prepare('SELECT COUNT(*) FROM auth_failures WHERE ip_hash = ?');
+    $st->execute([ipHash()]);
+    if ((int) $st->fetchColumn() >= MAX_FAILED_UNLOCKS) {
+        fail(429, 'Zu viele falsche Passwörter — bitte in 15 Minuten erneut versuchen.');
+    }
+    $given = (string) ($_SERVER['HTTP_X_EDIT_PASSWORD'] ?? '');
+    if ($given === '' || !password_verify($given, $hash)) {
+        if ($given !== '') {
+            $pdo->prepare('INSERT INTO auth_failures (ip_hash, at) VALUES (?, ?)')->execute([ipHash(), time()]);
+        }
+        fail(403, $given === '' ? 'Zum Bearbeiten bitte das Team-Passwort eingeben.' : 'Falsches Passwort.');
+    }
+}
+
 function rateLimit(): void
 {
-    $ip = hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . '|videoplan');
+    $ip = ipHash();
     $pdo = db();
     $pdo->prepare('DELETE FROM writes WHERE at < ?')->execute([time() - 60]);
     $st = $pdo->prepare('SELECT COUNT(*) FROM writes WHERE ip_hash = ?');
@@ -253,7 +312,7 @@ try {
             ]);
             exit;
         }
-        echo json_encode(listAll(), JSON_UNESCAPED_UNICODE);
+        echo json_encode(listAll() + ['editingConfigured' => editPasswordHash() !== null], JSON_UNESCAPED_UNICODE);
         exit;
     }
     if ($method !== 'POST') fail(405, 'Methode nicht erlaubt.');
@@ -264,8 +323,13 @@ try {
     rateLimit();
     $pdo = db();
     $action = (string) ($body['action'] ?? '');
+    if (in_array($action, ['create', 'update', 'delete', 'unlock'], true)) {
+        requireEditor();
+    }
 
-    if ($action === 'create') {
+    if ($action === 'unlock') {
+        echo json_encode(['ok' => true]);
+    } elseif ($action === 'create') {
         $base = ['title' => '', 'status' => 'ungeplant', 'category' => 'shoot', 'start' => null, 'end' => null,
             'allDay' => false, 'brief' => array_fill_keys(BRIEF_FIELDS, ''), 'links' => [], 'updatedBy' => ''];
         $item = cleanItem(is_array($body['item'] ?? null) ? $body['item'] : [], $base);

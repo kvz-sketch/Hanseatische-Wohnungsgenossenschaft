@@ -29,3 +29,6 @@ dist-ssr
 # Videoplan SQLite data when running the PHP API locally
 public/api/.data/
 videoplan-data/
+
+# One-time edit-password hand-over file (bcrypt hash) — uploaded by hand, never committed
+public/api/videoplan-password.php

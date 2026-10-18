@@ -68,22 +68,77 @@ export const emptyBrief = (): Brief =>
 
 const API = "/api/videoplan.php";
 
-async function call<T>(body?: unknown): Promise<T> {
+/** Thrown when the server rejects (or wants) the team edit password. */
+export class LockedError extends Error {}
+
+// ---------- edit password ----------
+// Editing (create/update/delete) needs the team password; viewing and
+// feedback don't. Once unlocked it's remembered in this browser and sent
+// with every edit; a rejection clears it again.
+
+const PASS_KEY = "gig-videoplan-pass";
+const listeners = new Set<(p: string) => void>();
+let editPassword = (() => {
+  try {
+    return localStorage.getItem(PASS_KEY) ?? "";
+  } catch {
+    return "";
+  }
+})();
+
+function setEditPassword(next: string) {
+  editPassword = next;
+  try {
+    if (next) localStorage.setItem(PASS_KEY, next);
+    else localStorage.removeItem(PASS_KEY);
+  } catch {
+    // Not remembered — the visitor just unlocks again next time.
+  }
+  listeners.forEach((l) => l(next));
+}
+
+/** Whether this browser holds the edit password, plus unlock/lock actions. */
+export function useEditAccess() {
+  const [pass, setPass] = useState(editPassword);
+  useEffect(() => {
+    listeners.add(setPass);
+    return () => {
+      listeners.delete(setPass);
+    };
+  }, []);
+  const unlock = useCallback(async (password: string) => {
+    await call({ action: "unlock" }, password);
+    setEditPassword(password);
+  }, []);
+  const lock = useCallback(() => setEditPassword(""), []);
+  return { canEdit: pass !== "", unlock, lock };
+}
+
+async function call<T>(body?: unknown, password?: string): Promise<T> {
+  const headers: Record<string, string> = {};
+  if (body) headers["Content-Type"] = "application/json";
+  if (password) headers["X-Edit-Password"] = password;
   const res = await fetch(API, {
     method: body ? "POST" : "GET",
-    headers: body ? { "Content-Type": "application/json" } : undefined,
+    headers,
     body: body ? JSON.stringify(body) : undefined,
     cache: "no-store",
   });
   const data = await res.json().catch(() => ({ error: "Server nicht erreichbar." }));
+  if (res.status === 403) {
+    if (password && password === editPassword) setEditPassword("");
+    throw new LockedError(data.error ?? "Zum Bearbeiten bitte das Team-Passwort eingeben.");
+  }
   if (!res.ok || data.error) throw new Error(data.error ?? `Fehler ${res.status}`);
   return data as T;
 }
 
+const edit = <T,>(body: unknown) => call<T>(body, editPassword);
+
 export const api = {
-  create: (item: ItemDraft) => call<{ item: Item }>({ action: "create", item }),
-  update: (id: string, item: Partial<ItemDraft>) => call<{ item: Item }>({ action: "update", id, item }),
-  remove: (id: string, author: string) => call<{ ok: true }>({ action: "delete", id, author }),
+  create: (item: ItemDraft) => edit<{ item: Item }>({ action: "create", item }),
+  update: (id: string, item: Partial<ItemDraft>) => edit<{ item: Item }>({ action: "update", id, item }),
+  remove: (id: string, author: string) => edit<{ ok: true }>({ action: "delete", id, author }),
   feedback: (itemId: string, author: string, text: string) =>
     call<{ feedback: Feedback }>({ action: "feedback", itemId, author, text }),
 };
