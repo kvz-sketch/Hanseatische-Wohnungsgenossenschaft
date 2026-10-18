@@ -9,7 +9,6 @@ const columns = [
     title: 'Mitglieder',
     links: [
       { label: 'Mitglieder-Login', href: href('login') },
-      { label: 'Konto erstellen', href: href('login', '#registrieren') },
       { label: 'Geprüfter Jahresabschluss auf Anfrage', href: `mailto:${company.email}` },
       { label: `Prüfungsverband: ${company.auditor}`, href: '#' },
     ],

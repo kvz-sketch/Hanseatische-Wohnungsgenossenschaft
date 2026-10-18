@@ -5,12 +5,12 @@
  * The pages are a React build in dist/ (see vite.wordpress.config.ts in the
  * repository). This theme routes /, /login/ and /mitglieder/ to those
  * bundles, protects the members' area and provides the REST endpoints for
- * registration, login, logout and the lead forms.
+ * login, logout, the lead forms and the membership declaration (DocuSign).
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HANSEA_THEME_VERSION', '1.3.0' );
+define( 'HANSEA_THEME_VERSION', '1.4.0' );
 
 require_once __DIR__ . '/inc/views.php';
 require_once __DIR__ . '/inc/members.php';
@@ -19,6 +19,9 @@ require_once __DIR__ . '/inc/leads.php';
 require_once __DIR__ . '/inc/elementor.php';
 require_once __DIR__ . '/inc/password.php';
 require_once __DIR__ . '/inc/email.php';
+require_once __DIR__ . '/inc/welcome.php';
+require_once __DIR__ . '/inc/docusign.php';
+require_once __DIR__ . '/inc/beitritt.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );

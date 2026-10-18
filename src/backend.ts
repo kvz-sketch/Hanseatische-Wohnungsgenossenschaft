@@ -2,6 +2,7 @@
 // VITE_BACKEND=wordpress; every other build uses the browser-only demo.
 
 import type { Member } from './auth/auth'
+import type { BeitrittConfig } from './data/beitritt'
 
 export const IS_WORDPRESS = import.meta.env.VITE_BACKEND === 'wordpress'
 
@@ -11,6 +12,8 @@ type WordPressConfig = {
   nonce: string
   member: Member | null
   lostPasswordUrl: string
+  /** Membership declaration (members only). */
+  beitritt: BeitrittConfig | null
 }
 
 declare global {
@@ -23,6 +26,9 @@ export const wp = (): WordPressConfig => {
   if (!window.HANSEA) throw new Error('window.HANSEA missing: page not rendered by the Hansea Invest theme')
   return window.HANSEA
 }
+
+/** URL of a GET endpoint, authenticated with the logged-in member's cookie. */
+export const wpUrl = (route: string) => `${wp().restUrl}hansea/v1/${route}?_wpnonce=${wp().nonce}`
 
 /** POST to the theme's REST API; throws with the server's message on failure. */
 export async function wpPost<T>(route: string, body: unknown): Promise<T> {

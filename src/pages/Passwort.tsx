@@ -130,18 +130,24 @@ export default function Passwort() {
   const login = params.get('login') ?? ''
   const resetKey = params.get('key') ?? ''
   const resetting = Boolean(login && resetKey)
+  // Link from the welcome email (inc/welcome.php)
+  const welcome = resetting && params.has('willkommen')
 
   return (
     <>
       <Header nav={publicNav} cta={{ label: 'Mitglieder-Login', href: href('login') }} />
       <main className="bg-section px-5 py-14 lg:py-20">
         <div className="mx-auto max-w-[560px]">
-          <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-700 uppercase">Mitgliederbereich</p>
+          <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-700 uppercase">
+            {welcome ? 'Willkommen' : 'Mitgliederbereich'}
+          </p>
           <h1 className="m-0 mt-3 font-display text-[clamp(30px,3.4vw,40px)] leading-tight font-normal">
-            {resetting ? 'Neues Passwort festlegen' : 'Passwort vergessen?'}
+            {welcome ? 'Ihr Passwort festlegen' : resetting ? 'Neues Passwort festlegen' : 'Passwort vergessen?'}
           </h1>
           <p className="m-0 mt-3 text-[17px] leading-relaxed text-ink-2">
-            {resetting
+            {welcome
+              ? 'Schön, dass Sie dabei sind. Wählen Sie ein Passwort für Ihren Mitgliederbereich; Ihr Benutzername ist Ihre E-Mail-Adresse. Danach sind Sie direkt angemeldet.'
+              : resetting
               ? 'Wählen Sie ein neues Passwort für Ihr Mitgliederkonto. Danach sind Sie direkt angemeldet.'
               : 'Geben Sie die E-Mail-Adresse Ihres Mitgliederkontos ein. Wir schicken Ihnen einen Link, mit dem Sie ein neues Passwort festlegen.'}
           </p>

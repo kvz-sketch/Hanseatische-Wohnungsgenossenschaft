@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { currentMember, logout, type Member } from '../auth/auth'
+import Beitritt from '../components/Beitritt'
 import Calculator from '../components/Calculator'
 import Faq from '../components/Faq'
 import Footer from '../components/Footer'
@@ -14,6 +15,7 @@ import { company, exampleShares, nextPayout, SHARE_PRICE } from '../data/content
 
 const memberNav = [
   { label: 'Übersicht', href: '#uebersicht' },
+  { label: 'Beitritt', href: '#beitritt' },
   { label: 'Meine Anteile', href: '#verfolgen' },
   { label: 'Projekte', href: '#projekte' },
   { label: 'Bilanz', href: '#bilanz' },
@@ -130,6 +132,7 @@ export default function Dashboard() {
       <Header nav={memberNav} aside={aside} cta={{ label: 'Rückruf anfordern', href: '#termin' }} homeHref="#uebersicht" />
       <main>
         <Welcome member={member} />
+        <Beitritt />
         <ShareTracker />
         <ProjectList />
         <TrackRecord />

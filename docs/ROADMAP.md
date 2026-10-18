@@ -1,6 +1,6 @@
 # Hansea Invest – Roadmap
 
-Gesamtliste der Anforderungen (Stand 15.10.2026), mit aktuellem Status.
+Gesamtliste der Anforderungen (Stand 18.10.2026), mit aktuellem Status.
 Status: **erledigt** · **teilweise** · **offen** · **jetzt machbar** (kann schon vor dem
 Go-live vorbereitet werden).
 
@@ -35,10 +35,10 @@ React-Seiten im Theme. Vorschau: https://beige-mallard-443486.hostingersite.com
 | 2.4 | Rollen und Zwei-Faktor-Login für Ihr Team | offen | **Jetzt machbar:** Team-Rollen (z. B. Innendienst) und Zwei-Faktor-Login für alle Admin-Konten. |
 | 2.5 | Alle Kontakte, Formulareinträge und Notizen aus beiden HubSpot-Konten übernommen; HubSpot abgeschaltet | offen | Braucht HubSpot-Exporte bzw. Zugang. |
 | 2.6 | Alle Formulare aller heutigen Websites auf das neue System umgestellt | teilweise | Formulare der neuen Startseite und des Portals laufen bereits über das eigene System („Anfragen“). |
-| 2.7 | Mitgliederportal: Login per Telefon oder E-Mail mit Einmalcode | teilweise | Login per E-Mail + Passwort, eigene gebrandete Passwort-Seiten. **Jetzt machbar:** E-Mail-Einmalcode; Telefon-Code braucht den SMS-Anbieter aus 1.2. |
+| 2.7 | Mitgliederportal: Login per Telefon oder E-Mail mit Einmalcode | teilweise | Login per E-Mail + Passwort, eigene gebrandete Passwort-Seiten. Keine Selbstregistrierung: das Team legt Konten an (Benutzer → Mitglied anlegen), das Mitglied bekommt eine Willkommens-Mail mit Zugangsdaten und Link zum Passwort-Festlegen. **Jetzt machbar:** E-Mail-Einmalcode; Telefon-Code braucht den SMS-Anbieter aus 1.2. |
 | 2.8 | Portal: Projekte, Ausschüttungshistorie, Dokumente, Steuerbescheinigung, Rückruf-Button | teilweise | Projekte, Anteilsverfolgung, Rückruf-Button vorhanden (Beispieldaten). Dokumente/Steuerbescheinigung fehlen (setzt 2.2 voraus). |
-| 2.9 | Willkommens-Mail und SMS von Ihrer Domain; Willkommensanruf-Aufgabe beim ersten Login | teilweise | Gebrandete E-Mail-Vorlage vorhanden (alle WordPress-Mails). **Jetzt machbar:** Willkommens-Mail bei Registrierung + Anruf-Aufgabe beim ersten Login. Versand „von Ihrer Domain“ braucht SMTP mit SPF/DKIM der echten Domain. |
-| 2.10 | Beitrittsformular im Portal vorausgefüllt und unterschrieben (integrierte Signaturplattform, gehostet in Deutschland) | offen | Anbieter festlegen. |
+| 2.9 | Willkommens-Mail und SMS von Ihrer Domain; Willkommensanruf-Aufgabe beim ersten Login | teilweise | Gebrandete Willkommens-Mail beim Anlegen eines Mitglieds (mit optionaler persönlicher Zeile, erneut sendbar). **Jetzt machbar:** Anruf-Aufgabe beim ersten Login. Versand „von Ihrer Domain“ braucht SMTP mit SPF/DKIM der echten Domain. |
+| 2.10 | Beitrittsformular im Portal vorausgefüllt und unterschrieben (integrierte Signaturplattform, gehostet in Deutschland) | teilweise | DocuSign-Anbindung fertig vorbereitet (Embedded Signing, PDF-Ablage, Webhook, Einstellungsseite), siehe [DOCUSIGN.md](DOCUSIGN.md). Wartet auf die DocuSign-Zugangsdaten; Text der Erklärung und Signaturstufe (QES?) mit Rechtsberatung klären. |
 | 2.11 | Assistent auf Ihren Daten: die sechs Fragetypen aus diesem Angebot und die Formulierungsprüfung | offen | Setzt 2.2 voraus. |
 | 2.12 | Echte Anteile und Ausschüttungen geladen und geprüft; Portal in zwei Wellen geöffnet | offen | Setzt 2.2 voraus. Erste Mitglieder angelegt: Kai Raila, Katrin van Zyl. |
 | 2.13 | Auftragsverarbeitungsvertrag, Verschlüsselung, tägliche Backups | teilweise | HTTPS aktiv. **Jetzt machbar:** AVV mit Hostinger abschließen (hPanel), Backup-Rhythmus prüfen. |

@@ -647,7 +647,7 @@ def footer():
                      "+49 40 22862372-0<br>mitgliederservice@hanseainvest.de</p>", color=ON_NAVY, size=14),
             ], width=24, gap_px=16),
             col("Navigation", NAV),
-            col("Mitglieder", [("Mitglieder-Login", "/login/"), ("Konto erstellen", "/login/#registrieren"),
+            col("Mitglieder", [("Mitglieder-Login", "/login/"),
                                ("Geprüfter Jahresabschluss auf Anfrage", "mailto:mitgliederservice@hanseainvest.de"),
                                ("Prüfungsverband: DIVK Prüfungsverband", None)]),
             col("Rechtliches", [("Impressum", "#"), ("Datenschutz", "#"), ("Risikohinweis", "#"), ("Satzung", "#"),

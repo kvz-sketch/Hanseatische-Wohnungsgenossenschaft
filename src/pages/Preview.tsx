@@ -24,7 +24,7 @@ export default function Preview() {
       setHash(hash)
       setState({ page, hash })
     })
-    // Links to other pages look like "?p=login#registrieren"
+    // Links to other pages look like "?p=home#kontakt"
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element).closest?.('a')
       const link = a?.getAttribute('href')

@@ -1,8 +1,10 @@
 # Hanseatische Invest eG — Website
 
 Public landing page (built from the Hansea Invest wireframe brief) plus a
-members' area: members create an account with email and password, log in, and
-see their dashboard with shares, projects, track record and calculator.
+members' area: the team creates member accounts in wp-admin (Benutzer →
+Mitglied anlegen), members get a branded welcome email to set their password,
+log in, see their dashboard and sign their membership declaration with DocuSign
+(`docs/DOCUSIGN.md`).
 
 ## Stack
 
@@ -14,7 +16,7 @@ see their dashboard with shares, projects, track record and calculator.
 | URL            | Entry                                                   |
 | -------------- | ------------------------------------------------------- |
 | `/`            | `index.html` → `src/pages/Landing.tsx`                  |
-| `/login/`      | `login/index.html` → `src/pages/Login.tsx` (login + registration) |
+| `/login/`      | `login/index.html` → `src/pages/Login.tsx` (login) |
 | `/mitglieder/` | `mitglieder/index.html` → `src/pages/Dashboard.tsx` (requires login) |
 
 Each page is its own HTML file (Vite multi-page build), so `dist/` runs on
@@ -46,7 +48,7 @@ The explainer film is left out to keep the file small.
 ## WordPress theme (live site)
 
 `wordpress/hansea-invest/` is a WordPress theme that serves the same pages:
-`/` (landing), `/login/` (login + registration) and `/mitglieder/` (dashboard,
+`/` (landing), `/login/` (login) and `/mitglieder/` (dashboard,
 redirects to the login when not signed in).
 
 ```bash
@@ -77,13 +79,12 @@ Cormorant Garamond and Inter, sticky header, placeholders), the
 form widget) and `page.php` for other Elementor pages. Login and dashboard stay
 React pages from the theme.
 
-## Authentication (demo)
+## Authentication
 
-Outside the WordPress build, `src/auth/auth.ts` stores accounts and the session in the browser's
-localStorage (passwords as salted PBKDF2 hashes). This is a preview only: it is
-not a security boundary and accounts don't sync between devices. When the site
-moves to WordPress, swap these functions for WordPress user accounts; the pages
-only use `register`, `login`, `logout` and `currentMember`.
+WordPress build: real WordPress accounts (subscriber role), created by the team;
+there is no self-registration (`inc/welcome.php`). Outside the WordPress build,
+`src/auth/auth.ts` accepts one sample account (`DEMO_LOGIN`, shown on the
+preview's login page); it is not a security boundary.
 
 Every member currently sees the same sample portfolio (marked "Beispieldaten").
 
