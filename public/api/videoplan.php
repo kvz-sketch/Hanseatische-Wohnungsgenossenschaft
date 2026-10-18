@@ -53,15 +53,32 @@ function fail(int $code, string $message): void
 
 function dataDir(): string
 {
+    static $dir = null;
+    if ($dir !== null) {
+        return $dir;
+    }
     // Local development only: `VIDEOPLAN_DATA_DIR=/tmp/x php -S …`.
     $override = getenv('VIDEOPLAN_DATA_DIR');
     if ($override) {
         if (!is_dir($override)) @mkdir($override, 0700, true);
-        return $override;
+        return $dir = $override;
+    }
+    // On Hostinger this file lives at ~/domains/<domain>/public_html/api/.
+    // The data sits once per hosting account (~/videoplan-data), outside every
+    // web root, so all domains serving this dashboard (e.g. the temporary
+    // *.hostingersite.com one and marketing.gerlach-group.de) share the same
+    // calendar, feedback and edit password.
+    $domainsDir = dirname(__DIR__, 3);
+    if (basename($domainsDir) === 'domains') {
+        $shared = dirname($domainsDir) . '/videoplan-data';
+        if ((is_dir($shared) || @mkdir($shared, 0700, true)) && is_writable($shared)) {
+            migrateLegacyData($domainsDir, $shared);
+            return $dir = $shared;
+        }
     }
     $outside = dirname(__DIR__, 2) . '/videoplan-data';
     if ((is_dir($outside) || @mkdir($outside, 0700, true)) && is_writable($outside)) {
-        return $outside;
+        return $dir = $outside;
     }
     $inside = __DIR__ . '/.data';
     if (!is_dir($inside) && !@mkdir($inside, 0700, true)) {
@@ -70,7 +87,35 @@ function dataDir(): string
     if (!file_exists($inside . '/.htaccess')) {
         file_put_contents($inside . '/.htaccess', "Require all denied\n");
     }
-    return $inside;
+    return $dir = $inside;
+}
+
+/**
+ * One-time move from the earlier per-domain location
+ * (~/domains/<domain>/videoplan-data) into the shared account-level folder.
+ * Takes the most recently used per-domain store; does nothing once the
+ * shared folder holds a database or password.
+ */
+function migrateLegacyData(string $domainsDir, string $shared): void
+{
+    if (is_file($shared . '/videoplan.sqlite') || is_file($shared . '/edit-password.hash')) {
+        return;
+    }
+    $candidates = glob($domainsDir . '/*/videoplan-data', GLOB_ONLYDIR) ?: [];
+    usort($candidates, fn ($a, $b) => (int) @filemtime($b) <=> (int) @filemtime($a));
+    foreach ($candidates as $legacy) {
+        $files = ['videoplan.sqlite', 'videoplan.sqlite-wal', 'videoplan.sqlite-shm', 'edit-password.hash'];
+        if (!is_file($legacy . '/videoplan.sqlite') && !is_file($legacy . '/edit-password.hash')) {
+            continue;
+        }
+        foreach ($files as $f) {
+            if (is_file($legacy . '/' . $f)) {
+                @copy($legacy . '/' . $f, $shared . '/' . $f);
+                @chmod($shared . '/' . $f, 0600);
+            }
+        }
+        return;
+    }
 }
 
 function db(): PDO
@@ -308,7 +353,7 @@ try {
             echo json_encode([
                 'ok' => true,
                 'php' => PHP_VERSION,
-                'storage' => str_starts_with($dir, dirname(__DIR__, 2) . '/videoplan-data') ? 'outside-webroot' : 'api/.data',
+                'storage' => str_ends_with($dir, '/.data') ? 'api/.data' : (str_starts_with($dir, dirname(__DIR__, 2) . '/') ? 'per-domain' : 'account-shared'),
             ]);
             exit;
         }
