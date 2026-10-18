@@ -108,6 +108,11 @@ export function CampaignRow({
             <span className="rounded-[2px] bg-navy/[0.06] px-2 py-0.5 text-[11px] font-bold text-navy">
               {campaign.leadStatus.neu} Neu
             </span>
+            {!!campaign.leadStatus.wiedervorlage && (
+              <span className="rounded-[2px] bg-gold/20 px-2 py-0.5 text-[11px] font-bold text-[#7a5f1c]">
+                {campaign.leadStatus.wiedervorlage} Wiedervorlage
+              </span>
+            )}
             <span className="rounded-[2px] bg-navy/[0.06] px-2 py-0.5 text-[11px] font-bold text-muted">
               {campaign.leadStatus.nichtErreicht} Nicht erreicht
             </span>

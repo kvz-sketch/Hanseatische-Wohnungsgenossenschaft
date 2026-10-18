@@ -806,7 +806,7 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel — Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel — Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 18.10.2026, 57 Deals aus „Meta forms (051026_HSWG_Full Service)“): 29 Neue Leads, 12 Nicht erreicht (1×/2×/3×: 1/3/8), 2 Wiedervorlage, 14 Disqualifiziert — noch kein Termin oder Abschluss.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -933,7 +933,13 @@
           "impressions": 21271
         }
       ],
-      "unattributedLeadsCount": 56
+      "unattributedLeadsCount": 56,
+      "leadStatus": {
+        "neu": 29,
+        "nichtErreicht": 12,
+        "disqualifiziert": 14,
+        "wiedervorlage": 2
+      }
     }
   ]
 }

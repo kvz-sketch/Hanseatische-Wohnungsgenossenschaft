@@ -45,6 +45,8 @@ export type LeadStatus = {
   nichtErreicht: number;
   disqualifiziert: number;
   abschluss?: number;
+  /** HubSpot "Wiedervorlage" — follow-up scheduled. */
+  wiedervorlage?: number;
 };
 
 export type Campaign = {
