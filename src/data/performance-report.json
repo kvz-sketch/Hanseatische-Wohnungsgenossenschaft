@@ -783,7 +783,14 @@
             "2026-10-16"
           ]
         }
-      ]
+      ],
+      "leadStatus": {
+        "neu": 3,
+        "nichtErreicht": 3,
+        "disqualifiziert": 8,
+        "wiedervorlage": 1
+      },
+      "leadStatusSource": "HubSpot, 18.10.2026 · 15 Deals"
     },
     {
       "id": "fullservice-leadform",
