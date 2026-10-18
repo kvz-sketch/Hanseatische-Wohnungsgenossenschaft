@@ -1,10 +1,11 @@
 import { useState } from "react";
-import type { Campaign } from "../../data/performanceReport";
+import { disqualificationRate, type Campaign } from "../../data/performanceReport";
 import { campaignLeadsInPeriod } from "../../lib/periodFilter";
 import { AdCard } from "./AdCard";
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
+const fmtPct = (v: number) => `${Math.round(v * 100)} %`;
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
@@ -119,6 +120,23 @@ export function CampaignRow({
             <span className="rounded-[2px] bg-koralle/10 px-2 py-0.5 text-[11px] font-bold text-koralle">
               {campaign.leadStatus.disqualifiziert} Disqualifiziert
             </span>
+            {(() => {
+              const r = disqualificationRate(campaign.leadStatus);
+              if (r.ofAll == null) return null;
+              return (
+                <span
+                  className="text-[11px] text-muted"
+                  title={`${r.disqualified} von ${r.total} Deals disqualifiziert; ${r.worked} Deals bereits bearbeitet (alle außer „Neu“).`}
+                >
+                  Disqualifizierungsrate <b className="text-navy">{fmtPct(r.ofAll)}</b>
+                  {r.ofWorked != null && (
+                    <>
+                      {" "}· <b className="text-navy">{fmtPct(r.ofWorked)}</b> der bearbeiteten
+                    </>
+                  )}
+                </span>
+              );
+            })()}
           </div>
         )}
 

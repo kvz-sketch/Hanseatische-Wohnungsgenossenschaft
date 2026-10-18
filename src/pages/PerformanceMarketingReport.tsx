@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "../router";
 import { RoofIcon } from "../components/brandbook/RoofIcon";
 import { CampaignRow } from "../components/performanceReport/CampaignRow";
-import { useReport, type Campaign } from "../data/performanceReport";
+import { disqualificationRate, useReport, type Campaign } from "../data/performanceReport";
 import {
   buildPeriodOptions,
   campaignLeadsInPeriod,
@@ -63,6 +63,14 @@ export function PerformanceMarketingReport() {
   const blendedCplPerspective =
     !isFiltered && totalPerspectiveLeads > 0 ? totalSpend / totalPerspectiveLeads : null;
   const funnelGroups = groupByFunnel(campaigns);
+
+  // Disqualification rate across campaigns with current CRM status (those that name their source).
+  const crm = campaigns
+    .filter((c) => c.leadStatus && c.leadStatusSource)
+    .map((c) => disqualificationRate(c.leadStatus!));
+  const crmTotal = crm.reduce((s, r) => s + r.total, 0);
+  const crmWorked = crm.reduce((s, r) => s + r.worked, 0);
+  const crmDisq = crm.reduce((s, r) => s + r.disqualified, 0);
 
   return (
     <div className="min-h-screen bg-mist">
@@ -127,7 +135,7 @@ export function PerformanceMarketingReport() {
             )}
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-md border border-navy/8 bg-white p-6">
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Ausgegeben gesamt</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
@@ -150,6 +158,17 @@ export function PerformanceMarketingReport() {
                 {blendedCplPerspective != null ? fmtEur(blendedCplPerspective) : "—"}
               </div>
               {isFiltered && <div className="mt-1.5 text-[11px] text-muted">nur als Gesamtwert verfügbar</div>}
+            </div>
+            <div className="rounded-md border border-navy/8 bg-white p-6">
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Disqualifizierungsrate</span>
+              <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
+                {crmTotal > 0 ? `${Math.round((crmDisq / crmTotal) * 100)} %` : "—"}
+              </div>
+              <div className="mt-1.5 text-[11px] text-muted">
+                {crmTotal > 0
+                  ? `${crmWorked > 0 ? `${Math.round((crmDisq / crmWorked) * 100)} % der bearbeiteten · ` : ""}${crmDisq} von ${fmtNum(crmTotal)} Deals (HubSpot)`
+                  : "keine aktuellen CRM-Daten"}
+              </div>
             </div>
           </div>
 

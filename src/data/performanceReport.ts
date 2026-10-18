@@ -49,6 +49,19 @@ export type LeadStatus = {
   wiedervorlage?: number;
 };
 
+/** Disqualification rate from a lead-status breakdown: of all deals, and of worked deals (all except "neu"). */
+export function disqualificationRate(s: LeadStatus) {
+  const total = s.neu + s.nichtErreicht + s.disqualifiziert + (s.wiedervorlage ?? 0) + (s.abschluss ?? 0);
+  const worked = total - s.neu;
+  return {
+    total,
+    worked,
+    disqualified: s.disqualifiziert,
+    ofAll: total > 0 ? s.disqualifiziert / total : null,
+    ofWorked: worked > 0 ? s.disqualifiziert / worked : null,
+  };
+}
+
 export type Campaign = {
   id: string;
   name: string;
