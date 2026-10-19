@@ -47,6 +47,8 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-ph-2x3 { aspect-ratio: 2 / 3; }
 .hs-ph-16x10 { aspect-ratio: 16 / 10; }
 .hs-ph-4x5 { aspect-ratio: 4 / 5; }
+.hs-ph-16x9 { aspect-ratio: 16 / 9; }
+.hs-case-img img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .hs-ph-3x2 { aspect-ratio: 3 / 2; }
 .hs-placeholder {
 	position: absolute;

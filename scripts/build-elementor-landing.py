@@ -300,6 +300,11 @@ TEAM = [
      "Erfahrene Immobilieninvestorin und Expertin für Sprungauflassung im Immobilienhandel. Als Vorstandsmitglied der 100.PlusCommunity und gefragte Sprecherin unterstreicht sie die Bedeutung von Immobilien als sichere Kapitalanlage."),
 ]
 
+# Case study photos (16:9); placeholder until a file is set
+CASE_PHOTOS = {
+    "Oldenburg": "projekt-oldenburg.jpg",
+}
+
 TEAM_LINKEDIN = {
     "Stephan Gerlach": "https://www.linkedin.com/in/stephan-gerlach/",
     "Vadim Kogan": "https://www.linkedin.com/in/vadim-kogan-7b08b3b1/",
@@ -670,8 +675,10 @@ def trust():
 def case_studies():
     cards = []
     for title, intro, more in CASES:
+        photo_file = CASE_PHOTOS.get(title)
         cards.append(tile([
-            placeholder(f"Projektfoto {title}", "16/10"),
+            image(photo_file, f"Projekt {title}: renovierte Wohnung", radius=0, css_extra="hs-case-img")
+            if photo_file else placeholder(f"Projektfoto {title}", "16/9"),
             container([
                 heading("Case Study", "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI, line=1.4),
                 heading(title, "h3", size=28, mobile=24),
