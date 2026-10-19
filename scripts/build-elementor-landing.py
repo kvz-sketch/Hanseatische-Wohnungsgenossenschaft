@@ -201,7 +201,7 @@ def button(label, url, *, variant="gold", align=None, size=15, hide_mobile=False
     return widget("button", s, hide_mobile=hide_mobile)
 
 
-def image(name, alt, *, radius=8, url=None, link=None, width=None):
+def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=None):
     s = {
         "image": {"url": url or "{{IMG:%s}}" % name, "id": "" if url else "{{IMGID:%s}}" % name,
                   "alt": alt, "source": "library", "size": ""},
@@ -213,7 +213,7 @@ def image(name, alt, *, radius=8, url=None, link=None, width=None):
     if link:
         s["link_to"] = "custom"
         s["link"] = {"url": link, "is_external": "", "nofollow": ""}
-    return widget("image", s)
+    return widget("image", s, css=css_extra)
 
 
 def placeholder(label, ratio="4/3"):
@@ -287,6 +287,7 @@ CASES = [
      "Durch die gezielte Berücksichtigung der Mieterwünsche und Renovierungsmaßnahmen konnte eine einvernehmliche Mietanpassung von über 30 % erreicht werden. Da die Mieter aufgrund der familiären Situation und der attraktiven Lage bleiben wollten, entstanden wertstabile und gut verkäufliche Anlagewohnungen. Die Projektlaufzeit betrug 9 Monate."),
 ]
 
+# Team: name, role, photo, bio. LinkedIn profiles in TEAM_LINKEDIN ("#" until the real URL is known).
 TEAM = [
     ("Stephan Gerlach", "Vorstandsvorsitzender", "stephan-gerlach-portraet.jpg",
      "Gründer der Gerlach Immobilien Gruppe und Experte für nachhaltige Kapitalanlage-Immobilien. Mit einem ganzheitlichen Ansatz begleitet er Anleger von der Objektwahl über die Finanzierung bis zur langfristigen Verwaltung."),
@@ -295,6 +296,12 @@ TEAM = [
     ("Christine Pistorius", "Vorstand", None,
      "Erfahrene Immobilieninvestorin und Expertin für Sprungauflassung im Immobilienhandel. Als Vorstandsmitglied der 100.PlusCommunity und gefragte Sprecherin unterstreicht sie die Bedeutung von Immobilien als sichere Kapitalanlage."),
 ]
+
+TEAM_LINKEDIN = {
+    "Stephan Gerlach": "#",
+    "Vadim Kogan": "#",
+    "Christine Pistorius": "#",
+}
 
 FAQS = [
     ("Was bedeutet „investierendes Mitglied“ konkret?", "Sie werden Mitglied, nicht Kunde.",
@@ -367,12 +374,14 @@ def h2(title, color=NAVY):
 
 def intro_row(eyebrow_text, title, body=None, *, on_dark=False, button_=None):
     """Section opener: eyebrow + heading on the left, intro text on the right."""
-    left = container([eyebrow(eyebrow_text, on_dark), h2(title, WHITE if on_dark else NAVY)], width=50, gap_px=14)
     right = []
     if body:
         right.append(text(f"<p>{body}</p>", color=ON_NAVY if on_dark else NAVY_TEXT, size=16))
     if button_:
         right.append(button_)
+    # Without intro text the heading gets the full width (stays on one line)
+    left = container([eyebrow(eyebrow_text, on_dark), h2(title, WHITE if on_dark else NAVY)], width=50 if right else 100,
+                     gap_px=14)
     return container([left, container(right, width=42, gap_px=16)] if right else [left], row=True,
                      align="flex-end", justify="space-between", gap_px=32)
 
@@ -407,6 +416,35 @@ def link_button(label, url):
         "background_color": "transparent", "button_text_color": NAVY, "button_background_hover_color": "transparent",
         "hover_color": GOLD_700, "text_padding": box(8, 0), **type_(UI, 15, "600", 1, spacing=0.01),
     })
+
+
+def video_box():
+    """Elementor video widget: the explainer film with its poster. Swap the source in Elementor
+    (Video → Quelle: YouTube, Vimeo or a file from the media library)."""
+    return widget("video", {
+        "video_type": "hosted",
+        "insert_url": "yes",
+        "external_url": {"url": "{{THEME}}/../dist/video/hansea-erklaerfilm.mp4", "is_external": "", "nofollow": ""},
+        "show_image_overlay": "yes",
+        "image_overlay": {"url": "{{IMG:erklaerfilm-poster.jpg}}", "id": "{{IMGID:erklaerfilm-poster.jpg}}", "alt": "",
+                          "source": "library", "size": ""},
+        "show_play_icon": "yes",
+        "aspect_ratio": "169",
+        "controls": "yes",
+        "play_icon_color": WHITE,
+    }, css="hs-video")
+
+
+def linkedin_button(name, url):
+    return widget("button", {
+        "text": "LinkedIn",
+        "link": {"url": url, "is_external": "on", "nofollow": "",
+                 "custom_attributes": f"aria-label|{name} auf LinkedIn"},
+        "selected_icon": {"value": "fab fa-linkedin-in", "library": "fa-brands"},
+        "icon_align": "left", "icon_indent": px(8),
+        "background_color": "transparent", "button_text_color": NAVY, "button_background_hover_color": "transparent",
+        "hover_color": GOLD_700, "text_padding": box(6, 0), **type_(UI, 14, "600", 1, spacing=0.01),
+    }, css="hs-linkedin")
 
 
 def logo_row(count=6):
@@ -458,6 +496,44 @@ def hero():
         ], 42, side="l", pad=(104, 64, 88, 64)),
         photo("projekt-hamburg-borgfelder.jpg", 58, min_h=700, children=[chip]),
     ])
+
+
+TESTIMONIALS = [
+    # Placeholders until the real quotes are in (name, since/place)
+    ("Platzhalter für das Zitat eines Mitglieds: zwei bis drei Sätze, warum es Mitglied geworden ist und was es "
+     "überzeugt hat.", "Name des Mitglieds", "Mitglied seit 20XX · Ort", "white"),
+    ("Platzhalter für das Zitat eines Mitglieds: zum Beispiel über Transparenz, die Besichtigung der Häuser oder die "
+     "erste Ausschüttung.", "Name des Mitglieds", "Mitglied seit 20XX · Ort", "gold"),
+    ("Platzhalter für das Zitat eines Mitglieds: zum Beispiel über die persönliche Beratung und das "
+     "Mitgliedertreffen.", "Name des Mitglieds", "Mitglied seit 20XX · Ort", "navy"),
+]
+
+
+def testimonials():
+    cards = []
+    for quote, name, meta, tone in TESTIMONIALS:
+        bg, fg, sub, mark = {"white": (WHITE, NAVY, MUTED, GOLD_600), "gold": (GOLD, NAVY, NAVY_TEXT, NAVY),
+                             "navy": (NAVY, WHITE, ON_NAVY_MUTED, GOLD_400)}[tone]
+        cards.append(tile([
+            heading("“", "p", size=120, mobile=96, color=mark, line=0.7),
+            heading(quote, "p", size=26, mobile=22, color=fg, line=1.3),
+            container([
+                widget("html", {"html": f'<span class="hs-avatar hs-avatar--{tone}" aria-hidden="true"></span>'}),
+                container([
+                    heading(name, "p", size=15, mobile=15, color=fg, weight="700", family=UI, line=1.3),
+                    heading(meta, "p", size=13, mobile=13, color=sub, weight="400", family=UI, line=1.4),
+                ], gap_px=2),
+            ], row=True, mobile_row=True, align="center", gap_px=14, css="hs-quote-author"),
+        ], width=31.5, bg=bg, pad=(40, 36, 36, 36), pad_mobile=(32, 24, 28, 24), gap_px=20,
+            justify="space-between", css=f"hs-quote hs-quote--{tone}"))
+    return band([
+        container([
+            eyebrow("Stimmen unserer Mitglieder"),
+            heading("Was unsere Mitglieder sagen", size=48, mobile=34, line=1.1),
+        ], gap_px=14, align="center", css="hs-center"),
+        spacer(32),
+        container(cards, row=True, justify="space-between", align="stretch", gap_px=24),
+    ], bg=CREAM, anchor="stimmen", gap_px=8)
 
 
 def about():
@@ -571,7 +647,8 @@ def trust():
         container([
             container([
                 eyebrow("Ausgezeichnet", on_dark=True),
-                heading("Mehr Rendite, weniger Risiko. Kein Aufwand", size=34, mobile=28, color=WHITE, line=1.15),
+                heading("Mehr Rendite, weniger Risiko. Kein Aufwand", size=30, mobile=24, color=WHITE, weight="700", family=UI,
+                        line=1.2),
             ], width=38, gap_px=14),
             container([
                 container([
@@ -615,7 +692,8 @@ def case_studies():
 
 def webinar():
     return split([
-        photo("erklaerfilm-poster.jpg", 56, min_h=470, contain_on="#EDF1F4"),
+        panel([tile([video_box()], pad=(10,), pad_mobile=(8,), gap_px=0, css="hs-video-frame")], 56, side="l",
+              bg="#EDF1F4", pad=(72, 56), gap_px=0),
         panel([
             eyebrow("Live Webinar", on_dark=True),
             h2("Lassen Sie Ihr Kapital sinnvoll arbeiten", WHITE),
@@ -637,6 +715,7 @@ def team():
                 heading(role, "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI, line=1.4),
                 heading(name, "h3", size=26, mobile=24),
                 text(f"<p>{bio}</p>", size=15),
+                linkedin_button(name, TEAM_LINKEDIN.get(name, "#")),
             ], pad=(24, 28, 28, 28), pad_mobile=(20,), gap_px=8),
         ], width=31.5, pad=(0,), pad_mobile=(0,), gap_px=0, css="hs-card hs-team-card"))
     return band([
@@ -646,38 +725,75 @@ def team():
     ], anchor="team", gap_px=8)
 
 
-def press_and_broker():
+def press():
     return band([
         container([
             container([
                 eyebrow("Presse"),
-                heading("Öffentlichkeitsarbeit &amp; Artikel", size=34, mobile=28, line=1.15),
+                h2("Öffentlichkeitsarbeit &amp; Artikel"),
                 text("<p>In diesem Bereich finden Sie ausgewählte Artikel und Veröffentlichungen rund um unser "
                      "Unternehmen. Hier erhalten Sie kompakte Einblicke in unser Business und erfahren, wo und zu "
-                     "welchen Themen wir publizieren.</p>", size=15),
+                     "welchen Themen wir publizieren.</p>", size=16),
                 link_button("Mehr erfahren", "#"),
-            ], width=31, gap_px=14, justify="center"),
-            tile([placeholder("Bild Presse & Artikel", "4/5")], width=31, pad=(0,), pad_mobile=(0,), css="hs-card hs-fill"),
-            tile([
-                eyebrow("Für Makler", on_dark=True),
-                heading("Mehrwert für Makler: 7&nbsp;% p.a. Rendite-Chance für Ihre Verkaufskunden", "h3", size=26,
-                        mobile=24, color=WHITE, line=1.2),
-                text("<p>Was passiert mit dem Kapital Ihrer Kunden nach dem Verkauf? Mit den Genossenschaftsanteilen der "
-                     "Hanseatischen Invest eG bieten Sie eine attraktive Möglichkeit zur renditestarken Weiteranlage: "
-                     "7&nbsp;% p.a. im Rahmen unseres „Club der Kapitalanleger PRO“ der Gerlach Immobilien Gruppe.</p>",
-                     color=ON_NAVY, size=14),
-                container([
-                    text("<p>Jetzt empfehlen</p>", color=WHITE, size=14, weight="600"),
-                    circle_button("#kontakt", "Jetzt empfehlen"),
-                ], row=True, mobile_row=True, align="center", justify="space-between", gap_px=12, css="hs-split-line"),
-            ], width=31, bg=NAVY, pad=(36,), pad_mobile=(28, 20), gap_px=16, justify="space-between"),
-        ], row=True, align="stretch", justify="space-between", gap_px=24),
+            ], width=38, gap_px=14, justify="center"),
+            tile([placeholder("Bild Presse & Artikel", "16/10")], width=56, pad=(0,), pad_mobile=(0,), css="hs-card"),
+        ], row=True, align="center", justify="space-between", gap_px=48),
     ], bg=GREY_BG)
 
 
+CASE_CHART = """
+<figure class="hs-chart" aria-labelledby="hs-chart-cap">
+  <div class="hs-chart__legend" aria-hidden="true">
+    <span><i class="hs-sw hs-sw--base"></i>Kaufpreis, Bankdarlehen, Investition</span>
+    <span><i class="hs-sw hs-sw--gold"></i>Sanierung, Eigenkapital, Wertsteigerung</span>
+  </div>
+  <div class="hs-chart__plot" aria-hidden="true">
+    <div class="hs-chart__grid"><span style="left:0">0</span><span style="left:31.25%">1 Mio.</span><span style="left:62.5%">2 Mio.</span><span class="hs-tick--end" style="left:93.75%">3 Mio.</span></div>
+    ROWS
+  </div>
+  <figcaption id="hs-chart-cap" class="hs-chart__note">Finanziert zu 80&nbsp;% mit Fremd- und zu 20&nbsp;% mit Eigenkapital. Ergebnis für die Anleger: 7&nbsp;% Rendite zuzüglich vollständiger Rückzahlung des Eigenkapitals.</figcaption>
+  <div class="hs-sr-only"><table>
+    <caption>Case Study Mehrfamilienhaus Hamburg, Beträge in Euro</caption>
+    <tr><th scope="row">Kaufpreis</th><td>2.000.000</td></tr>
+    <tr><th scope="row">Sanierung</th><td>500.000</td></tr>
+    <tr><th scope="row">Gesamtinvestition</th><td>2.500.000</td></tr>
+    <tr><th scope="row">Bankdarlehen</th><td>2.000.000</td></tr>
+    <tr><th scope="row">Eigenkapital</th><td>500.000</td></tr>
+    <tr><th scope="row">Verkaufspreis</th><td>3.200.000</td></tr>
+  </table></div>
+</figure>
+"""
+
+# (row label, total, [(segment label, value in Mio., tone, tooltip)])
+CASE_ROWS = [
+    ("Investition", "2,5 Mio. €", [("Kaufpreis", 2.0, "base", "Kaufpreis: 2.000.000 €"),
+                                    ("Sanierung", 0.5, "gold", "Sanierung: 500.000 €")]),
+    ("Finanzierung", "2,5 Mio. €", [("Bankdarlehen 80 %", 2.0, "base", "Bankdarlehen: 2.000.000 € (80 %)"),
+                                     ("Eigenkapital 20 %", 0.5, "gold", "Eigenkapital: 500.000 € (20 %)")]),
+    ("Verkauf", "3,2 Mio. €", [("Investition", 2.5, "base", "Gesamtinvestition: 2.500.000 €"),
+                                ("+0,7 Mio. €", 0.7, "gold", "Wertsteigerung: 700.000 €")]),
+]
+
+
+def case_chart():
+    scale = 3.2  # Mio. €, the largest bar fills the width
+    rows = []
+    for r, (label, total, segs) in enumerate(CASE_ROWS):
+        bars, labels, start = [], [], 0.0
+        for i, (seg, value, tone, tip) in enumerate(segs):
+            width = value / scale * 100
+            delay = r * 160 + i * 120
+            bars.append(f'<span class="hs-seg hs-seg--{tone}" style="width:{width:.3f}%;--d:{delay}ms" tabindex="0" '
+                        f'data-tip="{tip}"></span>')
+            align = " hs-seg-label--end" if i == len(segs) - 1 else ""
+            labels.append(f'<span class="hs-seg-label{align}" style="left:{start:.3f}%;width:{width:.3f}%">{seg}</span>')
+            start += width
+        rows.append(f'<div class="hs-chart__row"><div class="hs-chart__head"><span>{label}</span><strong>{total}</strong></div>'
+                    f'<div class="hs-chart__bar">{"".join(bars)}</div><div class="hs-chart__labels">{"".join(labels)}</div></div>')
+    return widget("html", {"html": CASE_CHART.replace("ROWS", "".join(rows))}, css="hs-chart-widget")
+
+
 def case_numbers():
-    stats = [("2,5 M", "Gesamtinvestition"), ("2 M", "Kaufpreis"), ("500.000", "Sanierung"),
-             ("2 M", "Bankdarlehen"), ("500.000", "Eigenkapital"), ("3,2 M", "Verkaufspreis")]
     return band([
         container([
             container([
@@ -689,25 +805,21 @@ def case_numbers():
                      "Ankaufnebenkosten aus Eigenkapital gedeckt wurden. Durch gezielte Sanierungsmaßnahmen erzielten die "
                      "Anleger eine Rendite von 7 % zuzüglich vollständiger Rückzahlung des Eigenkapitals.</p>",
                      color=ON_NAVY, size=15),
-            ], width=40, gap_px=14),
-            container([
-                container([
-                    heading(v, "p", size=36, mobile=28, color=GOLD_400 if i == len(stats) - 1 else WHITE, line=1),
-                    text(f"<p>{label}</p>", color=ON_NAVY_MUTED, size=13),
-                ], width=32, width_mobile=48, pad=(28, 24), pad_mobile=(20, 16), radius=8,
-                    border="rgba(255,255,255,0.14)", gap_px=8)
-                for i, (v, label) in enumerate(stats)
-            ], row=True, wrap=True, mobile_row=True, justify="space-between", gap_px=12, width=55, css="hs-row-wrap"),
+            ], width=38, gap_px=14),
+            container([case_chart()], width=56),
         ], row=True, align="center", justify="space-between", gap_px=48),
     ], bg=NAVY)
 
 
 def subsidiaries():
     return band([
-        intro_row("Unsere Marken", "Tochterunternehmen",
-                  "Mit unseren Marken decken wir die gesamte Wertschöpfungskette entlang der Bestandssanierung bis hin "
-                  "zum Verkauf als optimierte Kapitalanlage ab. Durch diese Synergien entstehen für uns und unsere "
-                  "Kunden relevante Kostenvorteile."),
+        container([
+            eyebrow("Unsere Marken"),
+            h2("Tochterunternehmen"),
+            text("<p>Mit unseren Marken decken wir die gesamte Wertschöpfungskette entlang der Bestandssanierung bis hin "
+                 "zum Verkauf als optimierte Kapitalanlage ab. Durch diese Synergien entstehen für uns und unsere "
+                 "Kunden relevante Kostenvorteile.</p>", size=16),
+        ], max_width=680, gap_px=14),
         spacer(24),
         logo_row(),
     ], gap_px=12)
@@ -745,28 +857,44 @@ def faq():
     ], bg=GREY_BG, anchor="faq")
 
 
+SPONSOR_GALLERY = [f"sponsoring-handball-{i}.jpg" for i in range(1, 7)]  # placeholders until the photos arrive
+
+
 def sponsoring():
-    """Hansea Invest Sponsoring, directly below "Über uns"."""
+    """Hansea Invest Sponsoring, directly below "Über uns": headline, one hero image, swipeable gallery."""
+    gallery = widget("image-carousel", {
+        "carousel": [{"id": "{{IMGID:%s}}" % f, "url": "{{IMG:%s}}" % f} for f in SPONSOR_GALLERY],
+        "thumbnail_size": "large",
+        "slides_to_show": "3", "slides_to_show_tablet": "2", "slides_to_show_mobile": "1",
+        "slides_to_scroll": "1",
+        "navigation": "both",
+        "image_stretch": "yes",
+        "link_to": "file", "open_lightbox": "yes",
+        "autoplay": "yes", "autoplay_speed": 4500, "pause_on_hover": "yes", "pause_on_interaction": "yes",
+        "infinite": "yes", "speed": 600,
+        "image_spacing": "custom", "image_spacing_custom": px(16),
+        "arrows_size": px(22), "arrows_color": WHITE,
+        "dots_size": px(8), "dots_color": "rgba(255,255,255,0.35)", "dots_color_active": GOLD,
+        "image_border_radius": box(8),
+    }, css="hs-gallery")
     return band([
         container([
             container([
-                eyebrow("Sponsoring"),
-                h2("Hansea Invest Sponsoring"),
-                text("<p>Die Hanseatische Invest eG ist stolzer Sponsor verschiedener Sportteams und engagiert sich aktiv "
-                     "für sportliche Leistung und Gemeinschaft. Mit diesem Engagement unterstreicht das Unternehmen seine "
-                     "Verbundenheit zu Teamgeist, Fairness und nachhaltiger Förderung.</p>", size=16),
-                text("<p>Ihr Verein sucht einen Partner? Erzählen Sie uns von Ihrem Team.</p>", size=16, weight="600",
-                     color=NAVY),
-                spacer(4),
-                button("Sponsoring anfragen", "#kontakt"),
-            ], width=38, gap_px=14),
+                eyebrow("Hansea Invest Sponsoring", on_dark=True),
+                heading("Wir sind stolzer Sponsor der Handball-Nationalmannschaft", size=52, mobile=34, color=WHITE,
+                        line=1.08),
+            ], width=60, gap_px=16),
             container([
-                tile([placeholder("Logo Sportverein", "3/2")], width=31.5, width_mobile=47, bg=GREY_BG, pad=(16,),
-                     pad_mobile=(12,), css="hs-tile--flat")
-                for _ in range(6)
-            ], row=True, wrap=True, mobile_row=True, justify="space-between", gap_px=12, width=56, css="hs-row-wrap"),
-        ], row=True, align="center", justify="space-between", gap_px=48),
-    ], anchor="sponsoring")
+                text("<p>Teamgeist, Fairness und Leistung auf höchstem Niveau: Werte, die auch unsere Genossenschaft "
+                     "tragen. Deshalb fördern wir mit Überzeugung den Handball in Deutschland.</p>", color=ON_NAVY,
+                     size=16),
+            ], width=34, gap_px=14),
+        ], row=True, align="flex-end", justify="space-between", gap_px=32),
+        spacer(40),
+        image("sponsoring-handball-hero.jpg", "Handball-Nationalmannschaft", radius=8, css_extra="hs-spons-hero"),
+        spacer(16),
+        gallery,
+    ], bg=NAVY, anchor="sponsoring", gap_px=8)
 
 
 def contact():
@@ -814,8 +942,9 @@ def footer():
 
 
 def build():
-    return [header(), hero(), about(), at_a_glance(), sponsoring(), book(), capital_steps(), trust(), case_studies(),
-            webinar(), team(), press_and_broker(), case_numbers(), subsidiaries(), faq(), contact(), footer()]
+    return [header(), hero(), testimonials(), about(), at_a_glance(), sponsoring(), capital_steps(), trust(),
+            case_studies(), book(), webinar(), team(), press(), case_numbers(), subsidiaries(), faq(), contact(),
+            footer()]
 
 
 if __name__ == "__main__":

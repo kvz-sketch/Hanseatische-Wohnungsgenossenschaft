@@ -102,18 +102,6 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-tile { overflow: hidden; box-shadow: 0 1px 2px rgba(20, 26, 70, 0.04), 0 14px 36px -12px rgba(20, 26, 70, 0.12); }
 .hs-tile--flat { box-shadow: none; }
 
-/* Eyebrow with a short hairline in front */
-.hs-eyebrow .elementor-heading-title::before {
-	content: "";
-	display: inline-block;
-	width: 28px;
-	height: 1px;
-	margin-right: 12px;
-	vertical-align: middle;
-	background: currentColor;
-	opacity: 0.7;
-}
-
 /* Split bands: the outer edge of a panel lines up with the 1180px content grid */
 .hs-panel-l { padding-left: max(20px, calc((100vw - 1180px) / 2)) !important; }
 .hs-panel-r { padding-right: max(20px, calc((100vw - 1180px) / 2)) !important; }
@@ -148,6 +136,12 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-fill { display: flex; }
 .hs-fill .hs-ph { flex: 1 1 auto; aspect-ratio: auto; min-height: 320px; }
 
+/* Video box in the webinar band */
+.hs-video { width: 100%; }
+.hs-video .elementor-wrapper, .hs-video .elementor-custom-embed-image-overlay { border-radius: 4px; overflow: hidden; }
+.hs-video-frame { width: 100%; box-shadow: 0 1px 2px rgba(20, 26, 70, 0.06), 0 22px 48px -16px rgba(20, 26, 70, 0.30); }
+.hs-video .elementor-custom-embed-play i, .hs-video .elementor-custom-embed-play svg { filter: drop-shadow(0 4px 16px rgba(20, 26, 70, 0.35)); }
+
 /* Floating project label on the hero photo */
 .hs-chip { width: auto !important; }
 
@@ -162,6 +156,76 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-header .elementor-widget-image { flex: 0 0 auto; width: auto !important; }
 .hs-header-actions { flex: 0 0 auto; width: auto !important; }
 .hs-header .elementor-button { white-space: nowrap; }
+
+/* ---------------------------------------------------------------------------
+ * Case study chart (navy band). Blue = Kaufpreis/Bankdarlehen/Investition,
+ * gold = Sanierung/Eigenkapital/Wertsteigerung (validated for the navy surface).
+ * ------------------------------------------------------------------------ */
+.hs-chart { margin: 0; font-family: "Inter", sans-serif; color: #e3e4ee; }
+.hs-chart__legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 28px; font-size: 13px; color: #bfc2d6; }
+.hs-chart__legend span { display: inline-flex; align-items: center; gap: 8px; }
+.hs-sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+.hs-sw--base, .hs-seg--base { background: #6c78c9; }
+.hs-sw--gold, .hs-seg--gold { background: #ae8c3a; }
+.hs-chart__plot { position: relative; padding-top: 22px; }
+.hs-chart__grid { position: absolute; inset: 0; pointer-events: none; }
+.hs-chart__grid span {
+	position: absolute; top: 0; bottom: 0; border-left: 1px solid rgba(255, 255, 255, 0.08);
+	padding-left: 6px; font-size: 11px; line-height: 1; color: #8a8fb2; white-space: nowrap;
+}
+.hs-chart__grid .hs-tick--end { border-left: 0; border-right: 1px solid rgba(255, 255, 255, 0.08); padding: 0 6px 0 0; transform: translateX(-100%); }
+.hs-chart__row { position: relative; margin-bottom: 26px; }
+.hs-chart__row:last-child { margin-bottom: 8px; }
+.hs-chart__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 14px; }
+.hs-chart__head strong { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400; font-size: 26px; color: #fff; line-height: 1; }
+.hs-chart__row:last-child .hs-chart__head strong { color: #e6c978; }
+.hs-chart__bar { display: flex; gap: 2px; height: 34px; }
+.hs-seg { position: relative; display: block; height: 100%; border-radius: 4px; outline: none; transform-origin: left center; }
+.hs-seg:focus-visible { box-shadow: 0 0 0 2px #141a46, 0 0 0 4px #e6c978; }
+.hs-seg::after {
+	content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%);
+	white-space: nowrap; padding: 6px 10px; border-radius: 4px; background: #fff; color: #141a46;
+	font-size: 12px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 2;
+}
+.hs-seg:hover::after, .hs-seg:focus-visible::after { opacity: 1; }
+.hs-chart__labels { position: relative; height: 18px; margin-top: 8px; }
+.hs-seg-label { position: absolute; top: 0; font-size: 12px; color: #bfc2d6; white-space: nowrap; }
+.hs-seg-label--end { display: flex; justify-content: flex-end; } /* long labels extend to the left, never past the bar end */
+.hs-chart__note { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: 13px; line-height: 1.5; color: #bfc2d6; }
+.hs-sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* Bars grow in when the chart scrolls into view */
+html.hs-motion .hs-chart-widget .hs-seg { transform: scaleX(0); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--hs-delay, 0ms) + 200ms + var(--d, 0ms)); }
+html.hs-motion .hs-chart-widget.hs-in .hs-seg { transform: none; }
+
+/* Sponsoring: hero image and swipeable gallery on navy */
+.hs-spons-hero img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; display: block; }
+@media (max-width: 767px) { .hs-spons-hero img { aspect-ratio: 4 / 3; } }
+.hs-gallery .swiper-slide-image { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+.hs-gallery .elementor-swiper-button {
+	width: 48px; height: 48px; border-radius: 50%; background: rgba(20, 26, 70, 0.72);
+	display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px);
+}
+.hs-gallery .elementor-swiper-button:hover { background: #ddb851; }
+.hs-gallery .elementor-swiper-button:hover svg { fill: #141a46; }
+.hs-gallery .swiper-pagination { position: static; margin-top: 18px; }
+
+/* ---------------------------------------------------------------------------
+ * Testimonials (cream band, three standout cards)
+ * ------------------------------------------------------------------------ */
+.hs-center, .hs-center .elementor-heading-title { text-align: center; }
+.hs-quote { position: relative; box-shadow: 0 2px 4px rgba(20, 26, 70, 0.05), 0 28px 60px -20px rgba(20, 26, 70, 0.28); }
+@media (min-width: 768px) {
+	.hs-quote--gold { transform: translateY(-20px); }
+	html.hs-motion .hs-quote--gold.hs-rise { transform: translate3d(0, 44px, 0); }
+	html.hs-motion .hs-quote--gold.hs-rise.hs-in { transform: translateY(-20px); }
+}
+.hs-quote .elementor-heading-title { text-wrap: pretty; }
+.hs-quote-author { border-top: 1px solid rgba(20, 26, 70, 0.12); padding-top: 20px !important; }
+.hs-quote--navy .hs-quote-author { border-top-color: rgba(255, 255, 255, 0.16); }
+.hs-avatar { display: block; width: 48px; height: 48px; border-radius: 50%; background: #e7e8ec; }
+.hs-avatar--gold { background: rgba(20, 26, 70, 0.14); }
+.hs-avatar--navy { background: rgba(255, 255, 255, 0.16); }
+.hs-quote-author .elementor-widget-html { flex: 0 0 auto; width: auto !important; }
 
 /* ---------------------------------------------------------------------------
  * Scroll animations (elementor/hansea-motion.js). Only active while
