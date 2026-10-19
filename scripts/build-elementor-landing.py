@@ -122,7 +122,8 @@ def container(children, *, row=False, inner=True, boxed=False, width=None, width
     classes = [c for c in [css, None if inner and not bg_image else "e-no-lazyload"] if c]
     if classes:
         s["css_classes"] = " ".join(classes)
-    return {"id": uid(), "elType": "container", "isInner": inner, "settings": s, "elements": children}
+    return {"id": uid(), "elType": "container", "isInner": inner, "settings": s,
+            "elements": [c for c in children if c is not None]}
 
 
 def section(children, **kw):
@@ -175,7 +176,12 @@ def eyebrow(text, on_dark=False):
     })
 
 
+DROP = "__DROP__"  # paragraph removed when the copy was shortened; text() skips it
+
+
 def text(html, *, color=NAVY_TEXT, size=17, line=1.6, align=None, weight="400"):
+    if DROP in html:
+        return None
     s = {"editor": html, "text_color": color, **type_(UI, size, weight, line, mobile=min(size, 16))}
     if align:
         s["align"] = align
@@ -278,39 +284,32 @@ NAV = [("Über uns", "#ueber-uns"), ("Sponsoring", "#sponsoring"), ("So funktion
 # The business model (brochure, "Das Geschäftsmodell"): always the same four steps
 STEPS = [
     ("Kaufen",
-     "Wir suchen Mehrfamilienhäuser in Lagen mit stabiler Nachfrage, bei denen der Kaufpreis nicht bereits alles "
-     "vorwegnimmt, was sich aus dem Objekt machen lässt. Entscheidend sind Bausubstanz, Lage und die Frage, ob sich die "
-     "Wohnungen später einzeln verkaufen lassen."),
+     "Häuser in gefragten Lagen, deren Wohnungen sich später einzeln verkaufen lassen."),
     ("Modernisieren",
-     "Danach bringen wir das Haus in einen besseren Zustand. Das reicht von der Erneuerung der Heizung über Fassade und "
-     "Dach bis zur Modernisierung einzelner Wohnungen. Jede Maßnahme muss sich rechnen, sonst unterbleibt sie."),
+     "Heizung, Fassade, Dach, Wohnungen: nur was sich rechnet."),
     ("Vermieten",
-     "Parallel kümmern wir uns um die Vermietung. Leerstand wird neu vermietet, Verträge werden marktgerecht gestaltet, "
-     "die Verwaltung übernehmen wir selbst. Ein gut vermietetes Objekt ist beim Verkauf deutlich mehr wert als ein "
-     "schlecht vermietetes."),
+     "Leerstand neu vermieten, Verträge marktgerecht, Verwaltung im eigenen Haus."),
     ("Verkaufen",
-     "Zuletzt werden die Wohnungen einzeln verkauft. Die Summe der Einzelverkäufe liegt in der Regel über dem Wert des "
-     "Hauses als Ganzes. Aus dieser Differenz entsteht der Überschuss, aus dem unter anderem Ihre Verzinsung bedient "
-     "wird."),
+     "Die Wohnungen werden einzeln verkauft. Aus dem Mehrerlös entsteht der Überschuss."),
 ]
 
 CASES = [
     ("Hamburg Eilbek",
-     "Wir haben einen Altbau aus dem Jahr 1892 mit sechs Wohneinheiten und einer Gewerbeeinheit erworben und umfassend optimiert. Dazu gehörten die Sanierung und Dämmung der Fassade sowie die Modernisierung der Gemeinschaftsflächen.",
-     "Die Bestandsmieten und Grundrisse wurden optimiert, während die beiden freien und später frei werdenden Wohnungen nach der Sanierung als möblierte WGs vermietet wurden. Die ehemalige Gastronomiefläche im Souterrain wurde in zwei Ferienwohnungen umgewandelt. Nach Abschluss der Maßnahmen erfolgte der Verkauf an Eigennutzer und Kapitalanleger. Die Projektlaufzeit betrug 20 Monate."),
+     "Altbau von 1892 mit sechs Wohnungen und einer Gewerbeeinheit: Fassade saniert und gedämmt.",
+     "WG-Vermietung, zwei neue Ferienwohnungen im Souterrain, danach Verkauf. Laufzeit 20 Monate."),
     ("Oldenburg",
-     "Wir haben zwei Vierparteienhäuser mit großzügigen Maisonette-Wohnungen erworben, die sich ideal für Studenten-WGs eignen. Die Gemeinschaftsflächen und der Außenbereich wurden überarbeitet, während zwei freie Wohnungen saniert und mit einem WG-Konzept sowie Mietgarantie verkauft wurden.",
-     "Durch die gezielte Berücksichtigung der Mieterwünsche und Renovierungsmaßnahmen konnte eine einvernehmliche Mietanpassung von über 30 % erreicht werden. Da die Mieter aufgrund der familiären Situation und der attraktiven Lage bleiben wollten, entstanden wertstabile und gut verkäufliche Anlagewohnungen. Die Projektlaufzeit betrug 9 Monate."),
+     "Zwei Vierparteienhäuser mit Maisonette-Wohnungen, ideal für Studenten-WGs.",
+     "Über 30 % Mietanpassung im Einvernehmen mit den Mietern. Laufzeit 9 Monate."),
 ]
 
 # Team: name, role, photo, bio. LinkedIn profiles in TEAM_LINKEDIN ("#" until the real URL is known).
 TEAM = [
     ("Stephan Gerlach", "Vorstand", "stephan-gerlach-portraet.jpg",
-     "Gründer der Gerlach Immobilien Gruppe und Experte für nachhaltige Kapitalanlage-Immobilien. Mit einem ganzheitlichen Ansatz begleitet er Anleger von der Objektwahl über die Finanzierung bis zur langfristigen Verwaltung."),
+     "Gründer der Gerlach Immobilien Gruppe und Experte für Kapitalanlage-Immobilien."),
     ("Vadim Kogan", "Aufsichtsratsvorsitzender", "vadim-kogan-portraet.jpg",
-     "Experte für das deutsche Gesundheitswesen und die Digitalisierung medizinischer Prozesse. Als Vorstand der ArztData AG und Gründer des ArztData Clubs unterstützt er Ärzte dabei, ihre Praxen wirtschaftlich erfolgreicher und effizienter zu gestalten."),
+     "Vorstand der ArztData AG und Experte für das deutsche Gesundheitswesen."),
     ("Christine Pistorius", "Vorstand", "christine-pistorius-portraet.jpg",
-     "Erfahrene Immobilieninvestorin und Expertin für Sprungauflassung im Immobilienhandel. Als Vorstandsmitglied der 100.PlusCommunity und gefragte Sprecherin unterstreicht sie die Bedeutung von Immobilien als sichere Kapitalanlage."),
+     "Immobilieninvestorin und Vorstandsmitglied der 100.PlusCommunity."),
 ]
 
 # Case study photos (16:9); placeholder until a file is set
@@ -331,11 +330,9 @@ FAQS = [
      "Sie übernehmen einen oder mehrere Anteile zu je 10.000 Euro und werden damit Mitglied der Hanseatischen "
      "Invest eG."),
     ("Gehört mir dann eine Wohnung?", "Nein.",
-     "Sie beteiligen sich an der Genossenschaft, und die beteiligt sich an Wohnungsprojekten. Um Mieter, Reparaturen "
-     "oder Abrechnungen müssen Sie sich nicht kümmern."),
+     "Sie beteiligen sich an der Genossenschaft. Um Mieter und Reparaturen kümmern wir uns."),
     ("Was bedeutet „investierendes Mitglied“?", "Sie stellen Geld zur Verfügung und erhalten dafür Zinsen.",
-     "Sie werden Mitglied, ohne im Betrieb mitzuarbeiten. In der Versammlung der Mitglieder haben Sie kein Stimmrecht, "
-     "dafür auch keine Pflichten im Betrieb."),
+     "Sie arbeiten nicht im Betrieb mit und haben kein Stimmrecht in der Versammlung."),
     ("Wann bekomme ich die ersten Zinsen?", "Nach dem ersten vollen Quartal Ihrer Mitgliedschaft.",
      "Danach alle drei Monate."),
     ("Kann ich mehrere Anteile übernehmen?", "Ja.",
@@ -343,22 +340,17 @@ FAQS = [
     ("Wie lange bin ich gebunden?", "Zunächst zwölf Monate.",
      "Kündigen Sie nicht spätestens neun Monate vor Ablauf, läuft Ihr Anteil ein weiteres Jahr."),
     ("Was passiert, wenn ich kündige?", "Nach Ablauf der Laufzeit bekommen Sie Ihren Anteil ausgezahlt.",
-     "Wie viel das ist, ergibt sich aus dem Jahresabschluss der Genossenschaft. Es kann weniger sein als das, was Sie "
-     "eingezahlt haben."),
+     "Der Betrag ergibt sich aus dem Jahresabschluss und kann unter Ihrer Einzahlung liegen."),
     ("Muss ich die Zinsen versteuern?", "Ja, so wie Zinsen auf einem Konto.",
-     "Die Steuer führen wir direkt ab, ein Freistellungsauftrag ist möglich. Zum Jahresende bekommen Sie eine "
-     "Bescheinigung für Ihre Steuererklärung."),
+     "Wir führen die Steuer direkt ab. Ein Freistellungsauftrag ist möglich."),
     ("Kann ich später zur Kasse gebeten werden?", "Nein.",
      "Mehr als Ihren Anteil zahlen Sie nie ein. Das ist in der Satzung festgeschrieben."),
     ("Wer kontrolliert die Genossenschaft?", "Ein unabhängiger Prüfungsverband.",
      "Das schreibt das Gesetz für jede Genossenschaft vor. Für uns ist das der DIVK e. V. in Hildesheim."),
     ("Wie erfahre ich, was mit meinem Geld passiert?", "Wir informieren Sie regelmäßig.",
-     "Sie hören von uns über neue Projekte und den Stand der laufenden. Dazu kommen der Mitgliederservice und einmal "
-     "im Jahr die Versammlung aller Mitglieder, zu der Sie eingeladen werden."),
+     "Mit regelmäßigen Projektberichten und einer jährlichen Mitgliederversammlung."),
     ("Welche Risiken bestehen bei einer Beteiligung?", "Ihr Anteil ist kein Sparbuch.",
-     "Sie beteiligen sich an einem Unternehmen, mit allen Chancen und Risiken, die dazugehören. Die vorgesehenen Zinsen "
-     "können niedriger ausfallen oder entfallen, ein Totalverlust des eingesetzten Kapitals ist möglich. Der "
-     "Geschäftsanteil ist keine Bankeinlage und nicht durch ein gesetzliches Entschädigungssystem geschützt."),
+     "Die Zinsen können niedriger ausfallen oder entfallen, ein Totalverlust ist möglich. Keine Einlagensicherung."),
 ]
 
 BOOK_URL = "https://www.remote-verlag.de/products/immobilien-investitionen-leicht-gemacht"
@@ -563,9 +555,7 @@ def hero():
                 eyebrow("Mitglied werden in der Hanseatischen Invest eG", on_dark=True),
                 heading("Unternehmerisch. Transparent. Nachvollziehbar.", "p", size=22, mobile=19, color=WHITE,
                         weight="600", family=UI, line=1.35),
-                text("<p>Gemeinsam mit anderen Mitgliedern beteiligen Sie sich an Wohnhäusern, die wir kaufen, "
-                     "modernisieren, vermieten und verkaufen. Vorgesehen sind 7&nbsp;% Zinsen pro Jahr, ausgezahlt alle "
-                     "drei Monate.*</p>", color=ON_NAVY, size=16),
+                text("<p>Wir kaufen, modernisieren und verkaufen Wohnhäuser. Sie erhalten vorgesehene 7&nbsp;% Zinsen pro Jahr.*</p>", color=ON_NAVY, size=16),
                 container([button("Jetzt informieren", "#kontakt"), light_button("So funktioniert's",
                                                                                  "#so-funktionierts")],
                           row=True, mobile_row=True, wrap=True, align="center", gap_px=12),
@@ -632,12 +622,8 @@ def about():
         container([
             tiles,
             container([
-                text("<p>Die Hanseatische Invest eG verwendet Ihr investiertes Kapital, um Immobilienprojekte effizient "
-                     "umzusetzen und nachhaltige Mehrwerte zu schaffen: für unsere Mitglieder und den deutschen "
-                     "Immobilienmarkt. Als Genossenschaft stehen wir für Transparenz, Verantwortung und eine "
-                     "partnerschaftliche Beteiligung an Immobilieninvestments.</p>", size=16),
-                text("<p>Werden Sie Teil der Hanseatischen Invest eG: Ein Anteil kostet 10.000&nbsp;€, vorgesehen sind "
-                     "7&nbsp;% Zinsen pro Jahr.* Jetzt informieren und Mitglied werden.</p>", size=16),
+                text("<p>Wir setzen das Kapital unserer Mitglieder in echten Wohnungsprojekten ein: transparent und partnerschaftlich.</p>", size=16),
+                text("<p>__DROP__</p>", size=16),
                 spacer(4),
                 button("Kontakt aufnehmen", "#kontakt"),
             ], width=38, gap_px=14),
@@ -655,12 +641,8 @@ def at_a_glance():
                 eyebrow("Auf einen Blick"),
                 heading("Kurz zusammengefasst: So funktioniert Ihre Beteiligung bei der Hanseatischen Invest eG.", "h3",
                         size=30, mobile=24, line=1.2),
-                text("<p>Die Hanseatische Invest eG bietet eine genossenschaftliche Beteiligung statt einer klassischen "
-                     "Geldanlage: Sie investieren gemeinsam mit anderen Mitgliedern in reale Wohnimmobilien und nehmen "
-                     "unternehmerisch an Chancen und Risiken teil. Die Mindestlaufzeit beträgt 12 Monate, vorgesehen "
-                     "ist eine Verzinsung von 7&nbsp;% p.a.*</p>", size=16),
-                text("<p>* Die Verzinsung ist aus rechtlichen Gründen nicht garantiert und abhängig vom wirtschaftlichen "
-                     "Erfolg der Genossenschaft.</p>", color=MUTED, size=12, line=1.5),
+                text("<p>Sie investieren gemeinsam mit anderen Mitgliedern in reale Wohnimmobilien, mit Chancen und Risiken.</p>", size=16),
+                text("<p>* Die Verzinsung ist nicht garantiert.</p>", color=MUTED, size=12, line=1.5),
             ], width=56, pad=(48,), pad_mobile=(28, 20), gap_px=16, justify="center"),
             tile([
                 eyebrow("Ihre Beteiligung", on_dark=True),
@@ -683,9 +665,7 @@ def book():
         container([
             eyebrow("Spiegel-Bestseller", on_dark=True),
             h2("Immobilien Investitionen leicht gemacht", WHITE),
-            text("<p>Das Buch von Stephan Gerlach, Spiegel-Bestsellerautor und CEO der Gerlach Immobilien Gruppe, "
-                 "ist Ihr Leitfaden für Immobilien als Kapitalanlage: passives Einkommen und Ihr Weg zur "
-                 "finanziellen Unabhängigkeit.</p>", color=WHITE, size=16),
+            text("<p>Der Spiegel-Bestseller von Stephan Gerlach: Ihr Leitfaden für Immobilien als Kapitalanlage.</p>", color=WHITE, size=16),
             spacer(4),
             button("Zum Buchkauf", BOOK_URL, external=True),
         ], width=48, width_mobile=100, gap_px=14, css="hs-book-text"),
@@ -710,8 +690,7 @@ def capital_steps():
         ], gap_px=0, css=f"hs-tl-step hs-tl-step--{side}"))
     return band([
         intro_row("Das Geschäftsmodell", "Wie aus Wohnhäusern Erträge werden.",
-                  "Unser Geschäft besteht aus vier Schritten, die immer in derselben Reihenfolge ablaufen. Wer versteht, "
-                  "wie sie zusammenhängen, versteht auch, woher die Verzinsung kommt.",
+                  "Vier Schritte, immer in derselben Reihenfolge. Daraus kommt die Verzinsung.",
                   note="*Die Wertschöpfung entsteht durch operative Immobilienarbeit, nicht durch Finanzprodukte."),
         spacer(40),
         container(steps, gap_px=0, css="hs-timeline"),
@@ -780,9 +759,7 @@ def webinar():
         panel([
             eyebrow("Erklärfilm", on_dark=True),
             h2("Was passiert mit Ihrem Geld?", WHITE),
-            text("<p>Der Film zeigt, wie Genossenschaftsanteile funktionieren und wie Ihr Geld in echte Häuser "
-                 "fließt: vom Ankauf über die Modernisierung bis zum Verkauf. Transparent und ohne "
-                 "Verwaltungsaufwand für Sie.</p>", color=ON_NAVY, size=16),
+            text("<p>Wie Ihr Geld in echte Häuser fließt: vom Ankauf bis zum Verkauf.</p>", color=ON_NAVY, size=16),
             text("<p>Das Video wird erst beim Abspielen von YouTube geladen.</p>", color=ON_NAVY_MUTED, size=13),
             spacer(4),
             button("Persönlich beraten lassen", "#kontakt"),
@@ -815,9 +792,7 @@ def press():
             container([
                 eyebrow("Presse"),
                 h2("Öffentlichkeitsarbeit &amp; Artikel"),
-                text("<p>In diesem Bereich finden Sie ausgewählte Artikel und Veröffentlichungen rund um unser "
-                     "Unternehmen. Hier erhalten Sie kompakte Einblicke in unser Business und erfahren, wo und zu "
-                     "welchen Themen wir publizieren.</p>", size=16),
+                text("<p>Ausgewählte Artikel und Veröffentlichungen über uns.</p>", size=16),
                 link_button("Zum Blog", BLOG_URL, external=True),
             ], width=38, gap_px=14, justify="center"),
             tile([image("presse-sueddeutsche.jpg", "Süddeutsche Zeitung: Stephan Gerlach von der Hanseatischen "
@@ -882,9 +857,7 @@ def case_numbers():
             container([
                 eyebrow("In Zahlen", on_dark=True),
                 h2("Woher der Überschuss kommt", WHITE),
-                text("<p>Die Summe der Einzelverkäufe liegt in der Regel über dem Wert des Hauses als Ganzes. Bei den "
-                     "beiden Projektbeispielen deckte der Erlös zunächst Kauf und Modernisierung; was darüber hinausging, "
-                     "ist der Überschuss des Projekts. Daraus bedient die Genossenschaft unter anderem Ihre Zinsen.</p>",
+                text("<p>Der Erlös deckt Kauf und Modernisierung. Was darüber hinausgeht, ist der Überschuss.</p>",
                      color=ON_NAVY, size=15),
                 text("<p>Zahlen aus der Vergangenheit sind keine Zusage für künftige Ergebnisse.</p>",
                      color=ON_NAVY_MUTED, size=13),
@@ -920,9 +893,7 @@ def subsidiaries():
         container([
             eyebrow("Unsere Marken"),
             h2("Tochterunternehmen"),
-            text("<p>Mit unseren Marken decken wir die gesamte Wertschöpfungskette entlang der Bestandssanierung bis hin "
-                 "zum Verkauf als optimierte Kapitalanlage ab. Durch diese Synergien entstehen für uns und unsere "
-                 "Kunden relevante Kostenvorteile.</p>", size=16),
+            text("<p>Unsere Marken decken die ganze Kette ab, vom Ankauf bis zum Verkauf.</p>", size=16),
         ], max_width=680, gap_px=14),
         spacer(24),
         container(tiles, row=True, wrap=True, mobile_row=True, justify="space-between", align="stretch", gap_px=16,
@@ -1009,8 +980,7 @@ def sponsoring():
                 eyebrow("Hansea Invest Sponsoring", on_dark=True),
                 heading("Wir sind stolzer Sponsor des HSV Handball Hamburg", size=48, mobile=34, color=WHITE,
                         line=1.08),
-                text("<p>Teamgeist, Fairness und Leistung auf höchstem Niveau: Werte, die auch unsere Genossenschaft "
-                     "tragen. Deshalb unterstützen wir mit Überzeugung den HSV Handball Hamburg, direkt vor unserer Haustür.</p>", color=ON_NAVY,
+                text("<p>Teamgeist, Fairness und Leistung: Werte, die auch unsere Genossenschaft tragen.</p>", color=ON_NAVY,
                      size=16),
             ], width=50, gap_px=16),
             container([gallery], width=42, css="hs-spons-media"),
@@ -1036,28 +1006,18 @@ def kv_table(rows, *, on_dark=False, title=None):
 def einstieg():
     return band([
         intro_row("Einstieg", "Warum so viele Immobilien wollen und so wenige dazu kommen.",
-                  "Wohnimmobilien gelten als eine der solidesten Anlagen in Deutschland. Trotzdem bleibt es für viele "
-                  "Menschen bei dem Wunsch. Genau hier setzen wir an.", wide=True),
+                  "Viele wollen Immobilien, aber nicht den Aufwand.", wide=True),
         spacer(12),
         container([
             container([
-                text("<p>Wer eine Eigentumswohnung als Kapitalanlage kauft, bindet sich für viele Jahre an ein einzelnes "
-                     "Objekt und meist an einen Bankkredit. Dazu kommt eine Rolle, die viele unterschätzen. Als Eigentümer "
-                     "sind Sie Vermieter. Sie suchen Mieter, rechnen Nebenkosten ab, beauftragen Handwerker und tragen das "
-                     "Risiko, wenn eine Wohnung leer steht.</p>", size=16),
-                text("<p>Für manche ist genau das der richtige Weg. Viele andere halten Immobilien für richtig und "
-                     "entscheiden sich am Ende trotzdem dagegen. Nicht weil die Anlage sie nicht überzeugt, sondern weil "
-                     "sie die Bindung und den Aufwand scheuen.</p>", size=16),
+                text("<p>Eine eigene Wohnung bindet Sie an ein Objekt, einen Kredit und die Rolle als Vermieter.</p>", size=16),
+                text("<p>__DROP__</p>", size=16),
             ], width=48, gap_px=8),
             tile([
                 heading("Ein anderer Weg", "h3", size=28, mobile=24, line=1.2),
-                text("<p>Die Hanseatische Invest eG bietet eine andere Möglichkeit. Sie werden Mitglied einer "
-                     "Genossenschaft, die in Wohnimmobilien investiert. Sie kaufen keine einzelne Wohnung. Sie müssen nicht "
-                     "selbst vermieten. Sie benötigen keinen Kredit. <strong>Ein Anteil kostet 10.000 Euro.</strong></p>",
+                text("<p>Sie werden Mitglied einer Genossenschaft, die in Wohnimmobilien investiert. Ohne Kredit, ohne Vermieten. <strong>Ein Anteil: 10.000&nbsp;€.</strong></p>",
                      size=16),
-                text("<p>Alles Weitere übernehmen wir. Ankauf, Modernisierung, Vermietung und Verkauf liegen bei der "
-                     "Gerlach Immobilien Gruppe, aus der die Genossenschaft hervorgegangen ist. Aus dem, was diese "
-                     "Geschäfte einbringen, werden die Zinsen auf Ihre Anteile gezahlt.</p>", size=16),
+                text("<p>__DROP__</p>", size=16),
             ], width=48, bg=CREAM, pad=(36,), pad_mobile=(24, 20), gap_px=10, css="hs-tile--flat"),
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
         spacer(16),
@@ -1074,26 +1034,15 @@ def genossenschaft():
              ("Sitz", "Langenhorner Chaussee 155<br>22415 Hamburg")]
     return band([
         intro_row("Die Genossenschaft", "Was eine Genossenschaft für Sie bedeutet.",
-                  "Die Genossenschaft ist eine der ältesten Unternehmensformen Deutschlands. Sie ist gesetzlich streng "
-                  "geregelt und unterscheidet sich in einem Punkt von fast jeder anderen Beteiligung, die Ihnen "
-                  "angeboten wird.", wide=True),
+                  "Gesetzlich streng geregelt und jährlich geprüft.", wide=True),
         spacer(12),
         container([
             container([
-                text("<p>Eine eingetragene Genossenschaft gehört ihren Mitgliedern. Sie steht im "
-                     "Genossenschaftsregister, hat einen Vorstand und einen Aufsichtsrat und wird regelmäßig vom "
-                     "gesetzlichen Prüfungsverband geprüft. Diese Prüfung ist nicht freiwillig. Das Gesetz schreibt sie "
-                     "vor.</p>", size=16),
+                text("<p>Eine eingetragene Genossenschaft gehört ihren Mitgliedern und wird vom Prüfungsverband geprüft.</p>", size=16),
                 heading("Ihre Rolle als Mitglied", "h3", size=26, mobile=22, line=1.2),
-                text("<p>Sie werden Mitglied, ohne im Betrieb mitzuarbeiten. Das Gesetz nennt das ein investierendes "
-                     "Mitglied. Sie stellen Geld zur Verfügung und erhalten dafür Zinsen. In der Versammlung der "
-                     "Mitglieder haben Sie kein Stimmrecht, dafür auch keine Pflichten im Betrieb. Ihr Anteil ist kein "
-                     "Sparbuch. Sie beteiligen sich an einem Unternehmen, mit allen Chancen und Risiken, die "
-                     "dazugehören.</p>", size=16),
+                text("<p>Sie stellen Geld zur Verfügung und erhalten Zinsen. Kein Stimmrecht, keine Pflichten im Betrieb.</p>", size=16),
                 heading("Keine Nachzahlungen", "h3", size=26, mobile=22, line=1.2),
-                text("<p>Ein Punkt ist unseren Mitgliedern besonders wichtig. Eine Nachschusspflicht besteht nicht. Sie "
-                     "können also niemals verpflichtet werden, mehr einzuzahlen als Ihren Anteil. So steht es in der "
-                     "Satzung, der Grundordnung der Genossenschaft.</p>", size=16),
+                text("<p>Eine Nachschusspflicht besteht nicht. So steht es in der Satzung.</p>", size=16),
             ], width=52, gap_px=12),
             container([
                 tile([kv_table(facts, on_dark=True, title="Die Genossenschaft in Zahlen und Namen")],
@@ -1115,26 +1064,17 @@ def unternehmen():
              ("300+", "verkaufte Wohnungen", "allein im Jahr 2024")]
     return band([
         intro_row("Das Unternehmen", "Die Genossenschaft ist jung. Das Unternehmen dahinter ist es nicht.",
-                  "Hinter der Hanseatischen Invest eG steht die Gerlach Immobilien Gruppe aus Hamburg, ein auf "
-                  "Wohnimmobilien spezialisiertes Unternehmen mit langjähriger Erfahrung am norddeutschen Markt.",
+                  "Dahinter steht die Gerlach Immobilien Gruppe aus Hamburg.",
                   wide=True),
         spacer(12),
         container([
             container([
-                text("<p>Die Gruppe kauft Mehrfamilienhäuser, bringt sie baulich und wirtschaftlich in einen besseren "
-                     "Zustand und verkauft die Wohnungen anschließend einzeln an Kapitalanleger und Selbstnutzer. Dieses "
-                     "Geschäft betreibt sie seit Jahren und hat es im Laufe der Zeit so weit standardisiert, dass sich der "
-                     "Ablauf von Objekt zu Objekt wiederholt.</p>", size=16),
-                text("<p>Seit ihrer Gründung zählt die Gruppe mehr als 1.000 Wohneinheiten in ihren Projekten, zusammen "
-                     "über 100 Millionen Euro Transaktionsvolumen. Allein im Jahr 2024 waren es mehr als 300 verkaufte "
-                     "Wohnungen und ein Umsatz von 35 Millionen Euro.</p>", size=16),
+                text("<p>Die Gruppe kauft Mehrfamilienhäuser, modernisiert sie und verkauft die Wohnungen einzeln.</p>", size=16),
+                text("<p>__DROP__</p>", size=16),
             ], width=48, gap_px=8),
             container([
                 heading("Warum das für Sie zählt", "h3", size=26, mobile=22, line=1.2),
-                text("<p>Für Sie als Mitglied bedeutet das zweierlei. Ihr Kapital finanziert kein Geschäftsmodell, das "
-                     "erst noch beweisen muss, dass es funktioniert. Und die Menschen, die es einsetzen, haben diese Art "
-                     "von Projekt vielfach durchgeführt. Zahlen aus der Vergangenheit sind allerdings keine Zusage für "
-                     "künftige Ergebnisse.</p>", size=16),
+                text("<p>Ein erprobtes Geschäftsmodell mit erfahrenen Leuten. Vergangene Zahlen sind keine Zusage.</p>", size=16),
             ], width=46, gap_px=12),
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
         spacer(12),
@@ -1195,20 +1135,12 @@ def standorte():
             container([
                 eyebrow("Standorte"),
                 h2("Wo wir investieren."),
-                text("<p>Wir kaufen dort, wo Menschen hinziehen und bleiben. Das klingt selbstverständlich, schließt in "
-                     "der Praxis aber die meisten Angebote aus, die uns erreichen.</p>", size=16),
-                text("<p>Unser Schwerpunkt liegt in den deutschen A-Städten und in Wachstumsregionen mit stabiler "
-                     "Nachfrage. Dort sind die Einkaufspreise höher, dafür findet sich fast immer ein Mieter und beim "
-                     "Verkauf ein Käufer. In schrumpfenden Regionen ist beides nicht gegeben, unabhängig davon, wie "
-                     "günstig ein Haus zunächst aussieht.</p>", size=16),
-                text("<p>Neben der Stadt zählt die Lage im Quartier. Wir achten auf Anbindung an Bus und Bahn, auf "
-                     "Einkaufsmöglichkeiten, Schulen und Ärzte im Umfeld. Diese Dinge entscheiden darüber, wie schnell "
-                     "eine Wohnung wieder vermietet ist.</p>", size=16),
+                text("<p>Wir kaufen dort, wo Menschen hinziehen und bleiben: in A-Städten und Wachstumsregionen.</p>", size=16),
+                text("<p>__DROP__</p>", size=16),
+                text("<p>__DROP__</p>", size=16),
                 tile([
                     heading("Streuung statt Wette", "h3", size=24, mobile=22, line=1.2),
-                    text("<p>Die Genossenschaft investiert nicht in ein einzelnes Haus. Das Kapital verteilt sich auf "
-                         "mehrere Projekte an verschiedenen Standorten. Läuft eines langsamer als geplant, hängt daran "
-                         "nicht das Ergebnis insgesamt.</p>", size=15),
+                    text("<p>Das Kapital verteilt sich auf mehrere Projekte an verschiedenen Standorten.</p>", size=15),
                 ], pad=(28,), pad_mobile=(22, 20), gap_px=8),
             ], width=50, gap_px=14),
             container([germany_map()], width=44),
@@ -1220,38 +1152,25 @@ def standorte():
 
 PROJECTS = [
     ("Pinneberg, Im Bans.", "projekt-pinneberg.jpg", "Im Bans in Pinneberg. Foto: Gerlach Immobilien Gruppe",
-     "Ein abgeschlossenes Projekt der Gruppe. Es zeigt den Ablauf an einem Mehrfamilienhaus vor den Toren Hamburgs, "
-     "vom Ankauf bis zur letzten verkauften Wohnung.",
+     "Ein Mehrfamilienhaus vor den Toren Hamburgs, vom Ankauf bis zur letzten Wohnung.",
      ("1,02 Mio. €", "Überschuss nach allen Kosten von 3,01 Mio. €"),
      ("4,03 Mio. €", "Erlös aus dem Verkauf, 18 Wohnungen einzeln verkauft"),
      [("Adresse", "Im Bans, 25421 Pinneberg"), ("Wohnungen", "18"), ("Wohnfläche", "ca. 1.220 m²"),
       ("Baujahr", "1965"), ("Modernisiert", "2025 bis 2026"), ("Vertrieb ab", "Januar 2026"),
       ("Alle verkauft", "September 2026")],
-     ["Das Haus steht in einer Sackgasse mit Wendehammer, wenige Minuten von der Hamburger Stadtgrenze. Baujahr 1965, "
-      "18 Wohnungen auf rund 1.220 Quadratmetern, dazu vier Garagen und acht Stellplätze. Das Grundstück misst 2.500 "
-      "Quadratmeter und hat alten Baumbestand. Jede Wohnung hat einen Balkon und ein eigenes Grundbuchblatt.",
-      "In Kauf und Modernisierung flossen insgesamt 3,01 Millionen Euro, davon 2,29 Millionen in den Ankauf mit allen "
-      "Nebenkosten. Verkauft wurden die 18 Wohnungen einzeln, zusammen für 4,03 Millionen Euro. Bleiben 1,02 Millionen "
-      "Euro Überschuss.",
-      "Der Vertrieb startete im Januar 2026, im September war die letzte Wohnung verkauft. Neun Monate für 18 "
-      "Einzelverkäufe. Pinneberg ist Kreisstadt mit 43.000 Einwohnern, über die A23 und die S-Bahn ist Hamburg schnell "
-      "erreichbar. Wohnungen dieser Größe sind hier gefragt, das hat der Abverkauf bestätigt."]),
+     ["Baujahr 1965, Sackgasse mit altem Baumbestand. 18 Wohnungen, alle mit Balkon, in neun Monaten verkauft.",
+      "__DROP__",
+      "__DROP__"]),
     ("Hamburg, Borgfelder Straße.", "projekt-borgfelder.jpg", "Borgfelder Straße in Hamburg. Foto: Gerlach Immobilien Gruppe",
-     "Ein abgeschlossenes Projekt der Gruppe. Es zeigt den Ablauf vom Ankauf bis zur letzten verkauften Wohnung.",
+     "Mitten in Hamburg, zwischen Hauptbahnhof und Hamm.",
      ("1,8 Mio. €", "Überschuss nach allen Kosten von 4,75 Mio. €"),
      ("6,55 Mio. €", "Erlös aus dem Verkauf, 20 Wohnungen einzeln verkauft"),
      [("Adresse", "Borgfelder Straße, 20537 Hamburg"), ("Wohnungen", "20"), ("Wohnfläche", "ca. 1.159 m²"),
       ("Baujahr", "1955"), ("Modernisiert", "2015 bis 2018"), ("Vertrieb ab", "August 2025"),
       ("Alle verkauft", "April 2026")],
-     ["Das Mehrfamilienhaus im Stadtteil Borgfelde stammt aus dem Jahr 1955 und wurde zwischen 2015 und 2018 umfassend "
-      "modernisiert. Es umfasst 20 Wohnungen auf rund 1.159 Quadratmetern, viele davon mit Balkon nach Süden. Das Haus "
-      "hat einen Aufzug und ist barrierefrei zugänglich. Bis in die Innenstadt sind es mit U- und S-Bahn wenige "
-      "Minuten.",
-      "In Kauf und Modernisierung flossen insgesamt 4,75 Millionen Euro. Verkauft wurden die 20 Wohnungen einzeln, "
-      "zusammen für 6,55 Millionen Euro. Bleiben 1,8 Millionen Euro Überschuss.",
-      "Die Gruppe hat den Kaufpreis im August 2025 gezahlt, im April 2026 war die letzte Wohnung verkauft. Acht Monate "
-      "für 20 Einzelverkäufe. Borgfelde liegt zwischen Hauptbahnhof und Hamm, mitten in der Stadt. Wer hier eine "
-      "Wohnung kauft, findet in aller Regel schnell einen Mieter."]),
+     ["Baujahr 1955, Aufzug, viele Balkone nach Süden. 20 Wohnungen in acht Monaten verkauft.",
+      "__DROP__",
+      "__DROP__"]),
 ]
 
 
@@ -1275,7 +1194,7 @@ def projektbeispiele():
             text(f"<p>{lead}</p>", size=16),
             figures,
             container([
-                container([text("".join(f"<p>{t}</p>" for t in paras), size=15)], width=56),
+                container([text("".join(f"<p>{t}</p>" for t in paras if t != DROP), size=15)], width=56),
                 container([kv_table(facts)], width=40),
             ], row=True, align="flex-start", justify="space-between", gap_px=24),
         ], width=60, gap_px=14)
@@ -1297,17 +1216,11 @@ def mittelverwendung():
             ("03", "Wir entwickeln", "modernisieren, vermieten, verkaufen"),
             ("04", "Sie erhalten", "alle drei Monate Ihre Zinsen")]
     blocks = [("Ihr Geld geht in laufende Projekte",
-               "Wenn Sie einen Anteil übernehmen, fließt Ihr Geld in die Genossenschaft. Die Genossenschaft beteiligt "
-               "sich damit über die Gruppe an Wohnungsprojekten und bezahlt daraus auch ihre eigenen Kosten. Ihnen "
-               "gehört dabei keine bestimmte Wohnung und kein einzelnes Haus."),
+               "Ihr Geld fließt über die Genossenschaft in Wohnungsprojekte."),
               ("Aus dem Verkauf kommt das Geld zurück",
-               "Die Projekte durchlaufen den Ablauf aus Kaufen, Modernisieren, Vermieten und Verkaufen. Am Ende steht der "
-               "Verkauf der Wohnungen. Der Erlös deckt zunächst Ankauf, Bau- und Finanzierungskosten. Was darüber "
-               "hinausgeht, ist der Überschuss des Projekts."),
+               "Der Erlös deckt die Kosten. Der Rest ist Überschuss."),
               ("Daraus wird Ihre Verzinsung bedient",
-               "Aus diesem Geld zahlt die Genossenschaft die Zinsen auf Ihre Anteile. Sie haben also etwas davon, wenn das "
-               "Immobiliengeschäft gut läuft, ohne selbst Eigentümer zu sein. Genau deshalb sind die Zinsen auch nicht "
-               "garantiert. Sie hängen davon ab, dass die Projekte so laufen wie geplant.")]
+               "Daraus zahlen wir Ihre Zinsen. Deshalb sind sie nicht garantiert.")]
     return band([
         intro_row("Mittelverwendung", "Wohin Ihr Geld fließt.",
                   "Das ist die Frage, die uns Interessenten am häufigsten stellen. Hier ist die Antwort ohne Umweg."),
@@ -1360,20 +1273,14 @@ def konditionen():
         'Zusage. Angaben der Hanseatischen Invest eG, Stand Mitte 2026.</p>')})
     return band([
         intro_row("Konditionen", "Ihre Konditionen im Überblick.",
-                  "Alle Bedingungen stehen in der Satzung und der Geschäftsordnung der Genossenschaft. Das Wichtigste "
-                  "daraus in Kurzform."),
+                  "Das Wichtigste aus Satzung und Geschäftsordnung."),
         spacer(12),
         container([
             container([
-                text("<p>Ein Anteil kostet 10.000 Euro. Vorgesehen sind darauf 7 Prozent Zinsen pro Jahr, ausgezahlt "
-                     "alle drei Monate. Die erste Zahlung kommt nach dem ersten vollen Quartal Ihrer Mitgliedschaft.</p>",
+                text("<p>Ein Anteil kostet 10.000&nbsp;€. Vorgesehen sind 7&nbsp;% Zinsen pro Jahr, ausgezahlt alle drei Monate.</p>",
                      size=16),
-                text("<p>Ihre Anteile laufen zunächst zwölf Monate. Kündigen Sie nicht spätestens neun Monate vor "
-                     "Ablauf, verlängert sich die Laufzeit um ein weiteres Jahr. Die Steuer auf die Zinsen führen wir "
-                     "direkt ab, so wie eine Bank. Zum Jahresende erhalten Sie eine Bescheinigung für Ihre "
-                     "Steuererklärung.</p>", size=16),
-                text("<p>Nach Ablauf der Laufzeit zahlen wir gekündigte Anteile zurück, zusammen mit der anteiligen "
-                     "Dividende. Über Ihre Zeichnungssumme hinaus haften Sie nicht, Nachschüsse sind ausgeschlossen.</p>",
+                text("<p>Laufzeit zwölf Monate, Kündigung bis neun Monate vor Ablauf. Keine Nachschüsse.</p>", size=16),
+                text("<p>__DROP__</p>",
                      size=16),
                 spacer(4),
                 button("Persönlich beraten lassen", "#kontakt"),
@@ -1397,14 +1304,11 @@ def konditionen():
 
 def mitglied_werden():
     steps = [("01", "Gespräch vereinbaren",
-              "Rufen Sie uns an oder buchen Sie einen Termin von 30 Minuten. Wir gehen Ihre Fragen durch, telefonisch "
-              "oder per Video."),
+              "30 Minuten, telefonisch oder per Video."),
              ("02", "Unterlagen erhalten",
-              "Sie bekommen alle Unterlagen zugeschickt: das Beitrittsformular, die Satzung, die Geschäftsordnung und "
-              "die Beitragsordnung. Alles können Sie in Ruhe prüfen."),
+              "Beitrittsformular, Satzung, Geschäfts- und Beitragsordnung."),
              ("03", "Beitreten",
-              "Sie senden das unterschriebene Formular zurück und zahlen Ihren Anteil ein. Über die Aufnahme entscheidet "
-              "der Aufsichtsrat.")]
+              "Formular zurücksenden, Anteil einzahlen. Der Aufsichtsrat entscheidet über die Aufnahme.")]
     return band([
         intro_row("Mitglied werden", "So werden Sie Mitglied.",
                   "Drei Schritte, ein Gespräch dazwischen. Den Rest erledigen wir für Sie."),
@@ -1441,9 +1345,7 @@ def contact():
         panel([
             eyebrow("Kontakt"),
             h2("Sprechen Sie mit uns"),
-            text("<p>Wenn Sie Fragen haben oder einen Termin mit einem unserer Berater für weiterführende "
-                 "Informationen vereinbaren möchten, nehmen Sie gerne Kontakt mit uns auf. Unser Team organisiert gerne "
-                 "ein persönliches Gespräch zu einem für Sie passenden Zeitpunkt.</p>", size=16),
+            text("<p>Fragen oder ein persönliches Gespräch? Wir melden uns gern.</p>", size=16),
             spacer(8),
             icon_list([("+49 40 22862372-0", "tel:+4940228623720"),
                        ("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de"),

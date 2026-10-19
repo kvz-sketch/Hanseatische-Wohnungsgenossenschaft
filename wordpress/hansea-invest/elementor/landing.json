@@ -1,6 +1,6 @@
 [
  {
-  "id": "bb44392",
+  "id": "e9e824f",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -27,7 +27,7 @@
   },
   "elements": [
    {
-    "id": "b87604f",
+    "id": "06fc0b5",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -67,7 +67,7 @@
     },
     "elements": [
      {
-      "id": "2bfcd81",
+      "id": "6d8e1e7",
       "elType": "widget",
       "widgetType": "image",
       "settings": {
@@ -102,7 +102,7 @@
       "elements": []
      },
      {
-      "id": "364cc5c",
+      "id": "e6fc0af",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -127,13 +127,13 @@
       },
       "elements": [
        {
-        "id": "f5287e1",
+        "id": "315837c",
         "elType": "widget",
         "widgetType": "icon-list",
         "settings": {
          "icon_list": [
           {
-           "_id": "e17e3eb",
+           "_id": "8608313",
            "text": "Über uns",
            "selected_icon": {
             "value": "",
@@ -146,7 +146,7 @@
            }
           },
           {
-           "_id": "067fdca",
+           "_id": "378be31",
            "text": "Sponsoring",
            "selected_icon": {
             "value": "",
@@ -159,7 +159,7 @@
            }
           },
           {
-           "_id": "85930aa",
+           "_id": "badc58e",
            "text": "So funktioniert's",
            "selected_icon": {
             "value": "",
@@ -172,7 +172,7 @@
            }
           },
           {
-           "_id": "0f5e4e6",
+           "_id": "55f59ea",
            "text": "Projekte",
            "selected_icon": {
             "value": "",
@@ -185,7 +185,7 @@
            }
           },
           {
-           "_id": "7d637ef",
+           "_id": "9acf353",
            "text": "Konditionen",
            "selected_icon": {
             "value": "",
@@ -198,7 +198,7 @@
            }
           },
           {
-           "_id": "72703cf",
+           "_id": "4a532b3",
            "text": "Team",
            "selected_icon": {
             "value": "",
@@ -211,7 +211,7 @@
            }
           },
           {
-           "_id": "2010a30",
+           "_id": "8fd24f7",
            "text": "FAQ",
            "selected_icon": {
             "value": "",
@@ -224,7 +224,7 @@
            }
           },
           {
-           "_id": "3fc40e2",
+           "_id": "f68268a",
            "text": "Kontakt",
            "selected_icon": {
             "value": "",
@@ -265,7 +265,7 @@
       ]
      },
      {
-      "id": "0dca014",
+      "id": "edcd301",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -292,7 +292,7 @@
       },
       "elements": [
        {
-        "id": "6e67706",
+        "id": "7d81c84",
         "elType": "widget",
         "widgetType": "button",
         "settings": {
@@ -351,7 +351,7 @@
   ]
  },
  {
-  "id": "b0b4ec8",
+  "id": "6576a84",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -434,7 +434,7 @@
   },
   "elements": [
    {
-    "id": "68b9fb3",
+    "id": "6965fe3",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -477,7 +477,7 @@
     },
     "elements": [
      {
-      "id": "7b783fd",
+      "id": "3fb3956",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -508,7 +508,7 @@
     ]
    },
    {
-    "id": "dde435d",
+    "id": "dd4e33e",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -561,7 +561,7 @@
     },
     "elements": [
      {
-      "id": "6f01951",
+      "id": "2574bc1",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -592,7 +592,7 @@
       "elements": []
      },
      {
-      "id": "0a29593",
+      "id": "b393929",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -624,7 +624,7 @@
   ]
  },
  {
-  "id": "cac1ab4",
+  "id": "8be4fb2",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -664,7 +664,7 @@
   },
   "elements": [
    {
-    "id": "47711b8",
+    "id": "e2f793b",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -691,7 +691,7 @@
     },
     "elements": [
      {
-      "id": "4159b49",
+      "id": "f42962a",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -725,7 +725,7 @@
       },
       "elements": [
        {
-        "id": "59d1b4d",
+        "id": "4c42556",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -756,7 +756,7 @@
         "elements": []
        },
        {
-        "id": "4826b93",
+        "id": "be30046",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -785,11 +785,11 @@
         "elements": []
        },
        {
-        "id": "402f673",
+        "id": "73411ae",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Gemeinsam mit anderen Mitgliedern beteiligen Sie sich an Wohnhäusern, die wir kaufen, modernisieren, vermieten und verkaufen. Vorgesehen sind 7&nbsp;% Zinsen pro Jahr, ausgezahlt alle drei Monate.*</p>",
+         "editor": "<p>Wir kaufen, modernisieren und verkaufen Wohnhäuser. Sie erhalten vorgesehene 7&nbsp;% Zinsen pro Jahr.*</p>",
          "text_color": "#E3E4EE",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -813,7 +813,7 @@
         "elements": []
        },
        {
-        "id": "592625c",
+        "id": "6f6489f",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -840,7 +840,7 @@
         },
         "elements": [
          {
-          "id": "9e0c7e2",
+          "id": "d3bf773",
           "elType": "widget",
           "widgetType": "button",
           "settings": {
@@ -893,7 +893,7 @@
           "elements": []
          },
          {
-          "id": "1596aeb",
+          "id": "dd8270a",
           "elType": "widget",
           "widgetType": "button",
           "settings": {
@@ -942,7 +942,7 @@
       ]
      },
      {
-      "id": "8c1e138",
+      "id": "bea00e1",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -979,7 +979,7 @@
       },
       "elements": [
        {
-        "id": "fda5f2f",
+        "id": "16d8f2d",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1013,7 +1013,7 @@
         },
         "elements": [
          {
-          "id": "370e761",
+          "id": "981cc92",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1042,7 +1042,7 @@
           "elements": []
          },
          {
-          "id": "c1c1bc7",
+          "id": "cbe6f33",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1072,7 +1072,7 @@
         ]
        },
        {
-        "id": "30f09d6",
+        "id": "87a75b9",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1106,7 +1106,7 @@
         },
         "elements": [
          {
-          "id": "a5847b9",
+          "id": "97f4ae2",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1135,7 +1135,7 @@
           "elements": []
          },
          {
-          "id": "49f99ae",
+          "id": "6917984",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1165,7 +1165,7 @@
         ]
        },
        {
-        "id": "de02ad9",
+        "id": "da40c9a",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1199,7 +1199,7 @@
         },
         "elements": [
          {
-          "id": "3e21f34",
+          "id": "f0e7d63",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1228,7 +1228,7 @@
           "elements": []
          },
          {
-          "id": "78fb820",
+          "id": "ba00f2d",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1264,7 +1264,7 @@
   ]
  },
  {
-  "id": "a7f2461",
+  "id": "f00d6f1",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -1305,7 +1305,7 @@
   },
   "elements": [
    {
-    "id": "5760f5d",
+    "id": "668955e",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -1339,7 +1339,7 @@
     },
     "elements": [
      {
-      "id": "79fb0e5",
+      "id": "c88ebd9",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -1370,7 +1370,7 @@
       "elements": []
      },
      {
-      "id": "72b368b",
+      "id": "6b77100",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -1401,7 +1401,7 @@
     ]
    },
    {
-    "id": "128fab5",
+    "id": "664f50c",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -1414,7 +1414,7 @@
     "elements": []
    },
    {
-    "id": "e11291a",
+    "id": "c6c6054",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -1441,7 +1441,7 @@
     },
     "elements": [
      {
-      "id": "8f1569c",
+      "id": "a32f8a9",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -1479,7 +1479,7 @@
       },
       "elements": [
        {
-        "id": "b857fb6",
+        "id": "63de4af",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1532,7 +1532,7 @@
         },
         "elements": [
          {
-          "id": "b18bb26",
+          "id": "6fe4add",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1561,7 +1561,7 @@
           "elements": []
          },
          {
-          "id": "919c999",
+          "id": "155c616",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1591,7 +1591,7 @@
         ]
        },
        {
-        "id": "3dd9741",
+        "id": "75961d9",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1644,7 +1644,7 @@
         },
         "elements": [
          {
-          "id": "dbf1835",
+          "id": "4fb0541",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1673,7 +1673,7 @@
           "elements": []
          },
          {
-          "id": "5abe6fa",
+          "id": "09056e6",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1703,7 +1703,7 @@
         ]
        },
        {
-        "id": "3447e15",
+        "id": "a3118b5",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1756,7 +1756,7 @@
         },
         "elements": [
          {
-          "id": "8fd4fbf",
+          "id": "6ee8a96",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1785,7 +1785,7 @@
           "elements": []
          },
          {
-          "id": "afdbdff",
+          "id": "41c64d6",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1815,7 +1815,7 @@
         ]
        },
        {
-        "id": "e8aa0fb",
+        "id": "4abd97d",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -1868,7 +1868,7 @@
         },
         "elements": [
          {
-          "id": "cf66a79",
+          "id": "5222443",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -1897,7 +1897,7 @@
           "elements": []
          },
          {
-          "id": "b3d807f",
+          "id": "207c763",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -1929,7 +1929,7 @@
       ]
      },
      {
-      "id": "05e5f0b",
+      "id": "4f68fb2",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -1963,11 +1963,11 @@
       },
       "elements": [
        {
-        "id": "26d0c28",
+        "id": "0f529ef",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Die Hanseatische Invest eG verwendet Ihr investiertes Kapital, um Immobilienprojekte effizient umzusetzen und nachhaltige Mehrwerte zu schaffen: für unsere Mitglieder und den deutschen Immobilienmarkt. Als Genossenschaft stehen wir für Transparenz, Verantwortung und eine partnerschaftliche Beteiligung an Immobilieninvestments.</p>",
+         "editor": "<p>Wir setzen das Kapital unserer Mitglieder in echten Wohnungsprojekten ein: transparent und partnerschaftlich.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -1991,35 +1991,7 @@
         "elements": []
        },
        {
-        "id": "01ee218",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Werden Sie Teil der Hanseatischen Invest eG: Ein Anteil kostet 10.000&nbsp;€, vorgesehen sind 7&nbsp;% Zinsen pro Jahr.* Jetzt informieren und Mitglied werden.</p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "a2db59f",
+        "id": "cd84f84",
         "elType": "widget",
         "widgetType": "spacer",
         "settings": {
@@ -2032,7 +2004,7 @@
         "elements": []
        },
        {
-        "id": "7588b36",
+        "id": "dc6ece3",
         "elType": "widget",
         "widgetType": "button",
         "settings": {
@@ -2091,7 +2063,7 @@
   ]
  },
  {
-  "id": "4048b40",
+  "id": "d03c64f",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -2131,7 +2103,7 @@
   },
   "elements": [
    {
-    "id": "6bda472",
+    "id": "cc9a870",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -2158,7 +2130,7 @@
     },
     "elements": [
      {
-      "id": "42164ce",
+      "id": "6df1f52",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -2212,7 +2184,7 @@
       },
       "elements": [
        {
-        "id": "c4b8b51",
+        "id": "eda6b92",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -2243,7 +2215,7 @@
         "elements": []
        },
        {
-        "id": "400bad6",
+        "id": "3bc9bcc",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -2272,11 +2244,11 @@
         "elements": []
        },
        {
-        "id": "ae8b6ed",
+        "id": "7f4cc60",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Die Hanseatische Invest eG bietet eine genossenschaftliche Beteiligung statt einer klassischen Geldanlage: Sie investieren gemeinsam mit anderen Mitgliedern in reale Wohnimmobilien und nehmen unternehmerisch an Chancen und Risiken teil. Die Mindestlaufzeit beträgt 12 Monate, vorgesehen ist eine Verzinsung von 7&nbsp;% p.a.*</p>",
+         "editor": "<p>Sie investieren gemeinsam mit anderen Mitgliedern in reale Wohnimmobilien, mit Chancen und Risiken.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -2300,11 +2272,11 @@
         "elements": []
        },
        {
-        "id": "46b9035",
+        "id": "63043c4",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>* Die Verzinsung ist aus rechtlichen Gründen nicht garantiert und abhängig vom wirtschaftlichen Erfolg der Genossenschaft.</p>",
+         "editor": "<p>* Die Verzinsung ist nicht garantiert.</p>",
          "text_color": "#7A7D89",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -2330,7 +2302,7 @@
       ]
      },
      {
-      "id": "00e1e8d",
+      "id": "4c7932f",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -2383,7 +2355,7 @@
       },
       "elements": [
        {
-        "id": "dd44423",
+        "id": "f4929cc",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -2414,13 +2386,13 @@
         "elements": []
        },
        {
-        "id": "846333e",
+        "id": "f631f97",
         "elType": "widget",
         "widgetType": "icon-list",
         "settings": {
          "icon_list": [
           {
-           "_id": "f6beb7d",
+           "_id": "4422545",
            "text": "Ein Anteil: 10.000 €, auch mehrere möglich",
            "selected_icon": {
             "value": "fas fa-check",
@@ -2433,7 +2405,7 @@
            }
           },
           {
-           "_id": "a3d8b50",
+           "_id": "8c73bf2",
            "text": "Vorgesehene Verzinsung: 7 % p. a.*",
            "selected_icon": {
             "value": "fas fa-check",
@@ -2446,7 +2418,7 @@
            }
           },
           {
-           "_id": "4492a4e",
+           "_id": "f92e5a5",
            "text": "Auszahlung alle drei Monate",
            "selected_icon": {
             "value": "fas fa-check",
@@ -2459,7 +2431,7 @@
            }
           },
           {
-           "_id": "8a28d05",
+           "_id": "6eead5c",
            "text": "Laufzeit 12 Monate, verlängert sich um je ein Jahr",
            "selected_icon": {
             "value": "fas fa-check",
@@ -2472,7 +2444,7 @@
            }
           },
           {
-           "_id": "7a6bdf9",
+           "_id": "b36ec29",
            "text": "Keine Nachschusspflicht",
            "selected_icon": {
             "value": "fas fa-check",
@@ -2485,7 +2457,7 @@
            }
           },
           {
-           "_id": "10a6f70",
+           "_id": "a6407c9",
            "text": "Steuer führen wir direkt ab",
            "selected_icon": {
             "value": "fas fa-check",
@@ -2523,7 +2495,7 @@
         "elements": []
        },
        {
-        "id": "ff4715b",
+        "id": "ca21852",
         "elType": "widget",
         "widgetType": "spacer",
         "settings": {
@@ -2536,7 +2508,7 @@
         "elements": []
        },
        {
-        "id": "14b3ff3",
+        "id": "bdca879",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -2564,7 +2536,7 @@
         },
         "elements": [
          {
-          "id": "6f9f3c7",
+          "id": "0f8e159",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -2592,7 +2564,7 @@
           "elements": []
          },
          {
-          "id": "5a4a353",
+          "id": "9ef9499",
           "elType": "widget",
           "widgetType": "button",
           "settings": {
@@ -2633,7 +2605,7 @@
   ]
  },
  {
-  "id": "e8638a6",
+  "id": "80a1b28",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -2672,7 +2644,7 @@
   },
   "elements": [
    {
-    "id": "d9d9e36",
+    "id": "d503ad3",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -2696,7 +2668,7 @@
     },
     "elements": [
      {
-      "id": "815b542",
+      "id": "f2a507a",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -2727,7 +2699,7 @@
       "elements": []
      },
      {
-      "id": "0def932",
+      "id": "5c9d7c3",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -2756,11 +2728,11 @@
       "elements": []
      },
      {
-      "id": "8a053e5",
+      "id": "b30ad26",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Wohnimmobilien gelten als eine der solidesten Anlagen in Deutschland. Trotzdem bleibt es für viele Menschen bei dem Wunsch. Genau hier setzen wir an.</p>",
+       "editor": "<p>Viele wollen Immobilien, aber nicht den Aufwand.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -2786,7 +2758,7 @@
     ]
    },
    {
-    "id": "e1e795d",
+    "id": "763dba6",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -2799,7 +2771,7 @@
     "elements": []
    },
    {
-    "id": "87587e1",
+    "id": "938157c",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -2826,7 +2798,7 @@
     },
     "elements": [
      {
-      "id": "ab81f75",
+      "id": "86ed278",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -2860,39 +2832,11 @@
       },
       "elements": [
        {
-        "id": "5c699a8",
+        "id": "594dcf3",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Wer eine Eigentumswohnung als Kapitalanlage kauft, bindet sich für viele Jahre an ein einzelnes Objekt und meist an einen Bankkredit. Dazu kommt eine Rolle, die viele unterschätzen. Als Eigentümer sind Sie Vermieter. Sie suchen Mieter, rechnen Nebenkosten ab, beauftragen Handwerker und tragen das Risiko, wenn eine Wohnung leer steht.</p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "d727c5b",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Für manche ist genau das der richtige Weg. Viele andere halten Immobilien für richtig und entscheiden sich am Ende trotzdem dagegen. Nicht weil die Anlage sie nicht überzeugt, sondern weil sie die Bindung und den Aufwand scheuen.</p>",
+         "editor": "<p>Eine eigene Wohnung bindet Sie an ein Objekt, einen Kredit und die Rolle als Vermieter.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -2918,7 +2862,7 @@
       ]
      },
      {
-      "id": "1804524",
+      "id": "92ad8ab",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -2971,7 +2915,7 @@
       },
       "elements": [
        {
-        "id": "5b5b6fb",
+        "id": "9da34f2",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -3000,39 +2944,11 @@
         "elements": []
        },
        {
-        "id": "e0b0db2",
+        "id": "25b6a12",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Die Hanseatische Invest eG bietet eine andere Möglichkeit. Sie werden Mitglied einer Genossenschaft, die in Wohnimmobilien investiert. Sie kaufen keine einzelne Wohnung. Sie müssen nicht selbst vermieten. Sie benötigen keinen Kredit. <strong>Ein Anteil kostet 10.000 Euro.</strong></p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "2743f6d",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Alles Weitere übernehmen wir. Ankauf, Modernisierung, Vermietung und Verkauf liegen bei der Gerlach Immobilien Gruppe, aus der die Genossenschaft hervorgegangen ist. Aus dem, was diese Geschäfte einbringen, werden die Zinsen auf Ihre Anteile gezahlt.</p>",
+         "editor": "<p>Sie werden Mitglied einer Genossenschaft, die in Wohnimmobilien investiert. Ohne Kredit, ohne Vermieten. <strong>Ein Anteil: 10.000&nbsp;€.</strong></p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -3060,7 +2976,7 @@
     ]
    },
    {
-    "id": "006dc26",
+    "id": "60daff7",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -3073,7 +2989,7 @@
     "elements": []
    },
    {
-    "id": "51d04c3",
+    "id": "299c3cc",
     "elType": "widget",
     "widgetType": "image",
     "settings": {
@@ -3098,7 +3014,7 @@
     "elements": []
    },
    {
-    "id": "7e57afe",
+    "id": "d450065",
     "elType": "widget",
     "widgetType": "text-editor",
     "settings": {
@@ -3128,7 +3044,7 @@
   ]
  },
  {
-  "id": "027f910",
+  "id": "e180bcf",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -3169,7 +3085,7 @@
   },
   "elements": [
    {
-    "id": "5221bd4",
+    "id": "404f48e",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -3193,7 +3109,7 @@
     },
     "elements": [
      {
-      "id": "f9b5e7a",
+      "id": "a84249a",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -3224,7 +3140,7 @@
       "elements": []
      },
      {
-      "id": "64e0b3f",
+      "id": "4657b51",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -3253,11 +3169,11 @@
       "elements": []
      },
      {
-      "id": "58b0889",
+      "id": "ed55e4a",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Die Genossenschaft ist eine der ältesten Unternehmensformen Deutschlands. Sie ist gesetzlich streng geregelt und unterscheidet sich in einem Punkt von fast jeder anderen Beteiligung, die Ihnen angeboten wird.</p>",
+       "editor": "<p>Gesetzlich streng geregelt und jährlich geprüft.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -3283,7 +3199,7 @@
     ]
    },
    {
-    "id": "f473ccd",
+    "id": "008ceb0",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -3296,7 +3212,7 @@
     "elements": []
    },
    {
-    "id": "0faebb5",
+    "id": "48c393e",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -3323,7 +3239,7 @@
     },
     "elements": [
      {
-      "id": "a2ad55b",
+      "id": "de74122",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -3357,11 +3273,11 @@
       },
       "elements": [
        {
-        "id": "4fe83fd",
+        "id": "84699cc",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Eine eingetragene Genossenschaft gehört ihren Mitgliedern. Sie steht im Genossenschaftsregister, hat einen Vorstand und einen Aufsichtsrat und wird regelmäßig vom gesetzlichen Prüfungsverband geprüft. Diese Prüfung ist nicht freiwillig. Das Gesetz schreibt sie vor.</p>",
+         "editor": "<p>Eine eingetragene Genossenschaft gehört ihren Mitgliedern und wird vom Prüfungsverband geprüft.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -3385,7 +3301,7 @@
         "elements": []
        },
        {
-        "id": "d30d4eb",
+        "id": "d739548",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -3414,11 +3330,11 @@
         "elements": []
        },
        {
-        "id": "39d40f6",
+        "id": "a57b03e",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Sie werden Mitglied, ohne im Betrieb mitzuarbeiten. Das Gesetz nennt das ein investierendes Mitglied. Sie stellen Geld zur Verfügung und erhalten dafür Zinsen. In der Versammlung der Mitglieder haben Sie kein Stimmrecht, dafür auch keine Pflichten im Betrieb. Ihr Anteil ist kein Sparbuch. Sie beteiligen sich an einem Unternehmen, mit allen Chancen und Risiken, die dazugehören.</p>",
+         "editor": "<p>Sie stellen Geld zur Verfügung und erhalten Zinsen. Kein Stimmrecht, keine Pflichten im Betrieb.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -3442,7 +3358,7 @@
         "elements": []
        },
        {
-        "id": "667761f",
+        "id": "3799589",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -3471,11 +3387,11 @@
         "elements": []
        },
        {
-        "id": "9bf16ba",
+        "id": "04d25d3",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Ein Punkt ist unseren Mitgliedern besonders wichtig. Eine Nachschusspflicht besteht nicht. Sie können also niemals verpflichtet werden, mehr einzuzahlen als Ihren Anteil. So steht es in der Satzung, der Grundordnung der Genossenschaft.</p>",
+         "editor": "<p>Eine Nachschusspflicht besteht nicht. So steht es in der Satzung.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -3501,7 +3417,7 @@
       ]
      },
      {
-      "id": "393ce85",
+      "id": "56e62be",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -3535,7 +3451,7 @@
       },
       "elements": [
        {
-        "id": "ee83648",
+        "id": "8faa826",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -3578,7 +3494,7 @@
         },
         "elements": [
          {
-          "id": "e4b3d76",
+          "id": "562f78e",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -3589,7 +3505,7 @@
         ]
        },
        {
-        "id": "8be0e3e",
+        "id": "acc703c",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -3632,7 +3548,7 @@
         },
         "elements": [
          {
-          "id": "adf6955",
+          "id": "ca1acca",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -3661,7 +3577,7 @@
           "elements": []
          },
          {
-          "id": "32b85fa",
+          "id": "c85f00b",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -3698,7 +3614,7 @@
   ]
  },
  {
-  "id": "e7bca10",
+  "id": "9a27807",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -3739,7 +3655,7 @@
   },
   "elements": [
    {
-    "id": "51d87de",
+    "id": "a25cce6",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -3766,7 +3682,7 @@
     },
     "elements": [
      {
-      "id": "2cbd670",
+      "id": "ac23ea8",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -3800,7 +3716,7 @@
       },
       "elements": [
        {
-        "id": "aa300b4",
+        "id": "0ea8ac2",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -3831,7 +3747,7 @@
         "elements": []
        },
        {
-        "id": "9bb164c",
+        "id": "1856e03",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -3860,11 +3776,11 @@
         "elements": []
        },
        {
-        "id": "1436025",
+        "id": "aade91b",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Teamgeist, Fairness und Leistung auf höchstem Niveau: Werte, die auch unsere Genossenschaft tragen. Deshalb unterstützen wir mit Überzeugung den HSV Handball Hamburg, direkt vor unserer Haustür.</p>",
+         "editor": "<p>Teamgeist, Fairness und Leistung: Werte, die auch unsere Genossenschaft tragen.</p>",
          "text_color": "#E3E4EE",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -3890,7 +3806,7 @@
       ]
      },
      {
-      "id": "862c6b6",
+      "id": "23fbea3",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -3925,7 +3841,7 @@
       },
       "elements": [
        {
-        "id": "082a9a1",
+        "id": "df7db67",
         "elType": "widget",
         "widgetType": "image-carousel",
         "settings": {
@@ -3980,7 +3896,7 @@
     ]
    },
    {
-    "id": "d87a35d",
+    "id": "abc4ba9",
     "elType": "widget",
     "widgetType": "html",
     "settings": {
@@ -3992,7 +3908,7 @@
   ]
  },
  {
-  "id": "c22e538",
+  "id": "34152c6",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -4031,7 +3947,7 @@
   },
   "elements": [
    {
-    "id": "9f9d1d8",
+    "id": "4d95f46",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -4055,7 +3971,7 @@
     },
     "elements": [
      {
-      "id": "d62322b",
+      "id": "effcc78",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -4086,7 +4002,7 @@
       "elements": []
      },
      {
-      "id": "a78be0e",
+      "id": "f67dedd",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -4115,11 +4031,11 @@
       "elements": []
      },
      {
-      "id": "3a8520a",
+      "id": "0000eac",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Hinter der Hanseatischen Invest eG steht die Gerlach Immobilien Gruppe aus Hamburg, ein auf Wohnimmobilien spezialisiertes Unternehmen mit langjähriger Erfahrung am norddeutschen Markt.</p>",
+       "editor": "<p>Dahinter steht die Gerlach Immobilien Gruppe aus Hamburg.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -4145,7 +4061,7 @@
     ]
    },
    {
-    "id": "5e5b7df",
+    "id": "0c38a59",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -4158,7 +4074,7 @@
     "elements": []
    },
    {
-    "id": "d5d2b7f",
+    "id": "263d056",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -4185,7 +4101,7 @@
     },
     "elements": [
      {
-      "id": "5dccc51",
+      "id": "d05b8ed",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -4219,39 +4135,11 @@
       },
       "elements": [
        {
-        "id": "db25c5f",
+        "id": "761ad6d",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Die Gruppe kauft Mehrfamilienhäuser, bringt sie baulich und wirtschaftlich in einen besseren Zustand und verkauft die Wohnungen anschließend einzeln an Kapitalanleger und Selbstnutzer. Dieses Geschäft betreibt sie seit Jahren und hat es im Laufe der Zeit so weit standardisiert, dass sich der Ablauf von Objekt zu Objekt wiederholt.</p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "3003a49",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Seit ihrer Gründung zählt die Gruppe mehr als 1.000 Wohneinheiten in ihren Projekten, zusammen über 100 Millionen Euro Transaktionsvolumen. Allein im Jahr 2024 waren es mehr als 300 verkaufte Wohnungen und ein Umsatz von 35 Millionen Euro.</p>",
+         "editor": "<p>Die Gruppe kauft Mehrfamilienhäuser, modernisiert sie und verkauft die Wohnungen einzeln.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -4277,7 +4165,7 @@
       ]
      },
      {
-      "id": "acaee1a",
+      "id": "d8260ef",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -4311,7 +4199,7 @@
       },
       "elements": [
        {
-        "id": "6aaf086",
+        "id": "552fe58",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4340,11 +4228,11 @@
         "elements": []
        },
        {
-        "id": "1ec32b7",
+        "id": "500ea67",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Für Sie als Mitglied bedeutet das zweierlei. Ihr Kapital finanziert kein Geschäftsmodell, das erst noch beweisen muss, dass es funktioniert. Und die Menschen, die es einsetzen, haben diese Art von Projekt vielfach durchgeführt. Zahlen aus der Vergangenheit sind allerdings keine Zusage für künftige Ergebnisse.</p>",
+         "editor": "<p>Ein erprobtes Geschäftsmodell mit erfahrenen Leuten. Vergangene Zahlen sind keine Zusage.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -4372,7 +4260,7 @@
     ]
    },
    {
-    "id": "feecae5",
+    "id": "1423868",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -4385,7 +4273,7 @@
     "elements": []
    },
    {
-    "id": "aa15a91",
+    "id": "335a7cf",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -4412,7 +4300,7 @@
     },
     "elements": [
      {
-      "id": "94b2e35",
+      "id": "20dc9ae",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -4465,7 +4353,7 @@
       },
       "elements": [
        {
-        "id": "11f29b4",
+        "id": "a66418c",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4494,7 +4382,7 @@
         "elements": []
        },
        {
-        "id": "7007d22",
+        "id": "ff79431",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4523,7 +4411,7 @@
         "elements": []
        },
        {
-        "id": "9120dcf",
+        "id": "26239a5",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -4553,7 +4441,7 @@
       ]
      },
      {
-      "id": "817c2bc",
+      "id": "eb068bc",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -4606,7 +4494,7 @@
       },
       "elements": [
        {
-        "id": "0c685df",
+        "id": "9515cc2",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4635,7 +4523,7 @@
         "elements": []
        },
        {
-        "id": "482542c",
+        "id": "55054fe",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4664,7 +4552,7 @@
         "elements": []
        },
        {
-        "id": "9fc24d7",
+        "id": "bdcac74",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -4694,7 +4582,7 @@
       ]
      },
      {
-      "id": "cb06b73",
+      "id": "0980574",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -4747,7 +4635,7 @@
       },
       "elements": [
        {
-        "id": "97797e6",
+        "id": "7db6c67",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4776,7 +4664,7 @@
         "elements": []
        },
        {
-        "id": "37fe9b5",
+        "id": "38f9d8a",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -4805,7 +4693,7 @@
         "elements": []
        },
        {
-        "id": "369fee4",
+        "id": "85b9632",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -4837,7 +4725,7 @@
     ]
    },
    {
-    "id": "ca2b55a",
+    "id": "1169a42",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -4850,7 +4738,7 @@
     "elements": []
    },
    {
-    "id": "db8f5db",
+    "id": "a16f39b",
     "elType": "widget",
     "widgetType": "image",
     "settings": {
@@ -4875,7 +4763,7 @@
     "elements": []
    },
    {
-    "id": "1f0ed8d",
+    "id": "f64e3f2",
     "elType": "widget",
     "widgetType": "text-editor",
     "settings": {
@@ -4905,7 +4793,7 @@
   ]
  },
  {
-  "id": "11c2a69",
+  "id": "6d3d74c",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -4944,7 +4832,7 @@
   },
   "elements": [
    {
-    "id": "1e61715",
+    "id": "70b53ce",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -4978,7 +4866,7 @@
     },
     "elements": [
      {
-      "id": "7223844",
+      "id": "c68d5a9",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -5009,7 +4897,7 @@
       "elements": []
      },
      {
-      "id": "31a3829",
+      "id": "7301156",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -5038,7 +4926,7 @@
       "elements": []
      },
      {
-      "id": "cc31d77",
+      "id": "fe9c9a6",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -5066,11 +4954,11 @@
       "elements": []
      },
      {
-      "id": "acb7ded",
+      "id": "ea5641d",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Unser Geschäft besteht aus vier Schritten, die immer in derselben Reihenfolge ablaufen. Wer versteht, wie sie zusammenhängen, versteht auch, woher die Verzinsung kommt.</p>",
+       "editor": "<p>Vier Schritte, immer in derselben Reihenfolge. Daraus kommt die Verzinsung.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -5096,7 +4984,7 @@
     ]
    },
    {
-    "id": "8c8bc01",
+    "id": "27bdf84",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -5109,7 +4997,7 @@
     "elements": []
    },
    {
-    "id": "f7412f6",
+    "id": "bb2f0fe",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -5134,7 +5022,7 @@
     },
     "elements": [
      {
-      "id": "88f14c6",
+      "id": "d309092",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -5159,7 +5047,7 @@
       },
       "elements": [
        {
-        "id": "47f8196",
+        "id": "d972e66",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -5169,7 +5057,7 @@
         "elements": []
        },
        {
-        "id": "ce30c4c",
+        "id": "42a0e7c",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -5212,7 +5100,7 @@
         },
         "elements": [
          {
-          "id": "5e0a689",
+          "id": "b1543c8",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5241,7 +5129,7 @@
           "elements": []
          },
          {
-          "id": "55a9ada",
+          "id": "2491db3",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5270,11 +5158,11 @@
           "elements": []
          },
          {
-          "id": "5460a43",
+          "id": "9a1542c",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Wir suchen Mehrfamilienhäuser in Lagen mit stabiler Nachfrage, bei denen der Kaufpreis nicht bereits alles vorwegnimmt, was sich aus dem Objekt machen lässt. Entscheidend sind Bausubstanz, Lage und die Frage, ob sich die Wohnungen später einzeln verkaufen lassen.</p>",
+           "editor": "<p>Häuser in gefragten Lagen, deren Wohnungen sich später einzeln verkaufen lassen.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -5302,7 +5190,7 @@
       ]
      },
      {
-      "id": "a799131",
+      "id": "b8b7d32",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -5327,7 +5215,7 @@
       },
       "elements": [
        {
-        "id": "2ebb701",
+        "id": "010310f",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -5337,7 +5225,7 @@
         "elements": []
        },
        {
-        "id": "1eaa173",
+        "id": "504c231",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -5380,7 +5268,7 @@
         },
         "elements": [
          {
-          "id": "e37d5a8",
+          "id": "abedaeb",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5409,7 +5297,7 @@
           "elements": []
          },
          {
-          "id": "4bd2966",
+          "id": "9699c0d",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5438,11 +5326,11 @@
           "elements": []
          },
          {
-          "id": "621ba57",
+          "id": "e6207c6",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Danach bringen wir das Haus in einen besseren Zustand. Das reicht von der Erneuerung der Heizung über Fassade und Dach bis zur Modernisierung einzelner Wohnungen. Jede Maßnahme muss sich rechnen, sonst unterbleibt sie.</p>",
+           "editor": "<p>Heizung, Fassade, Dach, Wohnungen: nur was sich rechnet.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -5470,7 +5358,7 @@
       ]
      },
      {
-      "id": "fcbc911",
+      "id": "86178da",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -5495,7 +5383,7 @@
       },
       "elements": [
        {
-        "id": "15129d6",
+        "id": "364460f",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -5505,7 +5393,7 @@
         "elements": []
        },
        {
-        "id": "fa6d801",
+        "id": "e54fb8f",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -5548,7 +5436,7 @@
         },
         "elements": [
          {
-          "id": "8ed3d46",
+          "id": "5941353",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5577,7 +5465,7 @@
           "elements": []
          },
          {
-          "id": "3d3f8cc",
+          "id": "730ff8c",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5606,11 +5494,11 @@
           "elements": []
          },
          {
-          "id": "dd0406b",
+          "id": "45f717f",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Parallel kümmern wir uns um die Vermietung. Leerstand wird neu vermietet, Verträge werden marktgerecht gestaltet, die Verwaltung übernehmen wir selbst. Ein gut vermietetes Objekt ist beim Verkauf deutlich mehr wert als ein schlecht vermietetes.</p>",
+           "editor": "<p>Leerstand neu vermieten, Verträge marktgerecht, Verwaltung im eigenen Haus.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -5638,7 +5526,7 @@
       ]
      },
      {
-      "id": "5e8be8e",
+      "id": "a737788",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -5663,7 +5551,7 @@
       },
       "elements": [
        {
-        "id": "a3f54ff",
+        "id": "c93c30d",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -5673,7 +5561,7 @@
         "elements": []
        },
        {
-        "id": "17005e2",
+        "id": "a9fa502",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -5716,7 +5604,7 @@
         },
         "elements": [
          {
-          "id": "fa9ed97",
+          "id": "0e5d7ff",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5745,7 +5633,7 @@
           "elements": []
          },
          {
-          "id": "bca8097",
+          "id": "29f8a5f",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -5774,11 +5662,11 @@
           "elements": []
          },
          {
-          "id": "4585f98",
+          "id": "008c104",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Zuletzt werden die Wohnungen einzeln verkauft. Die Summe der Einzelverkäufe liegt in der Regel über dem Wert des Hauses als Ganzes. Aus dieser Differenz entsteht der Überschuss, aus dem unter anderem Ihre Verzinsung bedient wird.</p>",
+           "editor": "<p>Die Wohnungen werden einzeln verkauft. Aus dem Mehrerlös entsteht der Überschuss.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -5810,7 +5698,7 @@
   ]
  },
  {
-  "id": "496ce3c",
+  "id": "6a99e93",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -5850,7 +5738,7 @@
   },
   "elements": [
    {
-    "id": "b907b98",
+    "id": "299b402",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -5877,7 +5765,7 @@
     },
     "elements": [
      {
-      "id": "af389f1",
+      "id": "f53af39",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -5911,7 +5799,7 @@
       },
       "elements": [
        {
-        "id": "75688a8",
+        "id": "d774482",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -5942,7 +5830,7 @@
         "elements": []
        },
        {
-        "id": "77e0b0f",
+        "id": "3c55bac",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -5973,7 +5861,7 @@
       ]
      },
      {
-      "id": "793bb32",
+      "id": "6232277",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -6009,7 +5897,7 @@
       },
       "elements": [
        {
-        "id": "9f6855a",
+        "id": "d8a62b0",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -6044,7 +5932,7 @@
         },
         "elements": [
          {
-          "id": "d75dd13",
+          "id": "db283b7",
           "elType": "widget",
           "widgetType": "image",
           "settings": {
@@ -6076,7 +5964,7 @@
           "elements": []
          },
          {
-          "id": "e2ef26a",
+          "id": "db3f7fd",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -6107,7 +5995,7 @@
         ]
        },
        {
-        "id": "ccdf867",
+        "id": "beeb5eb",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -6142,7 +6030,7 @@
         },
         "elements": [
          {
-          "id": "467c893",
+          "id": "9cd168a",
           "elType": "widget",
           "widgetType": "image",
           "settings": {
@@ -6174,7 +6062,7 @@
           "elements": []
          },
          {
-          "id": "847bf8b",
+          "id": "9228cfd",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -6205,7 +6093,7 @@
         ]
        },
        {
-        "id": "a23f904",
+        "id": "68f73bf",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -6240,7 +6128,7 @@
         },
         "elements": [
          {
-          "id": "7897051",
+          "id": "97109eb",
           "elType": "widget",
           "widgetType": "image",
           "settings": {
@@ -6272,7 +6160,7 @@
           "elements": []
          },
          {
-          "id": "913a90f",
+          "id": "bf86dbf",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -6309,7 +6197,7 @@
   ]
  },
  {
-  "id": "2fbd747",
+  "id": "f0ed8b1",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -6348,7 +6236,7 @@
   },
   "elements": [
    {
-    "id": "a4dc563",
+    "id": "4db1c94",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -6382,7 +6270,7 @@
     },
     "elements": [
      {
-      "id": "8dadc05",
+      "id": "aaf0bbd",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -6413,7 +6301,7 @@
       "elements": []
      },
      {
-      "id": "c69c1e8",
+      "id": "62fbbff",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -6442,7 +6330,7 @@
       "elements": []
      },
      {
-      "id": "d79d575",
+      "id": "3347949",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -6472,7 +6360,7 @@
     ]
    },
    {
-    "id": "84aa5ad",
+    "id": "71c27a2",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -6485,7 +6373,7 @@
     "elements": []
    },
    {
-    "id": "2551dc5",
+    "id": "247e62f",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -6512,7 +6400,7 @@
     },
     "elements": [
      {
-      "id": "be27aac",
+      "id": "6f440c0",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -6546,7 +6434,7 @@
       },
       "elements": [
        {
-        "id": "a261633",
+        "id": "28ef079",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -6571,7 +6459,7 @@
         "elements": []
        },
        {
-        "id": "be63073",
+        "id": "204494a",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -6601,7 +6489,7 @@
       ]
      },
      {
-      "id": "f5568a8",
+      "id": "82d5a18",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -6635,7 +6523,7 @@
       },
       "elements": [
        {
-        "id": "4f2a355",
+        "id": "8518d29",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -6664,7 +6552,7 @@
         "elements": []
        },
        {
-        "id": "9a5e2cb",
+        "id": "9f22ee5",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -6693,11 +6581,11 @@
         "elements": []
        },
        {
-        "id": "e02ed10",
+        "id": "f7e6b0d",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Ein abgeschlossenes Projekt der Gruppe. Es zeigt den Ablauf an einem Mehrfamilienhaus vor den Toren Hamburgs, vom Ankauf bis zur letzten verkauften Wohnung.</p>",
+         "editor": "<p>Ein Mehrfamilienhaus vor den Toren Hamburgs, vom Ankauf bis zur letzten Wohnung.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -6721,7 +6609,7 @@
         "elements": []
        },
        {
-        "id": "5c3265f",
+        "id": "a89ac2b",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -6748,7 +6636,7 @@
         },
         "elements": [
          {
-          "id": "27511e1",
+          "id": "e454128",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -6801,7 +6689,7 @@
           },
           "elements": [
            {
-            "id": "28329cd",
+            "id": "8c9769f",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -6830,7 +6718,7 @@
             "elements": []
            },
            {
-            "id": "be775fe",
+            "id": "ff597d6",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
@@ -6860,7 +6748,7 @@
           ]
          },
          {
-          "id": "b3a41e9",
+          "id": "9b6ba63",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -6913,7 +6801,7 @@
           },
           "elements": [
            {
-            "id": "f66b85e",
+            "id": "42421f6",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -6942,7 +6830,7 @@
             "elements": []
            },
            {
-            "id": "102e16f",
+            "id": "3cc6add",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
@@ -6974,7 +6862,7 @@
         ]
        },
        {
-        "id": "f53ea55",
+        "id": "0582e7c",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -7001,7 +6889,7 @@
         },
         "elements": [
          {
-          "id": "a0eb62a",
+          "id": "d18c6e2",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -7035,11 +6923,11 @@
           },
           "elements": [
            {
-            "id": "4a2cd03",
+            "id": "28f2424",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
-             "editor": "<p>Das Haus steht in einer Sackgasse mit Wendehammer, wenige Minuten von der Hamburger Stadtgrenze. Baujahr 1965, 18 Wohnungen auf rund 1.220 Quadratmetern, dazu vier Garagen und acht Stellplätze. Das Grundstück misst 2.500 Quadratmeter und hat alten Baumbestand. Jede Wohnung hat einen Balkon und ein eigenes Grundbuchblatt.</p><p>In Kauf und Modernisierung flossen insgesamt 3,01 Millionen Euro, davon 2,29 Millionen in den Ankauf mit allen Nebenkosten. Verkauft wurden die 18 Wohnungen einzeln, zusammen für 4,03 Millionen Euro. Bleiben 1,02 Millionen Euro Überschuss.</p><p>Der Vertrieb startete im Januar 2026, im September war die letzte Wohnung verkauft. Neun Monate für 18 Einzelverkäufe. Pinneberg ist Kreisstadt mit 43.000 Einwohnern, über die A23 und die S-Bahn ist Hamburg schnell erreichbar. Wohnungen dieser Größe sind hier gefragt, das hat der Abverkauf bestätigt.</p>",
+             "editor": "<p>Baujahr 1965, Sackgasse mit altem Baumbestand. 18 Wohnungen, alle mit Balkon, in neun Monaten verkauft.</p>",
              "text_color": "#2A2F52",
              "typography_typography": "custom",
              "typography_font_family": "Inter",
@@ -7065,7 +6953,7 @@
           ]
          },
          {
-          "id": "29e45c7",
+          "id": "06bd999",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -7099,7 +6987,7 @@
           },
           "elements": [
            {
-            "id": "05c4608",
+            "id": "c5e8454",
             "elType": "widget",
             "widgetType": "html",
             "settings": {
@@ -7116,7 +7004,7 @@
     ]
    },
    {
-    "id": "5145d98",
+    "id": "fc31e03",
     "elType": "widget",
     "widgetType": "divider",
     "settings": {
@@ -7130,7 +7018,7 @@
     "elements": []
    },
    {
-    "id": "0f6aa52",
+    "id": "e8892b3",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -7157,7 +7045,7 @@
     },
     "elements": [
      {
-      "id": "f3799b2",
+      "id": "dc4f0aa",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -7191,7 +7079,7 @@
       },
       "elements": [
        {
-        "id": "227d800",
+        "id": "18dbe0d",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -7220,7 +7108,7 @@
         "elements": []
        },
        {
-        "id": "1a7810c",
+        "id": "97c0106",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -7249,11 +7137,11 @@
         "elements": []
        },
        {
-        "id": "142ef9d",
+        "id": "29a134d",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Ein abgeschlossenes Projekt der Gruppe. Es zeigt den Ablauf vom Ankauf bis zur letzten verkauften Wohnung.</p>",
+         "editor": "<p>Mitten in Hamburg, zwischen Hauptbahnhof und Hamm.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -7277,7 +7165,7 @@
         "elements": []
        },
        {
-        "id": "8a4a2f1",
+        "id": "bc5a5ed",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -7304,7 +7192,7 @@
         },
         "elements": [
          {
-          "id": "2bf9a17",
+          "id": "4308591",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -7357,7 +7245,7 @@
           },
           "elements": [
            {
-            "id": "b647cb8",
+            "id": "cf473a5",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -7386,7 +7274,7 @@
             "elements": []
            },
            {
-            "id": "65e0d18",
+            "id": "8cd3d44",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
@@ -7416,7 +7304,7 @@
           ]
          },
          {
-          "id": "54d1540",
+          "id": "54c0884",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -7469,7 +7357,7 @@
           },
           "elements": [
            {
-            "id": "2fcd0f7",
+            "id": "842368f",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -7498,7 +7386,7 @@
             "elements": []
            },
            {
-            "id": "cb75932",
+            "id": "a7d66d1",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
@@ -7530,7 +7418,7 @@
         ]
        },
        {
-        "id": "eb48a36",
+        "id": "36ea561",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -7557,7 +7445,7 @@
         },
         "elements": [
          {
-          "id": "faebc8c",
+          "id": "f54af5e",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -7591,11 +7479,11 @@
           },
           "elements": [
            {
-            "id": "7a9f7b6",
+            "id": "218162b",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
-             "editor": "<p>Das Mehrfamilienhaus im Stadtteil Borgfelde stammt aus dem Jahr 1955 und wurde zwischen 2015 und 2018 umfassend modernisiert. Es umfasst 20 Wohnungen auf rund 1.159 Quadratmetern, viele davon mit Balkon nach Süden. Das Haus hat einen Aufzug und ist barrierefrei zugänglich. Bis in die Innenstadt sind es mit U- und S-Bahn wenige Minuten.</p><p>In Kauf und Modernisierung flossen insgesamt 4,75 Millionen Euro. Verkauft wurden die 20 Wohnungen einzeln, zusammen für 6,55 Millionen Euro. Bleiben 1,8 Millionen Euro Überschuss.</p><p>Die Gruppe hat den Kaufpreis im August 2025 gezahlt, im April 2026 war die letzte Wohnung verkauft. Acht Monate für 20 Einzelverkäufe. Borgfelde liegt zwischen Hauptbahnhof und Hamm, mitten in der Stadt. Wer hier eine Wohnung kauft, findet in aller Regel schnell einen Mieter.</p>",
+             "editor": "<p>Baujahr 1955, Aufzug, viele Balkone nach Süden. 20 Wohnungen in acht Monaten verkauft.</p>",
              "text_color": "#2A2F52",
              "typography_typography": "custom",
              "typography_font_family": "Inter",
@@ -7621,7 +7509,7 @@
           ]
          },
          {
-          "id": "7d82399",
+          "id": "4f8a580",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -7655,7 +7543,7 @@
           },
           "elements": [
            {
-            "id": "09ddfba",
+            "id": "7dba1d2",
             "elType": "widget",
             "widgetType": "html",
             "settings": {
@@ -7670,7 +7558,7 @@
       ]
      },
      {
-      "id": "8455ebf",
+      "id": "606bb27",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -7704,7 +7592,7 @@
       },
       "elements": [
        {
-        "id": "42b631f",
+        "id": "08637b1",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -7729,7 +7617,7 @@
         "elements": []
        },
        {
-        "id": "d0d1d74",
+        "id": "a481aa1",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -7763,7 +7651,7 @@
   ]
  },
  {
-  "id": "f5278bf",
+  "id": "aaeeb45",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -7803,7 +7691,7 @@
   },
   "elements": [
    {
-    "id": "b8aa2f8",
+    "id": "38d38b1",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -7830,7 +7718,7 @@
     },
     "elements": [
      {
-      "id": "e4e5b43",
+      "id": "620ed01",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -7864,7 +7752,7 @@
       },
       "elements": [
        {
-        "id": "7c79eff",
+        "id": "f71582a",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -7895,7 +7783,7 @@
         "elements": []
        },
        {
-        "id": "9e01fbf",
+        "id": "5bff701",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -7924,11 +7812,11 @@
         "elements": []
        },
        {
-        "id": "d8000c7",
+        "id": "893b696",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Die Summe der Einzelverkäufe liegt in der Regel über dem Wert des Hauses als Ganzes. Bei den beiden Projektbeispielen deckte der Erlös zunächst Kauf und Modernisierung; was darüber hinausging, ist der Überschuss des Projekts. Daraus bedient die Genossenschaft unter anderem Ihre Zinsen.</p>",
+         "editor": "<p>Der Erlös deckt Kauf und Modernisierung. Was darüber hinausgeht, ist der Überschuss.</p>",
          "text_color": "#E3E4EE",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -7952,7 +7840,7 @@
         "elements": []
        },
        {
-        "id": "028d2d9",
+        "id": "8d5a307",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -7982,7 +7870,7 @@
       ]
      },
      {
-      "id": "adbef94",
+      "id": "83b96aa",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -8016,7 +7904,7 @@
       },
       "elements": [
        {
-        "id": "fea8662",
+        "id": "2e499f1",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -8032,7 +7920,7 @@
   ]
  },
  {
-  "id": "a46dda0",
+  "id": "e188d3b",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -8073,7 +7961,7 @@
   },
   "elements": [
    {
-    "id": "cb64f17",
+    "id": "c78353f",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -8107,7 +7995,7 @@
     },
     "elements": [
      {
-      "id": "29ee3f6",
+      "id": "3b84a5f",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -8138,7 +8026,7 @@
       "elements": []
      },
      {
-      "id": "a2fe0ba",
+      "id": "0caccdd",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -8167,7 +8055,7 @@
       "elements": []
      },
      {
-      "id": "5a4b3b6",
+      "id": "138aa89",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -8197,7 +8085,7 @@
     ]
    },
    {
-    "id": "8e967fa",
+    "id": "28abd04",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -8210,7 +8098,7 @@
     "elements": []
    },
    {
-    "id": "3383920",
+    "id": "61706ad",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -8237,7 +8125,7 @@
     },
     "elements": [
      {
-      "id": "a487f7a",
+      "id": "5c85729",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -8290,7 +8178,7 @@
       },
       "elements": [
        {
-        "id": "790e02c",
+        "id": "f35b278",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -8315,7 +8203,7 @@
         "elements": []
        },
        {
-        "id": "687e95e",
+        "id": "836aebe",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -8347,7 +8235,7 @@
         },
         "elements": [
          {
-          "id": "9dffa7f",
+          "id": "2411d71",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -8376,7 +8264,7 @@
           "elements": []
          },
          {
-          "id": "28efca5",
+          "id": "dfc448b",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -8405,11 +8293,11 @@
           "elements": []
          },
          {
-          "id": "e30a8a7",
+          "id": "c5606e3",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Wir haben einen Altbau aus dem Jahr 1892 mit sechs Wohneinheiten und einer Gewerbeeinheit erworben und umfassend optimiert. Dazu gehörten die Sanierung und Dämmung der Fassade sowie die Modernisierung der Gemeinschaftsflächen.</p>",
+           "editor": "<p>Altbau von 1892 mit sechs Wohnungen und einer Gewerbeeinheit: Fassade saniert und gedämmt.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -8433,15 +8321,15 @@
           "elements": []
          },
          {
-          "id": "0fe9ccf",
+          "id": "892dca0",
           "elType": "widget",
           "widgetType": "toggle",
           "settings": {
            "tabs": [
             {
-             "_id": "d16ed3a",
+             "_id": "00f4302",
              "tab_title": "Mehr anzeigen",
-             "tab_content": "<p>Die Bestandsmieten und Grundrisse wurden optimiert, während die beiden freien und später frei werdenden Wohnungen nach der Sanierung als möblierte WGs vermietet wurden. Die ehemalige Gastronomiefläche im Souterrain wurde in zwei Ferienwohnungen umgewandelt. Nach Abschluss der Maßnahmen erfolgte der Verkauf an Eigennutzer und Kapitalanleger. Die Projektlaufzeit betrug 20 Monate.</p>"
+             "tab_content": "<p>WG-Vermietung, zwei neue Ferienwohnungen im Souterrain, danach Verkauf. Laufzeit 20 Monate.</p>"
             }
            ],
            "title_color": "#141A46",
@@ -8496,7 +8384,7 @@
       ]
      },
      {
-      "id": "f7a78e4",
+      "id": "0b18f24",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -8549,7 +8437,7 @@
       },
       "elements": [
        {
-        "id": "631e992",
+        "id": "25ade3f",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -8574,7 +8462,7 @@
         "elements": []
        },
        {
-        "id": "bda4252",
+        "id": "5913c7f",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -8606,7 +8494,7 @@
         },
         "elements": [
          {
-          "id": "6ab5966",
+          "id": "bd34ba0",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -8635,7 +8523,7 @@
           "elements": []
          },
          {
-          "id": "395962e",
+          "id": "3ec2e9f",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -8664,11 +8552,11 @@
           "elements": []
          },
          {
-          "id": "36070b5",
+          "id": "2eee89b",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Wir haben zwei Vierparteienhäuser mit großzügigen Maisonette-Wohnungen erworben, die sich ideal für Studenten-WGs eignen. Die Gemeinschaftsflächen und der Außenbereich wurden überarbeitet, während zwei freie Wohnungen saniert und mit einem WG-Konzept sowie Mietgarantie verkauft wurden.</p>",
+           "editor": "<p>Zwei Vierparteienhäuser mit Maisonette-Wohnungen, ideal für Studenten-WGs.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -8692,15 +8580,15 @@
           "elements": []
          },
          {
-          "id": "b2d3d71",
+          "id": "fec06ed",
           "elType": "widget",
           "widgetType": "toggle",
           "settings": {
            "tabs": [
             {
-             "_id": "a02f854",
+             "_id": "e001101",
              "tab_title": "Mehr anzeigen",
-             "tab_content": "<p>Durch die gezielte Berücksichtigung der Mieterwünsche und Renovierungsmaßnahmen konnte eine einvernehmliche Mietanpassung von über 30 % erreicht werden. Da die Mieter aufgrund der familiären Situation und der attraktiven Lage bleiben wollten, entstanden wertstabile und gut verkäufliche Anlagewohnungen. Die Projektlaufzeit betrug 9 Monate.</p>"
+             "tab_content": "<p>Über 30 % Mietanpassung im Einvernehmen mit den Mietern. Laufzeit 9 Monate.</p>"
             }
            ],
            "title_color": "#141A46",
@@ -8759,7 +8647,7 @@
   ]
  },
  {
-  "id": "e65164f",
+  "id": "1eb83c5",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -8800,7 +8688,7 @@
   },
   "elements": [
    {
-    "id": "dfc1551",
+    "id": "514efa8",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -8827,7 +8715,7 @@
     },
     "elements": [
      {
-      "id": "07c4da6",
+      "id": "5414d28",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -8861,7 +8749,7 @@
       },
       "elements": [
        {
-        "id": "1f2cb95",
+        "id": "be8090f",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -8892,7 +8780,7 @@
         "elements": []
        },
        {
-        "id": "e072954",
+        "id": "12ddd79",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -8921,11 +8809,11 @@
         "elements": []
        },
        {
-        "id": "4bf7c81",
+        "id": "aad3f14",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Wir kaufen dort, wo Menschen hinziehen und bleiben. Das klingt selbstverständlich, schließt in der Praxis aber die meisten Angebote aus, die uns erreichen.</p>",
+         "editor": "<p>Wir kaufen dort, wo Menschen hinziehen und bleiben: in A-Städten und Wachstumsregionen.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -8949,63 +8837,7 @@
         "elements": []
        },
        {
-        "id": "06b8ab7",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Unser Schwerpunkt liegt in den deutschen A-Städten und in Wachstumsregionen mit stabiler Nachfrage. Dort sind die Einkaufspreise höher, dafür findet sich fast immer ein Mieter und beim Verkauf ein Käufer. In schrumpfenden Regionen ist beides nicht gegeben, unabhängig davon, wie günstig ein Haus zunächst aussieht.</p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "7716059",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Neben der Stadt zählt die Lage im Quartier. Wir achten auf Anbindung an Bus und Bahn, auf Einkaufsmöglichkeiten, Schulen und Ärzte im Umfeld. Diese Dinge entscheiden darüber, wie schnell eine Wohnung wieder vermietet ist.</p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "fd96bc6",
+        "id": "0839fdb",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -9048,7 +8880,7 @@
         },
         "elements": [
          {
-          "id": "2631b49",
+          "id": "2d5ad5d",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -9077,11 +8909,11 @@
           "elements": []
          },
          {
-          "id": "bd16164",
+          "id": "194c4a7",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Die Genossenschaft investiert nicht in ein einzelnes Haus. Das Kapital verteilt sich auf mehrere Projekte an verschiedenen Standorten. Läuft eines langsamer als geplant, hängt daran nicht das Ergebnis insgesamt.</p>",
+           "editor": "<p>Das Kapital verteilt sich auf mehrere Projekte an verschiedenen Standorten.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -9109,7 +8941,7 @@
       ]
      },
      {
-      "id": "f955d1b",
+      "id": "8f8c2f3",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -9143,7 +8975,7 @@
       },
       "elements": [
        {
-        "id": "5ddaeba",
+        "id": "04328ba",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -9157,7 +8989,7 @@
     ]
    },
    {
-    "id": "c67112c",
+    "id": "c44681b",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -9170,7 +9002,7 @@
     "elements": []
    },
    {
-    "id": "f3022fe",
+    "id": "fd935c5",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -9213,7 +9045,7 @@
     },
     "elements": [
      {
-      "id": "64fa989",
+      "id": "028a686",
       "elType": "widget",
       "widgetType": "html",
       "settings": {
@@ -9226,7 +9058,7 @@
   ]
  },
  {
-  "id": "2ad6333",
+  "id": "03ee65f",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -9265,7 +9097,7 @@
   },
   "elements": [
    {
-    "id": "77f944c",
+    "id": "cb2a3f1",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -9299,7 +9131,7 @@
     },
     "elements": [
      {
-      "id": "4c90b3b",
+      "id": "bebb222",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -9330,7 +9162,7 @@
       "elements": []
      },
      {
-      "id": "64477b9",
+      "id": "08d667c",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -9359,7 +9191,7 @@
       "elements": []
      },
      {
-      "id": "8b82f43",
+      "id": "e57c171",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -9389,7 +9221,7 @@
     ]
    },
    {
-    "id": "26948eb",
+    "id": "7948be6",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -9402,7 +9234,7 @@
     "elements": []
    },
    {
-    "id": "b51f0ea",
+    "id": "2fab05c",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -9429,7 +9261,7 @@
     },
     "elements": [
      {
-      "id": "a1460da",
+      "id": "b35f893",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -9463,7 +9295,7 @@
       },
       "elements": [
        {
-        "id": "382ba8a",
+        "id": "9267407",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -9492,11 +9324,11 @@
         "elements": []
        },
        {
-        "id": "742c221",
+        "id": "edd3a17",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Wenn Sie einen Anteil übernehmen, fließt Ihr Geld in die Genossenschaft. Die Genossenschaft beteiligt sich damit über die Gruppe an Wohnungsprojekten und bezahlt daraus auch ihre eigenen Kosten. Ihnen gehört dabei keine bestimmte Wohnung und kein einzelnes Haus.</p>",
+         "editor": "<p>Ihr Geld fließt über die Genossenschaft in Wohnungsprojekte.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -9522,7 +9354,7 @@
       ]
      },
      {
-      "id": "070e73b",
+      "id": "8827ef0",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -9556,7 +9388,7 @@
       },
       "elements": [
        {
-        "id": "1f0c6e9",
+        "id": "d8f8320",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -9585,11 +9417,11 @@
         "elements": []
        },
        {
-        "id": "8f38a3c",
+        "id": "5b1f012",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Die Projekte durchlaufen den Ablauf aus Kaufen, Modernisieren, Vermieten und Verkaufen. Am Ende steht der Verkauf der Wohnungen. Der Erlös deckt zunächst Ankauf, Bau- und Finanzierungskosten. Was darüber hinausgeht, ist der Überschuss des Projekts.</p>",
+         "editor": "<p>Der Erlös deckt die Kosten. Der Rest ist Überschuss.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -9615,7 +9447,7 @@
       ]
      },
      {
-      "id": "477d142",
+      "id": "c83adb4",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -9649,7 +9481,7 @@
       },
       "elements": [
        {
-        "id": "d224a6d",
+        "id": "d5e3a2a",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -9678,11 +9510,11 @@
         "elements": []
        },
        {
-        "id": "410200e",
+        "id": "81088dd",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Aus diesem Geld zahlt die Genossenschaft die Zinsen auf Ihre Anteile. Sie haben also etwas davon, wenn das Immobiliengeschäft gut läuft, ohne selbst Eigentümer zu sein. Genau deshalb sind die Zinsen auch nicht garantiert. Sie hängen davon ab, dass die Projekte so laufen wie geplant.</p>",
+         "editor": "<p>Daraus zahlen wir Ihre Zinsen. Deshalb sind sie nicht garantiert.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -9710,7 +9542,7 @@
     ]
    },
    {
-    "id": "8717e7c",
+    "id": "3518b6e",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -9723,7 +9555,7 @@
     "elements": []
    },
    {
-    "id": "ab332ed",
+    "id": "bdf756c",
     "elType": "widget",
     "widgetType": "heading",
     "settings": {
@@ -9752,7 +9584,7 @@
     "elements": []
    },
    {
-    "id": "1c59cc0",
+    "id": "58635cb",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -9781,7 +9613,7 @@
     },
     "elements": [
      {
-      "id": "5ce802e",
+      "id": "adaa178",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -9834,7 +9666,7 @@
       },
       "elements": [
        {
-        "id": "309399b",
+        "id": "08bae16",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -9863,7 +9695,7 @@
         "elements": []
        },
        {
-        "id": "ea0c4d7",
+        "id": "4d32190",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -9892,7 +9724,7 @@
         "elements": []
        },
        {
-        "id": "d521bfb",
+        "id": "9b8eb25",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -9922,7 +9754,7 @@
       ]
      },
      {
-      "id": "faca2b2",
+      "id": "56c1dc6",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -9975,7 +9807,7 @@
       },
       "elements": [
        {
-        "id": "267a4aa",
+        "id": "7c328fa",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -10004,7 +9836,7 @@
         "elements": []
        },
        {
-        "id": "2b6b38d",
+        "id": "42cc419",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -10033,7 +9865,7 @@
         "elements": []
        },
        {
-        "id": "0016c33",
+        "id": "55ba682",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -10063,7 +9895,7 @@
       ]
      },
      {
-      "id": "4eda8b0",
+      "id": "d45ca81",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -10116,7 +9948,7 @@
       },
       "elements": [
        {
-        "id": "48e81c0",
+        "id": "049ca89",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -10145,7 +9977,7 @@
         "elements": []
        },
        {
-        "id": "fc73e2e",
+        "id": "2b5c8f7",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -10174,7 +10006,7 @@
         "elements": []
        },
        {
-        "id": "2d53e2a",
+        "id": "ed28933",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -10204,7 +10036,7 @@
       ]
      },
      {
-      "id": "39dda4a",
+      "id": "1b8bd7c",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -10257,7 +10089,7 @@
       },
       "elements": [
        {
-        "id": "e88734a",
+        "id": "653e564",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -10286,7 +10118,7 @@
         "elements": []
        },
        {
-        "id": "4de29da",
+        "id": "43a99f7",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -10315,7 +10147,7 @@
         "elements": []
        },
        {
-        "id": "0f313c5",
+        "id": "c93d442",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -10347,7 +10179,7 @@
     ]
    },
    {
-    "id": "3c819d8",
+    "id": "1ef2d93",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -10360,7 +10192,7 @@
     "elements": []
    },
    {
-    "id": "03bf817",
+    "id": "067b049",
     "elType": "widget",
     "widgetType": "image",
     "settings": {
@@ -10387,7 +10219,7 @@
   ]
  },
  {
-  "id": "e2ae49d",
+  "id": "59f0ea4",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -10428,7 +10260,7 @@
   },
   "elements": [
    {
-    "id": "14a87a0",
+    "id": "3c55678",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -10462,7 +10294,7 @@
     },
     "elements": [
      {
-      "id": "eff59e0",
+      "id": "3558f17",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -10493,7 +10325,7 @@
       "elements": []
      },
      {
-      "id": "bcff04e",
+      "id": "c7c627c",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -10522,11 +10354,11 @@
       "elements": []
      },
      {
-      "id": "c7ea1f1",
+      "id": "9283ff8",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Alle Bedingungen stehen in der Satzung und der Geschäftsordnung der Genossenschaft. Das Wichtigste daraus in Kurzform.</p>",
+       "editor": "<p>Das Wichtigste aus Satzung und Geschäftsordnung.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -10552,7 +10384,7 @@
     ]
    },
    {
-    "id": "4477d74",
+    "id": "77215e3",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -10565,7 +10397,7 @@
     "elements": []
    },
    {
-    "id": "e7271d9",
+    "id": "4a9c876",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -10592,7 +10424,7 @@
     },
     "elements": [
      {
-      "id": "7edd00f",
+      "id": "4f9ea83",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -10626,11 +10458,11 @@
       },
       "elements": [
        {
-        "id": "995ccf1",
+        "id": "d90cf71",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Ein Anteil kostet 10.000 Euro. Vorgesehen sind darauf 7 Prozent Zinsen pro Jahr, ausgezahlt alle drei Monate. Die erste Zahlung kommt nach dem ersten vollen Quartal Ihrer Mitgliedschaft.</p>",
+         "editor": "<p>Ein Anteil kostet 10.000&nbsp;€. Vorgesehen sind 7&nbsp;% Zinsen pro Jahr, ausgezahlt alle drei Monate.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -10654,11 +10486,11 @@
         "elements": []
        },
        {
-        "id": "3a89165",
+        "id": "baaacae",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>Ihre Anteile laufen zunächst zwölf Monate. Kündigen Sie nicht spätestens neun Monate vor Ablauf, verlängert sich die Laufzeit um ein weiteres Jahr. Die Steuer auf die Zinsen führen wir direkt ab, so wie eine Bank. Zum Jahresende erhalten Sie eine Bescheinigung für Ihre Steuererklärung.</p>",
+         "editor": "<p>Laufzeit zwölf Monate, Kündigung bis neun Monate vor Ablauf. Keine Nachschüsse.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -10682,35 +10514,7 @@
         "elements": []
        },
        {
-        "id": "87625c2",
-        "elType": "widget",
-        "widgetType": "text-editor",
-        "settings": {
-         "editor": "<p>Nach Ablauf der Laufzeit zahlen wir gekündigte Anteile zurück, zusammen mit der anteiligen Dividende. Über Ihre Zeichnungssumme hinaus haften Sie nicht, Nachschüsse sind ausgeschlossen.</p>",
-         "text_color": "#2A2F52",
-         "typography_typography": "custom",
-         "typography_font_family": "Inter",
-         "typography_font_size": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         },
-         "typography_font_weight": "400",
-         "typography_line_height": {
-          "unit": "em",
-          "size": 1.6,
-          "sizes": []
-         },
-         "typography_font_size_mobile": {
-          "unit": "px",
-          "size": 16,
-          "sizes": []
-         }
-        },
-        "elements": []
-       },
-       {
-        "id": "82f7853",
+        "id": "200acfe",
         "elType": "widget",
         "widgetType": "spacer",
         "settings": {
@@ -10723,7 +10527,7 @@
         "elements": []
        },
        {
-        "id": "39dcf6a",
+        "id": "9d1a682",
         "elType": "widget",
         "widgetType": "button",
         "settings": {
@@ -10778,7 +10582,7 @@
       ]
      },
      {
-      "id": "a303ffc",
+      "id": "649a3ec",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -10831,7 +10635,7 @@
       },
       "elements": [
        {
-        "id": "295d0ca",
+        "id": "4b62d57",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -10844,7 +10648,7 @@
     ]
    },
    {
-    "id": "9144215",
+    "id": "6f09354",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -10857,7 +10661,7 @@
     "elements": []
    },
    {
-    "id": "5212632",
+    "id": "b50e18a",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -10884,7 +10688,7 @@
     },
     "elements": [
      {
-      "id": "43c7481",
+      "id": "e60ea7f",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -10937,7 +10741,7 @@
       },
       "elements": [
        {
-        "id": "21cd0cb",
+        "id": "5da04f7",
         "elType": "widget",
         "widgetType": "html",
         "settings": {
@@ -10948,7 +10752,7 @@
       ]
      },
      {
-      "id": "1176f93",
+      "id": "3387751",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -10982,7 +10786,7 @@
       },
       "elements": [
        {
-        "id": "d2940b0",
+        "id": "7107c24",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -11025,7 +10829,7 @@
         },
         "elements": [
          {
-          "id": "144c084",
+          "id": "6df0db5",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -11054,7 +10858,7 @@
           "elements": []
          },
          {
-          "id": "fc4967c",
+          "id": "47727fd",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -11084,7 +10888,7 @@
         ]
        },
        {
-        "id": "290a632",
+        "id": "e91e9ab",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -11127,7 +10931,7 @@
         },
         "elements": [
          {
-          "id": "8533409",
+          "id": "b0e63d8",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -11156,7 +10960,7 @@
           "elements": []
          },
          {
-          "id": "ef19fe8",
+          "id": "0347e14",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
@@ -11192,7 +10996,7 @@
   ]
  },
  {
-  "id": "30e41aa",
+  "id": "2bb3489",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -11255,7 +11059,7 @@
   },
   "elements": [
    {
-    "id": "3c6b721",
+    "id": "88f84cc",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -11291,7 +11095,7 @@
     "elements": []
    },
    {
-    "id": "2ecf624",
+    "id": "7cef641",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -11326,7 +11130,7 @@
     },
     "elements": [
      {
-      "id": "b3e7850",
+      "id": "6c3e187",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -11357,7 +11161,7 @@
       "elements": []
      },
      {
-      "id": "a451a00",
+      "id": "4ef76d1",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -11386,11 +11190,11 @@
       "elements": []
      },
      {
-      "id": "1b235a2",
+      "id": "2a9da4b",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Das Buch von Stephan Gerlach, Spiegel-Bestsellerautor und CEO der Gerlach Immobilien Gruppe, ist Ihr Leitfaden für Immobilien als Kapitalanlage: passives Einkommen und Ihr Weg zur finanziellen Unabhängigkeit.</p>",
+       "editor": "<p>Der Spiegel-Bestseller von Stephan Gerlach: Ihr Leitfaden für Immobilien als Kapitalanlage.</p>",
        "text_color": "#FFFFFF",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -11414,7 +11218,7 @@
       "elements": []
      },
      {
-      "id": "e26ffe3",
+      "id": "4398cfb",
       "elType": "widget",
       "widgetType": "spacer",
       "settings": {
@@ -11427,7 +11231,7 @@
       "elements": []
      },
      {
-      "id": "85b16ce",
+      "id": "5f347d2",
       "elType": "widget",
       "widgetType": "button",
       "settings": {
@@ -11484,7 +11288,7 @@
   ]
  },
  {
-  "id": "63e2664",
+  "id": "6339bb8",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -11511,7 +11315,7 @@
   },
   "elements": [
    {
-    "id": "45da27c",
+    "id": "35fcf65",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -11557,7 +11361,7 @@
     },
     "elements": [
      {
-      "id": "2022a33",
+      "id": "e052000",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -11600,7 +11404,7 @@
       },
       "elements": [
        {
-        "id": "b0f1f01",
+        "id": "a59df43",
         "elType": "widget",
         "widgetType": "video",
         "settings": {
@@ -11631,7 +11435,7 @@
     ]
    },
    {
-    "id": "19664e0",
+    "id": "18a898c",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -11677,7 +11481,7 @@
     },
     "elements": [
      {
-      "id": "ae14023",
+      "id": "31b13de",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -11708,7 +11512,7 @@
       "elements": []
      },
      {
-      "id": "138c292",
+      "id": "955a3df",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -11737,11 +11541,11 @@
       "elements": []
      },
      {
-      "id": "42c12ff",
+      "id": "2400b5e",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Der Film zeigt, wie Genossenschaftsanteile funktionieren und wie Ihr Geld in echte Häuser fließt: vom Ankauf über die Modernisierung bis zum Verkauf. Transparent und ohne Verwaltungsaufwand für Sie.</p>",
+       "editor": "<p>Wie Ihr Geld in echte Häuser fließt: vom Ankauf bis zum Verkauf.</p>",
        "text_color": "#E3E4EE",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -11765,7 +11569,7 @@
       "elements": []
      },
      {
-      "id": "1af5d5e",
+      "id": "0d96451",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -11793,7 +11597,7 @@
       "elements": []
      },
      {
-      "id": "9cdd093",
+      "id": "5efb5d2",
       "elType": "widget",
       "widgetType": "spacer",
       "settings": {
@@ -11806,7 +11610,7 @@
       "elements": []
      },
      {
-      "id": "62e3154",
+      "id": "3d1c9aa",
       "elType": "widget",
       "widgetType": "button",
       "settings": {
@@ -11863,7 +11667,7 @@
   ]
  },
  {
-  "id": "345e5e3",
+  "id": "fc48717",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -11902,7 +11706,7 @@
   },
   "elements": [
    {
-    "id": "2a6923e",
+    "id": "722d209",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -11926,7 +11730,7 @@
     },
     "elements": [
      {
-      "id": "2caa22a",
+      "id": "a71b66c",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -11957,7 +11761,7 @@
     ]
    },
    {
-    "id": "55c3530",
+    "id": "e924c42",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -11970,7 +11774,7 @@
     "elements": []
    },
    {
-    "id": "0776b74",
+    "id": "b243409",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -11997,7 +11801,7 @@
     },
     "elements": [
      {
-      "id": "d0f9aaf",
+      "id": "2996a0c",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -12050,7 +11854,7 @@
       },
       "elements": [
        {
-        "id": "b886dc7",
+        "id": "2628503",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -12074,7 +11878,7 @@
         "elements": []
        },
        {
-        "id": "567af8a",
+        "id": "da43372",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -12106,7 +11910,7 @@
         },
         "elements": [
          {
-          "id": "c601ea1",
+          "id": "58f047d",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -12135,7 +11939,7 @@
           "elements": []
          },
          {
-          "id": "84476b3",
+          "id": "e464afa",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -12164,11 +11968,11 @@
           "elements": []
          },
          {
-          "id": "d3683f6",
+          "id": "eac4dee",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Gründer der Gerlach Immobilien Gruppe und Experte für nachhaltige Kapitalanlage-Immobilien. Mit einem ganzheitlichen Ansatz begleitet er Anleger von der Objektwahl über die Finanzierung bis zur langfristigen Verwaltung.</p>",
+           "editor": "<p>Gründer der Gerlach Immobilien Gruppe und Experte für Kapitalanlage-Immobilien.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -12192,7 +11996,7 @@
           "elements": []
          },
          {
-          "id": "731e1f4",
+          "id": "47c35d3",
           "elType": "widget",
           "widgetType": "button",
           "settings": {
@@ -12252,7 +12056,7 @@
       ]
      },
      {
-      "id": "4fc77b9",
+      "id": "5330b72",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -12305,7 +12109,7 @@
       },
       "elements": [
        {
-        "id": "f073095",
+        "id": "185ea29",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -12329,7 +12133,7 @@
         "elements": []
        },
        {
-        "id": "2c747cd",
+        "id": "2066e7f",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -12361,7 +12165,7 @@
         },
         "elements": [
          {
-          "id": "74cd06e",
+          "id": "a18485f",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -12390,7 +12194,7 @@
           "elements": []
          },
          {
-          "id": "f1c047c",
+          "id": "bc69166",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -12419,11 +12223,11 @@
           "elements": []
          },
          {
-          "id": "2b9cafc",
+          "id": "57c7b73",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Experte für das deutsche Gesundheitswesen und die Digitalisierung medizinischer Prozesse. Als Vorstand der ArztData AG und Gründer des ArztData Clubs unterstützt er Ärzte dabei, ihre Praxen wirtschaftlich erfolgreicher und effizienter zu gestalten.</p>",
+           "editor": "<p>Vorstand der ArztData AG und Experte für das deutsche Gesundheitswesen.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -12447,7 +12251,7 @@
           "elements": []
          },
          {
-          "id": "8306c74",
+          "id": "8e6f8bd",
           "elType": "widget",
           "widgetType": "button",
           "settings": {
@@ -12507,7 +12311,7 @@
       ]
      },
      {
-      "id": "e2bc1f0",
+      "id": "eb8ee38",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -12560,7 +12364,7 @@
       },
       "elements": [
        {
-        "id": "4da706c",
+        "id": "0180dd2",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -12584,7 +12388,7 @@
         "elements": []
        },
        {
-        "id": "bec839b",
+        "id": "6c54879",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -12616,7 +12420,7 @@
         },
         "elements": [
          {
-          "id": "2c89e09",
+          "id": "e9db907",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -12645,7 +12449,7 @@
           "elements": []
          },
          {
-          "id": "00fddb9",
+          "id": "fa62547",
           "elType": "widget",
           "widgetType": "heading",
           "settings": {
@@ -12674,11 +12478,11 @@
           "elements": []
          },
          {
-          "id": "a6e1e5d",
+          "id": "535267f",
           "elType": "widget",
           "widgetType": "text-editor",
           "settings": {
-           "editor": "<p>Erfahrene Immobilieninvestorin und Expertin für Sprungauflassung im Immobilienhandel. Als Vorstandsmitglied der 100.PlusCommunity und gefragte Sprecherin unterstreicht sie die Bedeutung von Immobilien als sichere Kapitalanlage.</p>",
+           "editor": "<p>Immobilieninvestorin und Vorstandsmitglied der 100.PlusCommunity.</p>",
            "text_color": "#2A2F52",
            "typography_typography": "custom",
            "typography_font_family": "Inter",
@@ -12702,7 +12506,7 @@
           "elements": []
          },
          {
-          "id": "287aacf",
+          "id": "71bb7d1",
           "elType": "widget",
           "widgetType": "button",
           "settings": {
@@ -12766,7 +12570,7 @@
   ]
  },
  {
-  "id": "c3a1d51",
+  "id": "2ee0aa3",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -12806,7 +12610,7 @@
   },
   "elements": [
    {
-    "id": "0b211c4",
+    "id": "699a6af",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -12833,7 +12637,7 @@
     },
     "elements": [
      {
-      "id": "4cef0bb",
+      "id": "1975047",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -12868,7 +12672,7 @@
       },
       "elements": [
        {
-        "id": "350ecb5",
+        "id": "5c428d5",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -12899,7 +12703,7 @@
         "elements": []
        },
        {
-        "id": "b935af8",
+        "id": "66c0c7e",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -12928,11 +12732,11 @@
         "elements": []
        },
        {
-        "id": "2eb1eb1",
+        "id": "aa2d8dc",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
-         "editor": "<p>In diesem Bereich finden Sie ausgewählte Artikel und Veröffentlichungen rund um unser Unternehmen. Hier erhalten Sie kompakte Einblicke in unser Business und erfahren, wo und zu welchen Themen wir publizieren.</p>",
+         "editor": "<p>Ausgewählte Artikel und Veröffentlichungen über uns.</p>",
          "text_color": "#2A2F52",
          "typography_typography": "custom",
          "typography_font_family": "Inter",
@@ -12956,7 +12760,7 @@
         "elements": []
        },
        {
-        "id": "3714d78",
+        "id": "b06e6b9",
         "elType": "widget",
         "widgetType": "button",
         "settings": {
@@ -13003,7 +12807,7 @@
       ]
      },
      {
-      "id": "1c52407",
+      "id": "c08d8e2",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -13056,7 +12860,7 @@
       },
       "elements": [
        {
-        "id": "b6fee9d",
+        "id": "ef116e0",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -13089,7 +12893,7 @@
   ]
  },
  {
-  "id": "33d527a",
+  "id": "4d253d8",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -13127,7 +12931,7 @@
   },
   "elements": [
    {
-    "id": "677d83f",
+    "id": "fd42faa",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -13161,7 +12965,7 @@
     },
     "elements": [
      {
-      "id": "037b514",
+      "id": "d208e1b",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -13192,7 +12996,7 @@
       "elements": []
      },
      {
-      "id": "5e0f89b",
+      "id": "7ec747a",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -13221,11 +13025,11 @@
       "elements": []
      },
      {
-      "id": "b182194",
+      "id": "778002f",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Mit unseren Marken decken wir die gesamte Wertschöpfungskette entlang der Bestandssanierung bis hin zum Verkauf als optimierte Kapitalanlage ab. Durch diese Synergien entstehen für uns und unsere Kunden relevante Kostenvorteile.</p>",
+       "editor": "<p>Unsere Marken decken die ganze Kette ab, vom Ankauf bis zum Verkauf.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -13251,7 +13055,7 @@
     ]
    },
    {
-    "id": "ca551c4",
+    "id": "43b60d7",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -13264,7 +13068,7 @@
     "elements": []
    },
    {
-    "id": "1858299",
+    "id": "c83cdae",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -13293,7 +13097,7 @@
     },
     "elements": [
      {
-      "id": "444435f",
+      "id": "9093c13",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -13347,7 +13151,7 @@
       },
       "elements": [
        {
-        "id": "3269693",
+        "id": "fe4503e",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -13372,7 +13176,7 @@
         "elements": []
        },
        {
-        "id": "3662894",
+        "id": "6c85d74",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -13404,7 +13208,7 @@
       ]
      },
      {
-      "id": "ff9ae1b",
+      "id": "daa893e",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -13458,7 +13262,7 @@
       },
       "elements": [
        {
-        "id": "38b9e47",
+        "id": "c95ffee",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -13483,7 +13287,7 @@
         "elements": []
        },
        {
-        "id": "342c77c",
+        "id": "5d7b7ed",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -13515,7 +13319,7 @@
       ]
      },
      {
-      "id": "2f02245",
+      "id": "a4fa3d0",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -13569,7 +13373,7 @@
       },
       "elements": [
        {
-        "id": "28d220c",
+        "id": "a8957fe",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -13594,7 +13398,7 @@
         "elements": []
        },
        {
-        "id": "f90629b",
+        "id": "086c462",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -13626,7 +13430,7 @@
       ]
      },
      {
-      "id": "93ad27c",
+      "id": "4eb627e",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -13680,7 +13484,7 @@
       },
       "elements": [
        {
-        "id": "a0f5788",
+        "id": "2d23394",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -13705,7 +13509,7 @@
         "elements": []
        },
        {
-        "id": "f5a26fd",
+        "id": "9d246b0",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -13741,7 +13545,7 @@
   ]
  },
  {
-  "id": "a445a63",
+  "id": "52a9543",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -13782,7 +13586,7 @@
   },
   "elements": [
    {
-    "id": "c55f530",
+    "id": "e0a0875",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -13809,7 +13613,7 @@
     },
     "elements": [
      {
-      "id": "e01012c",
+      "id": "da1877f",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -13843,7 +13647,7 @@
       },
       "elements": [
        {
-        "id": "2c14c5f",
+        "id": "b16ebff",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -13874,7 +13678,7 @@
         "elements": []
        },
        {
-        "id": "7fef468",
+        "id": "c520a79",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -13903,7 +13707,7 @@
         "elements": []
        },
        {
-        "id": "0501245",
+        "id": "2558adf",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -13931,7 +13735,7 @@
         "elements": []
        },
        {
-        "id": "ac1e7ce",
+        "id": "11afe0a",
         "elType": "widget",
         "widgetType": "spacer",
         "settings": {
@@ -13944,7 +13748,7 @@
         "elements": []
        },
        {
-        "id": "223ea05",
+        "id": "c90f9ae",
         "elType": "widget",
         "widgetType": "button",
         "settings": {
@@ -13999,7 +13803,7 @@
       ]
      },
      {
-      "id": "c049684",
+      "id": "1619013",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -14033,70 +13837,70 @@
       },
       "elements": [
        {
-        "id": "6da9699",
+        "id": "583db32",
         "elType": "widget",
         "widgetType": "accordion",
         "settings": {
          "tabs": [
           {
-           "_id": "e043e3e",
+           "_id": "bd6ceee",
            "tab_title": "Woran beteilige ich mich genau?",
            "tab_content": "<p><strong>An der Genossenschaft selbst.</strong></p><p>Sie übernehmen einen oder mehrere Anteile zu je 10.000 Euro und werden damit Mitglied der Hanseatischen Invest eG.</p>"
           },
           {
-           "_id": "a0dd789",
+           "_id": "e59ce03",
            "tab_title": "Gehört mir dann eine Wohnung?",
-           "tab_content": "<p><strong>Nein.</strong></p><p>Sie beteiligen sich an der Genossenschaft, und die beteiligt sich an Wohnungsprojekten. Um Mieter, Reparaturen oder Abrechnungen müssen Sie sich nicht kümmern.</p>"
+           "tab_content": "<p><strong>Nein.</strong></p><p>Sie beteiligen sich an der Genossenschaft. Um Mieter und Reparaturen kümmern wir uns.</p>"
           },
           {
-           "_id": "ff8d480",
+           "_id": "109857b",
            "tab_title": "Was bedeutet „investierendes Mitglied“?",
-           "tab_content": "<p><strong>Sie stellen Geld zur Verfügung und erhalten dafür Zinsen.</strong></p><p>Sie werden Mitglied, ohne im Betrieb mitzuarbeiten. In der Versammlung der Mitglieder haben Sie kein Stimmrecht, dafür auch keine Pflichten im Betrieb.</p>"
+           "tab_content": "<p><strong>Sie stellen Geld zur Verfügung und erhalten dafür Zinsen.</strong></p><p>Sie arbeiten nicht im Betrieb mit und haben kein Stimmrecht in der Versammlung.</p>"
           },
           {
-           "_id": "73b47c2",
+           "_id": "81512b6",
            "tab_title": "Wann bekomme ich die ersten Zinsen?",
            "tab_content": "<p><strong>Nach dem ersten vollen Quartal Ihrer Mitgliedschaft.</strong></p><p>Danach alle drei Monate.</p>"
           },
           {
-           "_id": "1a7d40a",
+           "_id": "6ec17de",
            "tab_title": "Kann ich mehrere Anteile übernehmen?",
            "tab_content": "<p><strong>Ja.</strong></p><p>Jeder weitere Anteil kostet ebenfalls 10.000 Euro, die Konditionen sind dieselben.</p>"
           },
           {
-           "_id": "88be465",
+           "_id": "acf85cc",
            "tab_title": "Wie lange bin ich gebunden?",
            "tab_content": "<p><strong>Zunächst zwölf Monate.</strong></p><p>Kündigen Sie nicht spätestens neun Monate vor Ablauf, läuft Ihr Anteil ein weiteres Jahr.</p>"
           },
           {
-           "_id": "ed1c682",
+           "_id": "2084cfc",
            "tab_title": "Was passiert, wenn ich kündige?",
-           "tab_content": "<p><strong>Nach Ablauf der Laufzeit bekommen Sie Ihren Anteil ausgezahlt.</strong></p><p>Wie viel das ist, ergibt sich aus dem Jahresabschluss der Genossenschaft. Es kann weniger sein als das, was Sie eingezahlt haben.</p>"
+           "tab_content": "<p><strong>Nach Ablauf der Laufzeit bekommen Sie Ihren Anteil ausgezahlt.</strong></p><p>Der Betrag ergibt sich aus dem Jahresabschluss und kann unter Ihrer Einzahlung liegen.</p>"
           },
           {
-           "_id": "8bcc75e",
+           "_id": "b034854",
            "tab_title": "Muss ich die Zinsen versteuern?",
-           "tab_content": "<p><strong>Ja, so wie Zinsen auf einem Konto.</strong></p><p>Die Steuer führen wir direkt ab, ein Freistellungsauftrag ist möglich. Zum Jahresende bekommen Sie eine Bescheinigung für Ihre Steuererklärung.</p>"
+           "tab_content": "<p><strong>Ja, so wie Zinsen auf einem Konto.</strong></p><p>Wir führen die Steuer direkt ab. Ein Freistellungsauftrag ist möglich.</p>"
           },
           {
-           "_id": "ae588f6",
+           "_id": "9698e98",
            "tab_title": "Kann ich später zur Kasse gebeten werden?",
            "tab_content": "<p><strong>Nein.</strong></p><p>Mehr als Ihren Anteil zahlen Sie nie ein. Das ist in der Satzung festgeschrieben.</p>"
           },
           {
-           "_id": "f4bfc70",
+           "_id": "2d47ab0",
            "tab_title": "Wer kontrolliert die Genossenschaft?",
            "tab_content": "<p><strong>Ein unabhängiger Prüfungsverband.</strong></p><p>Das schreibt das Gesetz für jede Genossenschaft vor. Für uns ist das der DIVK e. V. in Hildesheim.</p>"
           },
           {
-           "_id": "88c36c2",
+           "_id": "4d55269",
            "tab_title": "Wie erfahre ich, was mit meinem Geld passiert?",
-           "tab_content": "<p><strong>Wir informieren Sie regelmäßig.</strong></p><p>Sie hören von uns über neue Projekte und den Stand der laufenden. Dazu kommen der Mitgliederservice und einmal im Jahr die Versammlung aller Mitglieder, zu der Sie eingeladen werden.</p>"
+           "tab_content": "<p><strong>Wir informieren Sie regelmäßig.</strong></p><p>Mit regelmäßigen Projektberichten und einer jährlichen Mitgliederversammlung.</p>"
           },
           {
-           "_id": "1d5b53c",
+           "_id": "4444631",
            "tab_title": "Welche Risiken bestehen bei einer Beteiligung?",
-           "tab_content": "<p><strong>Ihr Anteil ist kein Sparbuch.</strong></p><p>Sie beteiligen sich an einem Unternehmen, mit allen Chancen und Risiken, die dazugehören. Die vorgesehenen Zinsen können niedriger ausfallen oder entfallen, ein Totalverlust des eingesetzten Kapitals ist möglich. Der Geschäftsanteil ist keine Bankeinlage und nicht durch ein gesetzliches Entschädigungssystem geschützt.</p>"
+           "tab_content": "<p><strong>Ihr Anteil ist kein Sparbuch.</strong></p><p>Die Zinsen können niedriger ausfallen oder entfallen, ein Totalverlust ist möglich. Keine Einlagensicherung.</p>"
           }
          ],
          "border_width": {
@@ -14166,7 +13970,7 @@
   ]
  },
  {
-  "id": "9f72b76",
+  "id": "c728d9f",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -14205,7 +14009,7 @@
   },
   "elements": [
    {
-    "id": "7139933",
+    "id": "560fb11",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -14239,7 +14043,7 @@
     },
     "elements": [
      {
-      "id": "45ee824",
+      "id": "8d2c932",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -14270,7 +14074,7 @@
       "elements": []
      },
      {
-      "id": "4c24717",
+      "id": "f4369d1",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -14299,7 +14103,7 @@
       "elements": []
      },
      {
-      "id": "f8b0dff",
+      "id": "18f96d4",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
@@ -14329,7 +14133,7 @@
     ]
    },
    {
-    "id": "c1da661",
+    "id": "a098814",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -14342,7 +14146,7 @@
     "elements": []
    },
    {
-    "id": "32b7ecd",
+    "id": "e84a1ab",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -14369,7 +14173,7 @@
     },
     "elements": [
      {
-      "id": "5b8fb25",
+      "id": "52509aa",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -14403,7 +14207,7 @@
       },
       "elements": [
        {
-        "id": "7e5d0a3",
+        "id": "405c69d",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -14430,7 +14234,7 @@
         },
         "elements": [
          {
-          "id": "b258da5",
+          "id": "690041c",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -14439,7 +14243,7 @@
           "elements": []
          },
          {
-          "id": "b8ebcc8",
+          "id": "c98979f",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -14463,7 +14267,7 @@
           },
           "elements": [
            {
-            "id": "5b056a6",
+            "id": "6c3cc73",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -14492,11 +14296,11 @@
             "elements": []
            },
            {
-            "id": "c6e8ef1",
+            "id": "a05b61e",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
-             "editor": "<p>Rufen Sie uns an oder buchen Sie einen Termin von 30 Minuten. Wir gehen Ihre Fragen durch, telefonisch oder per Video.</p>",
+             "editor": "<p>30 Minuten, telefonisch oder per Video.</p>",
              "text_color": "#2A2F52",
              "typography_typography": "custom",
              "typography_font_family": "Inter",
@@ -14524,7 +14328,7 @@
         ]
        },
        {
-        "id": "852573c",
+        "id": "e2c7c44",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -14551,7 +14355,7 @@
         },
         "elements": [
          {
-          "id": "b208e76",
+          "id": "7417332",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -14560,7 +14364,7 @@
           "elements": []
          },
          {
-          "id": "474cc39",
+          "id": "4f4d501",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -14584,7 +14388,7 @@
           },
           "elements": [
            {
-            "id": "7e79ee7",
+            "id": "3e00d16",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -14613,11 +14417,11 @@
             "elements": []
            },
            {
-            "id": "f9ad35b",
+            "id": "856818a",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
-             "editor": "<p>Sie bekommen alle Unterlagen zugeschickt: das Beitrittsformular, die Satzung, die Geschäftsordnung und die Beitragsordnung. Alles können Sie in Ruhe prüfen.</p>",
+             "editor": "<p>Beitrittsformular, Satzung, Geschäfts- und Beitragsordnung.</p>",
              "text_color": "#2A2F52",
              "typography_typography": "custom",
              "typography_font_family": "Inter",
@@ -14645,7 +14449,7 @@
         ]
        },
        {
-        "id": "0422b71",
+        "id": "d3d6588",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -14672,7 +14476,7 @@
         },
         "elements": [
          {
-          "id": "3bc5063",
+          "id": "517ac51",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -14681,7 +14485,7 @@
           "elements": []
          },
          {
-          "id": "cb98848",
+          "id": "03e042a",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -14705,7 +14509,7 @@
           },
           "elements": [
            {
-            "id": "8095df4",
+            "id": "3629915",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -14734,11 +14538,11 @@
             "elements": []
            },
            {
-            "id": "a3343e7",
+            "id": "6bb55ac",
             "elType": "widget",
             "widgetType": "text-editor",
             "settings": {
-             "editor": "<p>Sie senden das unterschriebene Formular zurück und zahlen Ihren Anteil ein. Über die Aufnahme entscheidet der Aufsichtsrat.</p>",
+             "editor": "<p>Formular zurücksenden, Anteil einzahlen. Der Aufsichtsrat entscheidet über die Aufnahme.</p>",
              "text_color": "#2A2F52",
              "typography_typography": "custom",
              "typography_font_family": "Inter",
@@ -14768,7 +14572,7 @@
       ]
      },
      {
-      "id": "cbde09c",
+      "id": "a1c8f35",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -14821,7 +14625,7 @@
       },
       "elements": [
        {
-        "id": "ce0eec8",
+        "id": "f53938a",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -14852,7 +14656,7 @@
         "elements": []
        },
        {
-        "id": "d386c8f",
+        "id": "1188a19",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -14881,7 +14685,7 @@
         "elements": []
        },
        {
-        "id": "13fecc5",
+        "id": "b75301a",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -14909,13 +14713,13 @@
         "elements": []
        },
        {
-        "id": "a1d97ba",
+        "id": "aa52698",
         "elType": "widget",
         "widgetType": "icon-list",
         "settings": {
          "icon_list": [
           {
-           "_id": "128c801",
+           "_id": "9c43a6a",
            "text": "cr@gerlachgroup.de",
            "selected_icon": {
             "value": "fas fa-arrow-right",
@@ -14928,7 +14732,7 @@
            }
           },
           {
-           "_id": "523035c",
+           "_id": "04f8014",
            "text": "mitgliederservice@hanseainvest.de",
            "selected_icon": {
             "value": "fas fa-arrow-right",
@@ -14941,7 +14745,7 @@
            }
           },
           {
-           "_id": "10839bd",
+           "_id": "6dbbcd5",
            "text": "+49 40 22862372-0",
            "selected_icon": {
             "value": "fas fa-arrow-right",
@@ -14979,7 +14783,7 @@
         "elements": []
        },
        {
-        "id": "b13e511",
+        "id": "8a482aa",
         "elType": "widget",
         "widgetType": "spacer",
         "settings": {
@@ -14992,7 +14796,7 @@
         "elements": []
        },
        {
-        "id": "17d7ddc",
+        "id": "48d9003",
         "elType": "widget",
         "widgetType": "button",
         "settings": {
@@ -15045,7 +14849,7 @@
         "elements": []
        },
        {
-        "id": "117294e",
+        "id": "0c4bb68",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -15079,7 +14883,7 @@
   ]
  },
  {
-  "id": "cf97d3b",
+  "id": "c17c03d",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -15120,7 +14924,7 @@
   },
   "elements": [
    {
-    "id": "0b26c66",
+    "id": "1022f9d",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -15146,7 +14950,7 @@
     },
     "elements": [
      {
-      "id": "98db22c",
+      "id": "fd28c4a",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -15177,7 +14981,7 @@
       "elements": []
      },
      {
-      "id": "64dacfb",
+      "id": "3096c23",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -15208,7 +15012,7 @@
     ]
    },
    {
-    "id": "94248ba",
+    "id": "23eac6b",
     "elType": "widget",
     "widgetType": "spacer",
     "settings": {
@@ -15221,7 +15025,7 @@
     "elements": []
    },
    {
-    "id": "a112818",
+    "id": "70b5feb",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -15248,7 +15052,7 @@
     },
     "elements": [
      {
-      "id": "d295b00",
+      "id": "da0c74c",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -15302,7 +15106,7 @@
       },
       "elements": [
        {
-        "id": "e63b8a7",
+        "id": "794aeb6",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -15331,7 +15135,7 @@
         "elements": []
        },
        {
-        "id": "500781c",
+        "id": "6588d12",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -15360,7 +15164,7 @@
         "elements": []
        },
        {
-        "id": "9905d37",
+        "id": "ce4e4e0",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -15387,7 +15191,7 @@
         },
         "elements": [
          {
-          "id": "8b78c69",
+          "id": "c7295b9",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -15396,7 +15200,7 @@
           "elements": []
          },
          {
-          "id": "9468dd4",
+          "id": "0e67b21",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -15420,7 +15224,7 @@
           },
           "elements": [
            {
-            "id": "509fa4a",
+            "id": "9ed4535",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -15449,7 +15253,7 @@
             "elements": []
            },
            {
-            "id": "f4cbaa7",
+            "id": "896bf75",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -15484,7 +15288,7 @@
       ]
      },
      {
-      "id": "f619ad7",
+      "id": "3c9f28d",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -15538,7 +15342,7 @@
       },
       "elements": [
        {
-        "id": "285cd0d",
+        "id": "af53e7c",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -15567,7 +15371,7 @@
         "elements": []
        },
        {
-        "id": "3983430",
+        "id": "5442ebc",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -15596,7 +15400,7 @@
         "elements": []
        },
        {
-        "id": "2f1ad61",
+        "id": "83b64a6",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -15623,7 +15427,7 @@
         },
         "elements": [
          {
-          "id": "6abfef0",
+          "id": "e426a6e",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -15632,7 +15436,7 @@
           "elements": []
          },
          {
-          "id": "c82f450",
+          "id": "d15d110",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -15656,7 +15460,7 @@
           },
           "elements": [
            {
-            "id": "99f8f9c",
+            "id": "9e510dc",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -15685,7 +15489,7 @@
             "elements": []
            },
            {
-            "id": "ea5d0b1",
+            "id": "f21c623",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -15720,7 +15524,7 @@
       ]
      },
      {
-      "id": "f08be0b",
+      "id": "8aea4ce",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -15774,7 +15578,7 @@
       },
       "elements": [
        {
-        "id": "407e426",
+        "id": "db5c2a8",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -15803,7 +15607,7 @@
         "elements": []
        },
        {
-        "id": "1b927e4",
+        "id": "c690dc1",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -15832,7 +15636,7 @@
         "elements": []
        },
        {
-        "id": "6bed0e9",
+        "id": "ac0d40b",
         "elType": "container",
         "isInner": true,
         "settings": {
@@ -15859,7 +15663,7 @@
         },
         "elements": [
          {
-          "id": "c491904",
+          "id": "7dfde17",
           "elType": "widget",
           "widgetType": "html",
           "settings": {
@@ -15868,7 +15672,7 @@
           "elements": []
          },
          {
-          "id": "d9f47e0",
+          "id": "b2357df",
           "elType": "container",
           "isInner": true,
           "settings": {
@@ -15892,7 +15696,7 @@
           },
           "elements": [
            {
-            "id": "6d4503f",
+            "id": "73b8186",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -15921,7 +15725,7 @@
             "elements": []
            },
            {
-            "id": "fac6a64",
+            "id": "2297f0e",
             "elType": "widget",
             "widgetType": "heading",
             "settings": {
@@ -15960,7 +15764,7 @@
   ]
  },
  {
-  "id": "cd905c1",
+  "id": "8a62547",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -15988,7 +15792,7 @@
   },
   "elements": [
    {
-    "id": "8d2a587",
+    "id": "7a5757b",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -16034,7 +15838,7 @@
     },
     "elements": [
      {
-      "id": "9e1bb82",
+      "id": "69f761e",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -16065,7 +15869,7 @@
       "elements": []
      },
      {
-      "id": "a9f6f47",
+      "id": "2ec1f3d",
       "elType": "widget",
       "widgetType": "heading",
       "settings": {
@@ -16094,11 +15898,11 @@
       "elements": []
      },
      {
-      "id": "30f1a2a",
+      "id": "5504717",
       "elType": "widget",
       "widgetType": "text-editor",
       "settings": {
-       "editor": "<p>Wenn Sie Fragen haben oder einen Termin mit einem unserer Berater für weiterführende Informationen vereinbaren möchten, nehmen Sie gerne Kontakt mit uns auf. Unser Team organisiert gerne ein persönliches Gespräch zu einem für Sie passenden Zeitpunkt.</p>",
+       "editor": "<p>Fragen oder ein persönliches Gespräch? Wir melden uns gern.</p>",
        "text_color": "#2A2F52",
        "typography_typography": "custom",
        "typography_font_family": "Inter",
@@ -16122,7 +15926,7 @@
       "elements": []
      },
      {
-      "id": "58f0fd9",
+      "id": "2918c79",
       "elType": "widget",
       "widgetType": "spacer",
       "settings": {
@@ -16135,13 +15939,13 @@
       "elements": []
      },
      {
-      "id": "47780df",
+      "id": "474f6aa",
       "elType": "widget",
       "widgetType": "icon-list",
       "settings": {
        "icon_list": [
         {
-         "_id": "f38f823",
+         "_id": "98472db",
          "text": "+49 40 22862372-0",
          "selected_icon": {
           "value": "fas fa-arrow-right",
@@ -16154,7 +15958,7 @@
          }
         },
         {
-         "_id": "0cf3c94",
+         "_id": "8fd1103",
          "text": "mitgliederservice@hanseainvest.de",
          "selected_icon": {
           "value": "fas fa-arrow-right",
@@ -16167,7 +15971,7 @@
          }
         },
         {
-         "_id": "c45c4a7",
+         "_id": "f64cee7",
          "text": "Langenhorner Chaussee 155, 22415 Hamburg",
          "selected_icon": {
           "value": "fas fa-arrow-right",
@@ -16207,7 +16011,7 @@
     ]
    },
    {
-    "id": "6c780e3",
+    "id": "cf1049c",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -16253,7 +16057,7 @@
     },
     "elements": [
      {
-      "id": "d8d203c",
+      "id": "b8a1242",
       "elType": "widget",
       "widgetType": "shortcode",
       "settings": {
@@ -16266,7 +16070,7 @@
   ]
  },
  {
-  "id": "97f13b9",
+  "id": "e35ce9b",
   "elType": "container",
   "isInner": false,
   "settings": {
@@ -16306,7 +16110,7 @@
   },
   "elements": [
    {
-    "id": "b99e3ea",
+    "id": "b30f671",
     "elType": "container",
     "isInner": true,
     "settings": {
@@ -16333,7 +16137,7 @@
     },
     "elements": [
      {
-      "id": "f451d20",
+      "id": "836bbcc",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -16367,7 +16171,7 @@
       },
       "elements": [
        {
-        "id": "8c880bf",
+        "id": "83d9ca8",
         "elType": "widget",
         "widgetType": "image",
         "settings": {
@@ -16398,7 +16202,7 @@
         "elements": []
        },
        {
-        "id": "2d4713a",
+        "id": "53285b9",
         "elType": "widget",
         "widgetType": "text-editor",
         "settings": {
@@ -16428,7 +16232,7 @@
       ]
      },
      {
-      "id": "78f0bdf",
+      "id": "fc89f39",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -16462,7 +16266,7 @@
       },
       "elements": [
        {
-        "id": "ecca4e9",
+        "id": "e61231d",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -16491,13 +16295,13 @@
         "elements": []
        },
        {
-        "id": "71c3767",
+        "id": "6c7f6e9",
         "elType": "widget",
         "widgetType": "icon-list",
         "settings": {
          "icon_list": [
           {
-           "_id": "c6268a7",
+           "_id": "c1389d3",
            "text": "Über uns",
            "selected_icon": {
             "value": "",
@@ -16510,7 +16314,7 @@
            }
           },
           {
-           "_id": "8825e4b",
+           "_id": "32fd1b3",
            "text": "Sponsoring",
            "selected_icon": {
             "value": "",
@@ -16523,7 +16327,7 @@
            }
           },
           {
-           "_id": "1531afa",
+           "_id": "e57b54b",
            "text": "So funktioniert's",
            "selected_icon": {
             "value": "",
@@ -16536,7 +16340,7 @@
            }
           },
           {
-           "_id": "ecdf199",
+           "_id": "a2849aa",
            "text": "Projekte",
            "selected_icon": {
             "value": "",
@@ -16549,7 +16353,7 @@
            }
           },
           {
-           "_id": "102accc",
+           "_id": "c62d3ed",
            "text": "Konditionen",
            "selected_icon": {
             "value": "",
@@ -16562,7 +16366,7 @@
            }
           },
           {
-           "_id": "2d15dc2",
+           "_id": "b9347e1",
            "text": "Team",
            "selected_icon": {
             "value": "",
@@ -16575,7 +16379,7 @@
            }
           },
           {
-           "_id": "2a0b5f8",
+           "_id": "22bb3d8",
            "text": "FAQ",
            "selected_icon": {
             "value": "",
@@ -16588,7 +16392,7 @@
            }
           },
           {
-           "_id": "ba16f2f",
+           "_id": "b63a0c3",
            "text": "Kontakt",
            "selected_icon": {
             "value": "",
@@ -16628,7 +16432,7 @@
       ]
      },
      {
-      "id": "fa1c7f0",
+      "id": "81b7a05",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -16662,7 +16466,7 @@
       },
       "elements": [
        {
-        "id": "dc29e55",
+        "id": "6673b95",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -16691,13 +16495,13 @@
         "elements": []
        },
        {
-        "id": "da48ba2",
+        "id": "aa7410a",
         "elType": "widget",
         "widgetType": "icon-list",
         "settings": {
          "icon_list": [
           {
-           "_id": "f047730",
+           "_id": "7bdc1f0",
            "text": "Mitglieder-Login",
            "selected_icon": {
             "value": "",
@@ -16710,7 +16514,7 @@
            }
           },
           {
-           "_id": "ab78239",
+           "_id": "a118b04",
            "text": "Geprüfter Jahresabschluss auf Anfrage",
            "selected_icon": {
             "value": "",
@@ -16723,7 +16527,7 @@
            }
           },
           {
-           "_id": "171f4bf",
+           "_id": "420ef4e",
            "text": "Prüfungsverband: DIVK Prüfungsverband",
            "selected_icon": {
             "value": "",
@@ -16763,7 +16567,7 @@
       ]
      },
      {
-      "id": "ba9c18e",
+      "id": "0717dba",
       "elType": "container",
       "isInner": true,
       "settings": {
@@ -16797,7 +16601,7 @@
       },
       "elements": [
        {
-        "id": "a47ae4a",
+        "id": "0eb192e",
         "elType": "widget",
         "widgetType": "heading",
         "settings": {
@@ -16826,13 +16630,13 @@
         "elements": []
        },
        {
-        "id": "9ae0429",
+        "id": "6f89b8c",
         "elType": "widget",
         "widgetType": "icon-list",
         "settings": {
          "icon_list": [
           {
-           "_id": "5e8623b",
+           "_id": "c57ff94",
            "text": "Impressum",
            "selected_icon": {
             "value": "",
@@ -16845,7 +16649,7 @@
            }
           },
           {
-           "_id": "4bbc71a",
+           "_id": "8e24e17",
            "text": "Datenschutz",
            "selected_icon": {
             "value": "",
@@ -16858,7 +16662,7 @@
            }
           },
           {
-           "_id": "232f09b",
+           "_id": "bcb473f",
            "text": "Risikohinweis",
            "selected_icon": {
             "value": "",
@@ -16871,7 +16675,7 @@
            }
           },
           {
-           "_id": "4ae2190",
+           "_id": "596590e",
            "text": "Satzung",
            "selected_icon": {
             "value": "",
@@ -16884,7 +16688,7 @@
            }
           },
           {
-           "_id": "49eb3cc",
+           "_id": "cb2acda",
            "text": "Amtsgericht Hamburg, GnR 1175",
            "selected_icon": {
             "value": "",
@@ -16926,7 +16730,7 @@
     ]
    },
    {
-    "id": "9c7dec0",
+    "id": "124f924",
     "elType": "widget",
     "widgetType": "divider",
     "settings": {
@@ -16940,7 +16744,7 @@
     "elements": []
    },
    {
-    "id": "3d4e255",
+    "id": "85fa57e",
     "elType": "widget",
     "widgetType": "text-editor",
     "settings": {
