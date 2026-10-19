@@ -181,14 +181,14 @@ def text(html, *, color=NAVY_TEXT, size=17, line=1.6, align=None, weight="400"):
     return widget("text-editor", s)
 
 
-def button(label, url, *, variant="gold", align=None, size=15, hide_mobile=False):
+def button(label, url, *, variant="gold", align=None, size=15, hide_mobile=False, external=False):
     colors = {
         "gold": (GOLD, NAVY, GOLD_600, NAVY),
         "ghost": ("transparent", NAVY_TEXT, "transparent", GOLD_600),
     }[variant]
     s = {
         "text": label,
-        "link": {"url": url, "is_external": "", "nofollow": "", "custom_attributes": ""},
+        "link": {"url": url, "is_external": "on" if external else "", "nofollow": "", "custom_attributes": ""},
         "background_color": colors[0], "button_text_color": colors[1],
         "button_background_hover_color": colors[2], "hover_color": colors[3],
         "border_radius": box(4),
@@ -320,6 +320,7 @@ FAQS = [
      "Ihre Investition fließt in reale Wohnimmobilien in Deutschland. Die Hanseatische Invest eG ist eine eingetragene Genossenschaft und wird durch den DIVK Prüfungsverband regelmäßig geprüft. Bitte beachten Sie jedoch, dass es sich um eine unternehmerische Beteiligung handelt: Verlust bis zum Totalverlust ist möglich, und es besteht keine gesetzliche Einlagensicherung."),
 ]
 
+BOOK_URL = "https://www.remote-verlag.de/products/immobilien-investitionen-leicht-gemacht"
 BLOG_URL = "https://blog.gerlachgroup.de/%C3%B6ffentlichkeit-pr-blog"
 
 LEGAL = ("Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die Zielrendite von 7 % p.a. ist nicht garantiert und hängt vom wirtschaftlichen Erfolg der Genossenschaft ab. Kein Anspruch auf Ausschüttung oder Rückzahlung; Verlust bis zum Totalverlust möglich. Keine gesetzliche Einlagensicherung. Keine Anlageberatung. Bitte lesen Sie vor einer Entscheidung Risikohinweis und Satzung.")
@@ -614,7 +615,7 @@ def book():
                  "fundierte Entscheidungen zu treffen und gezielt für Ihre finanzielle Freiheit und eine sichere "
                  "Zukunft vorzusorgen.</p>", size=16),
             spacer(4),
-            button("Zum Buchkauf", "#"),
+            button("Zum Buchkauf", BOOK_URL, external=True),
         ], 56, side="r", bg=WHITE, pad=(96, 64)),
     ])
 
