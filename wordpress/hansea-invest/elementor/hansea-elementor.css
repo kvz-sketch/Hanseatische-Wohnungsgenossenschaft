@@ -49,6 +49,15 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-ph-4x5 { aspect-ratio: 4 / 5; }
 .hs-ph-16x9 { aspect-ratio: 16 / 9; }
 .hs-case-img img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+/* Before/after photo: labels on both halves (the split sits at 48.4 % of the image) */
+.hs-ba { position: relative; }
+.hs-ba::before, .hs-ba::after {
+	position: absolute; top: 14px; z-index: 1; padding: 5px 10px; border-radius: 4px;
+	background: rgba(20, 26, 70, 0.85); color: #fff; font: 600 11px/1.2 "Inter", sans-serif;
+	letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none;
+}
+.hs-ba::before { content: "Nachher"; left: 14px; }
+.hs-ba::after { content: "Vorher"; left: calc(48.4% + 14px); }
 .hs-ph-3x2 { aspect-ratio: 3 / 2; }
 .hs-placeholder {
 	position: absolute;

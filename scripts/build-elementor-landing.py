@@ -305,7 +305,9 @@ TEAM = [
 
 # Case study photos (16:9); placeholder until a file is set
 CASE_PHOTOS = {
-    "Oldenburg": "projekt-oldenburg.jpg",
+    "Hamburg Eilbek": ("projekt-eilbek-kueche.jpg", "Projekt Hamburg Eilbek: Küche nachher (links) und vorher (rechts)",
+                       "hs-ba"),
+    "Oldenburg": ("projekt-oldenburg.jpg", "Projekt Oldenburg: renovierte Maisonette-Wohnung", ""),
 }
 
 TEAM_LINKEDIN = {
@@ -695,10 +697,10 @@ def trust():
 def case_studies():
     cards = []
     for title, intro, more in CASES:
-        photo_file = CASE_PHOTOS.get(title)
+        photo = CASE_PHOTOS.get(title)
         cards.append(tile([
-            image(photo_file, f"Projekt {title}: renovierte Wohnung", radius=0, css_extra="hs-case-img")
-            if photo_file else placeholder(f"Projektfoto {title}", "16/9"),
+            image(photo[0], photo[1], radius=0, css_extra=f"hs-case-img {photo[2]}".strip())
+            if photo else placeholder(f"Projektfoto {title}", "16/9"),
             container([
                 heading("Case Study", "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI, line=1.4),
                 heading(title, "h3", size=28, mobile=24),
