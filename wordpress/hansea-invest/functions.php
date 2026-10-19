@@ -44,3 +44,18 @@ add_action( 'send_headers', function () {
 	header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
 	header_remove( 'Expires' );
 } );
+
+/**
+ * No blog: posts, archives, feeds and search lead to the landing page, so
+ * WordPress's default post list can never show up instead of the site.
+ */
+add_action( 'template_redirect', function () {
+	if ( is_admin() || hansea_current_view() ) {
+		return;
+	}
+	if ( is_singular( 'post' ) || is_archive() || is_search() || is_feed() || ( is_home() && ! is_front_page() ) || is_paged() ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+}, 5 );
+

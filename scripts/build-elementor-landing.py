@@ -298,7 +298,7 @@ TEAM = [
 ]
 
 TEAM_LINKEDIN = {
-    "Stephan Gerlach": "#",
+    "Stephan Gerlach": "https://www.linkedin.com/in/stephan-gerlach/",
     "Vadim Kogan": "#",
     "Christine Pistorius": "#",
 }
