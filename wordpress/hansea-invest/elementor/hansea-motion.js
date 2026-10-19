@@ -184,5 +184,27 @@
     )
   }
 
+  /* Timeline: the gold line follows the scroll position */
+  var timelines = document.querySelectorAll('.hs-timeline')
+  if (timelines.length) {
+    var tlTick = false
+    var updateTimelines = function () {
+      tlTick = false
+      Array.prototype.forEach.call(timelines, function (tl) {
+        var r = tl.getBoundingClientRect()
+        var p = (window.innerHeight * 0.65 - r.top) / r.height
+        tl.style.setProperty('--hs-tl', String(Math.max(0, Math.min(1, p))))
+      })
+    }
+    window.addEventListener('scroll', function () {
+      if (!tlTick) {
+        tlTick = true
+        requestAnimationFrame(updateTimelines)
+      }
+    }, { passive: true })
+    window.addEventListener('resize', updateTimelines)
+    updateTimelines()
+  }
+
   window.hsMotionReady = true
 })()

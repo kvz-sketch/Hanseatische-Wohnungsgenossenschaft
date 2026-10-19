@@ -604,12 +604,12 @@ def at_a_glance():
 def book():
     return split([
         panel([
-            container([placeholder("Buchcover „Dein Weg zur finanziellen Freiheit“", "2/3")], width=56,
+            container([placeholder("Buchcover „Immobilien Investitionen leicht gemacht“", "2/3")], width=56,
                       width_mobile=60, css="hs-book"),
         ], 44, side="l", justify="center", min_h=560, gap_px=0, pad=(72, 48)),
         panel([
             eyebrow("Neues Buch"),
-            h2("Dein Weg zur finanziellen Freiheit"),
+            h2("Immobilien Investitionen leicht gemacht"),
             text("<p>Das neue Buch von Stephan Gerlach, des Spiegel-Bestsellerautors und CEO der Gerlach Immobilien "
                  "Gruppe, ist Ihr Leitfaden für Immobilien als Kapitalanlage. Nutzen Sie sein Expertenwissen, um "
                  "fundierte Entscheidungen zu treffen und gezielt für Ihre finanzielle Freiheit und eine sichere "
@@ -621,24 +621,26 @@ def book():
 
 
 def capital_steps():
-    cards = []
+    """Vertical timeline: gold numbered dots on a centre line, cards alternating left and right."""
+    steps = []
     for i, (title, body) in enumerate(STEPS):
-        cards.append(tile([
-            placeholder(f"Bild Schritt {i + 1}", "16/10"),
-            container([
+        side = "left" if i % 2 == 0 else "right"
+        steps.append(container([
+            widget("html", {"html": f'<span class="hs-tl-dot" aria-hidden="true">{i + 1:02d}</span>'}, css="hs-tl-marker"),
+            tile([
                 heading(f"Schritt {i + 1:02d}", "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI,
                         line=1.4),
-                heading(title, "h3", size=24, mobile=22, line=1.2),
+                heading(title, "h3", size=26, mobile=22, line=1.2),
                 text(f"<p>{body}</p>", size=15),
-            ], pad=(28, 32, 32, 32), pad_mobile=(22, 20, 24, 20), gap_px=10),
-        ], width=48.5, pad=(0,), pad_mobile=(0,), gap_px=0, css="hs-card"))
+            ], pad=(32, 36), pad_mobile=(24, 20), gap_px=10, css="hs-tl-card"),
+        ], gap_px=0, css=f"hs-tl-step hs-tl-step--{side}"))
     return band([
         intro_row("So funktioniert's", "Wie wir Ihr Kapital einsetzen",
                   "In vier Schritten: Ihr Kapital fließt in echte Häuser, stärkt dort als Eigenkapital die Finanzierung, "
                   "und aus Sanierung und Verkauf entstehen Ihre Erträge."),
-        spacer(24),
-        container(cards, row=True, wrap=True, justify="space-between", align="stretch", gap_px=24, css="hs-row-wrap"),
-        spacer(8),
+        spacer(40),
+        container(steps, gap_px=0, css="hs-timeline"),
+        spacer(16),
         text("<p>*Die Wertschöpfung entsteht durch operative Immobilienarbeit, nicht durch Finanzprodukte.</p>",
              color=MUTED, size=13),
     ], anchor="so-funktionierts", gap_px=12)

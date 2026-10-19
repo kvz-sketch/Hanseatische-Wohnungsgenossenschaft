@@ -151,6 +151,41 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .elementor-lightbox .elementor-slideshow__title { font-family: "Inter", sans-serif; font-weight: 600; color: #fff; }
 .elementor-lightbox .elementor-slideshow__description { display: none; }
 
+/* So funktioniert's: timeline. Centre line fills with gold while scrolling (hansea-motion.js sets --hs-tl). */
+.hs-timeline { position: relative; }
+.hs-timeline::before, .hs-timeline::after {
+	content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; border-radius: 2px;
+}
+.hs-timeline::before { background: #e7e8ec; }
+.hs-timeline::after { background: #ddb851; transform-origin: top; transform: scaleY(var(--hs-tl, 1)); }
+.hs-tl-step { position: relative; width: 50% !important; z-index: 1; }
+.hs-tl-step--left { align-self: flex-start !important; margin-right: auto !important; padding-right: 64px !important; }
+.hs-tl-step--right { align-self: flex-end !important; margin-left: auto !important; padding-left: 64px !important; }
+.hs-tl-step + .hs-tl-step { margin-top: -96px; }
+.hs-tl-marker { position: absolute !important; top: 28px; width: auto !important; z-index: 2; }
+.hs-tl-step--left .hs-tl-marker { right: -26px; }
+.hs-tl-step--right .hs-tl-marker { left: -26px; }
+.hs-tl-dot {
+	display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%;
+	background: #ddb851; color: #141a46; font: 700 16px/1 "Inter", sans-serif; font-variant-numeric: tabular-nums;
+	box-shadow: 0 0 0 8px #fff, 0 8px 24px -6px rgba(20, 26, 70, 0.35);
+}
+.hs-tl-card { position: relative; }
+.hs-tl-card::before { /* small pointer towards the line */
+	content: ""; position: absolute; top: 44px; width: 14px; height: 14px; background: #fff; transform: rotate(45deg);
+	box-shadow: 0 0 0 0 transparent;
+}
+.hs-tl-step--left .hs-tl-card::before { right: -7px; }
+.hs-tl-step--right .hs-tl-card::before { left: -7px; }
+.hs-tl-card { overflow: visible !important; }
+@media (max-width: 767px) {
+	.hs-timeline::before, .hs-timeline::after { left: 26px; }
+	.hs-tl-step, .hs-tl-step--left, .hs-tl-step--right { width: 100% !important; align-self: stretch !important; margin-left: 0 !important; padding: 0 0 0 68px !important; }
+	.hs-tl-step + .hs-tl-step { margin-top: 24px; }
+	.hs-tl-step--left .hs-tl-marker, .hs-tl-step--right .hs-tl-marker { left: 0; right: auto; top: 20px; }
+	.hs-tl-step--left .hs-tl-card::before, .hs-tl-step--right .hs-tl-card::before { left: -7px; right: auto; top: 36px; }
+}
+
 /* Floating project label on the hero photo */
 .hs-chip { width: auto !important; }
 
