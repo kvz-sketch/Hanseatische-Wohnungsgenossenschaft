@@ -495,7 +495,7 @@ def hero():
         chip,
     ], inner=False, boxed=True, row=True, align="flex-end", justify="space-between", gap_px=32,
         pad=(220, 20, 64, 20), pad_mobile=(180, 16, 32, 16), min_h=680, min_h_mobile=520,
-        bg_image="projekt-hamburg-borgfelder.jpg", css="hs-hero-photo")
+        bg_image="hero-wohnung.jpg", bg_pos="center 40%", css="hs-hero-photo")
     photo_band["settings"].update({
         "background_overlay_background": "gradient",
         "background_overlay_color": "rgba(14,19,56,0.88)",
