@@ -264,7 +264,7 @@ def spacer(h):
 
 # ---------------------------------------------------------------- content
 
-NAV = [("Über uns", "#ueber-uns"), ("So funktioniert's", "#so-funktionierts"), ("Case Studies", "#case-studies"),
+NAV = [("Über uns", "#ueber-uns"), ("Sponsoring", "#sponsoring"), ("So funktioniert's", "#so-funktionierts"), ("Case Studies", "#case-studies"),
        ("Team", "#team"), ("FAQ", "#faq"), ("Kontakt", "#kontakt")]
 
 STEPS = [
@@ -298,15 +298,15 @@ TEAM = [
 
 FAQS = [
     ("Was bedeutet „investierendes Mitglied“ konkret?", "Sie werden Mitglied, nicht Kunde.",
-     "Ihr Geld bleibt im Unternehmen und fließt direkt in eigene Projekte. Die Wertschöpfung entsteht durch Arbeit an Häusern, nicht durch Finanzprodukte. Genossenschaften unterliegen dem Genossenschaftsgesetz und der Pflichtprüfung durch einen Prüfungsverband – ein Modell, das es in Deutschland seit über 150 Jahren gibt. Einmal im Jahr laden wir alle Mitglieder ein: Vorstand und Projektleiter berichten, Sie sehen die Häuser und lernen andere Mitglieder kennen."),
-    ("Wie wird mein Kapital eingesetzt?", "In konkreten Häusern – mit Adresse und Fotos.",
-     "Bestandshäuser günstig kaufen, sanieren, in einzelne Wohnungen aufteilen und verkaufen: Dieses Geschäft war bisher Profis mit viel Kapital vorbehalten. Die Genossenschaft bündelt das Geld vieler Mitglieder – so sind Sie schon ab 10.000 € dabei. Jeder Anteil wird einem Projekt zugeordnet. Im Mitgliederportal sehen Sie Phase, Baufortschritt und jede Ausschüttung."),
-    ("Welche Rendite kann ich erwarten?", "Ziel sind 7 % im Jahr, ausgezahlt in vier Raten – nicht garantiert.",
+     "Ihr Geld bleibt im Unternehmen und fließt direkt in eigene Projekte. Die Wertschöpfung entsteht durch Arbeit an Häusern, nicht durch Finanzprodukte. Genossenschaften unterliegen dem Genossenschaftsgesetz und der Pflichtprüfung durch einen Prüfungsverband. Dieses Modell gibt es in Deutschland seit über 150 Jahren. Einmal im Jahr laden wir alle Mitglieder ein: Vorstand und Projektleiter berichten, Sie sehen die Häuser und lernen andere Mitglieder kennen."),
+    ("Wie wird mein Kapital eingesetzt?", "In konkreten Häusern, mit Adresse und Fotos.",
+     "Bestandshäuser günstig kaufen, sanieren, in einzelne Wohnungen aufteilen und verkaufen: Dieses Geschäft war bisher Profis mit viel Kapital vorbehalten. Die Genossenschaft bündelt das Geld vieler Mitglieder. So sind Sie schon ab 10.000 € dabei. Jeder Anteil wird einem Projekt zugeordnet. Im Mitgliederportal sehen Sie Phase, Baufortschritt und jede Ausschüttung."),
+    ("Welche Rendite kann ich erwarten?", "Ziel sind 7 % im Jahr, ausgezahlt in vier Raten, aber nicht garantiert.",
      "Bei 25.000 € sind das als Ziel 437,50 € pro Quartal, brutto. Kein Zinseszins, vor Kapitalertragsteuer. Die Ausschüttung hängt vom wirtschaftlichen Erfolg der Genossenschaft ab."),
     ("Welche Laufzeiten und Kündigungsfristen gelten?", "Nach 12 Monaten entscheiden Sie.",
      "Weiterlaufen lassen, aufstocken oder mit neun Monaten Frist kündigen. Keine Nachschusspflicht."),
     ("Welche Risiken bestehen bei einer Beteiligung?",
-     "Reale Häuser, geprüfte Genossenschaft – und trotzdem eine unternehmerische Beteiligung.",
+     "Reale Häuser, geprüfte Genossenschaft und trotzdem eine unternehmerische Beteiligung.",
      "Ihre Investition fließt in reale Wohnimmobilien in Deutschland. Die Hanseatische Invest eG ist eine eingetragene Genossenschaft und wird durch den DIVK Prüfungsverband regelmäßig geprüft. Bitte beachten Sie jedoch, dass es sich um eine unternehmerische Beteiligung handelt: Verlust bis zum Totalverlust ist möglich, und es besteht keine gesetzliche Einlagensicherung."),
 ]
 
@@ -448,7 +448,7 @@ def hero():
             heading("Unternehmerisch. Transparent. Nachvollziehbar.", "p", size=18, mobile=17, color=WHITE,
                     weight="600", family=UI, line=1.4),
             text("<p>Gemeinsam mit anderen Mitgliedern investieren Sie in Bestandshäuser, die wir kaufen, sanieren und "
-                 "verkaufen – mit einer angestrebten Verzinsung von 7&nbsp;% p.a.*</p>", color=ON_NAVY, size=16),
+                 "verkaufen, mit einer angestrebten Verzinsung von 7&nbsp;% p.a.*</p>", color=ON_NAVY, size=16),
             container([button("Jetzt informieren", "#kontakt"), light_button("So funktioniert's", "#so-funktionierts")],
                       row=True, mobile_row=True, wrap=True, align="center", gap_px=12),
             spacer(12),
@@ -476,11 +476,11 @@ def about():
                 eyebrow("Über uns"),
                 h2("Die Hanseatische Invest eG"),
                 text("<p>Die Hanseatische Invest eG verwendet Ihr investiertes Kapital, um Immobilienprojekte effizient "
-                     "umzusetzen und nachhaltige Mehrwerte zu schaffen – für unsere Mitglieder und den deutschen "
+                     "umzusetzen und nachhaltige Mehrwerte zu schaffen: für unsere Mitglieder und den deutschen "
                      "Immobilienmarkt. Als Genossenschaft stehen wir für Transparenz, Verantwortung und eine "
                      "partnerschaftliche Beteiligung an Immobilieninvestments.</p>", size=16),
                 text("<p>Werden Sie Teil der Hanseatischen Invest eG und profitieren Sie von einer attraktiven Rendite "
-                     "von bis zu 7&nbsp;% p.a. – jetzt informieren und investieren.</p>", size=16),
+                     "von bis zu 7&nbsp;% p.a. Jetzt informieren und investieren.</p>", size=16),
                 spacer(4),
                 button("Kontakt aufnehmen", "#kontakt"),
             ], width=38, gap_px=14),
@@ -620,8 +620,8 @@ def webinar():
             eyebrow("Live Webinar", on_dark=True),
             h2("Lassen Sie Ihr Kapital sinnvoll arbeiten", WHITE),
             text("<p>Nutzen Sie Ihr Kapital gezielt. Erfahren Sie im kostenfreien Live-Webinar, wie "
-                 "Genossenschaftsanteile als strukturierte Alternative zur klassischen Immobilienanlage funktionieren "
-                 "– transparent und ohne Verwaltungsaufwand. Jetzt Platz sichern.</p>", color=ON_NAVY, size=16),
+                 "Genossenschaftsanteile als strukturierte Alternative zur klassischen Immobilienanlage funktionieren"
+                 ": transparent und ohne Verwaltungsaufwand. Jetzt Platz sichern.</p>", color=ON_NAVY, size=16),
             spacer(4),
             button("Jetzt anmelden", "#kontakt"),
         ], 44, side="r"),
@@ -663,7 +663,7 @@ def press_and_broker():
                 heading("Mehrwert für Makler: 7&nbsp;% p.a. Rendite-Chance für Ihre Verkaufskunden", "h3", size=26,
                         mobile=24, color=WHITE, line=1.2),
                 text("<p>Was passiert mit dem Kapital Ihrer Kunden nach dem Verkauf? Mit den Genossenschaftsanteilen der "
-                     "Hanseatischen Invest eG bieten Sie eine attraktive Möglichkeit zur renditestarken Weiteranlage – "
+                     "Hanseatischen Invest eG bieten Sie eine attraktive Möglichkeit zur renditestarken Weiteranlage: "
                      "7&nbsp;% p.a. im Rahmen unseres „Club der Kapitalanleger PRO“ der Gerlach Immobilien Gruppe.</p>",
                      color=ON_NAVY, size=14),
                 container([
@@ -746,23 +746,27 @@ def faq():
 
 
 def sponsoring():
+    """Hansea Invest Sponsoring, directly below "Über uns"."""
     return band([
         container([
             container([
-                eyebrow("Engagement"),
-                h2("Wir sponsern Ihr Team"),
+                eyebrow("Sponsoring"),
+                h2("Hansea Invest Sponsoring"),
                 text("<p>Die Hanseatische Invest eG ist stolzer Sponsor verschiedener Sportteams und engagiert sich aktiv "
                      "für sportliche Leistung und Gemeinschaft. Mit diesem Engagement unterstreicht das Unternehmen seine "
                      "Verbundenheit zu Teamgeist, Fairness und nachhaltiger Förderung.</p>", size=16),
-                link_button("Mehr erfahren", "#kontakt"),
+                text("<p>Ihr Verein sucht einen Partner? Erzählen Sie uns von Ihrem Team.</p>", size=16, weight="600",
+                     color=NAVY),
+                spacer(4),
+                button("Sponsoring anfragen", "#kontakt"),
             ], width=38, gap_px=14),
             container([
-                tile([placeholder("Logo Platzhalter", "3/2")], width=31.5, width_mobile=47, bg=GREY_BG, pad=(16,),
+                tile([placeholder("Logo Sportverein", "3/2")], width=31.5, width_mobile=47, bg=GREY_BG, pad=(16,),
                      pad_mobile=(12,), css="hs-tile--flat")
                 for _ in range(6)
             ], row=True, wrap=True, mobile_row=True, justify="space-between", gap_px=12, width=56, css="hs-row-wrap"),
         ], row=True, align="center", justify="space-between", gap_px=48),
-    ])
+    ], anchor="sponsoring")
 
 
 def contact():
@@ -810,8 +814,8 @@ def footer():
 
 
 def build():
-    return [header(), hero(), about(), at_a_glance(), book(), capital_steps(), trust(), case_studies(), webinar(),
-            team(), press_and_broker(), case_numbers(), subsidiaries(), faq(), sponsoring(), contact(), footer()]
+    return [header(), hero(), about(), at_a_glance(), sponsoring(), book(), capital_steps(), trust(), case_studies(),
+            webinar(), team(), press_and_broker(), case_numbers(), subsidiaries(), faq(), contact(), footer()]
 
 
 if __name__ == "__main__":

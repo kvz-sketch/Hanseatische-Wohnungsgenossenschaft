@@ -27,6 +27,11 @@ add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
 } );
 
+// Browser-tab titles: "Seite | Hanseatische Invest eG" (no dash)
+add_filter( 'document_title_separator', function () {
+	return '|';
+} );
+
 /**
  * HTML pages must be revalidated: the host's .htaccess default would let
  * browsers keep a page for a week, hiding every edit made in Elementor.
