@@ -16,7 +16,34 @@ add_action( 'wp_enqueue_scripts', function () {
 		array(),
 		HANSEA_THEME_VERSION
 	);
+	if ( ! hansea_motion_enabled() ) {
+		return;
+	}
+	wp_enqueue_script(
+		'hansea-motion',
+		get_template_directory_uri() . '/elementor/hansea-motion.js',
+		array(),
+		HANSEA_THEME_VERSION,
+		array( 'in_footer' => true )
+	);
 } );
+
+/** Scroll animations run on the public pages, not in the Elementor editor or its preview. */
+function hansea_motion_enabled() {
+	return ! hansea_current_view() && ! is_admin() && ! isset( $_GET['elementor-preview'] ) && ! isset( $_GET['elementor_library'] );
+}
+
+/**
+ * Turn the animations on before the page paints (so content doesn't flash),
+ * unless the visitor prefers reduced motion. If the script hasn't run after
+ * 2.5 s (blocked, failed), everything is shown.
+ */
+add_action( 'wp_head', function () {
+	if ( ! hansea_motion_enabled() ) {
+		return;
+	}
+	echo "<script>(function(d){if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('hs-motion');setTimeout(function(){if(!window.hsMotionReady)d.classList.remove('hs-motion')},2500)})(document.documentElement)</script>\n";
+}, 1 );
 
 /** Contact form posting to the theme's lead endpoint (stored under "Anfragen"). */
 add_shortcode( 'hansea_kontakt', function () {

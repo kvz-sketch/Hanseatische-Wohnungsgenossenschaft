@@ -75,6 +75,10 @@ nobody has edited it in Elementor.
 
 Supporting pieces in the theme: `elementor/hansea-elementor.css` (self-hosted
 Cormorant Garamond and Inter, sticky header, placeholders), the
+Scroll animations on the Elementor pages (headings reveal line by line, blocks
+rise in, the header hides on scroll down) come from
+`elementor/hansea-motion.js`; they are off for visitors who prefer reduced
+motion and never run in the Elementor editor.
 `[hansea_kontakt]` shortcode (contact form; Elementor's free version has no
 form widget) and `page.php` for other Elementor pages. Login and dashboard stay
 React pages from the theme.
