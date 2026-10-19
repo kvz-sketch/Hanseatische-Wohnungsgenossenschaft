@@ -38,7 +38,7 @@ export function getWeekLabel(key: string): string {
   const d2 = sunday.getUTCDate();
   const m2 = MONTHS_DE[sunday.getUTCMonth()];
   const y = sunday.getUTCFullYear();
-  return m1 === m2 ? `${d1}.–${d2}. ${m2} ${y}` : `${d1}. ${m1} – ${d2}. ${m2} ${y}`;
+  return m1 === m2 ? `${d1}. bis ${d2}. ${m2} ${y}` : `${d1}. ${m1} bis ${d2}. ${m2} ${y}`;
 }
 
 export function getMonthKey(dateStr: string): string {

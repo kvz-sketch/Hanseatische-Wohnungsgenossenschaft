@@ -25,7 +25,7 @@ export function CTA() {
             Lernen Sie die Gruppe im Gespräch kennen
           </h2>
           <p className="mt-4 max-w-[380px] text-[13.5px] leading-relaxed text-fog">
-            Schreiben Sie uns kurz, worum es geht — wir melden uns innerhalb eines Werktags mit
+            Schreiben Sie uns kurz, worum es geht. Wir melden uns innerhalb eines Werktags mit
             einem Vorschlag für ein kostenloses Erstgespräch.
           </p>
 

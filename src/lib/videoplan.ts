@@ -244,9 +244,9 @@ export function formatRange(item: Pick<Item, "start" | "end" | "allDay">): strin
   if (item.allDay) {
     if (item.end && datePart(item.end) !== datePart(item.start)) {
       const e = parseLocal(item.end);
-      return `${day} – ${e.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "short" })} · ganztägig`;
+      return `${day} bis ${e.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "short" })} · ganztägig`;
     }
     return `${day} · ganztägig`;
   }
-  return `${day} · ${timePart(item.start)}${item.end ? `–${timePart(item.end)}` : ""} Uhr`;
+  return `${day} · ${timePart(item.start)}${item.end ? ` bis ${timePart(item.end)}` : ""} Uhr`;
 }

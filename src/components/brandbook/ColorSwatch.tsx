@@ -51,10 +51,10 @@ export function ColorSwatch({
       </div>
       <div className="mt-2 flex items-baseline justify-between gap-2">
         <span className="text-[13px] font-semibold text-navy">{name}</span>
-        <span className="font-mono text-[11px] text-muted">{copied ? "Kopiert!" : hex}</span>
+        <span className="tabular-nums text-[11px] text-muted">{copied ? "Kopiert!" : hex}</span>
       </div>
       {role && <div className="mt-0.5 text-[11px] text-muted">{role}</div>}
-      <div className="font-mono text-[10.5px] text-fog">RGB {rgbLabel(hex)}</div>
+      <div className="tabular-nums text-[10.5px] text-fog">RGB {rgbLabel(hex)}</div>
     </button>
   );
 }

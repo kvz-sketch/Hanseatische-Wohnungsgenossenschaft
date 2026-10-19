@@ -34,7 +34,7 @@ export function AboutUs() {
               Unser Full-Service-Modell
             </span>
             <h3 className="subheading mt-3 max-w-[560px] text-[20px] text-navy sm:text-[22px]">
-              Die gesamte Wertschöpfungskette — von Bestandsimmobilien bis zur Kapitalanlage
+              Die gesamte Wertschöpfungskette: von Bestandsimmobilien bis zur Kapitalanlage
             </h3>
           </Reveal>
 

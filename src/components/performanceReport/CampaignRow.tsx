@@ -56,7 +56,7 @@ export function CampaignRow({
               className={`h-2 w-2 rounded-full ${isActive ? "bg-[#1f8a5a]" : "bg-fog"}`}
               aria-hidden="true"
             />
-            <span className="font-mono text-[13px] font-bold text-navy">{campaign.name}</span>
+            <span className="text-[14px] font-bold text-navy">{campaign.name}</span>
             <span
               className={`rounded-[2px] px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] ${
                 isActive ? "bg-[#1f8a5a]/10 text-[#1f8a5a]" : "bg-navy/[0.06] text-muted"
@@ -82,21 +82,21 @@ export function CampaignRow({
           <Stat label="Ziel" value={campaign.objective} />
           <Stat
             label="Meta-Ergebnisse"
-            value={isFiltered ? "—" : String(campaign.metaResults)}
+            value={isFiltered ? "n. v." : String(campaign.metaResults)}
             sub={!isFiltered && campaign.metaCostPerResult != null ? `${fmtEur(campaign.metaCostPerResult)} / Ergebnis` : undefined}
           />
           <Stat
             label={campaign.leadSource === "meta-form" ? "Formular-Leads (Meta)" : "Perspective-Leads"}
-            value={campaign.leadSource === "meta-form" && isFiltered ? "—" : String(periodLeads)}
+            value={campaign.leadSource === "meta-form" && isFiltered ? "n. v." : String(periodLeads)}
           />
-          <Stat label="CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "—"} />
+          <Stat label="CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "n. v."} />
           <Stat
             label="Ausgegeben"
-            value={isFiltered ? "—" : fmtEur(campaign.spend)}
+            value={isFiltered ? "n. v." : fmtEur(campaign.spend)}
             sub={isFiltered ? undefined : `${fmtEur(campaign.dailyBudget)} / Tag`}
           />
-          <Stat label="Reichweite" value={isFiltered ? "—" : fmtNum(campaign.reach)} />
-          <Stat label="Impressionen" value={isFiltered ? "—" : fmtNum(campaign.impressions)} />
+          <Stat label="Reichweite" value={isFiltered ? "n. v." : fmtNum(campaign.reach)} />
+          <Stat label="Impressionen" value={isFiltered ? "n. v." : fmtNum(campaign.impressions)} />
         </div>
 
         {campaign.leadStatus && (

@@ -251,7 +251,7 @@ function WeekView({
                     >
                       <div className="font-bold">
                         {timePart(item.start!)}
-                        {item.end ? `–${timePart(item.end)}` : ""}
+                        {item.end ? ` bis ${timePart(item.end)}` : ""}
                       </div>
                       <div className="font-semibold">{item.title}</div>
                     </button>
@@ -297,7 +297,7 @@ export function Calendar({
       : (() => {
           const m = mondayOf(cursor);
           const s = addDays(m, 6);
-          return `${m.getDate()}. ${MONTHS[m.getMonth()].slice(0, 3)} – ${s.getDate()}. ${MONTHS[s.getMonth()].slice(0, 3)} ${s.getFullYear()}`;
+          return `${m.getDate()}. ${MONTHS[m.getMonth()].slice(0, 3)} bis ${s.getDate()}. ${MONTHS[s.getMonth()].slice(0, 3)} ${s.getFullYear()}`;
         })();
 
   return (

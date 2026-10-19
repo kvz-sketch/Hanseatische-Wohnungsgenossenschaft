@@ -60,7 +60,7 @@ export const submarks: Submark[] = [
     lines: ["HANSEA", "INVEST eG"],
     tagline: "GERLACH IMMOBILIEN GRUPPE",
     description:
-      "Vermögensaufbau mit Immobilien — auf Wachstum und langfristige Rendite ausgerichtet.",
+      "Vermögensaufbau mit Immobilien, auf Wachstum und langfristige Rendite ausgerichtet.",
     palette: [paletteColors.navy, paletteColors.gold, paletteColors.hellgrau],
   },
   {
@@ -80,7 +80,7 @@ export const submarks: Submark[] = [
     lines: ["HANSEA", "GROW"],
     tagline: "GERLACH IMMOBILIEN GRUPPE",
     description:
-      "Vermögensaufbau mit Immobilien — auf Wachstum und langfristige Rendite ausgerichtet.",
+      "Vermögensaufbau mit Immobilien, auf Wachstum und langfristige Rendite ausgerichtet.",
     palette: [paletteColors.navy, paletteColors.gold, paletteColors.hellgrau],
   },
   {
@@ -157,7 +157,7 @@ export const logoConstruction = [
   {
     n: 3,
     title: "Namenszusatz",
-    body: '„Gerlach Immobilien Gruppe" in Inter — bindet jede Submarke an die Dachmarke.',
+    body: '„Gerlach Immobilien Gruppe" in Inter verbindet jede Submarke mit der Dachmarke.',
   },
 ];
 

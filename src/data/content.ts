@@ -34,7 +34,7 @@ export type Brand = {
 
 // NOTE: descriptions below are placeholder copy pending final text — swap
 // them out for the real wording when it's ready.
-const PLACEHOLDER_COPY = "Platzhaltertext — die finale Beschreibung folgt in Kürze.";
+const PLACEHOLDER_COPY = "Platzhaltertext. Die finale Beschreibung folgt in Kürze.";
 
 export const brands: Brand[] = [
   {
@@ -97,7 +97,7 @@ export const valueProps = [
   {
     title: "Transparente Verträge",
     description:
-      "Klare Konditionen und offen kommunizierte Renditen — ohne versteckte Gebühren.",
+      "Klare Konditionen und offen kommunizierte Renditen, ohne versteckte Gebühren.",
     accent: "gold" as const,
   },
 ];
@@ -113,7 +113,7 @@ export const process = [
     step: "2",
     title: "Konzept & Auswahl",
     description:
-      "Eigene Wohnung, genossenschaftliche Beteiligung oder digitaler Einstieg — auf Sie zugeschnitten.",
+      "Eigene Wohnung, genossenschaftliche Beteiligung oder digitaler Einstieg, auf Sie zugeschnitten.",
   },
   {
     step: "3",
@@ -128,7 +128,7 @@ export const testimonials = [
     name: "Sebastian W.",
     meta: "38, München",
     quote:
-      "Ich hatte schon lange den Wunsch, in Immobilien zu investieren, zögerte jedoch wegen des erwarteten Aufwands — nach dem ersten Kauf war ich überzeugt.",
+      "Ich hatte schon lange den Wunsch, in Immobilien zu investieren, zögerte jedoch wegen des erwarteten Aufwands. Nach dem ersten Kauf war ich überzeugt.",
   },
   {
     name: "Manfred K.",
@@ -140,14 +140,14 @@ export const testimonials = [
     name: "Sophia D.",
     meta: "36, Bremen",
     quote:
-      "Von der Finanzierung bis zur Schlüsselübergabe vergingen nur 9 Wochen — ich war die Erste in meinem Freundeskreis mit eigener Immobilie.",
+      "Von der Finanzierung bis zur Schlüsselübergabe vergingen nur 9 Wochen. Ich war die Erste in meinem Freundeskreis mit eigener Immobilie.",
   },
 ];
 
 export const faq = [
   {
     q: "Was unterscheidet die einzelnen Gesellschaften der Gruppe?",
-    a: "Jede Gesellschaft bedient einen eigenen Einstiegspunkt in den Vermögensaufbau mit Immobilien — vom Kauf einer eigenen Kapitalanlage-Wohnung über die genossenschaftliche Beteiligung bis zum digitalen Einstieg. Prüfstandard, Ansprechpartner und Qualitätsversprechen sind gruppenweit identisch.",
+    a: "Jede Gesellschaft bedient einen eigenen Einstiegspunkt in den Vermögensaufbau mit Immobilien: vom Kauf einer eigenen Kapitalanlage-Wohnung über die genossenschaftliche Beteiligung bis zum digitalen Einstieg. Prüfstandard, Ansprechpartner und Qualitätsversprechen sind gruppenweit identisch.",
   },
   {
     q: "Wie finde ich den richtigen Einstieg für mich?",
@@ -155,7 +155,7 @@ export const faq = [
   },
   {
     q: "Ist das Erstgespräch wirklich kostenlos?",
-    a: "Ja. Das Erstgespräch ist unverbindlich und kostenfrei — Sie entscheiden danach, ob und mit welcher Gesellschaft Sie weitermachen möchten.",
+    a: "Ja. Das Erstgespräch ist unverbindlich und kostenfrei. Sie entscheiden danach, ob und mit welcher Gesellschaft Sie weitermachen möchten.",
   },
   {
     q: "Was beinhaltet die Mietgarantie?",

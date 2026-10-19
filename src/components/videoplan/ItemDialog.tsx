@@ -154,7 +154,7 @@ export function ItemDialog({
         <fieldset disabled={readOnly} className="flex min-w-0 flex-col gap-5 px-5 py-5 disabled:[&_input]:bg-mist/60 disabled:[&_select]:bg-mist/60 disabled:[&_textarea]:bg-mist/60 sm:px-6">
           <div>
             <label className={labelCls} htmlFor="vp-title">Titel</label>
-            <input id="vp-title" className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Shoot Bergedorf – Außenaufnahmen" autoFocus />
+            <input id="vp-title" className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Shoot Bergedorf: Außenaufnahmen" autoFocus />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -255,7 +255,7 @@ export function ItemDialog({
         <div className="flex flex-col gap-3 border-t border-navy/10 bg-mist/40 px-5 py-4 sm:px-6">
           {readOnly && (
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[12.5px] text-muted">🔒 Nur Ansicht — zum Bearbeiten oben auf der Seite das Team-Passwort eingeben.</p>
+              <p className="text-[12.5px] text-muted">🔒 Nur Ansicht. Zum Bearbeiten oben auf der Seite das Team-Passwort eingeben.</p>
               <button type="button" onClick={onClose} className="rounded-md bg-navy px-4 py-2 text-[11.5px] font-bold uppercase tracking-[0.06em] text-white">
                 Schließen
               </button>

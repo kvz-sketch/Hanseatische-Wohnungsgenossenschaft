@@ -109,7 +109,7 @@ const tiles: Tile[] = [
     id: "brandbook",
     title: "Markenbuch",
     description:
-      "Logo, Schutzraum, Farbsystem, Typografie und alle Submarken der Gruppe — inklusive downloadbarer Logo-Dateien.",
+      "Logo, Schutzraum, Farbsystem, Typografie und alle Submarken der Gruppe, inklusive downloadbarer Logo-Dateien.",
     to: "/dashboard/brandbook",
     status: "live",
     icon: IconBook,
@@ -125,7 +125,7 @@ const tiles: Tile[] = [
   {
     id: "videoplan",
     title: "Videoplan & Freigaben",
-    description: "Shoot-Kalender Okt–Dez 2026 mit Briefings, Schnitt-Status und Creative-Freigaben mit Feedback.",
+    description: "Shoot-Kalender Oktober bis Dezember 2026 mit Briefings, Schnitt-Status und Creative-Freigaben mit Feedback.",
     to: "/dashboard/videoplan",
     status: "live",
     icon: IconCalendar,
@@ -161,7 +161,7 @@ const tiles: Tile[] = [
   {
     id: "contacts",
     title: "Ansprechpartner",
-    description: "Wer verantwortet welche Marke — Marketing-Kontakte je Gesellschaft der Gruppe.",
+    description: "Wer verantwortet welche Marke? Marketing-Kontakte je Gesellschaft der Gruppe.",
     status: "soon",
     icon: IconUsers,
   },
@@ -258,7 +258,7 @@ export function MarketingDashboard() {
             Marketing Dashboard
           </h1>
           <p className="mt-4 max-w-[560px] text-[15px] leading-relaxed text-fog">
-            Die zentrale Anlaufstelle für Markenmaterial, Vorlagen und Ressourcen der Gruppe —
+            Die zentrale Anlaufstelle für Markenmaterial, Vorlagen und Ressourcen der Gruppe,
             damit jede Marke der GIG konsistent, präzise und in gleicher Qualität auftritt.
           </p>
         </div>
@@ -276,7 +276,7 @@ export function MarketingDashboard() {
 
       <footer className="border-t border-navy/8 px-5 py-8 sm:px-8 lg:px-11">
         <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-3 text-[11.5px] text-muted sm:flex-row sm:items-center">
-          <span>Markenbuch · Ausgabe 01 · 2026 — Gerlach Immobilien Gruppe</span>
+          <span>Markenbuch · Ausgabe 01 · 2026 · Gerlach Immobilien Gruppe</span>
           <Link to="/dashboard/brandbook" className="font-bold uppercase tracking-[0.08em] text-navy hover:text-koralle">
             Zum Markenbuch →
           </Link>

@@ -20,7 +20,7 @@ export function SectionHeading({
           dark ? "text-gold" : "text-gold-deep"
         }`}
       >
-        {n} — {kicker}
+        {n} · {kicker}
       </span>
       <h2
         className={`font-serif-display mt-3 text-[28px] leading-tight sm:text-[36px] ${

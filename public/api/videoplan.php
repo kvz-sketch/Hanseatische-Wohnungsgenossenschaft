@@ -309,7 +309,7 @@ function requireEditor(): void
     $st = $pdo->prepare('SELECT COUNT(*) FROM auth_failures WHERE ip_hash = ?');
     $st->execute([ipHash()]);
     if ((int) $st->fetchColumn() >= MAX_FAILED_UNLOCKS) {
-        fail(429, 'Zu viele falsche Passwörter — bitte in 15 Minuten erneut versuchen.');
+        fail(429, 'Zu viele falsche Passwörter. Bitte in 15 Minuten erneut versuchen.');
     }
     $given = (string) ($_SERVER['HTTP_X_EDIT_PASSWORD'] ?? '');
     if ($given === '' || !password_verify($given, $hash)) {
@@ -328,7 +328,7 @@ function rateLimit(): void
     $st = $pdo->prepare('SELECT COUNT(*) FROM writes WHERE ip_hash = ?');
     $st->execute([$ip]);
     if ((int) $st->fetchColumn() >= MAX_WRITES_PER_MINUTE) {
-        fail(429, 'Zu viele Änderungen in kurzer Zeit — bitte kurz warten.');
+        fail(429, 'Zu viele Änderungen in kurzer Zeit. Bitte kurz warten.');
     }
     $pdo->prepare('INSERT INTO writes (ip_hash, at) VALUES (?, ?)')->execute([$ip, time()]);
 }
@@ -414,5 +414,5 @@ try {
     }
 } catch (Throwable $e) {
     error_log('videoplan: ' . $e->getMessage());
-    fail(500, 'Serverfehler — bitte später erneut versuchen.');
+    fail(500, 'Serverfehler. Bitte später erneut versuchen.');
 }

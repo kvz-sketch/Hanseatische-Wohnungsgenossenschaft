@@ -1,7 +1,7 @@
 {
   "asOf": "18. Oktober 2026",
   "updatedAt": "2026-10-18",
-  "note": "Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto GIGxHansea (Stand 18. Oktober 2026). Lead-Zahlen aus Perspective — echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt — ersetzen die von Meta gemeldeten Website-Leads. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.",
+  "note": "Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto GIGxHansea (Stand 18. Oktober 2026). Lead-Zahlen aus Perspective ersetzen die von Meta gemeldeten Website-Leads: echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.",
   "metaAdAccount": {
     "id": "1606528074401845",
     "name": "GIGxHansea"
@@ -21,7 +21,7 @@
       "spend": 2934.27,
       "reach": 28261,
       "impressions": 70395,
-      "delivery": "29. Sep 2026 – laufend",
+      "delivery": "seit 29. Sep 2026",
       "recommendations": 2,
       "metaResults": 20,
       "metaCostPerResult": 146.71,
@@ -177,7 +177,7 @@
           ]
         }
       ],
-      "note": "Meta meldet 20 Website-Leads bei 146,71 € je Lead — Perspective bestätigt 26 echte Kontakte (280926_Bergedorf_Ad3: 12, 280926_Bergedorf_Ad4: 8, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 4, 280926_Bergedorf_Ad9: 1). 4 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 18. Oktober 2026.",
+      "note": "Meta meldet 20 Website-Leads bei 146,71 € je Lead. Perspective bestätigt 26 echte Kontakte (280926_Bergedorf_Ad3: 12, 280926_Bergedorf_Ad4: 8, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 4, 280926_Bergedorf_Ad9: 1). 4 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 18. Oktober 2026.",
       "incomplete": false,
       "leadStatusSource": "HubSpot, 18.10.2026 · 25 Deals"
     },
@@ -194,7 +194,7 @@
       "spend": 2001.87,
       "reach": 20408,
       "impressions": 45639,
-      "delivery": "5. Okt 2026 – laufend",
+      "delivery": "seit 5. Okt 2026",
       "recommendations": 0,
       "metaResults": 9,
       "metaCostPerResult": 222.43,
@@ -203,7 +203,7 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "perspectiveFunnelId": "6a7ee16e1f79146cdd766f9c",
       "incomplete": false,
-      "note": "Meta meldet 9 Website-Leads bei 222,43 € je Lead — Perspective bestätigt 16 echte Kontakte (051026_HSWG_FullService_4: 1, 051026_HSWG_FullService_5: 7, 051026_HSWG_FullService_6: 1, 081026_Kai & Tanem Video 3: 7). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 18. Oktober 2026.",
+      "note": "Meta meldet 9 Website-Leads bei 222,43 € je Lead. Perspective bestätigt 16 echte Kontakte (051026_HSWG_FullService_4: 1, 051026_HSWG_FullService_5: 7, 051026_HSWG_FullService_6: 1, 081026_Kai & Tanem Video 3: 7). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 18. Oktober 2026.",
       "ads": [
         {
           "id": "ad1",
@@ -379,16 +379,16 @@
       "spend": 1628.58,
       "reach": 21889,
       "impressions": 28798,
-      "delivery": "9. Okt 2026 – laufend",
+      "delivery": "seit 9. Okt 2026",
       "recommendations": 0,
       "metaResults": 56,
       "metaCostPerResult": 29.08,
       "perspectiveLeads": 0,
-      "perspectiveFunnel": "Full-Service-Modell – Meta Lead-Formular (kein Perspective-Funnel)",
+      "perspectiveFunnel": "Full-Service-Modell: Meta Lead-Formular (kein Perspective-Funnel)",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel — Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 18.10.2026, 57 Deals aus „Meta forms (051026_HSWG_Full Service)“): 29 Neue Leads, 12 Nicht erreicht (1×/2×/3×: 1/3/8), 2 Wiedervorlage, 14 Disqualifiziert — noch kein Termin oder Abschluss.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 18.10.2026, 57 Deals aus „Meta forms (051026_HSWG_Full Service)“): 29 Neue Leads, 12 Nicht erreicht (1×/2×/3×: 1/3/8), 2 Wiedervorlage, 14 Disqualifiziert, noch kein Termin oder Abschluss.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -537,12 +537,12 @@
       "spend": 396.92,
       "reach": 7679,
       "impressions": 11672,
-      "delivery": "25. Sep 2026 – pausiert",
+      "delivery": "seit 25. Sep 2026, pausiert",
       "recommendations": 5,
       "metaResults": 2,
       "metaCostPerResult": 198.46,
       "perspectiveLeads": 2,
-      "perspectiveFunnel": "Hansea Invest – Investor Landing Page",
+      "perspectiveFunnel": "Hansea Invest: Investor Landing Page",
       "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
       "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
       "leadStatus": {
@@ -593,7 +593,7 @@
           "impressions": 376
         }
       ],
-      "note": "Meta meldet 2 Website-Leads bei 198,46 € je Lead — Perspective bestätigt 2 echte Kontakte (250926_Hansea Invest_Videos: 2). Stand 18. Oktober 2026.",
+      "note": "Meta meldet 2 Website-Leads bei 198,46 € je Lead. Perspective bestätigt 2 echte Kontakte (250926_Hansea Invest_Videos: 2). Stand 18. Oktober 2026.",
       "incomplete": false
     },
     {
@@ -609,12 +609,12 @@
       "spend": 2324.03,
       "reach": 43455,
       "impressions": 297604,
-      "delivery": "24. Sep 2026 – pausiert",
+      "delivery": "seit 24. Sep 2026, pausiert",
       "recommendations": 6,
       "metaResults": 10,
       "metaCostPerResult": 232.4,
       "perspectiveLeads": 12,
-      "perspectiveFunnel": "Hansea Invest – Investor Landing Page",
+      "perspectiveFunnel": "Hansea Invest: Investor Landing Page",
       "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
       "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
       "leadStatus": {
@@ -622,7 +622,7 @@
         "nichtErreicht": 2,
         "disqualifiziert": 4
       },
-      "note": "Meta meldet 10 Website-Leads bei 232,40 € je Lead — Perspective bestätigt 12 echte Kontakte (02-HI_Immobilienbeteiligung: 11, 06-HI_Selbstvermieter: 1). Stand 18. Oktober 2026.",
+      "note": "Meta meldet 10 Website-Leads bei 232,40 € je Lead. Perspective bestätigt 12 echte Kontakte (02-HI_Immobilienbeteiligung: 11, 06-HI_Selbstvermieter: 1). Stand 18. Oktober 2026.",
       "ads": [
         {
           "id": "ad01",
@@ -758,16 +758,16 @@
       "spend": 796.72,
       "reach": 27005,
       "impressions": 151863,
-      "delivery": "21. Sep 2026 – pausiert",
+      "delivery": "seit 21. Sep 2026, pausiert",
       "recommendations": 2,
       "metaResults": 0,
       "metaCostPerResult": null,
       "perspectiveLeads": 2,
-      "perspectiveFunnel": "Hansea Invest – Investor Landing Page",
+      "perspectiveFunnel": "Hansea Invest: Investor Landing Page",
       "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
       "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
       "incomplete": false,
-      "note": "Meta meldet keine Website-Leads — Perspective bestätigt 2 echte Kontakte (02-HI_Immobilienbeteiligung_qualified Lead: 2). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 18. Oktober 2026.",
+      "note": "Meta meldet keine Website-Leads. Perspective bestätigt 2 echte Kontakte (02-HI_Immobilienbeteiligung_qualified Lead: 2). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 18. Oktober 2026.",
       "ads": [
         {
           "id": "q-ad01",
@@ -889,12 +889,12 @@
       "spend": 2710.36,
       "reach": 19081,
       "impressions": 45947,
-      "delivery": "24. Sep 2026 – pausiert",
+      "delivery": "seit 24. Sep 2026, pausiert",
       "recommendations": 5,
       "metaResults": 11,
       "metaCostPerResult": 246.4,
       "perspectiveLeads": 15,
-      "perspectiveFunnel": "Hansea Invest – Projekt Hamburg-Hohenfelde (neu)",
+      "perspectiveFunnel": "Hansea Invest: Projekt Hamburg-Hohenfelde (neu)",
       "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/hohenfeld/",
       "perspectiveFunnelId": "6ab4ccdf135b22ad2053f63a",
       "leadStatus": {
@@ -947,7 +947,7 @@
           ]
         }
       ],
-      "note": "Meta meldet 11 Website-Leads bei 246,40 € je Lead — Perspective bestätigt 15 echte Kontakte (240926_HI_Hohenfelde_Ad1: 13, 240926_HI_Hohenfelde_Ad2: 2). Stand 18. Oktober 2026.",
+      "note": "Meta meldet 11 Website-Leads bei 246,40 € je Lead. Perspective bestätigt 15 echte Kontakte (240926_HI_Hohenfelde_Ad1: 13, 240926_HI_Hohenfelde_Ad2: 2). Stand 18. Oktober 2026.",
       "incomplete": false
     }
   ]

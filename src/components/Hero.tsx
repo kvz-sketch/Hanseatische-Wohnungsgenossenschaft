@@ -49,7 +49,7 @@ export function Hero() {
           <Reveal delay={240}>
             <p className="max-w-[440px] text-[15.5px] leading-relaxed text-fog">
               Die Gerlach Immobilien Gruppe bündelt sechs spezialisierte Marken unter einem
-              Qualitätsstandard — von der eigenen Kapitalanlage-Wohnung über die
+              Qualitätsstandard: von der eigenen Kapitalanlage-Wohnung über die
               genossenschaftliche Beteiligung bis zum digitalen Einstieg. Wir decken die gesamte
               Wertschöpfungskette ab: von der Auswahl bis zur Vermarktung Ihrer Immobilie.
             </p>

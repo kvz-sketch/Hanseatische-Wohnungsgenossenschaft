@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap");
 @import "tailwindcss";
 
 @theme {
-  /* Single-typeface editorial system (Montserrat), GIG palette */
-  --font-serif: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  /* Single-typeface system (Inter), GIG palette */
+  --font-serif: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --color-navy: #141a46;
   --color-navy-light: #1e2864;

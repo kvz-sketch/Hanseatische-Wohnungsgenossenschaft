@@ -31,7 +31,7 @@ export function BrandArchitecture() {
             {brands.map((b, i) => (
               <Reveal key={b.name} delay={400 + i * 45}>
                 <div
-                  className={`subheading min-w-0 rounded-[4px] border-t-2 bg-white px-2 py-3 text-center text-[9.5px] uppercase leading-snug tracking-[0.04em] text-navy break-words hyphens-auto transition-transform duration-200 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(20,26,70,0.12)] ${accentBorder[b.accent]}`}
+                  className={`subheading min-w-0 rounded-[4px] border-t-2 bg-white px-2 py-3 text-center text-[9.5px] uppercase leading-snug tracking-[0.04em] text-navy break-words transition-transform duration-200 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(20,26,70,0.12)] ${accentBorder[b.accent]}`}
                 >
                   {b.name.replace(/\.de$/, "")}
                 </div>

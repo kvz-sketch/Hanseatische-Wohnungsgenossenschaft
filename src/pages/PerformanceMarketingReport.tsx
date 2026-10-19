@@ -139,7 +139,7 @@ export function PerformanceMarketingReport() {
             <div className="rounded-md border border-navy/8 bg-white p-6">
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Ausgegeben gesamt</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
-                {isFiltered ? "—" : fmtEur(totalSpend)}
+                {isFiltered ? "n. v." : fmtEur(totalSpend)}
               </div>
               <div className="mt-1.5 text-[11px] text-muted">
                 {isFiltered ? "nur als Gesamtwert verfügbar" : `über ${campaigns.length} Kampagnen`}
@@ -155,14 +155,14 @@ export function PerformanceMarketingReport() {
             <div className="rounded-md border border-navy/8 bg-white p-6">
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">CPL</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
-                {blendedCplPerspective != null ? fmtEur(blendedCplPerspective) : "—"}
+                {blendedCplPerspective != null ? fmtEur(blendedCplPerspective) : "n. v."}
               </div>
               {isFiltered && <div className="mt-1.5 text-[11px] text-muted">nur als Gesamtwert verfügbar</div>}
             </div>
             <div className="rounded-md border border-navy/8 bg-white p-6">
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-fog">Disqualifizierungsrate</span>
               <div className="mt-3 font-serif-display text-[28px] text-navy [font-variant-numeric:tabular-nums]">
-                {crmTotal > 0 ? `${Math.round((crmDisq / crmTotal) * 100)} %` : "—"}
+                {crmTotal > 0 ? `${Math.round((crmDisq / crmTotal) * 100)} %` : "n. v."}
               </div>
               <div className="mt-1.5 text-[11px] text-muted">
                 {crmTotal > 0
@@ -198,7 +198,7 @@ export function PerformanceMarketingReport() {
                       </span>
                     </div>
                     <span className="text-[11px] text-muted [font-variant-numeric:tabular-nums]">
-                      {isFiltered ? "—" : fmtEur(funnelSpend)} · {fmtNum(funnelLeads)} Leads
+                      {isFiltered ? "n. v." : fmtEur(funnelSpend)} · {fmtNum(funnelLeads)} Leads
                     </span>
                   </div>
                   <div className="flex flex-col gap-4">
@@ -215,7 +215,7 @@ export function PerformanceMarketingReport() {
 
       <footer className="border-t border-navy/8 px-5 py-8 sm:px-8 lg:px-11">
         <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-3 text-[11.5px] text-muted sm:flex-row sm:items-center">
-          <span>Performance Marketing Report · Stand {asOf} — Gerlach Immobilien Gruppe</span>
+          <span>Performance Marketing Report · Stand {asOf} · Gerlach Immobilien Gruppe</span>
           <Link to="/dashboard" className="font-bold uppercase tracking-[0.08em] text-navy hover:text-koralle">
             ← Zurück zum Dashboard
           </Link>

@@ -149,7 +149,7 @@ function Thumb({ link }: { link: DriveLink }) {
         <div className="flex h-full flex-col items-center justify-center gap-1.5 px-3 text-center">
           <span className="text-[26px]" aria-hidden="true">{folder ? "📁" : "🎬"}</span>
           <span className="text-[10.5px] font-semibold text-muted">
-            {folder ? "Drive-Ordner öffnen" : "Keine Vorschau — Datei in Drive per Link freigeben"}
+            {folder ? "Drive-Ordner öffnen" : "Keine Vorschau. Datei in Drive per Link freigeben"}
           </span>
         </div>
       )}
@@ -313,7 +313,7 @@ function UnlockBar({
   if (canEdit) {
     return (
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-[#1f8a5a]/25 bg-[#1f8a5a]/[0.07] px-4 py-3">
-        <span className="text-[12.5px] font-semibold text-[#1f6a46]">🔓 Bearbeitungsmodus — Termine, Briefings und Status können geändert werden.</span>
+        <span className="text-[12.5px] font-semibold text-[#1f6a46]">🔓 Bearbeitungsmodus: Termine, Briefings und Status können geändert werden.</span>
         <button type="button" onClick={onLock} className="text-[11px] font-bold uppercase tracking-[0.06em] text-muted hover:text-navy">
           Sperren
         </button>
@@ -413,7 +413,7 @@ export function VideoPlan() {
             <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold">Gerlach Immobilien Gruppe · Intern</span>
             <h1 className="font-serif-display mt-3 text-[30px] text-white sm:text-[38px]">Videoplan & Freigaben</h1>
             <p className="mt-2 max-w-[560px] text-[13.5px] leading-relaxed text-fog">
-              Shoots planen, Briefings pflegen, Schnitte verfolgen und Creatives freigeben — Oktober bis Dezember 2026.
+              Shoots planen, Briefings pflegen, Schnitte verfolgen und Creatives freigeben, Oktober bis Dezember 2026.
             </p>
           </div>
           <button
@@ -445,7 +445,7 @@ export function VideoPlan() {
             </div>
           )}
 
-          <Section title="Kalender" hint="Klick auf einen Tag oder eine Uhrzeit blockt einen Termin — Klick auf einen Eintrag öffnet das Briefing." count={items.filter((i) => i.start).length}>
+          <Section title="Kalender" hint="Ein Klick auf einen Tag oder eine Uhrzeit blockt einen Termin. Ein Klick auf einen Eintrag öffnet das Briefing." count={items.filter((i) => i.start).length}>
             <Calendar items={items} onOpen={open} onCreate={createAt} />
           </Section>
 
@@ -540,7 +540,7 @@ export function VideoPlan() {
 
       <footer className="border-t border-navy/8 px-5 py-8 sm:px-8 lg:px-11">
         <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-3 text-[11.5px] text-muted sm:flex-row sm:items-center">
-          <span>Videoplan & Freigaben — Gerlach Immobilien Gruppe</span>
+          <span>Videoplan & Freigaben · Gerlach Immobilien Gruppe</span>
           <Link to="/dashboard" className="font-bold uppercase tracking-[0.08em] text-navy hover:text-koralle">
             ← Zurück zum Dashboard
           </Link>

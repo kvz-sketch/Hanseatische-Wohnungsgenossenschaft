@@ -99,27 +99,27 @@ export function AdCard({
 
       <div className="mt-2.5 grid grid-cols-2 gap-x-2 gap-y-1.5 border-t border-line pt-2.5 text-[11px] [font-variant-numeric:tabular-nums]">
         <div>
-          <div className="font-bold text-navy">{isFiltered ? "—" : ad.metaResults ?? "—"}</div>
+          <div className="font-bold text-navy">{isFiltered ? "n. v." : ad.metaResults ?? "n. v."}</div>
           <div className="text-[10px] text-muted">Meta-Ergebnisse</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{isFiltered ? (periodLeads ?? 0) : ad.perspectiveLeads ?? "—"}</div>
+          <div className="font-bold text-navy">{isFiltered ? (periodLeads ?? 0) : ad.perspectiveLeads ?? "n. v."}</div>
           <div className="text-[10px] text-muted">Perspective-Leads</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{isFiltered ? "—" : fmtEur(ad.spend)}</div>
+          <div className="font-bold text-navy">{isFiltered ? "n. v." : fmtEur(ad.spend)}</div>
           <div className="text-[10px] text-muted">Ausgegeben</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{isFiltered ? "—" : ad.metaCostPerResult != null ? fmtEur(ad.metaCostPerResult) : "—"}</div>
+          <div className="font-bold text-navy">{isFiltered ? "n. v." : ad.metaCostPerResult != null ? fmtEur(ad.metaCostPerResult) : "n. v."}</div>
           <div className="text-[10px] text-muted">Pro Ergebnis</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{isFiltered ? "—" : fmtNum(ad.reach)}</div>
+          <div className="font-bold text-navy">{isFiltered ? "n. v." : fmtNum(ad.reach)}</div>
           <div className="text-[10px] text-muted">Reichweite</div>
         </div>
         <div>
-          <div className="font-bold text-navy">{isFiltered ? "—" : fmtNum(ad.impressions)}</div>
+          <div className="font-bold text-navy">{isFiltered ? "n. v." : fmtNum(ad.impressions)}</div>
           <div className="text-[10px] text-muted">Impressionen</div>
         </div>
       </div>

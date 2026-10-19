@@ -55,7 +55,7 @@ export function Footer() {
             <span className="font-serif-display text-[17px] text-white">GIG</span>
           </div>
           <p className="mt-4 max-w-[220px] text-[12px] leading-relaxed text-fog/80">
-            Gerlach Immobilien Gruppe — nachhaltige Immobilienentwicklung in Norddeutschland.
+            Gerlach Immobilien Gruppe. Nachhaltige Immobilienentwicklung in Norddeutschland.
           </p>
         </div>
 

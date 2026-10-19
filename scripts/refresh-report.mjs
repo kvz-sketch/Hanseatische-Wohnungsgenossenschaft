@@ -175,7 +175,7 @@ for (const c of report.campaigns) {
   const budget = num(entity.dailyBudget) ?? num(parentCampaign?.dailyBudget);
   if (budget !== null) c.dailyBudget = budget;
   const start = entity.startTime ?? parentCampaign?.startTime;
-  if (start) c.delivery = `${shortDate(start.slice(0, 10))} – ${c.status === "active" ? "laufend" : "pausiert"}`;
+  if (start) c.delivery = `seit ${shortDate(start.slice(0, 10))}${c.status === "active" ? "" : ", pausiert"}`;
 
   // Ads: everything Meta has under this entity with spend, plus anything already listed.
   const entityAds = ads.filter((a) => (c.meta.level === "adset" ? a.parentId === c.meta.id : a.campaignId === c.meta.id));
@@ -239,7 +239,7 @@ for (const c of report.campaigns) {
     ? `Meta meldet ${c.metaResults} Website-Leads${c.metaCostPerResult ? ` bei ${eur(c.metaCostPerResult)} je Lead` : ""}`
     : "Meta meldet keine Website-Leads";
   c.note =
-    `${metaPart} — Perspective bestätigt ${kept.length} echte Kontakte${adList ? ` (${adList})` : ""}.` +
+    `${metaPart}. Perspective bestätigt ${kept.length} echte Kontakte${adList ? ` (${adList})` : ""}.` +
     (unattributed.length ? ` ${unattributed.length} Kontakt(e) ohne Anzeigen-Zuordnung, in der Kampagnensumme enthalten.` : "") +
     (dropped ? ` ${dropped} doppelte Anfrage(n) derselben Person nicht mitgezählt.` : "") +
     ` Stand ${longDate(today)}.`;
@@ -257,7 +257,7 @@ for (const [funnel, list] of Object.entries(extra)) {
   const { kept } = dedupe(list);
   report.funnelExtraLeads[funnel] = {
     dates: kept.map((k) => k.date).sort(),
-    note: `${kept.length} weitere CRM-Kontakt(e) in Perspective gehören zu keiner Kampagne dieses Reports (Meta-Kampagne: ${[...new Set(kept.map((k) => k.campaignId ?? "unbekannt"))].join(", ")}) — im Funnel-Gesamtwert enthalten.`,
+    note: `${kept.length} weitere CRM-Kontakt(e) in Perspective gehören zu keiner Kampagne dieses Reports (Meta-Kampagne: ${[...new Set(kept.map((k) => k.campaignId ?? "unbekannt"))].join(", ")}), im Funnel-Gesamtwert enthalten.`,
   };
   warnings.push(`${kept.length} contact(s) in "${funnel}" match no report campaign — shown as funnel extra. Map their Meta campaign if it belongs in the report.`);
 }
@@ -271,7 +271,7 @@ for (const e of [...campaignsById.values(), ...adsetsById.values()]) {
 
 report.asOf = longDate(today);
 report.updatedAt = today;
-report.note = `Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto ${report.metaAdAccount?.name ?? ""} (Stand ${longDate(today)}). Lead-Zahlen aus Perspective — echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt — ersetzen die von Meta gemeldeten Website-Leads. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.`;
+report.note = `Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto ${report.metaAdAccount?.name ?? ""} (Stand ${longDate(today)}). Lead-Zahlen aus Perspective ersetzen die von Meta gemeldeten Website-Leads: echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.`;
 
 // ---------- output ----------
 

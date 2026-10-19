@@ -38,25 +38,17 @@ function TopNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-navy/8 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-3.5 sm:px-8 lg:px-11">
-        <Link to="/dashboard/brandbook" className="flex items-center gap-2.5">
+        <Link to="/dashboard/brandbook" className="flex shrink-0 items-center gap-2.5">
           <RoofIcon color="#141A46" className="h-6 w-9" />
-          <span className="subheading text-[13px] leading-none text-navy">
+          <span className="subheading whitespace-nowrap text-[13px] leading-none text-navy">
             Markenbuch <span className="text-fog">· GIG</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-5 overflow-x-auto text-[10.5px] font-bold uppercase tracking-[0.06em] text-muted xl:flex">
-          {sections.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className="whitespace-nowrap transition-colors hover:text-koralle">
-              {s.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-4">
           <Link
             to="/dashboard"
-            className="hidden text-[11px] font-bold uppercase tracking-[0.08em] text-muted transition-colors hover:text-koralle sm:block"
+            className="hidden whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.08em] text-muted transition-colors hover:text-koralle sm:block"
           >
             ← Dashboard
           </Link>
@@ -69,6 +61,16 @@ function TopNav() {
           </button>
         </div>
       </div>
+
+      <nav className="hidden border-t border-navy/8 xl:block">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-1 px-5 py-2.5 text-[10.5px] font-bold uppercase tracking-[0.04em] text-muted">
+          {sections.map((s) => (
+            <a key={s.id} href={`#${s.id}`} className="whitespace-nowrap transition-colors hover:text-koralle">
+              {s.label}
+            </a>
+          ))}
+        </div>
+      </nav>
 
       {open && (
         <div className="border-t border-navy/8 bg-white px-5 py-4 xl:hidden">
@@ -109,14 +111,14 @@ function Intro() {
     <section className="px-5 py-14 sm:px-8 md:py-18 lg:px-11">
       <div className="mx-auto max-w-[720px] text-center">
         <span className="subheading text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">
-          00 — Über dieses Buch
+          00 · Über dieses Buch
         </span>
         <h1 className="font-serif-display mt-3 text-[26px] text-navy sm:text-[32px]">
           Eine Dachmarke, <em className="text-koralle italic">ein Auftritt.</em>
         </h1>
         <p className="mt-5 text-[14.5px] leading-relaxed text-muted">
           Die Gerlach Immobilien Gruppe (GIG) vereint mehrere Marken unter einem gemeinsamen
-          Zeichen. Dieses Markenbuch stellt sicher, dass jede Marke — ob Dachmarke oder Submarke —
+          Zeichen. Dieses Markenbuch stellt sicher, dass jede Marke, ob Dachmarke oder Submarke,
           wiedererkennbar, präzise und in gleicher Qualität auftritt. Der Schwerpunkt liegt auf
           Konsistenz: identische Aufbaulogik, definierter Schutzraum und ein gemeinsames
           Farbsystem für alle Marken der Gruppe.
@@ -128,14 +130,14 @@ function Intro() {
 
 function Architektur() {
   return (
-    <section id="architektur" className="scroll-mt-20 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="architektur" className="scroll-mt-20 xl:scroll-mt-28 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="01"
           kicker="Markenarchitektur"
           title="Eine Dachmarke,"
           italic="viele Submarken."
-          intro="Die GIG ist die Dachmarke der Gruppe. Alle Submarken folgen derselben Aufbaulogik — Dachsymbol, Wortmarke und der verbindende Zusatz „Gerlach Immobilien Gruppe“ — und teilen sich ein gemeinsames Farbsystem."
+          intro="Die GIG ist die Dachmarke der Gruppe. Alle Submarken folgen derselben Aufbaulogik aus Dachsymbol, Wortmarke und dem verbindenden Zusatz „Gerlach Immobilien Gruppe“ und teilen sich ein gemeinsames Farbsystem."
         />
 
         <div className="mt-10 rounded-md border border-navy/8 bg-white p-6 sm:p-10">
@@ -166,7 +168,7 @@ function Architektur() {
 
 function LogoSection() {
   return (
-    <section id="logo" className="scroll-mt-20 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="logo" className="scroll-mt-20 xl:scroll-mt-28 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="02"
@@ -199,14 +201,14 @@ function LogoSection() {
 
 function Schutzraum() {
   return (
-    <section id="schutzraum" className="scroll-mt-20 bg-navy px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="schutzraum" className="scroll-mt-20 xl:scroll-mt-28 bg-navy px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="03"
           kicker="Schutzraum & Aufbau"
           title="Raum schafft"
           italic="Wertigkeit."
-          intro="Der Schutzraum ist der Mindestabstand, der das Logo von Text, Bildkanten und anderen Elementen freihält. Er wird aus dem Logo selbst abgeleitet und skaliert dadurch immer korrekt mit — für alle Marken der Gruppe gleich."
+          intro="Der Schutzraum ist der Mindestabstand, der das Logo von Text, Bildkanten und anderen Elementen freihält. Er wird aus dem Logo selbst abgeleitet und skaliert dadurch immer korrekt mit. Für alle Marken der Gruppe gilt derselbe Schutzraum."
           dark
         />
 
@@ -245,7 +247,7 @@ function Schutzraum() {
             </div>
             <p className="mt-6 text-[13px] leading-relaxed text-fog">
               Die Maßeinheit X entspricht der Höhe des Dachsymbols. Der Schutzraum von 1X gilt auf
-              allen vier Seiten und ist konsequent freizuhalten — auf jeder Anwendung, in jeder
+              allen vier Seiten und ist konsequent freizuhalten, auf jeder Anwendung, in jeder
               Größe.
             </p>
           </div>
@@ -265,7 +267,7 @@ function XDot() {
 
 function Mindestgroesse() {
   return (
-    <section id="mindestgroesse" className="scroll-mt-20 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="mindestgroesse" className="scroll-mt-20 xl:scroll-mt-28 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="04"
@@ -277,8 +279,8 @@ function Mindestgroesse() {
 
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {[
-            { label: "Print — Minimum 24 mm", value: "24 mm", sub: "Breite" },
-            { label: "Digital — Minimum 100 px", value: "100 px", sub: "Breite" },
+            { label: "Print · Minimum 24 mm", value: "24 mm", sub: "Breite" },
+            { label: "Digital · Minimum 100 px", value: "100 px", sub: "Breite" },
           ].map((item) => (
             <div key={item.label} className="rounded-md bg-mist p-8">
               <div className="flex items-center gap-5">
@@ -301,7 +303,7 @@ function Mindestgroesse() {
 
 function Farbvarianten() {
   return (
-    <section id="farbvarianten" className="scroll-mt-20 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="farbvarianten" className="scroll-mt-20 xl:scroll-mt-28 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="05"
@@ -343,7 +345,7 @@ function Farbvarianten() {
 
 function Fehlanwendungen() {
   return (
-    <section id="fehlanwendungen" className="scroll-mt-20 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="fehlanwendungen" className="scroll-mt-20 xl:scroll-mt-28 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="06"
@@ -365,7 +367,7 @@ function Fehlanwendungen() {
 
 function Submarken() {
   return (
-    <section id="submarken" className="scroll-mt-20 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="submarken" className="scroll-mt-20 xl:scroll-mt-28 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="07"
@@ -388,7 +390,7 @@ function Submarken() {
 function Kombinationslogos() {
   const trio = submarks.slice(0, 3);
   return (
-    <section id="kombinationslogos" className="scroll-mt-20 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="kombinationslogos" className="scroll-mt-20 xl:scroll-mt-28 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="08"
@@ -454,7 +456,7 @@ function Farbsystem() {
   const navyRamp = shadeRamp(masterPalette[0].hex, 8);
   const goldRamp = shadeRamp(masterPalette[1].hex, 8);
   return (
-    <section id="farbsystem" className="scroll-mt-20 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="farbsystem" className="scroll-mt-20 xl:scroll-mt-28 bg-mist px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="09"
@@ -475,7 +477,7 @@ function Farbsystem() {
         <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
           <div className="rounded-md bg-white p-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-fog">
-              Navy — Abstufungen
+              Navy · Abstufungen
             </span>
             <div className="mt-3 flex overflow-hidden rounded-[3px]">
               {navyRamp.map((hex) => (
@@ -492,7 +494,7 @@ function Farbsystem() {
           </div>
           <div className="rounded-md bg-white p-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-fog">
-              Gold — Abstufungen
+              Gold · Abstufungen
             </span>
             <div className="mt-3 flex overflow-hidden rounded-[3px]">
               {goldRamp.map((hex) => (
@@ -515,7 +517,7 @@ function Farbsystem() {
 
 function Typografie() {
   return (
-    <section id="typografie" className="scroll-mt-20 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
+    <section id="typografie" className="scroll-mt-20 xl:scroll-mt-28 px-5 py-16 sm:px-8 md:py-20 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           n="10"
@@ -563,7 +565,7 @@ function Typografie() {
             >
               Gerlach Immobilien Gruppe
             </div>
-            <p className="mt-1 text-[11px] text-muted">Namenszusatz — Versalien, gesperrt (0,2 em)</p>
+            <p className="mt-1 text-[11px] text-muted">Namenszusatz: Versalien, gesperrt (0,2 em)</p>
           </div>
         </div>
 
@@ -589,7 +591,7 @@ function BrandBookFooter() {
       <div className="mx-auto mt-5 h-px w-8 bg-gold" />
       <p className="subheading mt-5 text-[14px] text-gold">{claim}</p>
       <p className="mt-4 text-[11px] uppercase tracking-[0.14em] text-fog/60">
-        Markenbuch · Ausgabe 01 · 2026 — Gerlach Immobilien Gruppe
+        Markenbuch · Ausgabe 01 · 2026 · Gerlach Immobilien Gruppe
       </p>
       <Link
         to="/dashboard"
