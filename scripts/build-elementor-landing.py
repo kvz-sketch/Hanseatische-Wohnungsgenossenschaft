@@ -892,8 +892,8 @@ def sponsoring():
                      "tragen. Deshalb unterstützen wir mit Überzeugung den HSV Handball Hamburg, direkt vor unserer Haustür.</p>", color=ON_NAVY,
                      size=16),
             ], width=38, gap_px=16),
-            container([gallery], width=58),
-        ], row=True, align="center", justify="space-between", gap_px=48),
+            container([gallery], width=58, css="hs-spons-media"),
+        ], row=True, align="stretch", justify="space-between", gap_px=48),
     ], bg=NAVY, anchor="sponsoring", gap_px=8)
 
 

@@ -248,7 +248,18 @@ html.hs-motion .hs-chart-widget.hs-in .hs-seg { transform: none; }
 /* Sponsoring: hero image and swipeable gallery on navy */
 .hs-spons-hero img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; display: block; }
 @media (max-width: 767px) { .hs-spons-hero img { aspect-ratio: 4 / 3; } }
-.hs-gallery .swiper-slide-image { aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 15%; width: 100%; } /* portrait photos keep faces in view */
+.hs-gallery .swiper-slide-image { aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 15%; width: 100%; } /* portrait photos keep faces in view */
+/* Desktop: the photo is exactly as tall as the text beside it */
+@media (min-width: 768px) {
+	.hs-spons-media { position: relative; min-height: 320px; }
+	.hs-spons-media > .elementor-widget { position: absolute !important; inset: 0; } /* the text sets the height, the photo fills it */
+	.hs-spons-media > .elementor-widget, .hs-spons-media .elementor-widget-container,
+	.hs-spons-media .elementor-image-carousel-wrapper, .hs-spons-media .swiper-wrapper,
+	.hs-spons-media .swiper-slide, .hs-spons-media .swiper-slide-inner, .hs-spons-media .swiper-slide a { height: 100% !important; width: 100%; }
+	.hs-spons-media .swiper-slide-image { height: 100%; aspect-ratio: auto; }
+	.hs-spons-media .swiper, .hs-spons-media .elementor-image-carousel-wrapper { padding-bottom: 0 !important; height: 100% !important; }
+	.hs-spons-media .swiper-pagination { position: absolute !important; bottom: 16px !important; margin: 0; }
+}
 .hs-gallery .elementor-swiper-button {
 	width: 48px; height: 48px; border-radius: 50%; background: rgba(20, 26, 70, 0.72);
 	display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px);
