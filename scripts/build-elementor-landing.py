@@ -893,9 +893,9 @@ def sponsoring():
                 text("<p>Teamgeist, Fairness und Leistung auf höchstem Niveau: Werte, die auch unsere Genossenschaft "
                      "tragen. Deshalb unterstützen wir mit Überzeugung den HSV Handball Hamburg, direkt vor unserer Haustür.</p>", color=ON_NAVY,
                      size=16),
-            ], width=38, gap_px=16),
-            container([gallery], width=58, css="hs-spons-media"),
-        ], row=True, align="stretch", justify="space-between", gap_px=48),
+            ], width=50, gap_px=16),
+            container([gallery], width=42, css="hs-spons-media"),
+        ], row=True, align="center", justify="space-between", gap_px=48),
     ], bg=NAVY, anchor="sponsoring", gap_px=8)
 
 
