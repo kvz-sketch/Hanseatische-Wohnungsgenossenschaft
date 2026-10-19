@@ -177,7 +177,7 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-chart__row { position: relative; margin-bottom: 26px; }
 .hs-chart__row:last-child { margin-bottom: 8px; }
 .hs-chart__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 14px; }
-.hs-chart__head strong { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400; font-size: 26px; color: #fff; line-height: 1; }
+.hs-chart__head strong { font-family: "Inter", sans-serif; font-weight: 600; font-size: 20px; color: #fff; line-height: 1; font-variant-numeric: tabular-nums; }
 .hs-chart__row:last-child .hs-chart__head strong { color: #e6c978; }
 .hs-chart__bar { display: flex; gap: 2px; height: 34px; }
 .hs-seg { position: relative; display: block; height: 100%; border-radius: 4px; outline: none; transform-origin: left center; }
