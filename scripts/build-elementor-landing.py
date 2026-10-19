@@ -863,7 +863,7 @@ def faq():
 
 
 # One image for now; more photos are added to the same carousel in Elementor later
-SPONSOR_GALLERY = ["sponsoring-handball-hero.jpg"]
+SPONSOR_GALLERY = ["sponsoring-handball-trikot.jpg"]
 
 
 def sponsoring():

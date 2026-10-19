@@ -11,7 +11,7 @@ add_action( 'init', function () {
 		'siegel-top-experte-2026.png'                => 'TOP-Experten-Siegel 2026 (ERFOLG Magazin)',
 		'siegel-top-100-coaches-berater-2025.png'    => 'Top 100 Coaches & Berater 2025 (ERFOLG Magazin)',
 		'siegel-top-100-unternehmer-2024.png'        => 'Top 100 Unternehmer 2024 (ERFOLG Magazin)',
-		'sponsoring-handball-hero.jpg'               => 'Hansea Invest Sponsoring: Handball-Nationalmannschaft',
+		'sponsoring-handball-trikot.jpg'             => 'Übergabe des signierten Handball-Trikots mit dem Logo der Hansea Invest eG',
 	);
 	foreach ( $titles as $file => $title ) {
 		$ids = get_posts( array( 'post_type' => 'attachment', 'meta_key' => 'hansea_source', 'meta_value' => $file, 'numberposts' => -1, 'fields' => 'ids' ) );
