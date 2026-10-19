@@ -22,7 +22,9 @@
   var MAX_DELAY = 540
 
   function isCard(el) {
-    if (el.classList.contains('hs-card')) return true
+    // Panels of split bands and photos stay put; their content animates instead
+    if (el.classList.contains('hs-panel')) return false
+    if (el.classList.contains('hs-card') || el.classList.contains('hs-tile')) return true
     var cs = getComputedStyle(el)
     return (
       (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') ||

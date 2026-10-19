@@ -95,6 +95,68 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-header-actions { margin-left: auto; justify-content: flex-end !important; }
 
 /* ---------------------------------------------------------------------------
+ * Layout v2: clean tiles, split bands, hairlines
+ * ------------------------------------------------------------------------ */
+
+/* White tiles with a soft shadow; flat variant for logo slots */
+.hs-tile { overflow: hidden; box-shadow: 0 1px 2px rgba(20, 26, 70, 0.04), 0 14px 36px -12px rgba(20, 26, 70, 0.12); }
+.hs-tile--flat { box-shadow: none; }
+
+/* Eyebrow with a short hairline in front */
+.hs-eyebrow .elementor-heading-title::before {
+	content: "";
+	display: inline-block;
+	width: 28px;
+	height: 1px;
+	margin-right: 12px;
+	vertical-align: middle;
+	background: currentColor;
+	opacity: 0.7;
+}
+
+/* Split bands: the outer edge of a panel lines up with the 1180px content grid */
+.hs-panel-l { padding-left: max(20px, calc((100vw - 1180px) / 2)) !important; }
+.hs-panel-r { padding-right: max(20px, calc((100vw - 1180px) / 2)) !important; }
+@media (max-width: 767px) {
+	.hs-panel-l, .hs-panel-r { padding-left: 16px !important; padding-right: 16px !important; }
+}
+
+/* Hairline separators inside navy tiles and the hero facts */
+.hs-split-line, .hs-facts { border-top: 1px solid rgba(255, 255, 255, 0.14); padding-top: 20px !important; }
+.hs-facts { padding-top: 24px !important; }
+
+/* Gold circle arrow button */
+.hs-circle .elementor-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	padding: 0 !important;
+	border-radius: 50% !important;
+}
+.hs-circle { flex: 0 0 auto; width: auto !important; }
+
+/* Book cover centred in its navy panel */
+.hs-book { align-self: center !important; margin-left: auto !important; margin-right: auto !important; }
+.hs-book .hs-placeholder { border-radius: 4px; box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.45); }
+
+/* Floating project label on the hero photo */
+.hs-chip { width: auto !important; }
+
+/* FAQ: separate white rows */
+.hs-faq-tiles .elementor-accordion-item { border: 1px solid #e7e8ec !important; border-radius: 8px; overflow: hidden; background: #fff; }
+.hs-faq-tiles .elementor-accordion-item + .elementor-accordion-item { margin-top: 10px; }
+.hs-faq-tiles .elementor-tab-title { border: 0 !important; }
+.hs-faq-tiles .elementor-tab-content { border-top: 0 !important; }
+
+/* Header: logo and login button stay on one row on phones */
+.hs-header .e-con-inner { flex-wrap: nowrap !important; }
+.hs-header .elementor-widget-image { flex: 0 0 auto; width: auto !important; }
+.hs-header-actions { flex: 0 0 auto; width: auto !important; }
+.hs-header .elementor-button { white-space: nowrap; }
+
+/* ---------------------------------------------------------------------------
  * Scroll animations (elementor/hansea-motion.js). Only active while
  * html.hs-motion is set; without JavaScript or with reduced motion the page
  * shows everything at once.

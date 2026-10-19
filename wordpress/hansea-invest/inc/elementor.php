@@ -28,6 +28,15 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 } );
 
+/** The design preview page stays out of search engines. */
+add_filter( 'wp_robots', function ( $robots ) {
+	if ( is_singular( 'page' ) && get_post_meta( get_queried_object_id(), 'hansea_landing_preview', true ) ) {
+		$robots['noindex']  = true;
+		$robots['nofollow'] = true;
+	}
+	return $robots;
+} );
+
 /** Scroll animations run on the public pages, not in the Elementor editor or its preview. */
 function hansea_motion_enabled() {
 	return ! hansea_current_view() && ! is_admin() && ! isset( $_GET['elementor-preview'] ) && ! isset( $_GET['elementor_library'] );
