@@ -482,31 +482,48 @@ def header():
 
 
 def hero():
+    """Full-width photo with the headline (and the project label) on it; the rest of the intro below."""
     chip = tile([
         eyebrow("Aktuelles Projekt"),
         text("<p><strong>Borgfelder Straße, Hamburg</strong><br>Saniertes Mehrfamilienhaus</p>", size=14, line=1.5),
     ], pad=(18, 22), gap_px=6, max_width=300, css="hs-chip")
-    return split([
-        panel([
-            eyebrow("Genossenschaftliche Beteiligung", on_dark=True),
-            heading("Investieren in reale Wohnimmobilien", "h1", size=58, mobile=40, color=WHITE, weight="300",
-                    line=1.04),
-            widget("divider", {"color": "rgba(255,255,255,0.22)", "weight": px(1), "width": {"unit": "px", "size": 64,
-                                                                                           "sizes": []},
-                               "gap": px(6)}),
-            heading("Unternehmerisch. Transparent. Nachvollziehbar.", "p", size=18, mobile=17, color=WHITE,
-                    weight="600", family=UI, line=1.4),
-            text("<p>Gemeinsam mit anderen Mitgliedern investieren Sie in Bestandshäuser, die wir kaufen, sanieren und "
-                 "verkaufen, mit einer angestrebten Verzinsung von 7&nbsp;% p.a.*</p>", color=ON_NAVY, size=16),
-            container([button("Jetzt informieren", "#kontakt"), light_button("So funktioniert's", "#so-funktionierts")],
-                      row=True, mobile_row=True, wrap=True, align="center", gap_px=12),
-            spacer(12),
+    photo_band = container([
+        container([
+            heading("Investieren in reale Wohnimmobilien", "h1", size=76, mobile=42, color=WHITE, weight="300",
+                    line=1.02),
+        ], width=64, width_mobile=100),
+        chip,
+    ], inner=False, boxed=True, row=True, align="flex-end", justify="space-between", gap_px=32,
+        pad=(220, 20, 64, 20), pad_mobile=(180, 16, 32, 16), min_h=680, min_h_mobile=520,
+        bg_image="projekt-hamburg-borgfelder.jpg", css="hs-hero-photo")
+    photo_band["settings"].update({
+        "background_overlay_background": "gradient",
+        "background_overlay_color": "rgba(14,19,56,0.88)",
+        "background_overlay_color_stop": {"unit": "%", "size": 0, "sizes": []},
+        "background_overlay_color_b": "rgba(14,19,56,0)",
+        "background_overlay_color_b_stop": {"unit": "%", "size": 70, "sizes": []},
+        "background_overlay_gradient_type": "linear",
+        "background_overlay_gradient_angle": {"unit": "deg", "size": 0, "sizes": []},
+        "flex_direction_mobile": "column", "flex_align_items_mobile": "flex-start",
+    })
+    intro = band([
+        container([
+            container([
+                eyebrow("Genossenschaftliche Beteiligung", on_dark=True),
+                heading("Unternehmerisch. Transparent. Nachvollziehbar.", "p", size=22, mobile=19, color=WHITE,
+                        weight="600", family=UI, line=1.35),
+                text("<p>Gemeinsam mit anderen Mitgliedern investieren Sie in Bestandshäuser, die wir kaufen, sanieren "
+                     "und verkaufen, mit einer angestrebten Verzinsung von 7&nbsp;% p.a.*</p>", color=ON_NAVY, size=16),
+                container([button("Jetzt informieren", "#kontakt"), light_button("So funktioniert's",
+                                                                                 "#so-funktionierts")],
+                          row=True, mobile_row=True, wrap=True, align="center", gap_px=12),
+            ], width=54, gap_px=16),
             container([fact("10.000 €", "Mindestbeteiligung"), fact("7 % p.a.*", "Zielverzinsung"),
                        fact("12 Monate", "Mindestlaufzeit")],
-                      row=True, mobile_row=True, justify="space-between", gap_px=12, css="hs-facts"),
-        ], 42, side="l", pad=(104, 64, 88, 64)),
-        photo("projekt-hamburg-borgfelder.jpg", 58, min_h=700, children=[chip]),
-    ])
+                      row=True, mobile_row=True, justify="space-between", gap_px=12, width=38, css="hs-facts"),
+        ], row=True, align="center", justify="space-between", gap_px=48),
+    ], bg=NAVY, pad=(56, 20, 64, 20), pad_mobile=(40, 16, 48, 16))
+    return [photo_band, intro]
 
 
 TESTIMONIALS = [
@@ -951,7 +968,7 @@ def footer():
 
 
 def build():
-    return [header(), hero(), about(), at_a_glance(), sponsoring(), capital_steps(), trust(), case_studies(), book(),
+    return [header(), *hero(), about(), at_a_glance(), sponsoring(), capital_steps(), trust(), case_studies(), book(),
             webinar(), team(), press(), case_numbers(), subsidiaries(), faq(), testimonials(), contact(), footer()]
 
 
