@@ -201,7 +201,7 @@ def button(label, url, *, variant="gold", align=None, size=15, hide_mobile=False
     return widget("button", s, hide_mobile=hide_mobile)
 
 
-def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=None):
+def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=None, lightbox=False):
     s = {
         "image": {"url": url or "{{IMG:%s}}" % name, "id": "" if url else "{{IMGID:%s}}" % name,
                   "alt": alt, "source": "library", "size": ""},
@@ -210,6 +210,9 @@ def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=Non
     }
     if width:
         s["width"] = px(width)
+    if lightbox:  # click opens the full-size image in Elementor's lightbox
+        s["link_to"] = "file"
+        s["open_lightbox"] = "yes"
     if link:
         s["link_to"] = "custom"
         s["link"] = {"url": link, "is_external": "", "nofollow": ""}
@@ -652,7 +655,7 @@ def trust():
             ], width=38, gap_px=14),
             container([
                 container([
-                    image(f, alt, radius=0, width=84),
+                    image(f, alt, radius=0, width=84, lightbox=True, css_extra="hs-zoom"),
                     text(f"<p>{label}</p>", color=ON_NAVY, size=13, align="center", weight="600", line=1.4),
                 ], width=31, width_mobile=31, align="center", gap_px=12)
                 for f, alt, label in seals
