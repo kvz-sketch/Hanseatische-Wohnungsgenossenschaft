@@ -299,7 +299,7 @@ TEAM = [
 
 TEAM_LINKEDIN = {
     "Stephan Gerlach": "https://www.linkedin.com/in/stephan-gerlach/",
-    "Vadim Kogan": "#",
+    "Vadim Kogan": "https://www.linkedin.com/in/vadim-kogan-7b08b3b1/",
     "Christine Pistorius": "#",
 }
 
