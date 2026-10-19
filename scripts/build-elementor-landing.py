@@ -305,7 +305,7 @@ TEAM = [
 
 # Case study photos (16:9); placeholder until a file is set
 CASE_PHOTOS = {
-    "Hamburg Eilbek": ("projekt-eilbek-kueche.jpg", "Projekt Hamburg Eilbek: Küche nachher (links) und vorher (rechts)",
+    "Hamburg Eilbek": ("projekt-eilbek-kueche-v2.jpg", "Projekt Hamburg Eilbek: Küche vorher (links) und nachher (rechts)",
                        "hs-ba"),
     "Oldenburg": ("projekt-oldenburg.jpg", "Projekt Oldenburg: renovierte Maisonette-Wohnung", ""),
 }
@@ -434,17 +434,22 @@ def link_button(label, url, external=False):
     })
 
 
+VIDEO_URL = "https://www.youtube.com/watch?v=LN4jH5tXYwk"
+
+
 def video_box():
-    """Elementor video widget: the explainer film with its poster. Swap the source in Elementor
-    (Video → Quelle: YouTube, Vimeo or a file from the media library)."""
+    """YouTube film in privacy mode; the player loads only after a click on the thumbnail."""
     return widget("video", {
-        "video_type": "hosted",
-        "insert_url": "yes",
-        "external_url": {"url": "{{THEME}}/../dist/video/hansea-erklaerfilm.mp4", "is_external": "", "nofollow": ""},
+        "video_type": "youtube",
+        "youtube_url": VIDEO_URL,
+        "yt_privacy": "yes",
+        "rel": "",
+        "modestbranding": "yes",
         "show_image_overlay": "yes",
-        "image_overlay": {"url": "{{IMG:erklaerfilm-poster.jpg}}", "id": "{{IMGID:erklaerfilm-poster.jpg}}", "alt": "",
-                          "source": "library", "size": ""},
+        "image_overlay": {"url": "{{IMG:erklaerfilm-youtube.jpg}}", "id": "{{IMGID:erklaerfilm-youtube.jpg}}",
+                          "alt": "Immobilien-Investment: Was passiert mit Ihrem Geld?", "source": "library", "size": ""},
         "show_play_icon": "yes",
+        "lazy_load": "yes",
         "aspect_ratio": "169",
         "controls": "yes",
         "play_icon_color": WHITE,
@@ -628,22 +633,21 @@ def at_a_glance():
 
 
 def book():
-    return split([
-        panel([
-            container([placeholder("Buchcover „Immobilien Investitionen leicht gemacht“", "2/3")], width=100,
-                      width_mobile=100, css="hs-book"),
-        ], 44, side="l", justify="center", min_h=560, gap_px=0, pad=(72, 48)),
-        panel([
-            eyebrow("Neues Buch"),
-            h2("Immobilien Investitionen leicht gemacht"),
-            text("<p>Das neue Buch von Stephan Gerlach, des Spiegel-Bestsellerautors und CEO der Gerlach Immobilien "
-                 "Gruppe, ist Ihr Leitfaden für Immobilien als Kapitalanlage. Nutzen Sie sein Expertenwissen, um "
-                 "fundierte Entscheidungen zu treffen und gezielt für Ihre finanzielle Freiheit und eine sichere "
-                 "Zukunft vorzusorgen.</p>", size=16),
+    """The book visual fills the band; headline and text sit on the open sky on the right."""
+    return container([
+        container([], width=46, width_mobile=100, css="hs-book-space"),
+        container([
+            eyebrow("Spiegel-Bestseller", on_dark=True),
+            h2("Immobilien Investitionen leicht gemacht", WHITE),
+            text("<p>Das Buch von Stephan Gerlach, Spiegel-Bestsellerautor und CEO der Gerlach Immobilien Gruppe, "
+                 "ist Ihr Leitfaden für Immobilien als Kapitalanlage: passives Einkommen und Ihr Weg zur "
+                 "finanziellen Unabhängigkeit.</p>", color=WHITE, size=16),
             spacer(4),
             button("Zum Buchkauf", BOOK_URL, external=True),
-        ], 56, side="r", bg=WHITE, pad=(96, 64)),
-    ])
+        ], width=48, width_mobile=100, gap_px=14, css="hs-book-text"),
+    ], inner=False, boxed=True, row=True, align="center", justify="space-between", gap_px=32,
+        pad=(80, 20), pad_mobile=(0, 16, 48, 16), min_h=480, bg_image="buch-hintergrund.jpg", bg_pos="left center",
+        bg="#3E6F8E", css="hs-book-band")
 
 
 def capital_steps():
@@ -730,12 +734,12 @@ def webinar():
         panel([tile([video_box()], pad=(10,), pad_mobile=(8,), gap_px=0, css="hs-video-frame")], 56, side="l",
               bg="#EDF1F4", pad=(72, 56), gap_px=0),
         panel([
-            eyebrow("Erklärfilm · 1:38 Min.", on_dark=True),
-            h2("So funktioniert Ihre Beteiligung", WHITE),
-            text("<p>In gut anderthalb Minuten zeigt der Film, wie Genossenschaftsanteile funktionieren und wie "
-                 "Ihr Geld in echte Häuser fließt: vom Ankauf über die Sanierung bis zur Ausschüttung. Transparent "
-                 "und ohne Verwaltungsaufwand für Sie.</p>", color=ON_NAVY, size=16),
-            text("<p>Mit Untertiteln, auch ohne Ton verständlich.</p>", color=ON_NAVY_MUTED, size=13),
+            eyebrow("Erklärfilm", on_dark=True),
+            h2("Was passiert mit Ihrem Geld?", WHITE),
+            text("<p>Der Film zeigt, wie Genossenschaftsanteile funktionieren und wie Ihr Geld in echte Häuser "
+                 "fließt: vom Ankauf über die Modernisierung bis zum Verkauf. Transparent und ohne "
+                 "Verwaltungsaufwand für Sie.</p>", color=ON_NAVY, size=16),
+            text("<p>Das Video wird erst beim Abspielen von YouTube geladen.</p>", color=ON_NAVY_MUTED, size=13),
             spacer(4),
             button("Persönlich beraten lassen", "#kontakt"),
         ], 44, side="r"),
@@ -772,7 +776,9 @@ def press():
                      "welchen Themen wir publizieren.</p>", size=16),
                 link_button("Zum Blog", BLOG_URL, external=True),
             ], width=38, gap_px=14, justify="center"),
-            tile([placeholder("Bild Presse & Artikel", "16/10")], width=56, pad=(0,), pad_mobile=(0,), css="hs-card"),
+            tile([image("presse-sueddeutsche.jpg", "Süddeutsche Zeitung: Stephan Gerlach von der Hanseatischen "
+                        "Wohnungsgenossenschaft", radius=0, lightbox=True, css_extra="hs-zoom hs-press-img")],
+                 width=46, pad=(0,), pad_mobile=(0,), css="hs-card"),
         ], row=True, align="center", justify="space-between", gap_px=48),
     ], bg=GREY_BG)
 
@@ -847,7 +853,28 @@ def case_numbers():
     ], bg=NAVY)
 
 
+SUBSIDIARIES = [
+    ("logo-gig.png", "Gerlach Immobilien Gruppe", "https://gerlachgroup.de/"),
+    ("logo-hanseatische-wohnungsgenossenschaft.png", "Hanseatische Wohnungsgenossenschaft",
+     "https://www.diefamiliengenossenschaft.de/"),
+    ("logo-hansea-grow.png", "Hansea Grow", "https://www.hanseagrow.de/"),
+    ("logo-kapitalanlagevertrieb.png", "Kapitalanlagevertrieb.de", "https://kapitalanlagevertrieb.de/"),
+]
+
+
 def subsidiaries():
+    tiles = [
+        tile([widget("image", {
+            "image": {"url": "{{IMG:%s}}" % f, "id": "{{IMGID:%s}}" % f, "alt": name, "source": "library", "size": ""},
+            "image_size": "full", "align": "center",
+            "link_to": "custom", "link": {"url": url, "is_external": "on", "nofollow": "",
+                                          "custom_attributes": f"aria-label|{name} (öffnet neue Seite)"},
+        }, css="hs-sub-logo"),
+            heading(name, "p", size=13, mobile=13, color=MUTED, weight="500", family=UI, line=1.4, align="center")],
+            width=23.5, width_mobile=48, bg=WHITE, pad=(28, 24), pad_mobile=(20, 14), gap_px=14, justify="space-between",
+            css="hs-sub-tile")
+        for f, name, url in SUBSIDIARIES
+    ]
     return band([
         container([
             eyebrow("Unsere Marken"),
@@ -857,7 +884,8 @@ def subsidiaries():
                  "Kunden relevante Kostenvorteile.</p>", size=16),
         ], max_width=680, gap_px=14),
         spacer(24),
-        logo_row(),
+        container(tiles, row=True, wrap=True, mobile_row=True, justify="space-between", align="stretch", gap_px=16,
+                  css="hs-row-wrap"),
     ], gap_px=12)
 
 
@@ -893,6 +921,27 @@ def faq():
     ], bg=GREY_BG, anchor="faq")
 
 
+# Handball player in a jump throw, line art in gold at low opacity behind the sponsoring band
+SPONSOR_WATERMARK = (
+    '<svg class="hs-wm-player" viewBox="0 0 400 520" aria-hidden="true" focusable="false">'
+    '<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'
+    # court arc (6 m line) and goal area hint
+    '<path d="M-40 500 Q200 380 440 500" stroke-width="6" stroke-dasharray="2 22"/>'
+    # body
+    '<g stroke-width="34">'
+    '<path d="M196 168 L176 288"/>'                 # torso
+    '<path d="M196 178 L262 120 L300 58"/>'         # throwing arm up
+    '<path d="M190 186 L132 214 L104 182"/>'        # other arm
+    '<path d="M176 288 L230 338 L212 420"/>'        # front leg, bent
+    '<path d="M176 288 L134 360 L72 386"/>'         # back leg kicked back
+    '</g>'
+    '</g>'
+    '<g fill="currentColor"><circle cx="214" cy="120" r="30"/>'  # head
+    '<circle cx="318" cy="34" r="26" fill="none" stroke="currentColor" stroke-width="8"/>'  # ball
+    '<path d="M296 26 Q318 46 340 26 M318 8 L318 60" fill="none" stroke="currentColor" stroke-width="5"/></g>'
+    '</svg>'
+)
+
 # One image for now; more photos are added to the same carousel in Elementor later
 SPONSOR_GALLERY = ["sponsoring-handball-trikot.jpg"]
 
@@ -925,7 +974,8 @@ def sponsoring():
             ], width=50, gap_px=16),
             container([gallery], width=42, css="hs-spons-media"),
         ], row=True, align="center", justify="space-between", gap_px=48),
-    ], bg=NAVY, anchor="sponsoring", gap_px=8)
+        widget("html", {"html": SPONSOR_WATERMARK}, css="hs-watermark"),
+    ], bg=NAVY, anchor="sponsoring", gap_px=8, css="hs-sponsor-band")
 
 
 def contact():

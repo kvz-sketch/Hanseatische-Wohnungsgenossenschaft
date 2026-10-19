@@ -56,8 +56,8 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 	background: rgba(20, 26, 70, 0.85); color: #fff; font: 600 11px/1.2 "Inter", sans-serif;
 	letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none;
 }
-.hs-ba::before { content: "Nachher"; left: 14px; }
-.hs-ba::after { content: "Vorher"; left: calc(48.4% + 14px); }
+.hs-ba::before { content: "Vorher"; left: 14px; }
+.hs-ba::after { content: "Nachher"; left: calc(51.6% + 14px); }
 .hs-ph-3x2 { aspect-ratio: 3 / 2; }
 .hs-placeholder {
 	position: absolute;
@@ -199,6 +199,41 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 
 /* Hero photo: natural colours, no overlay; the headline sits in a solid navy box */
 .hs-hero-title { width: auto !important; max-width: 720px; box-shadow: 0 24px 60px -24px rgba(14, 19, 56, 0.55); }
+
+/* Press: newspaper clipping, square, opens in the lightbox */
+.hs-press-img img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: top; }
+
+/* Book band: the book visual is the background, text sits on the sky on the right */
+.hs-book-band { background-size: cover !important; }
+.hs-book-text {
+	padding: 40px 44px !important; border-radius: 8px;
+	background: rgba(14, 19, 56, 0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+@media (max-width: 767px) {
+	/* Phones: the whole visual on top, the text below on the matching blue */
+	.hs-book-band { background-size: 100% auto !important; background-position: top center !important; padding-top: 33.3vw !important; }
+	.hs-book-space { display: none !important; }
+	.hs-book-text { padding: 28px 22px !important; margin-top: 16px; }
+}
+
+/* Sponsoring: handball player line art as a watermark */
+.hs-sponsor-band { position: relative; overflow: hidden !important; }
+.hs-sponsor-band > .e-con-inner { position: relative; }
+.hs-watermark { position: absolute !important; inset: 0; pointer-events: none; z-index: 0; width: auto !important; overflow: hidden; }
+.hs-sponsor-band > .e-con-inner > .e-con { position: relative; z-index: 1; }
+.hs-wm-player {
+	position: absolute; left: 34%; top: 50%; width: 560px; max-width: 70%; transform: translate(-50%, -50%) rotate(-4deg);
+	color: #ddb851; opacity: 0.07;
+}
+@media (max-width: 767px) { .hs-wm-player { left: 70%; top: 18%; width: 340px; max-width: none; } }
+
+/* Tochterunternehmen: logo tiles */
+.hs-sub-tile { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.hs-sub-tile:hover { transform: translateY(-4px); }
+.hs-sub-logo { height: 130px; display: flex !important; align-items: center; justify-content: center; }
+.hs-sub-logo .elementor-widget-container, .hs-sub-logo a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.hs-sub-logo img { max-height: 110px; max-width: 92%; width: auto; height: auto; object-fit: contain; }
+@media (max-width: 767px) { .hs-sub-logo { height: 84px; } .hs-sub-logo img { max-height: 72px; } }
 
 /* Floating project label on the hero photo */
 .hs-chip { width: auto !important; }
