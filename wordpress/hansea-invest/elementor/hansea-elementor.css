@@ -141,6 +141,13 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-book { align-self: center !important; margin-left: auto !important; margin-right: auto !important; }
 .hs-book .hs-placeholder { border-radius: 4px; box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.45); }
 
+/* Photo panel that shows the whole image (e.g. the film poster) */
+.hs-photo--contain { background-size: contain !important; }
+
+/* Image that fills the full height of its tile */
+.hs-fill { display: flex; }
+.hs-fill .hs-ph { flex: 1 1 auto; aspect-ratio: auto; min-height: 320px; }
+
 /* Floating project label on the hero photo */
 .hs-chip { width: auto !important; }
 
