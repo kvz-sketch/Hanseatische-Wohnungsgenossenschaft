@@ -36,6 +36,8 @@ export type LogoConfig = {
   lines: string[];
   tagline?: string;
   accent?: { line: number; match: string; color: string };
+  /** Cap height of each line relative to the first, as measured in the Markenbuch. */
+  lineScale?: number[];
 };
 
 export const gigLogo: LogoConfig = {
@@ -58,6 +60,7 @@ export const submarks: Submark[] = [
     name: "Hansea Invest eG",
     category: "Genossenschaft",
     lines: ["HANSEA", "INVEST eG"],
+    lineScale: [1, 0.83],
     tagline: "GERLACH IMMOBILIEN GRUPPE",
     description:
       "Vermögensaufbau mit Immobilien, auf Wachstum und langfristige Rendite ausgerichtet.",
@@ -68,6 +71,7 @@ export const submarks: Submark[] = [
     name: "Hanseatische Wohnungsgenossenschaft",
     category: "Wohneigentum",
     lines: ["HANSEATISCHE", "WOHNUNGSGENOSSENSCHAFT"],
+    lineScale: [1, 0.5],
     tagline: "GERLACH IMMOBILIEN GRUPPE",
     description:
       "Genossenschaftlicher Wohnungsbau und -bestand mit hanseatischem Anspruch an Qualität.",
@@ -78,6 +82,7 @@ export const submarks: Submark[] = [
     name: "Hansea Grow",
     category: "Digitaler Einstieg",
     lines: ["HANSEA", "GROW"],
+    lineScale: [1, 0.82],
     tagline: "GERLACH IMMOBILIEN GRUPPE",
     description:
       "Vermögensaufbau mit Immobilien, auf Wachstum und langfristige Rendite ausgerichtet.",
@@ -98,6 +103,7 @@ export const submarks: Submark[] = [
     name: "Immo Affiliate Network",
     category: "Partnernetzwerk",
     lines: ["IMMO", "AFFILIATE NETWORK"],
+    lineScale: [1, 0.56],
     description:
       "Partner- und Vertriebsnetzwerk der Gruppe für die Vermittlung von Anlageimmobilien.",
     palette: [paletteColors.navy, paletteColors.gold, paletteColors.hellgrau],
@@ -126,7 +132,8 @@ export const submarks: Submark[] = [
     id: "hansea-living",
     name: "Hansea Living",
     category: "Wohnen & Verwaltung",
-    lines: ["HANSEA LIVING"],
+    lines: ["HANSEA", "LIVING"],
+    lineScale: [1, 0.82],
     description:
       "Digitale Anlaufstelle für den Vertrieb steueroptimierter Kapitalanlage-Immobilien.",
     palette: [paletteColors.navy, paletteColors.koralle, paletteColors.hellgrau],
@@ -191,5 +198,6 @@ export function toLogoConfig(mark: Submark, opts: { withTagline?: boolean } = {}
     lines: mark.lines,
     tagline: opts.withTagline ? mark.tagline : undefined,
     accent: mark.accent,
+    lineScale: mark.lineScale,
   };
 }

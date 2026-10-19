@@ -1,37 +1,22 @@
-import type { fehlanwendungen } from "../../data/brandbook";
-import { RoofIcon } from "./RoofIcon";
+import { gigLogo, type fehlanwendungen } from "../../data/brandbook";
+import { BrandLogo } from "./BrandLogo";
 
 type Demo = (typeof fehlanwendungen)[number];
 
-const wordmarkStyle = "font-serif-display text-[30px] leading-none text-[#111318]";
-
 function DemoMark({ demo }: { demo: Demo["demo"] }) {
-  if (demo === "wrong-color") {
-    return (
-      <div className="flex flex-col items-center gap-1.5">
-        <RoofIcon color="#8b3dd1" className="h-9 w-14" />
-        <span className={wordmarkStyle} style={{ color: "#8b3dd1" }}>
-          GIG
-        </span>
-      </div>
-    );
-  }
   if (demo === "shadow") {
     return (
-      <div
-        className="flex flex-col items-center gap-1.5"
-        style={{ filter: "drop-shadow(4px 6px 5px rgba(0,0,0,0.55))" }}
-      >
-        <RoofIcon color="#111318" className="h-9 w-14" />
-        <span className={wordmarkStyle}>GIG</span>
+      <div style={{ filter: "drop-shadow(4px 6px 5px rgba(0,0,0,0.55))" }}>
+        <BrandLogo config={gigLogo} fg="#111318" className="w-[120px]" />
       </div>
     );
   }
   return (
-    <div className="flex flex-col items-center gap-1.5">
-      <RoofIcon color="#111318" className="h-9 w-14" />
-      <span className={wordmarkStyle}>GIG</span>
-    </div>
+    <BrandLogo
+      config={gigLogo}
+      fg={demo === "wrong-color" ? "#8b3dd1" : "#111318"}
+      className={demo === "cramped" ? "w-[170px]" : "w-[120px]"}
+    />
   );
 }
 
@@ -52,7 +37,7 @@ export function FehlanwendungCard({ item }: { item: Demo }) {
           item.demo === "busy-bg" ? "bg-navy" : "bg-mist"
         }`}
       >
-        <span className="absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#e0453d] text-[10px] font-bold text-white">
+        <span className="absolute right-2.5 top-2.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-[#e0453d] text-[10px] font-bold text-white">
           ✕
         </span>
 
