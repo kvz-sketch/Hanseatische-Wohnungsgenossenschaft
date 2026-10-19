@@ -201,7 +201,7 @@ def button(label, url, *, variant="gold", align=None, size=15, hide_mobile=False
     return widget("button", s, hide_mobile=hide_mobile)
 
 
-def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=None, lightbox=False):
+def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=None, lightbox=False, align=None):
     s = {
         "image": {"url": url or "{{IMG:%s}}" % name, "id": "" if url else "{{IMGID:%s}}" % name,
                   "alt": alt, "source": "library", "size": ""},
@@ -210,6 +210,9 @@ def image(name, alt, *, radius=8, url=None, link=None, width=None, css_extra=Non
     }
     if width:
         s["width"] = px(width)
+    if align:
+        s["align"] = align
+        s["align_mobile"] = align
     if lightbox:  # click opens the full-size image in Elementor's lightbox
         s["link_to"] = "file"
         s["open_lightbox"] = "yes"
@@ -924,19 +927,20 @@ def sponsoring():
 
 
 def contact():
+    """Light contact band (white text side, grey form side) so it stands off the navy footer."""
     return split([
         panel([
-            eyebrow("Kontakt", on_dark=True),
-            h2("Sprechen Sie mit uns", WHITE),
+            eyebrow("Kontakt"),
+            h2("Sprechen Sie mit uns"),
             text("<p>Wenn Sie Fragen haben oder einen Termin mit einem unserer Berater für weiterführende "
                  "Informationen vereinbaren möchten, nehmen Sie gerne Kontakt mit uns auf. Unser Team organisiert gerne "
-                 "ein persönliches Gespräch zu einem für Sie passenden Zeitpunkt.</p>", color=ON_NAVY, size=16),
+                 "ein persönliches Gespräch zu einem für Sie passenden Zeitpunkt.</p>", size=16),
             spacer(8),
             icon_list([("+49 40 22862372-0", "tel:+4940228623720"),
                        ("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de"),
                        ("Langenhorner Chaussee 155, 22415 Hamburg", None)],
-                      color=WHITE, icon="fas fa-arrow-right", icon_color=GOLD_400, size=15, weight="500", gap_px=14),
-        ], 42, side="l", justify="flex-start"),
+                      color=NAVY, icon="fas fa-arrow-right", icon_color=GOLD_600, size=15, weight="500", gap_px=14),
+        ], 42, side="l", bg=WHITE, justify="flex-start"),
         panel([widget("shortcode", {"shortcode": "[hansea_kontakt]"})], 58, side="r", bg=GREY_BG, pad=(96, 64)),
     ], anchor="kontakt")
 
@@ -951,7 +955,7 @@ def footer():
     return container([
         container([
             container([
-                image(None, "Hansea Invest eG", radius=0, url="{{THEME}}/images/logo-white.svg", width=84),
+                image(None, "Hansea Invest eG", radius=0, url="{{THEME}}/images/logo-white.svg", width=84, align="left"),
                 text("<p>Hanseatische Invest eG<br>Langenhorner Chaussee 155<br>22415 Hamburg</p>", color=ON_NAVY,
                      size=14),
             ], width=24, gap_px=16),
