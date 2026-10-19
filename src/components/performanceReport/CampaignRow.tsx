@@ -30,9 +30,12 @@ export function CampaignRow({
   const periodLeads = campaignLeadsInPeriod(campaign, inPeriod, !isFiltered);
   const recalculatedCpl = !isFiltered && periodLeads > 0 ? campaign.spend / periodLeads : null;
   const isActive = campaign.status === "active";
+  // Lead-form campaigns have no Perspective leads per ad, so rank them by Meta's form results.
+  const adLeads = (a: Campaign["ads"][number]) =>
+    (campaign.leadSource === "meta-form" ? a.metaResults : a.perspectiveLeads) ?? 0;
   const bestAd = campaign.ads
-    .filter((a) => a.image && (a.perspectiveLeads ?? 0) > 0)
-    .sort((a, b) => (b.perspectiveLeads ?? 0) - (a.perspectiveLeads ?? 0))[0];
+    .filter((a) => a.image && adLeads(a) > 0)
+    .sort((a, b) => adLeads(b) - adLeads(a))[0];
 
   return (
     <div className="rounded-md border border-navy/8 bg-white">
