@@ -942,9 +942,8 @@ def footer():
 
 
 def build():
-    return [header(), hero(), testimonials(), about(), at_a_glance(), sponsoring(), capital_steps(), trust(),
-            case_studies(), book(), webinar(), team(), press(), case_numbers(), subsidiaries(), faq(), contact(),
-            footer()]
+    return [header(), hero(), about(), at_a_glance(), sponsoring(), capital_steps(), trust(), case_studies(), book(),
+            webinar(), team(), press(), case_numbers(), subsidiaries(), faq(), testimonials(), contact(), footer()]
 
 
 if __name__ == "__main__":
