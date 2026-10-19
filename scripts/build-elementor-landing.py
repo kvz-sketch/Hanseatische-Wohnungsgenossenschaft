@@ -320,6 +320,8 @@ FAQS = [
      "Ihre Investition fließt in reale Wohnimmobilien in Deutschland. Die Hanseatische Invest eG ist eine eingetragene Genossenschaft und wird durch den DIVK Prüfungsverband regelmäßig geprüft. Bitte beachten Sie jedoch, dass es sich um eine unternehmerische Beteiligung handelt: Verlust bis zum Totalverlust ist möglich, und es besteht keine gesetzliche Einlagensicherung."),
 ]
 
+BLOG_URL = "https://blog.gerlachgroup.de/%C3%B6ffentlichkeit-pr-blog"
+
 LEGAL = ("Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die Zielrendite von 7 % p.a. ist nicht garantiert und hängt vom wirtschaftlichen Erfolg der Genossenschaft ab. Kein Anspruch auf Ausschüttung oder Rückzahlung; Verlust bis zum Totalverlust möglich. Keine gesetzliche Einlagensicherung. Keine Anlageberatung. Bitte lesen Sie vor einer Entscheidung Risikohinweis und Satzung.")
 
 
@@ -413,9 +415,10 @@ def light_button(label, url):
     })
 
 
-def link_button(label, url):
+def link_button(label, url, external=False):
     return widget("button", {
-        "text": f"{label}  →", "link": {"url": url, "is_external": "", "nofollow": "", "custom_attributes": ""},
+        "text": f"{label}  →", "link": {"url": url, "is_external": "on" if external else "", "nofollow": "",
+                                       "custom_attributes": ""},
         "background_color": "transparent", "button_text_color": NAVY, "button_background_hover_color": "transparent",
         "hover_color": GOLD_700, "text_padding": box(8, 0), **type_(UI, 15, "600", 1, spacing=0.01),
     })
@@ -737,7 +740,7 @@ def press():
                 text("<p>In diesem Bereich finden Sie ausgewählte Artikel und Veröffentlichungen rund um unser "
                      "Unternehmen. Hier erhalten Sie kompakte Einblicke in unser Business und erfahren, wo und zu "
                      "welchen Themen wir publizieren.</p>", size=16),
-                link_button("Mehr erfahren", "#"),
+                link_button("Zum Blog", BLOG_URL, external=True),
             ], width=38, gap_px=14, justify="center"),
             tile([placeholder("Bild Presse & Artikel", "16/10")], width=56, pad=(0,), pad_mobile=(0,), css="hs-card"),
         ], row=True, align="center", justify="space-between", gap_px=48),
