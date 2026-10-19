@@ -378,16 +378,17 @@ def h2(title, color=NAVY):
     return heading(title, size=42, mobile=32, color=color, line=1.12)
 
 
-def intro_row(eyebrow_text, title, body=None, *, on_dark=False, button_=None, note=None):
-    """Section opener: eyebrow, heading, optional small note and intro paragraph stacked on the left."""
-    children = [eyebrow(eyebrow_text, on_dark), h2(title, WHITE if on_dark else NAVY)]
+def intro_row(eyebrow_text, title, body=None, *, on_dark=False, button_=None, note=None, wide=False):
+    """Section opener: eyebrow (optional), heading, small note and intro paragraph stacked on the left.
+    `wide` lets a long heading use the full content width (one line on desktop)."""
+    children = ([eyebrow(eyebrow_text, on_dark)] if eyebrow_text else []) + [h2(title, WHITE if on_dark else NAVY)]
     if note:
         children.append(text(f"<p>{note}</p>", color=ON_NAVY_MUTED if on_dark else MUTED, size=13, line=1.5))
     if body:
         children.append(text(f"<p>{body}</p>", color=ON_NAVY if on_dark else NAVY_TEXT, size=16))
     if button_:
         children.append(button_)
-    return container(children, max_width=720, gap_px=14)
+    return container(children, gap_px=14) if wide else container(children, max_width=720, gap_px=14)
 
 
 def fact(value, label, *, on_dark=True):
@@ -602,8 +603,8 @@ def at_a_glance():
 def book():
     return split([
         panel([
-            container([placeholder("Buchcover „Immobilien Investitionen leicht gemacht“", "2/3")], width=56,
-                      width_mobile=60, css="hs-book"),
+            container([placeholder("Buchcover „Immobilien Investitionen leicht gemacht“", "2/3")], width=100,
+                      width_mobile=100, css="hs-book"),
         ], 44, side="l", justify="center", min_h=560, gap_px=0, pad=(72, 48)),
         panel([
             eyebrow("Neues Buch"),
@@ -700,13 +701,14 @@ def webinar():
         panel([tile([video_box()], pad=(10,), pad_mobile=(8,), gap_px=0, css="hs-video-frame")], 56, side="l",
               bg="#EDF1F4", pad=(72, 56), gap_px=0),
         panel([
-            eyebrow("Live Webinar", on_dark=True),
-            h2("Lassen Sie Ihr Kapital sinnvoll arbeiten", WHITE),
-            text("<p>Nutzen Sie Ihr Kapital gezielt. Erfahren Sie im kostenfreien Live-Webinar, wie "
-                 "Genossenschaftsanteile als strukturierte Alternative zur klassischen Immobilienanlage funktionieren"
-                 ": transparent und ohne Verwaltungsaufwand. Jetzt Platz sichern.</p>", color=ON_NAVY, size=16),
+            eyebrow("Erklärfilm · 1:38 Min.", on_dark=True),
+            h2("So funktioniert Ihre Beteiligung", WHITE),
+            text("<p>In gut anderthalb Minuten zeigt der Film, wie Genossenschaftsanteile funktionieren und wie "
+                 "Ihr Geld in echte Häuser fließt: vom Ankauf über die Sanierung bis zur Ausschüttung. Transparent "
+                 "und ohne Verwaltungsaufwand für Sie.</p>", color=ON_NAVY, size=16),
+            text("<p>Mit Untertiteln, auch ohne Ton verständlich.</p>", color=ON_NAVY_MUTED, size=13),
             spacer(4),
-            button("Jetzt anmelden", "#kontakt"),
+            button("Persönlich beraten lassen", "#kontakt"),
         ], 44, side="r"),
     ])
 
@@ -724,7 +726,7 @@ def team():
             ], pad=(24, 28, 28, 28), pad_mobile=(20,), gap_px=8),
         ], width=31.5, pad=(0,), pad_mobile=(0,), gap_px=0, css="hs-card hs-team-card"))
     return band([
-        intro_row("Team", "Die Führungsspitze der Hanseatischen Invest eG"),
+        intro_row(None, "Die Führungsspitze der Hanseatischen Invest eG", wide=True),
         spacer(24),
         container(cards, row=True, justify="space-between", align="stretch", gap_px=24),
     ], anchor="team", gap_px=8)
