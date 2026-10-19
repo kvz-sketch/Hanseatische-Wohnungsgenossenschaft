@@ -489,9 +489,9 @@ def hero():
     ], pad=(18, 22), gap_px=6, max_width=300, css="hs-chip")
     photo_band = container([
         container([
-            heading("Investieren in reale Wohnimmobilien", "h1", size=76, mobile=42, color=WHITE, weight="300",
-                    line=1.02),
-        ], width=64, width_mobile=100),
+            heading("Investieren in reale Wohnimmobilien", "h1", size=64, mobile=36, color=WHITE, weight="300",
+                    line=1.04),
+        ], bg=NAVY, radius=8, pad=(36, 44), pad_mobile=(22, 22), css="hs-hero-title"),
         chip,
     ], inner=False, boxed=True, row=True, align="flex-end", justify="space-between", gap_px=32,
         pad=(220, 20, 64, 20), pad_mobile=(180, 16, 32, 16), min_h=680, min_h_mobile=520,

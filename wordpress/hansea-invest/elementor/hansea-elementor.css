@@ -188,17 +188,8 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 	.hs-tl-step--left .hs-tl-card::before, .hs-tl-step--right .hs-tl-card::before { left: -7px; right: auto; top: 36px; }
 }
 
-/* Hero photo: dark gradient from the bottom so the headline reads on any photo */
-.hs-hero-photo { position: relative; }
-.hs-hero-photo::after {
-	content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-	background: linear-gradient(to top, rgba(14, 19, 56, 0.88) 0%, rgba(14, 19, 56, 0.45) 40%, rgba(14, 19, 56, 0) 72%);
-}
-.hs-hero-photo > .e-con-inner { position: relative; z-index: 1; }
-.hs-hero-photo .elementor-heading-title { text-shadow: 0 2px 24px rgba(14, 19, 56, 0.35); }
-@media (max-width: 767px) {
-	.hs-hero-photo::after { background: linear-gradient(to top, rgba(14, 19, 56, 0.92) 0%, rgba(14, 19, 56, 0.6) 55%, rgba(14, 19, 56, 0.1) 100%); }
-}
+/* Hero photo: natural colours, no overlay; the headline sits in a solid navy box */
+.hs-hero-title { width: auto !important; max-width: 720px; box-shadow: 0 24px 60px -24px rgba(14, 19, 56, 0.55); }
 
 /* Floating project label on the hero photo */
 .hs-chip { width: auto !important; }
