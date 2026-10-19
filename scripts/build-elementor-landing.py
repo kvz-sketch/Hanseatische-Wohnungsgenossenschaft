@@ -551,11 +551,11 @@ def about():
         for v, label in stats
     ], row=True, wrap=True, mobile_row=True, justify="space-between", gap_px=16, width=54, css="hs-row-wrap")
     return band([
+        intro_row("Über uns", "Die Hanseatische Invest eG"),
+        spacer(4),
         container([
             tiles,
             container([
-                eyebrow("Über uns"),
-                h2("Die Hanseatische Invest eG"),
                 text("<p>Die Hanseatische Invest eG verwendet Ihr investiertes Kapital, um Immobilienprojekte effizient "
                      "umzusetzen und nachhaltige Mehrwerte zu schaffen: für unsere Mitglieder und den deutschen "
                      "Immobilienmarkt. Als Genossenschaft stehen wir für Transparenz, Verantwortung und eine "
