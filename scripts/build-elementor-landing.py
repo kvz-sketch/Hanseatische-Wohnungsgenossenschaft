@@ -886,10 +886,10 @@ def sponsoring():
         container([
             container([
                 eyebrow("Hansea Invest Sponsoring", on_dark=True),
-                heading("Wir sind stolzer Sponsor der Handball-Nationalmannschaft", size=48, mobile=34, color=WHITE,
+                heading("Wir sind stolzer Sponsor des HSV Handball Hamburg", size=48, mobile=34, color=WHITE,
                         line=1.08),
                 text("<p>Teamgeist, Fairness und Leistung auf höchstem Niveau: Werte, die auch unsere Genossenschaft "
-                     "tragen. Deshalb fördern wir mit Überzeugung den Handball in Deutschland.</p>", color=ON_NAVY,
+                     "tragen. Deshalb unterstützen wir mit Überzeugung den HSV Handball Hamburg, direkt vor unserer Haustür.</p>", color=ON_NAVY,
                      size=16),
             ], width=38, gap_px=16),
             container([gallery], width=58),
