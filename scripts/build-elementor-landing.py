@@ -378,18 +378,16 @@ def h2(title, color=NAVY):
     return heading(title, size=42, mobile=32, color=color, line=1.12)
 
 
-def intro_row(eyebrow_text, title, body=None, *, on_dark=False, button_=None):
-    """Section opener: eyebrow + heading on the left, intro text on the right."""
-    right = []
+def intro_row(eyebrow_text, title, body=None, *, on_dark=False, button_=None, note=None):
+    """Section opener: eyebrow, heading, optional small note and intro paragraph stacked on the left."""
+    children = [eyebrow(eyebrow_text, on_dark), h2(title, WHITE if on_dark else NAVY)]
+    if note:
+        children.append(text(f"<p>{note}</p>", color=ON_NAVY_MUTED if on_dark else MUTED, size=13, line=1.5))
     if body:
-        right.append(text(f"<p>{body}</p>", color=ON_NAVY if on_dark else NAVY_TEXT, size=16))
+        children.append(text(f"<p>{body}</p>", color=ON_NAVY if on_dark else NAVY_TEXT, size=16))
     if button_:
-        right.append(button_)
-    # Without intro text the heading gets the full width (stays on one line)
-    left = container([eyebrow(eyebrow_text, on_dark), h2(title, WHITE if on_dark else NAVY)], width=50 if right else 100,
-                     gap_px=14)
-    return container([left, container(right, width=42, gap_px=16)] if right else [left], row=True,
-                     align="flex-end", justify="space-between", gap_px=32)
+        children.append(button_)
+    return container(children, max_width=720, gap_px=14)
 
 
 def fact(value, label, *, on_dark=True):
@@ -637,12 +635,10 @@ def capital_steps():
     return band([
         intro_row("So funktioniert's", "Wie wir Ihr Kapital einsetzen",
                   "In vier Schritten: Ihr Kapital fließt in echte Häuser, stärkt dort als Eigenkapital die Finanzierung, "
-                  "und aus Sanierung und Verkauf entstehen Ihre Erträge."),
+                  "und aus Sanierung und Verkauf entstehen Ihre Erträge.",
+                  note="*Die Wertschöpfung entsteht durch operative Immobilienarbeit, nicht durch Finanzprodukte."),
         spacer(40),
         container(steps, gap_px=0, css="hs-timeline"),
-        spacer(16),
-        text("<p>*Die Wertschöpfung entsteht durch operative Immobilienarbeit, nicht durch Finanzprodukte.</p>",
-             color=MUTED, size=13),
     ], anchor="so-funktionierts", gap_px=12)
 
 
