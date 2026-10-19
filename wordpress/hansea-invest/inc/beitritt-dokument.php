@@ -62,7 +62,7 @@ $hs_address = $data['street'] . ', ' . $data['zip'] . ' ' . $data['city'];
 	<h2>Beitritt und Beteiligung</h2>
 	<p>
 		Ich erkläre hiermit meinen Beitritt zur Hanseatischen Invest eG und beteilige mich mit
-		<strong><?php echo esc_html( $hs_units ); ?> Geschäftsanteilen</strong> zu je <?php echo esc_html( hansea_euro( HANSEA_SHARE_PRICE ) ); ?>,
+		<strong><?php echo esc_html( $hs_units . ( 1 === $hs_units ? ' Geschäftsanteil' : ' Geschäftsanteilen' ) ); ?></strong> zu je <?php echo esc_html( hansea_euro( HANSEA_SHARE_PRICE ) ); ?>,
 		insgesamt <strong><?php echo esc_html( $hs_total ); ?></strong>.
 	</p>
 	<p>
@@ -76,7 +76,7 @@ $hs_address = $data['street'] . ', ' . $data['zip'] . ' ' . $data['city'];
 
 	<h2>Risikohinweis</h2>
 	<p class="small">
-		Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die Zielrendite von 7 % p.a. ist nicht garantiert.
+		Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die vorgesehene Verzinsung von 7 % p.a. ist nicht garantiert.
 		Es besteht das Risiko des Verlusts bis zum Totalverlust der Einlage. Es besteht keine gesetzliche Einlagensicherung.
 		Eine Kündigung ist nur nach den Fristen der Satzung möglich.
 	</p>

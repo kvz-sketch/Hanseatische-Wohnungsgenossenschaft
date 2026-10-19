@@ -10,7 +10,7 @@ Solange DocuSign nicht eingerichtet ist, nimmt das Portal die Angaben trotzdem a
 ## Ablauf
 
 1. Das Mitglied ergänzt Geburtsdatum, Anschrift, Telefon und die Anzahl der Anteile
-   (mindestens 20 × 500 €). Name und E-Mail kommen aus dem Mitgliederkonto.
+   (je 10.000 €, mindestens ein Anteil). Name und E-Mail kommen aus dem Mitgliederkonto.
 2. Die Website erzeugt die Beitrittserklärung mit diesen Daten
    (`wordpress/hansea-invest/inc/beitritt-dokument.php`), legt einen DocuSign-Umschlag an
    und leitet das Mitglied zur Unterschrift weiter (Embedded Signing).

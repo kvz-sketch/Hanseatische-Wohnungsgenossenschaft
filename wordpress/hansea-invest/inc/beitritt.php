@@ -14,9 +14,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HANSEA_SHARE_PRICE = 500;
-const HANSEA_MIN_UNITS   = 20;   // 10.000 €
-const HANSEA_MAX_UNITS   = 4000; // 2 Mio. €
+const HANSEA_SHARE_PRICE = 10000; // one Geschäftsanteil
+const HANSEA_MIN_UNITS   = 1;     // 10.000 €
+const HANSEA_MAX_UNITS   = 200;   // 2 Mio. €
 
 /** The consent shown with the form; bump the version whenever the text changes. */
 const HANSEA_BEITRITT_CONSENT = array(

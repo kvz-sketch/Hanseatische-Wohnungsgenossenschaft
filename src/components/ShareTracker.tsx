@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { exampleShares, nextPayout, SHARE_PRICE, shareStages } from '../data/content'
+import { anteile, exampleShares, nextPayout, SHARE_PRICE, shareStages } from '../data/content'
 import { StageBar } from './ui'
 
 const euro = (v: number) => `${new Intl.NumberFormat('de-DE').format(v)} €`
@@ -46,7 +46,7 @@ export default function ShareTracker() {
                   <span>
                     <span className="block text-[15px] font-bold">{s.city}</span>
                     <span className={`block text-[12px] ${on ? 'text-light-dark' : 'text-muted'}`}>
-                      {s.id} · {s.units} Anteile · {euro(s.units * SHARE_PRICE)}
+                      {s.id} · {anteile(s.units)} · {euro(s.units * SHARE_PRICE)}
                     </span>
                   </span>
                 </button>

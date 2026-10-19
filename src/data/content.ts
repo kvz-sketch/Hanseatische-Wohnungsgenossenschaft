@@ -31,7 +31,7 @@ export type ExampleShare = {
 export const exampleShares: ExampleShare[] = [
   {
     id: 'A-24817',
-    units: 20,
+    units: 2,
     city: 'Kiel',
     stage: 2,
     status: 'In Bearbeitung',
@@ -44,36 +44,39 @@ export const exampleShares: ExampleShare[] = [
   },
   {
     id: 'A-19302',
-    units: 20,
+    units: 1,
     city: 'Oldenburg',
     stage: 3,
     status: 'In Bearbeitung',
     where: 'Oldenburg, Bürgerfelde – 2. OG, neue Leitungen und Bäder',
     events: [
       { date: '18.09.2026', place: 'Oldenburg', text: 'Dach geschlossen', hasPhoto: true },
-      { date: '30.06.2026', place: 'Hamburg', text: 'Ausschüttung Q2 ausgezahlt · 8,75 €', hasPhoto: false },
+      { date: '30.06.2026', place: 'Hamburg', text: 'Zinsen Q2 ausgezahlt · 175,00 €', hasPhoto: false },
       { date: '02.06.2026', place: 'Oldenburg', text: 'Fenster getauscht', hasPhoto: true },
     ],
   },
   {
     id: 'A-11054',
-    units: 10,
+    units: 1,
     city: 'Hamburg',
     stage: 4,
     status: 'Fast abgeschlossen',
     where: 'Hamburg-Eilbek – Altbau von 1892, Wohnungen im Verkauf',
     events: [
-      { date: '30.09.2026', place: 'Hamburg', text: 'Ausschüttung Q3 ausgezahlt · 8,75 €', hasPhoto: false },
+      { date: '30.09.2026', place: 'Hamburg', text: 'Zinsen Q3 ausgezahlt · 175,00 €', hasPhoto: false },
       { date: '26.09.2026', place: 'Hamburg', text: 'Wohnungsverkauf beurkundet', hasPhoto: false },
       { date: '12.05.2026', place: 'Hamburg', text: 'Musterwohnung fertig, Verkaufsstart', hasPhoto: true },
     ],
   },
 ]
 
-// One share is 500 €: 7 % p.a. paid quarterly gives the 8,75 € per share above.
-export const SHARE_PRICE = 500
+// One share (Geschäftsanteil) is 10.000 €: 7 % p.a. paid quarterly gives the 175 € per share above.
+export const SHARE_PRICE = 10000
 
-export const nextPayout = { date: '31.12.2026', perShare: '8,75 € je Anteil (Ziel)' }
+/** "1 Anteil", "3 Anteile" */
+export const anteile = (n: number) => `${n} ${n === 1 ? 'Anteil' : 'Anteile'}`
+
+export const nextPayout = { date: '31.12.2026', perShare: '175 € je Anteil (vorgesehen)' }
 
 export const trackRecord = {
   completed: 15,

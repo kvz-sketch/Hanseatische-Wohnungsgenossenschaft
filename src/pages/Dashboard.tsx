@@ -11,7 +11,7 @@ import ProjectList from '../components/ProjectList'
 import ShareTracker from '../components/ShareTracker'
 import TrackRecord from '../components/TrackRecord'
 import { navigate } from '../routes'
-import { company, exampleShares, nextPayout, SHARE_PRICE } from '../data/content'
+import { anteile, company, exampleShares, nextPayout, SHARE_PRICE } from '../data/content'
 
 const memberNav = [
   { label: 'Übersicht', href: '#uebersicht' },
@@ -39,7 +39,7 @@ function greeting() {
 
 function Welcome({ member }: { member: Member }) {
   const kpis = [
-    { label: 'Ihre Einlage', value: euro(invested), note: `${units} Anteile à ${euro(SHARE_PRICE)}` },
+    { label: 'Ihre Einlage', value: euro(invested), note: `${anteile(units)} à ${euro(SHARE_PRICE)}` },
     { label: 'Anteilspakete', value: String(exampleShares.length), note: 'in Kiel, Oldenburg und Hamburg' },
     { label: 'Bisher ausgeschüttet', value: euro(paidSoFar, 2), note: 'Q2 und Q3 2026' },
     { label: 'Nächste Ausschüttung', value: euro(quarterly, 2), note: `am ${nextPayout.date} (Ziel)`, accent: true },

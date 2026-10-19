@@ -12,6 +12,7 @@ import {
 } from '../data/beitritt'
 import { Field, SubmitButton } from './AuthForm'
 import { ConsentCheckbox } from './ui'
+import { anteile } from '../data/content'
 
 const euro = (v: number) => `${new Intl.NumberFormat('de-DE').format(v)} €`
 const date = (iso: string) => new Date(iso).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -101,7 +102,7 @@ function BeitrittForm({ initial, onSaved }: { initial?: BeitrittData; onSaved: (
           value={v.units}
           onChange={set('units')}
           error={errors.units}
-          hint={`Mindestens ${config.minUnits} Anteile (${euro(config.minUnits * config.sharePrice)}).`}
+          hint={`Mindestens ${anteile(config.minUnits)} (${euro(config.minUnits * config.sharePrice)}), auch mehrere möglich.`}
         />
       </div>
       <div className="flex flex-col justify-center rounded-card bg-section px-5 py-4 sm:col-span-3">
@@ -153,17 +154,17 @@ function StatusCard({ application, onRestart }: { application: Application; onRe
     unterschrieben: {
       tone: 'bg-green-tint',
       title: 'Beitrittserklärung unterschrieben',
-      text: `${data.units} Anteile, ${amount}, unterschrieben am ${date(application.signedAt ?? application.submittedAt)}. Wir prüfen Ihre Angaben und melden uns mit den nächsten Schritten.`,
+      text: `${anteile(data.units)}, ${amount}, unterschrieben am ${date(application.signedAt ?? application.submittedAt)}. Wir prüfen Ihre Angaben und melden uns mit den nächsten Schritten.`,
     },
     entwurf: {
       tone: 'bg-gold-100',
       title: 'Unterschrift ausstehend',
-      text: `Ihre Beitrittserklärung über ${data.units} Anteile (${amount}) ist vorbereitet, aber noch nicht unterschrieben.`,
+      text: `Ihre Beitrittserklärung über ${anteile(data.units)} (${amount}) ist vorbereitet, aber noch nicht unterschrieben.`,
     },
     eingegangen: {
       tone: 'bg-green-tint',
       title: 'Beitrittserklärung eingegangen',
-      text: `Ihre Angaben über ${data.units} Anteile (${amount}) sind am ${date(application.submittedAt)} bei uns eingegangen. Wir melden uns mit den Unterlagen zur Unterschrift.`,
+      text: `Ihre Angaben über ${anteile(data.units)} (${amount}) sind am ${date(application.submittedAt)} bei uns eingegangen. Wir melden uns mit den Unterlagen zur Unterschrift.`,
     },
     abgelehnt: {
       tone: 'bg-coral-100',

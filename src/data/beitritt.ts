@@ -44,8 +44,8 @@ const demoConfig: BeitrittConfig = {
     version: 'demo',
     text: 'Ich habe die Satzung, den Risikohinweis und die Datenschutzhinweise der Hanseatischen Invest eG erhalten und gelesen. Ich bin einverstanden, dass meine Angaben für die Beitrittserklärung an DocuSign übermittelt werden, damit ich sie digital unterschreiben kann.',
   },
-  minUnits: 20,
-  maxUnits: 4000,
+  minUnits: 1,
+  maxUnits: 200,
   sharePrice: SHARE_PRICE,
   application: null,
 }
