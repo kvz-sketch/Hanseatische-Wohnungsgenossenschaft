@@ -857,22 +857,22 @@ def faq():
     ], bg=GREY_BG, anchor="faq")
 
 
-SPONSOR_GALLERY = [f"sponsoring-handball-{i}.jpg" for i in range(1, 7)]  # placeholders until the photos arrive
+# One image for now; more photos are added to the same carousel in Elementor later
+SPONSOR_GALLERY = ["sponsoring-handball-hero.jpg"]
 
 
 def sponsoring():
-    """Hansea Invest Sponsoring, directly below "Über uns": headline, one hero image, swipeable gallery."""
+    """Hansea Invest Sponsoring, directly below "Über uns": text left, swipeable gallery right."""
     gallery = widget("image-carousel", {
         "carousel": [{"id": "{{IMGID:%s}}" % f, "url": "{{IMG:%s}}" % f} for f in SPONSOR_GALLERY],
-        "thumbnail_size": "large",
-        "slides_to_show": "3", "slides_to_show_tablet": "2", "slides_to_show_mobile": "1",
+        "thumbnail_size": "full",
+        "slides_to_show": "1", "slides_to_show_tablet": "1", "slides_to_show_mobile": "1",
         "slides_to_scroll": "1",
         "navigation": "both",
         "image_stretch": "yes",
         "link_to": "file", "open_lightbox": "yes",
         "autoplay": "yes", "autoplay_speed": 4500, "pause_on_hover": "yes", "pause_on_interaction": "yes",
         "infinite": "yes", "speed": 600,
-        "image_spacing": "custom", "image_spacing_custom": px(16),
         "arrows_size": px(22), "arrows_color": WHITE,
         "dots_size": px(8), "dots_color": "rgba(255,255,255,0.35)", "dots_color_active": GOLD,
         "image_border_radius": box(8),
@@ -881,19 +881,14 @@ def sponsoring():
         container([
             container([
                 eyebrow("Hansea Invest Sponsoring", on_dark=True),
-                heading("Wir sind stolzer Sponsor der Handball-Nationalmannschaft", size=52, mobile=34, color=WHITE,
+                heading("Wir sind stolzer Sponsor der Handball-Nationalmannschaft", size=48, mobile=34, color=WHITE,
                         line=1.08),
-            ], width=60, gap_px=16),
-            container([
                 text("<p>Teamgeist, Fairness und Leistung auf höchstem Niveau: Werte, die auch unsere Genossenschaft "
                      "tragen. Deshalb fördern wir mit Überzeugung den Handball in Deutschland.</p>", color=ON_NAVY,
                      size=16),
-            ], width=34, gap_px=14),
-        ], row=True, align="flex-end", justify="space-between", gap_px=32),
-        spacer(40),
-        image("sponsoring-handball-hero.jpg", "Handball-Nationalmannschaft", radius=8, css_extra="hs-spons-hero"),
-        spacer(16),
-        gallery,
+            ], width=38, gap_px=16),
+            container([gallery], width=58),
+        ], row=True, align="center", justify="space-between", gap_px=48),
     ], bg=NAVY, anchor="sponsoring", gap_px=8)
 
 
