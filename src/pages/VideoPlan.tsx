@@ -7,17 +7,15 @@ import {
   CATEGORY_META,
   STATUS_LABEL,
   api,
-  driveFileId,
-  driveThumbnail,
   emptyBrief,
   formatRange,
-  isDriveFolder,
+  linkPreview,
   toLocal,
   useAuthorName,
   useEditAccess,
   useVideoplan,
   type Category,
-  type DriveLink,
+  type ItemLink,
   type Feedback,
   type Item,
   type ItemDraft,
@@ -124,10 +122,10 @@ function StatusMove({ item, to, label, author, onDone }: { item: Item; to: Statu
   );
 }
 
-function Thumb({ link }: { link: DriveLink }) {
-  const id = driveFileId(link.url);
+function Thumb({ link }: { link: ItemLink }) {
+  const preview = linkPreview(link.url);
   const [failed, setFailed] = useState(false);
-  const folder = isDriveFolder(link.url);
+  const folder = preview.isDriveFolder;
   return (
     <a
       href={link.url}
@@ -136,9 +134,9 @@ function Thumb({ link }: { link: DriveLink }) {
       className="group relative block aspect-video overflow-hidden rounded-[4px] border border-navy/10 bg-mist"
       title={link.label || link.url}
     >
-      {id && !failed ? (
+      {preview.thumbnail && !failed ? (
         <img
-          src={driveThumbnail(id)}
+          src={preview.thumbnail}
           alt={link.label || "Vorschau"}
           loading="lazy"
           referrerPolicy="no-referrer"
@@ -147,14 +145,18 @@ function Thumb({ link }: { link: DriveLink }) {
         />
       ) : (
         <div className="flex h-full flex-col items-center justify-center gap-1.5 px-3 text-center">
-          <span className="text-[26px]" aria-hidden="true">{folder ? "📁" : "🎬"}</span>
+          <span className="text-[26px]" aria-hidden="true">{folder ? "📁" : "🔗"}</span>
           <span className="text-[10.5px] font-semibold text-muted">
-            {folder ? "Drive-Ordner öffnen" : "Keine Vorschau. Datei in Drive per Link freigeben"}
+            {folder
+              ? "Drive-Ordner öffnen"
+              : preview.host === "Google Drive"
+                ? "Keine Vorschau. Datei in Drive per Link freigeben"
+                : preview.host || link.url}
           </span>
         </div>
       )}
       <span className="absolute bottom-1.5 right-1.5 rounded-[2px] bg-navy/85 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.06em] text-white">
-        In Drive öffnen ↗
+        {preview.host === "Google Drive" ? "In Drive öffnen" : "Link öffnen"} ↗
       </span>
       {link.label && (
         <span className="absolute left-1.5 top-1.5 max-w-[80%] truncate rounded-[2px] bg-white/90 px-1.5 py-0.5 text-[10px] font-bold text-navy">{link.label}</span>
@@ -387,6 +389,9 @@ export function VideoPlan() {
     }))();
 
   const byUpdated = (a: Item, b: Item) => b.updatedAt.localeCompare(a.updatedAt);
+  const planned = items
+    .filter((i) => i.status === "geplant")
+    .sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
   const unscheduled = items.filter((i) => i.status === "ungeplant").sort(byUpdated);
   const inEdit = items.filter((i) => i.status === "schnitt").sort(byUpdated);
   const inApproval = items.filter((i) => i.status === "freigabe").sort(byUpdated);
@@ -449,6 +454,20 @@ export function VideoPlan() {
             <Calendar items={items} onOpen={open} onCreate={createAt} />
           </Section>
 
+          <Section title="Geplante Shoots" hint="Shoots mit festem Termin, nach Datum sortiert. Nach dem Dreh als „gedreht“ markieren." count={planned.length}>
+            {!loaded ? (
+              <Empty>Lädt …</Empty>
+            ) : planned.length === 0 ? (
+              <Empty>Keine geplanten Shoots. Ein Shoot erscheint hier, sobald er einen Termin hat.</Empty>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {planned.map((i) => (
+                  <BriefCard key={i.id} item={i} onOpen={open} footer={canEdit ? <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} /> : undefined} />
+                ))}
+              </div>
+            )}
+          </Section>
+
           <Section
             title="Ungeplante Shoots"
             hint="Briefings ohne Termin. Sobald ein Datum eingetragen ist, erscheint der Shoot im Kalender."
@@ -466,13 +485,13 @@ export function VideoPlan() {
             ) : (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {unscheduled.map((i) => (
-                  <BriefCard key={i.id} item={i} onOpen={open} footer={<StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} />} />
+                  <BriefCard key={i.id} item={i} onOpen={open} footer={canEdit ? <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} /> : undefined} />
                 ))}
               </div>
             )}
           </Section>
 
-          <Section title="Shoots im Schnitt" hint="Gedrehte Shoots in der Postproduktion. Für die Freigabe Drive-Link im Briefing hinterlegen." count={inEdit.length}>
+          <Section title="Shoots im Schnitt" hint="Gedrehte Shoots in der Postproduktion. Für die Freigabe einen Link im Briefing hinterlegen." count={inEdit.length}>
             {inEdit.length === 0 ? (
               <Empty>Aktuell ist nichts im Schnitt. Ein Shoot landet hier, sobald er als „gedreht“ markiert wird.</Empty>
             ) : (
@@ -487,7 +506,7 @@ export function VideoPlan() {
                         <StatusMove item={i} to="freigabe" label="Zur Freigabe geben →" author={author} onDone={reload} />
                       ) : (
                         <button type="button" onClick={() => open(i)} className="text-[11px] font-bold uppercase tracking-[0.06em] text-navy hover:text-koralle">
-                          Drive-Link hinzufügen & zur Freigabe →
+                          Link hinzufügen & zur Freigabe →
                         </button>
                       )
                     }
@@ -499,7 +518,7 @@ export function VideoPlan() {
 
           <Section
             title="Creatives in Freigabe"
-            hint="Vorschau anklicken öffnet die Datei in Google Drive. Feedback kann jede:r hinterlassen."
+            hint="Vorschau anklicken öffnet den Link. Feedback kann jede:r hinterlassen."
             count={inApproval.length}
             action={
               <button

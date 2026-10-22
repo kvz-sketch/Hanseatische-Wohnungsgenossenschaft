@@ -24,7 +24,7 @@ export const BRIEF_FIELDS = [
 
 export type BriefKey = (typeof BRIEF_FIELDS)[number]["key"];
 export type Brief = Record<BriefKey, string>;
-export type DriveLink = { url: string; label: string };
+export type ItemLink = { url: string; label: string };
 
 export type Item = {
   id: string;
@@ -36,7 +36,7 @@ export type Item = {
   end: string | null;
   allDay: boolean;
   brief: Brief;
-  links: DriveLink[];
+  links: ItemLink[];
   createdBy?: string;
   updatedBy?: string;
   createdAt: string;
@@ -219,6 +219,32 @@ export const isDriveFolder = (url: string) => /\/drive\/(?:u\/\d+\/)?folders\//.
 
 /** Thumbnail image for a Drive file. Only loads if the file is shared via link. */
 export const driveThumbnail = (id: string) => `https://drive.google.com/thumbnail?id=${id}&sz=w800`;
+
+const isDriveUrl = (url: string) => /^https:\/\/(drive|docs)\.google\.com\//.test(url);
+
+/** Video ID from youtube.com/watch, youtu.be and /shorts/ links, or null. */
+function youtubeId(url: string): string | null {
+  const m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
+/** What a link card can show: a preview image if the host offers one, and where the link leads. */
+export function linkPreview(url: string): { thumbnail: string | null; host: string; isDriveFolder: boolean } {
+  let host = "";
+  try {
+    host = new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    // Older entries or typos: the card just shows the raw link.
+  }
+  const drive = isDriveUrl(url);
+  const driveId = drive ? driveFileId(url) : null;
+  const yt = youtubeId(url);
+  return {
+    thumbnail: driveId ? driveThumbnail(driveId) : yt ? `https://i.ytimg.com/vi/${yt}/hqdefault.jpg` : null,
+    host: drive ? "Google Drive" : host,
+    isDriveFolder: drive && isDriveFolder(url),
+  };
+}
 
 // ---------- dates ----------
 

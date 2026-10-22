@@ -14,7 +14,7 @@ import {
 } from "../../lib/videoplan";
 
 // Create/edit dialog for one Videoplan entry: date & time, status, the full
-// shooting brief and the Google Drive links for the approval round.
+// shooting brief and the links (Google Drive, YouTube, WeTransfer, …) for the approval round.
 
 const inputCls =
   "w-full rounded-md border border-navy/15 bg-white px-3 py-2 text-[13px] text-navy placeholder:text-fog focus:border-navy focus:outline-none";
@@ -81,7 +81,11 @@ export function ItemDialog({
     }
     const cleanLinks = links.map((l) => ({ url: l.url.trim(), label: l.label.trim() })).filter((l) => l.url);
     if ((st === "freigabe" || st === "freigegeben") && cleanLinks.length === 0) {
-      setError("Für die Freigabe bitte mindestens einen Google-Drive-Link hinzufügen.");
+      setError("Für die Freigabe bitte mindestens einen Link hinzufügen.");
+      return null;
+    }
+    if (cleanLinks.some((l) => !/^https?:\/\/\S+\.\S+/i.test(l.url))) {
+      setError("Links müssen mit https:// beginnen.");
       return null;
     }
     return {
@@ -231,14 +235,14 @@ export function ItemDialog({
           </div>
 
           <div>
-            <h4 className="subheading mb-1 text-[13px] uppercase tracking-[0.04em] text-navy">Google-Drive-Links</h4>
+            <h4 className="subheading mb-1 text-[13px] uppercase tracking-[0.04em] text-navy">Links</h4>
             <p className="mb-3 text-[11.5px] text-muted">
-              Für die Freigabe: Datei in Drive auf „Jeder mit dem Link“ freigeben, damit die Vorschau angezeigt wird.
+              Jeder Link ist möglich (Drive, YouTube, Vimeo, WeTransfer, Frame.io …). Vorschaubilder gibt es für Google Drive (Datei auf „Jeder mit dem Link“ freigeben) und YouTube.
             </p>
             <div className="flex flex-col gap-2">
               {links.map((l, i) => (
                 <div key={i} className="flex gap-2">
-                  <input className={`${inputCls} flex-[2]`} value={l.url} placeholder="https://drive.google.com/file/d/…" onChange={(e) => setLinks(links.map((x, j) => (j === i ? { ...x, url: e.target.value } : x)))} />
+                  <input className={`${inputCls} flex-[2]`} value={l.url} placeholder="https://…" onChange={(e) => setLinks(links.map((x, j) => (j === i ? { ...x, url: e.target.value } : x)))} />
                   <input className={`${inputCls} flex-1`} value={l.label} placeholder="Bezeichnung (optional)" onChange={(e) => setLinks(links.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)))} />
                   <button type="button" onClick={() => setLinks(links.filter((_, j) => j !== i))} className="px-2 text-[18px] text-muted hover:text-koralle" aria-label="Link entfernen">
                     ×

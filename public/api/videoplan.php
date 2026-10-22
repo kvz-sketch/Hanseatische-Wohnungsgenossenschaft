@@ -191,12 +191,12 @@ function dateTime($v): ?string
     return $v;
 }
 
-/** Only Google Drive / Docs links — nothing else gets rendered as a link or image. */
-function driveUrl($v): string
+/** Any web link (http/https only, so no javascript: or data: URLs end up in an href). */
+function linkUrl($v): string
 {
-    $url = str($v, 600);
-    if (!preg_match('#^https://(drive|docs)\.google\.com/#', $url)) {
-        fail(400, 'Bitte einen Google-Drive-Link (https://drive.google.com/…) verwenden.');
+    $url = str($v, 1000);
+    if (!preg_match('#^https?://#i', $url) || filter_var($url, FILTER_VALIDATE_URL) === false) {
+        fail(400, 'Bitte einen gültigen Link verwenden, der mit https:// beginnt.');
     }
     return $url;
 }
@@ -224,7 +224,7 @@ function cleanItem(array $in, array $base): array
         $links = [];
         foreach ($in['links'] as $l) {
             if (!is_array($l) || trim((string) ($l['url'] ?? '')) === '') continue;
-            $links[] = ['url' => driveUrl($l['url']), 'label' => str($l['label'] ?? '', 120)];
+            $links[] = ['url' => linkUrl($l['url']), 'label' => str($l['label'] ?? '', 120)];
         }
         $item['links'] = $links;
     }
