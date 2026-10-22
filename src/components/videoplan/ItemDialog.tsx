@@ -4,6 +4,7 @@ import {
   CATEGORY_META,
   STATUS_LABEL,
   api,
+  cleanLink,
   datePart,
   timePart,
   toLocal,
@@ -79,7 +80,7 @@ export function ItemDialog({
       setError("Das Ende muss nach dem Beginn liegen.");
       return null;
     }
-    const cleanLinks = links.map((l) => ({ url: l.url.trim(), label: l.label.trim() })).filter((l) => l.url);
+    const cleanLinks = links.map(cleanLink).filter((l) => l.url);
     if ((st === "freigabe" || st === "freigegeben") && cleanLinks.length === 0) {
       setError("Für die Freigabe bitte mindestens einen Link hinzufügen.");
       return null;

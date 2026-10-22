@@ -199,6 +199,17 @@ export function useAuthorName(): [string, (name: string) => void] {
   return [name, save];
 }
 
+/**
+ * Tidies a link row before saving. Text pasted after the URL in the link field
+ * ("https://pin.it/abc / Pinterest Moodboard") moves into the label, so the URL
+ * itself has no spaces. An existing label is kept.
+ */
+export function cleanLink(link: ItemLink): ItemLink {
+  const [url = "", ...rest] = link.url.trim().split(/\s+/);
+  const extra = rest.join(" ").replace(/^[/|–—:-]+\s*/, "").trim();
+  return { url, label: link.label.trim() || extra };
+}
+
 // ---------- Google Drive ----------
 
 /** File ID from the usual Drive/Docs link shapes, or null (e.g. for folders). */
