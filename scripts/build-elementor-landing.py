@@ -621,6 +621,8 @@ SPORT_CLUBS = [
     ("logo-dhb-masters.png", "Deutscher Hockey-Bund, Masters Teams", "https://www.hockey.de/"),
     ("logo-mthc.png", "MTHC", "https://mthc.de/"),
     ("logo-handball-sportverein-hamburg.png", "Handball Sportverein Hamburg", "https://hamburg-handball.de/"),
+    ("logo-etv-volleys.png", "ETV Hamburger Volksbank Volleys",
+     "https://www.etv-hamburg.de/de/etv-hamburger-volksbank-volleys/"),
 ]
 
 
