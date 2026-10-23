@@ -1234,19 +1234,17 @@ def konditionen():
              ("Nachzahlungen", "keine"),
              ("Club der Kapitalanleger", "Mitgliedschaft inklusive,<br>ohne Zusatzkosten")]
     return band([
-        intro_row("Konditionen", "Ihre Konditionen im Überblick.",
-                  "Das Wichtigste aus Satzung und Geschäftsordnung."),
-        spacer(12),
         container([
             container([
+                h2("Ihre Konditionen im Überblick."),
+                text("<p>Das Wichtigste aus Satzung und Geschäftsordnung.</p>", size=16),
+                spacer(8),
                 text("<p>Ein Anteil kostet 10.000&nbsp;€. Vorgesehen sind 7&nbsp;% Zinsen pro Jahr, ausgezahlt alle drei Monate.</p>",
                      size=16),
                 text("<p>Laufzeit zwölf Monate, Kündigung bis neun Monate vor Ablauf. Keine Nachschüsse.</p>", size=16),
-                text("<p>__DROP__</p>",
-                     size=16),
                 spacer(4),
                 button("Persönlich beraten lassen", "#kontakt"),
-            ], width=48, gap_px=8),
+            ], width=48, gap_px=12),
             tile([kv_table(terms, title="Die Bedingungen in Kurzform")], width=46, pad=(32,), pad_mobile=(22, 18)),
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
     ], bg=GREY_BG, anchor="konditionen", gap_px=12)
