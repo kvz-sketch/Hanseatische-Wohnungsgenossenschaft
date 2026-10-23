@@ -540,8 +540,8 @@ def hero():
     ], pad=(18, 22), gap_px=6, max_width=300, css="hs-chip")
     photo_band = container([
         container([
-            heading("Ihr Anteil an Wohnimmobilien. Ohne selbst zu kaufen.", "h1", size=72, mobile=40, color=NAVY, weight="700",
-                    line=1.02),
+            heading("Ihr Anteil an Wohnimmobilien. Ohne selbst zu kaufen.", "h1", size=64, mobile=36, color=NAVY, weight="700",
+                    family=UI, line=1.08),
         ], css="hs-hero-title"),
         chip,
     ], inner=False, boxed=True, row=True, align="flex-end", justify="space-between", gap_px=32,
