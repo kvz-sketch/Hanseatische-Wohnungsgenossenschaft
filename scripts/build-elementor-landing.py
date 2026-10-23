@@ -1180,7 +1180,7 @@ def projektbeispiele():
             rows.append(widget("divider", {"color": LINE, "gap": px(32)}))
     return band([
         intro_row("Projektbeispiele", "Vom Ankauf bis zur letzten verkauften Wohnung",
-                  "Zwei abgeschlossene Projekte der Gerlach Immobilien Gruppe, mit allen Zahlen."),
+                  "Zwei abgeschlossene Projekte der Gerlach Immobilien Gruppe, mit allen Zahlen.", wide=True),
         spacer(24),
         *rows,
     ], anchor="projekte", gap_px=12)
