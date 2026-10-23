@@ -618,6 +618,7 @@ def testimonials():
 SPORT_CLUBS = [
     ("logo-vfl-gueldenstern-stade.png", "VfL Güldenstern Stade", "https://vflgueldenstern-stade.de/"),
     ("logo-vfl-fredenbeck.png", "VfL Fredenbeck", "https://vfl-fredenbeck.de/"),
+    ("logo-dhb-masters.png", "Deutscher Hockey-Bund, Masters Teams", "https://www.hockey.de/"),
 ]
 
 
