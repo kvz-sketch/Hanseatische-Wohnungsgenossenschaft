@@ -1,3 +1,14 @@
+import lkAussen from '../assets/expose/langer-kamp-aussen.jpg'
+import lkInnen1 from '../assets/expose/langer-kamp-innen-1.jpg'
+import lkInnen2 from '../assets/expose/langer-kamp-innen-2.jpg'
+import lkInnen3 from '../assets/expose/langer-kamp-innen-3.jpg'
+import lkInnen4 from '../assets/expose/langer-kamp-innen-4.jpg'
+import obAussen from '../assets/expose/oberbilker-aussen.jpg'
+import obInnen1 from '../assets/expose/oberbilker-innen-1.jpg'
+import obInnen2 from '../assets/expose/oberbilker-innen-2.jpg'
+import obInnen3 from '../assets/expose/oberbilker-innen-3.jpg'
+import obInnen4 from '../assets/expose/oberbilker-innen-4.jpg'
+
 // All copy and figures for the Hanseatische Invest eG site.
 // Source: the reference design at hansea.neo-labs.ai (Stand April 2026).
 
@@ -11,6 +22,8 @@ export const company = {
   register: 'Amtsgericht Hamburg, GnR 1175',
   auditor: 'DIVK Prüfungsverband',
 }
+
+export const BOOKING_URL = 'https://calendly.com/dpp-gerlachgroup/30min-erstgesprach-gig'
 
 export const callSlots = ['Schnellstmöglich', '9–12 Uhr', '12–15 Uhr', '15–18 Uhr']
 
@@ -150,24 +163,69 @@ export type Project = {
   // completed projects and the pipeline only
   pin?: [number, number]
   // Details from the Exposé, shown when the row is opened (projects for sale)
-  expose?: { images: { src: string; alt: string }[]; facts: [string, string][] }
+  expose?: { sold: number; summary: string; images: { src: string; alt: string }[]; facts: [string, string][] }
 }
 
 export const projectsForSale: Project[] = [
   {
-    street: 'Langer Kamp',
+    street: 'Langer Kamp 49',
     city: 'Norderstedt',
-    note: '23 Wohnungen ab 57 m², im Verkauf seit vier Monaten',
+    note: 'Mehrfamilienhaus von 1997, Wohnungen von 56 bis 115 m²',
     status: 'Im Verkauf',
-    // Placeholder until the Exposé figures and photos are in
-    expose: { images: [], facts: [['Wohnungen', '23'], ['Größe', 'ab 57 m²'], ['Ort', 'Norderstedt']] },
+    expose: {
+      sold: 75,
+      summary: 'Gepflegtes Mehrfamilienhaus direkt im Hamburger Umland, mit 18 Garagen und möbliertem Vermietungskonzept.',
+      images: [
+        { src: lkAussen, alt: 'Langer Kamp 49, Norderstedt: Außenansicht' },
+        { src: lkInnen1, alt: 'Langer Kamp: Essbereich' },
+        { src: lkInnen2, alt: 'Langer Kamp: Küche' },
+        { src: lkInnen3, alt: 'Langer Kamp: Schlafzimmer' },
+        { src: lkInnen4, alt: 'Langer Kamp: Bad' },
+      ],
+      facts: [
+        ['Adresse', 'Langer Kamp 49, 49a, 49b, 22850 Norderstedt'],
+        ['Gesamtinvestition', 'ab 300.000 €'],
+        ['Baujahr', '1997'],
+        ['Wohnfläche gesamt', 'ca. 1.722 m²'],
+        ['Wohnungsgrößen', '56,2 bis 115 m²'],
+        ['Zimmer', '3 bis 4,5'],
+        ['Energieklasse', 'C'],
+        ['Heizung', 'Gas, Baujahr 2010'],
+        ['Mietgarantie', '17,00 € pro m²'],
+        ['Garagen und Stellplätze', '18 Garagen, 4 Stellplätze'],
+        ['Abschreibung', '2 %'],
+      ],
+    },
   },
   {
-    street: 'Oberbilker Allee',
+    street: 'Oberbilker Allee 113',
     city: 'Düsseldorf',
-    note: '10 Wohnungen ab 57 m², im Verkauf seit vier Monaten',
+    note: 'Gründerzeithaus von 1908, 9 Wohnungen von 41 bis 151 m²',
     status: 'Im Verkauf',
-    expose: { images: [], facts: [['Wohnungen', '10'], ['Größe', 'ab 57 m²'], ['Ort', 'Düsseldorf']] },
+    expose: {
+      sold: 68,
+      summary: 'Mehrfamilienhaus aus der Gründerzeit in Düsseldorf-Oberbilk, laufend modernisiert, mit möbliertem Vermietungskonzept.',
+      images: [
+        { src: obAussen, alt: 'Oberbilker Allee 113, Düsseldorf: Außenansicht' },
+        { src: obInnen1, alt: 'Oberbilker Allee: Wohnzimmer' },
+        { src: obInnen2, alt: 'Oberbilker Allee: Wohn- und Essbereich' },
+        { src: obInnen3, alt: 'Oberbilker Allee: Balkon' },
+        { src: obInnen4, alt: 'Oberbilker Allee: Küche' },
+      ],
+      facts: [
+        ['Adresse', 'Oberbilker Allee 113, 40227 Düsseldorf'],
+        ['Gesamtinvestition', 'ab 171.300 €'],
+        ['Baujahr', '1908'],
+        ['Wohneinheiten', '9'],
+        ['Wohnfläche gesamt', '770 m²'],
+        ['Wohnungsgrößen', '40,77 bis 150,71 m²'],
+        ['Zimmer', '3 bis 4'],
+        ['Energieklasse', 'D'],
+        ['Heizung', 'Erdgas, Baujahr 2006'],
+        ['Zielmiete', '17,00 € pro m²'],
+        ['Abschreibung', '8,33 %'],
+      ],
+    },
   },
 ]
 

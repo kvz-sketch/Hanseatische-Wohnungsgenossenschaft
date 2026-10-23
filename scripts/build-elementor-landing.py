@@ -353,6 +353,7 @@ FAQS = [
      "Die Zinsen können niedriger ausfallen oder entfallen, ein Totalverlust ist möglich. Keine Einlagensicherung."),
 ]
 
+BOOKING_URL = "https://calendly.com/dpp-gerlachgroup/30min-erstgesprach-gig"  # Calendly, 30-minute first call
 BOOK_URL = "https://www.remote-verlag.de/products/immobilien-investitionen-leicht-gemacht"
 BLOG_URL = "https://blog.gerlachgroup.de/%C3%B6ffentlichkeit-pr-blog"
 
@@ -1332,7 +1333,7 @@ def mitglied_werden():
                           color=WHITE, icon="fas fa-arrow-right", icon_color=GOLD_400, size=15, weight="500",
                           gap_px=12),
                 spacer(4),
-                button("Termin buchen", "#kontakt"),
+                button("Termin buchen", BOOKING_URL, external=True),
                 text("<p>30 Minuten, Telefon oder Video</p>", color=ON_NAVY_MUTED, size=13),
             ], width=40, bg=NAVY, pad=(40,), pad_mobile=(28, 20), gap_px=12),
         ], row=True, align="flex-start", justify="space-between", gap_px=40),

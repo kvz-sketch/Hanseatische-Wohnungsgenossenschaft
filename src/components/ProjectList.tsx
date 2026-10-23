@@ -1,38 +1,42 @@
-import {
-  projectsCompleted,
-  projectsForSale,
-  projectsPipeline,
-  type Project,
-} from "../data/content";
-import GermanyMap, { MapLegend } from "./GermanyMap";
-import { StatusBadge } from "./ui";
+import { BOOKING_URL, projectsCompleted, projectsForSale, projectsPipeline, type Project } from '../data/content'
+import GermanyMap, { MapLegend } from './GermanyMap'
+import { StatusBadge } from './ui'
 
 /** A project for sale: opens to photos and facts from the Exposé plus a booking button. */
-function ExposeRow({
-  project: p,
-  number,
-}: {
-  project: Project;
-  number: number;
-}) {
-  const expose = p.expose!;
+function ExposeRow({ project: p, number }: { project: Project; number: number }) {
+  const expose = p.expose!
   return (
     <li className="border-b border-line-soft last:border-b-0">
       <details className="group">
         <summary className="flex cursor-pointer list-none items-center gap-4 px-4 py-4 hover:bg-navy-050 sm:px-5 [&::-webkit-details-marker]:hidden">
           <span className="w-6 shrink-0 text-[13px] font-bold text-gold-700 tabular-nums">
-            {String(number).padStart(2, "0")}
+            {String(number).padStart(2, '0')}
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-[17px] leading-snug">
               <strong className="font-bold">{p.street}</strong>
               <span className="text-muted"> · {p.city}</span>
             </span>
-            <span className="mt-0.5 block text-[13px] text-muted">
-              {p.note}
-            </span>
+            <span className="mt-0.5 block text-[13px] text-muted">{p.note}</span>
+            <span className="mt-1 block text-[13px] font-bold text-ink sm:hidden">{expose.sold} % verkauft</span>
           </span>
           <span className="flex shrink-0 items-center gap-3">
+            <span className="hidden w-[150px] sm:block">
+              <span className="flex justify-between text-[12px]">
+                <span className="text-muted">verkauft</span>
+                <strong className="font-bold text-ink tabular-nums">{expose.sold} %</strong>
+              </span>
+              <span
+                className="mt-1 block h-1.5 overflow-hidden rounded-full bg-line"
+                role="progressbar"
+                aria-valuenow={expose.sold}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`${p.street}: ${expose.sold} % verkauft`}
+              >
+                <span className="block h-full rounded-full bg-gold" style={{ width: `${expose.sold}%` }} />
+              </span>
+            </span>
             <StatusBadge status={p.status} />
             <span
               aria-hidden="true"
@@ -52,36 +56,34 @@ function ExposeRow({
                     src={img.src}
                     alt={img.alt}
                     loading="lazy"
-                    className={`w-full rounded-control object-cover ${k === 0 ? "col-span-2 aspect-[16/9]" : "aspect-[4/3]"}`}
+                    className={`w-full rounded-control object-cover ${k === 0 ? 'col-span-2 aspect-[16/9]' : 'aspect-[4/3]'}`}
                   />
                 ))
               : [0, 1, 2].map((k) => (
                   <span
                     key={k}
-                    className={`stripe-light rounded-control ${k === 0 ? "col-span-2 aspect-[16/9]" : "aspect-[4/3]"}`}
+                    className={`stripe-light rounded-control ${k === 0 ? 'col-span-2 aspect-[16/9]' : 'aspect-[4/3]'}`}
                   >
                     Foto aus dem Exposé
                   </span>
                 ))}
           </div>
           <div>
+            <p className="m-0 mb-4 text-[15px] leading-relaxed text-ink-2">{expose.summary}</p>
             <dl className="m-0">
               {expose.facts.map(([k, v]) => (
-                <div
-                  key={k}
-                  className="grid grid-cols-[40%_1fr] gap-3 border-t border-line-soft py-2.5 last:border-b"
-                >
+                <div key={k} className="grid grid-cols-[40%_1fr] gap-3 border-t border-line-soft py-2.5 last:border-b">
                   <dt className="text-[13px] text-muted">{k}</dt>
                   <dd className="m-0 text-[14px] font-bold text-ink">{v}</dd>
                 </div>
               ))}
             </dl>
             <div className="mt-5 rounded-card bg-gold-100 p-4">
-              <p className="m-0 text-[15px] font-bold text-ink">
-                Interesse zum Kauf?
-              </p>
+              <p className="m-0 text-[15px] font-bold text-ink">Interesse zum Kauf?</p>
               <a
-                href="#termin"
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener"
                 className="mt-3 inline-block rounded-control bg-gold px-4 py-2.5 text-[14px] font-semibold text-ink no-underline hover:bg-gold-600"
               >
                 Gerne hier einen Termin machen
@@ -91,43 +93,26 @@ function ExposeRow({
         </div>
       </details>
     </li>
-  );
+  )
 }
 
-function ProjectGroup({
-  title,
-  projects,
-  offset,
-}: {
-  title: string;
-  projects: Project[];
-  offset?: number;
-}) {
+function ProjectGroup({ title, projects, offset }: { title: string; projects: Project[]; offset?: number }) {
   return (
     <section aria-label={title} className="mt-8 first:mt-0">
       <h3 className="m-0 mb-3 text-[13px] font-semibold tracking-[0.18em] uppercase">
-        {title}{" "}
-        <span className="ml-1.5 font-semibold text-muted">
-          {projects.length}
-        </span>
+        {title} <span className="ml-1.5 font-semibold text-muted">{projects.length}</span>
       </h3>
       <ul className="m-0 list-none overflow-hidden rounded-card border border-line bg-white p-0">
         {projects.map((p, i) =>
           p.expose ? (
-            <ExposeRow
-              key={`${p.city}-${p.street ?? i}`}
-              project={p}
-              number={(offset ?? 0) + i + 1}
-            />
+            <ExposeRow key={`${p.city}-${p.street ?? i}`} project={p} number={(offset ?? 0) + i + 1} />
           ) : (
             <li
               key={`${p.city}-${p.street ?? i}`}
               className="flex items-center gap-4 border-b border-line-soft px-4 py-4 last:border-b-0 sm:px-5"
             >
               <span className="w-6 shrink-0 text-[13px] font-bold text-gold-700 tabular-nums">
-                {offset !== undefined
-                  ? String(offset + i + 1).padStart(2, "0")
-                  : "·"}
+                {offset !== undefined ? String(offset + i + 1).padStart(2, '0') : '·'}
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[17px] leading-snug">
@@ -140,16 +125,10 @@ function ProjectGroup({
                     <strong className="font-bold">{p.city}</strong>
                   )}
                 </span>
-                <span className="mt-0.5 block text-[13px] text-muted">
-                  {p.note}
-                </span>
+                <span className="mt-0.5 block text-[13px] text-muted">{p.note}</span>
               </span>
               <span className="flex shrink-0 items-center gap-3">
-                {p.date && (
-                  <span className="hidden text-[13px] text-muted sm:inline">
-                    {p.date}
-                  </span>
-                )}
+                {p.date && <span className="hidden text-[13px] text-muted sm:inline">{p.date}</span>}
                 <StatusBadge status={p.status} />
               </span>
             </li>
@@ -157,50 +136,40 @@ function ProjectGroup({
         )}
       </ul>
     </section>
-  );
+  )
 }
 
 /** All houses of the group: map, key figures and the lists by status. */
 export default function ProjectList() {
-  const allHouses = projectsForSale.length + projectsCompleted.length;
+  const allHouses = projectsForSale.length + projectsCompleted.length
   const stats = [
-    { value: String(projectsCompleted.length), label: "abgeschlossen" },
-    { value: String(projectsForSale.length), label: "im Verkauf" },
-    { value: String(projectsPipeline.length), label: "im Ankauf" },
-    { value: "13.269", label: "m² Wohnfläche" },
-  ];
+    { value: String(projectsCompleted.length), label: 'abgeschlossen' },
+    { value: String(projectsForSale.length), label: 'im Verkauf' },
+    { value: String(projectsPipeline.length), label: 'im Ankauf' },
+    { value: '13.269', label: 'm² Wohnfläche' },
+  ]
 
   return (
     <section id="projekte" className="section bg-section">
       <div className="container-site">
-        <p className="m-0 text-[13px] text-muted">
-          Gerlach Immobilien Gruppe · Stand April 2026
-        </p>
-        <h2 className="h2 mt-3">
-          {allHouses} Häuser, jedes mit eigener Seite.
-        </h2>
+        <p className="m-0 text-[13px] text-muted">Gerlach Immobilien Gruppe · Stand April 2026</p>
+        <h2 className="h2 mt-3">{allHouses} Häuser, jedes mit eigener Seite.</h2>
         <p className="m-0 mt-3 max-w-[740px] text-[17px] leading-relaxed text-ink-2">
-          Alles, was die Gerlach Immobilien Gruppe seit 2025 gekauft, saniert
-          und verkauft hat, dazu die Objekte im Verkauf und im Ankauf.
+          Alles, was die Gerlach Immobilien Gruppe seit 2025 gekauft, saniert und verkauft hat, dazu die Objekte im
+          Verkauf und im Ankauf.
         </p>
 
         <div className="mt-10 grid grid-cols-1 items-center gap-8 overflow-hidden rounded-card bg-navy-gradient p-6 text-white sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:gap-16 lg:p-14">
           <div>
-            <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-400 uppercase">
-              Unsere Standorte
-            </p>
+            <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-400 uppercase">Unsere Standorte</p>
             <p className="m-0 mt-3 font-display text-[clamp(28px,3vw,40px)] leading-tight">
               Vom Norden bis nach Nordrhein-Westfalen
             </p>
             <dl className="m-0 mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-card bg-white/10">
               {stats.map((s) => (
                 <div key={s.label} className="bg-ink-panel p-5">
-                  <dt className="font-display text-[34px] leading-none font-normal tabular-nums">
-                    {s.value}
-                  </dt>
-                  <dd className="m-0 mt-2 text-[13px] text-navy-200">
-                    {s.label}
-                  </dd>
+                  <dt className="font-display text-[34px] leading-none font-normal tabular-nums">{s.value}</dt>
+                  <dd className="m-0 mt-2 text-[13px] text-navy-200">{s.label}</dd>
                 </div>
               ))}
             </dl>
@@ -208,23 +177,12 @@ export default function ProjectList() {
               <MapLegend onDark />
             </div>
           </div>
-          <GermanyMap
-            variant="navy"
-            className="mx-auto block w-full max-w-[560px]"
-          />
+          <GermanyMap variant="navy" className="mx-auto block w-full max-w-[560px]" />
         </div>
 
         <div className="mt-12">
-          <ProjectGroup
-            title="Im Verkauf"
-            projects={projectsForSale}
-            offset={0}
-          />
-          <ProjectGroup
-            title="Abgeschlossen"
-            projects={projectsCompleted}
-            offset={projectsForSale.length}
-          />
+          <ProjectGroup title="Im Verkauf" projects={projectsForSale} offset={0} />
+          <ProjectGroup title="Abgeschlossen" projects={projectsCompleted} offset={projectsForSale.length} />
           <ProjectGroup title="Im Ankauf" projects={projectsPipeline} />
           <p className="m-0 mt-4 text-[13px] text-muted">
             Berlin und die neuen Bundesländer werden geprüft. Stand April 2026.
@@ -232,5 +190,5 @@ export default function ProjectList() {
         </div>
       </div>
     </section>
-  );
+  )
 }
