@@ -388,9 +388,10 @@ def band(children, **kw):
     return container(children, inner=False, boxed=True, **kw)
 
 
-def split(children, *, anchor=None, css=None):
-    """Full-bleed row of panels (no gap); each child sets its own width."""
-    return container(children, inner=False, row=True, gap_px=0, anchor=anchor, css=css, align="stretch")
+def split(children, *, anchor=None, css=None, reverse_mobile=False):
+    """Full-bleed row of panels (no gap); each child sets its own width. `reverse_mobile` stacks them bottom-up."""
+    return container(children, inner=False, row=True, gap_px=0, anchor=anchor, css=css, align="stretch",
+                     reverse_mobile=reverse_mobile)
 
 
 def panel(children, width, *, side, bg=NAVY, pad=(96, 64), gap_px=18, justify="center", min_h=None):
@@ -1182,19 +1183,20 @@ PROJECT_CASES = [
 ]
 
 
-def project_case(case, *, first=False):
+def project_case(case, *, first=False, photo_right=False):
+    """Photo on one side to the page edge, figures on the other; on phones the photo is always on top."""
     rows = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in case["rows"])
-    return split([
-        photo(case["image"], 58, min_h=620, pos="center center"),
-        panel([
+    image_panel = photo(case["image"], 58, min_h=620, pos="center center")
+    text_panel = panel([
             heading(case["place"], "p", size=15, mobile=14, color=NAVY, weight="600", family=UI, line=1.4),
             heading(case["title"], "h3", size=40, mobile=32, line=1.12),
             spacer(24),
             heading(case["figure"], "p", size=140, mobile=88, line=0.95),
             text(f"<p>{case['figure_label']}</p>", color=MUTED, size=15),
             widget("html", {"html": f'<dl class="hs-figures">{rows}</dl>'}),
-        ], 42, side="r", bg=WHITE, pad=(56, 64), gap_px=10),
-    ], anchor=case["anchor"], css=None if first else "hs-case-next")
+        ], 42, side="l" if photo_right else "r", bg=WHITE, pad=(56, 64), gap_px=10)
+    return split([text_panel, image_panel] if photo_right else [image_panel, text_panel], anchor=case["anchor"],
+                 css=None if first else "hs-case-next", reverse_mobile=photo_right)
 
 
 def projektbeispiele():
@@ -1203,7 +1205,7 @@ def projektbeispiele():
         intro_row("Projektbeispiele", "Vom Ankauf bis zur letzten verkauften Wohnung",
                   "Zwei Projekte der Gerlach Immobilien Gruppe, mit allen Zahlen.", wide=True),
     ], anchor="projekte", gap_px=12, pad=(104, 20, 48, 20), pad_mobile=(64, 16, 32, 16)),
-        *[project_case(c, first=i == 0) for i, c in enumerate(PROJECT_CASES)]]
+        *[project_case(c, first=i == 0, photo_right=i % 2 == 1) for i, c in enumerate(PROJECT_CASES)]]
 
 
 def konditionen():
