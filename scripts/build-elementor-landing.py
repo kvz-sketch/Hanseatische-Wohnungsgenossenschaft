@@ -1232,13 +1232,6 @@ def mittelverwendung():
     ], anchor="mittelverwendung", gap_px=12)
 
 
-EXAMPLES = [10_000, 50_000, 100_000, 500_000, 1_000_000]  # subscribed amounts in the 7 % table
-
-
-def euro(v):
-    return f"{v:,.0f}".replace(",", ".") + "&nbsp;€"
-
-
 def konditionen():
     terms = [("Ein Anteil", "10.000 €"),
              ("Zinsen", "7 % pro Jahr vorgesehen<br><small>§ 10 der Allgemeinen Geschäftsordnung</small>"),
@@ -1247,15 +1240,6 @@ def konditionen():
              ("Kündigungsfrist", "9 Monate vor Ablauf"), ("Steuer auf Zinsen", "führen wir direkt ab"),
              ("Nachzahlungen", "keine"),
              ("Club der Kapitalanleger", "Mitgliedschaft inklusive,<br>ohne Zusatzkosten")]
-    rows = "".join(f'<tr><th scope="row">{euro(v)}</th><td>{euro(v * 0.0175)}</td><td>{euro(v * 0.07)}</td>'
-                   f'<td>{euro(v * 0.35)}</td></tr>' for v in EXAMPLES)
-    table = widget("html", {"html": (
-        '<div class="hs-table-wrap"><table class="hs-table hs-table--num"><caption>Was sieben Prozent im Jahr bedeuten'
-        '</caption><thead><tr><th scope="col">Gezeichnet</th><th scope="col">je Quartal</th><th scope="col">pro Jahr</th>'
-        f'<th scope="col">in fünf Jahren</th></tr></thead><tbody>{rows}</tbody></table></div>'
-        '<p class="hs-table-note">Die Zinsen werden ausgezahlt und nicht angesammelt, die Beträge sind daher einfache '
-        'Summen ohne Zinseszins. Sie geben die in der Geschäftsordnung vorgesehene Verzinsung wieder und sind keine '
-        'Zusage. Angaben der Hanseatischen Invest eG, Stand Mitte 2026.</p>')})
     return band([
         intro_row("Konditionen", "Ihre Konditionen im Überblick.",
                   "Das Wichtigste aus Satzung und Geschäftsordnung."),
@@ -1272,18 +1256,6 @@ def konditionen():
             ], width=48, gap_px=8),
             tile([kv_table(terms, title="Die Bedingungen in Kurzform")], width=46, pad=(32,), pad_mobile=(22, 18)),
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
-        spacer(24),
-        container([
-            tile([table], width=66, pad=(32,), pad_mobile=(18, 14)),
-            container([
-                tile([heading("rund 5 Mio. €", "p", size=40, mobile=32, color=WHITE, line=1),
-                      text("<p>Kapital in der Genossenschaft, Stand Mitte 2026</p>", color=ON_NAVY, size=14)],
-                     bg=NAVY, pad=(28,), pad_mobile=(22, 18), gap_px=8),
-                tile([heading("100.000 €", "p", size=40, mobile=32, line=1),
-                      text("<p>durchschnittliche Zeichnung je investierendes Mitglied</p>", color=NAVY_TEXT, size=14)],
-                     bg=CREAM, pad=(28,), pad_mobile=(22, 18), gap_px=8, css="hs-tile--flat"),
-            ], width=31, gap_px=16),
-        ], row=True, align="stretch", justify="space-between", gap_px=24),
     ], bg=GREY_BG, anchor="konditionen", gap_px=12)
 
 
