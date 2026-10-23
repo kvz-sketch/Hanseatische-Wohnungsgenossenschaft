@@ -614,6 +614,16 @@ def testimonials():
     ], bg=CREAM, anchor="stimmen", gap_px=8)
 
 
+def sport_partners():
+    """Logos of the sports clubs we support, right below the hero (placeholders until the logos are in)."""
+    return band([
+        heading("Vertrauensvoller Partner folgender Sportvereine", "h2", size=30, mobile=24, line=1.2,
+                align="center"),
+        spacer(8),
+        logo_row(6),
+    ], pad=(56, 20), pad_mobile=(40, 16), gap_px=16, anchor="sportvereine")
+
+
 def about():
     stats = [("45", "Mitarbeiter"), ("3", "Standorte"), ("2024", "Gründung der Genossenschaft"),
              ("5 Mio. €", "Kapital in der Genossenschaft (Mitte 2026)")]
@@ -1320,7 +1330,7 @@ def footer():
 
 
 def build():
-    return [header(), *hero(), about(), at_a_glance(), einstieg(), photo_break("brosch-wohnanlage.jpg"), genossenschaft(),
+    return [header(), *hero(), sport_partners(), about(), at_a_glance(), einstieg(), photo_break("brosch-wohnanlage.jpg"), genossenschaft(),
             quote_band(), sponsoring(), unternehmen(),
             capital_steps(), trust(), projektbeispiele(), case_numbers(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
             mittelverwendung(), konditionen(), book(), webinar(), team(), press(), subsidiaries(), faq(),
