@@ -16,10 +16,9 @@ const columns = [
   {
     title: 'Rechtliches',
     links: [
-      { label: 'Impressum', href: '#' },
-      { label: 'Datenschutz', href: '#' },
-      { label: 'Risikohinweis', href: '#' },
-      { label: 'Satzung', href: '#' },
+      { label: 'Impressum', href: '/impressum/' },
+      { label: 'Datenschutz', href: '/datenschutz/' },
+      { label: 'Cookie-Richtlinie', href: '/cookie-richtlinie/' },
     ],
   },
 ]

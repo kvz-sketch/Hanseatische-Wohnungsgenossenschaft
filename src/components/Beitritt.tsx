@@ -111,7 +111,7 @@ function BeitrittForm({ initial, onSaved }: { initial?: BeitrittData; onSaved: (
       </div>
       <div className="sm:col-span-6">
         <ConsentCheckbox checked={consent} onChange={setConsent} error={!!errors.consent}>
-          {config.consent.text} <a href="#">Satzung</a> · <a href="#">Risikohinweis</a> · <a href="#">Datenschutzhinweise</a>
+          {config.consent.text} <a href="#">Satzung</a> · <a href="#">Risikohinweis</a> · <a href="/datenschutz/">Datenschutzhinweise</a>
         </ConsentCheckbox>
         {errors.consent && <p className="m-0 mt-2 text-[13px] text-coral-600">{errors.consent}</p>}
       </div>

@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HANSEA_THEME_VERSION', '1.10.4' );
+define( 'HANSEA_THEME_VERSION', '1.10.5' );
 
 require_once __DIR__ . '/inc/views.php';
 require_once __DIR__ . '/inc/members.php';
@@ -26,6 +26,13 @@ require_once __DIR__ . '/inc/beitritt.php';
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
 } );
+
+// Impressum, Datenschutz, Cookie-Richtlinie (template "Rechtliches")
+add_action( 'wp_enqueue_scripts', function () {
+	if ( is_page_template( 'templates/legal.php' ) ) {
+		wp_enqueue_style( 'hansea-legal', get_template_directory_uri() . '/legal.css', array( 'hansea-elementor' ), HANSEA_THEME_VERSION );
+	}
+}, 20 );
 
 // Browser-tab titles: "Seite | Hanseatische Invest eG" (no dash)
 add_filter( 'document_title_separator', function () {

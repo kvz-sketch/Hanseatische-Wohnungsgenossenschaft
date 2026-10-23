@@ -79,7 +79,7 @@ add_shortcode( 'hansea_kontakt', function () {
 		<div class="hs-form__hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
 		<p class="hs-form__error" role="alert" hidden></p>
 		<button type="submit">Anfrage senden</button>
-		<p class="hs-form__note">* Pflichtfelder. Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage. <a href="#">Datenschutzhinweise</a></p>
+		<p class="hs-form__note">* Pflichtfelder. Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage. <a href="<?php echo esc_url( home_url( '/datenschutz/' ) ); ?>">Datenschutzhinweise</a></p>
 	</form>
 	<script>
 	(function () {

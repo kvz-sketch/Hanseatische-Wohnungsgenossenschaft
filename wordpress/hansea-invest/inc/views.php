@@ -83,9 +83,15 @@ add_filter( 'template_include', function ( $template ) {
 	return $template;
 } );
 
+// App pages and the front page get their fixed titles; other pages (e.g. Impressum) keep their own.
 add_filter( 'document_title_parts', function ( $parts ) {
-	$view = hansea_current_view() ?? 'home';
-	$parts['title'] = HANSEA_VIEWS[ $view ]['title'];
+	$view = hansea_current_view() ?? ( is_front_page() ? 'home' : null );
+	if ( $view ) {
+		$parts['title'] = HANSEA_VIEWS[ $view ]['title'];
+	}
+	if ( is_front_page() ) {
+		$parts['tagline'] = get_bloginfo( 'name' ); // "… | Hanseatische Invest eG" like the other pages
+	}
 	return $parts;
 } );
 

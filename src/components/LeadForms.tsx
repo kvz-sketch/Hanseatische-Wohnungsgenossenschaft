@@ -125,7 +125,7 @@ export function CallbackForm() {
             <ConsentCheckbox checked={consent} onChange={setConsent} error={errors.consent}>
               Ja, die Hanseatische Invest eG darf mich im gewählten Zeitfenster telefonisch zu meiner Anfrage kontaktieren
               und mir einen Zugangscode für mein Portal per SMS an diese Nummer senden. Ich kann diese Einwilligung
-              jederzeit widerrufen. <a href="#">Datenschutzhinweise</a>
+              jederzeit widerrufen. <a href="/datenschutz/">Datenschutzhinweise</a>
             </ConsentCheckbox>
             {errors.consent && <p className="m-0 mt-2 text-[13px] text-coral-600">Bitte bestätigen Sie die Einwilligung.</p>}
           </div>

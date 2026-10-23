@@ -274,7 +274,7 @@ export function ContactSection() {
                 )}
                 <p className="m-0 mt-3 text-[12px] text-muted">
                   * Pflichtfelder. Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage.{' '}
-                  <a href="#">Datenschutzhinweise</a>
+                  <a href="/datenschutz/">Datenschutzhinweise</a>
                 </p>
               </div>
             </div>
