@@ -151,6 +151,48 @@
   animation: pin-in 0.4s ease-out both;
 }
 
+/* Animated navy map (member area): outline draws in, pins drop, acquisitions pulse */
+.hs-gmap-land {
+  fill: rgba(255, 255, 255, 0.04);
+  stroke: var(--color-gold);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.65, 0, 0.35, 1), fill 1s ease 1s;
+}
+.hs-gmap.is-in .hs-gmap-land {
+  stroke-dashoffset: 0;
+  fill: rgba(255, 255, 255, 0.07);
+}
+.hs-gmap-pin {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.hs-gmap.is-in .hs-gmap-pin {
+  animation: gmap-pin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes gmap-pin {
+  from { opacity: 0; transform: translateY(-14px) scale(0.3); }
+  to { opacity: 1; transform: none; }
+}
+.hs-gmap-ring {
+  fill: rgba(255, 255, 255, 0.22);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.hs-gmap.is-in .hs-gmap-pin--new .hs-gmap-ring {
+  animation: gmap-pulse 2.4s ease-out 3s infinite;
+}
+@keyframes gmap-pulse {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  70%, 100% { transform: scale(2.2); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hs-gmap-land { transition: none; stroke-dashoffset: 0; }
+  .hs-gmap-pin { opacity: 1; }
+  .hs-gmap.is-in .hs-gmap-pin, .hs-gmap.is-in .hs-gmap-pin--new .hs-gmap-ring { animation: none; }
+}
+
 /* Calculator slider */
 .hs-range {
   height: 6px;

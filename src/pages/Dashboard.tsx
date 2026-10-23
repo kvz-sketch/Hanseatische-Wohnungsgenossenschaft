@@ -1,31 +1,30 @@
 import { useEffect, useState } from 'react'
 import { currentMember, logout, type Member } from '../auth/auth'
-import Calculator from '../components/Calculator'
-import Faq from '../components/Faq'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import HowItWorks from '../components/HowItWorks'
 import { CallbackForm } from '../components/LeadForms'
+import MemberDocuments from '../components/MemberDocuments'
+import MemberEvents from '../components/MemberEvents'
 import ProjectList from '../components/ProjectList'
 import ShareTracker from '../components/ShareTracker'
 import TrackRecord from '../components/TrackRecord'
 import { navigate } from '../routes'
-import { anteile, company, exampleShares, nextPayout, SHARE_PRICE } from '../data/content'
+import { anteile, company, memberUnits, nextPayout, SHARE_PRICE } from '../data/content'
 
 const memberNav = [
   { label: 'Übersicht', href: '#uebersicht' },
-  { label: 'Meine Anteile', href: '#verfolgen' },
+  { label: 'Projektstand', href: '#verfolgen' },
   { label: 'Projekte', href: '#projekte' },
   { label: 'Bilanz', href: '#bilanz' },
-  { label: 'Rechner', href: '#rechner' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Termine', href: '#termine' },
+  { label: 'Dokumente', href: '#dokumente' },
 ]
 
 const euro = (v: number, digits = 0) =>
   `${new Intl.NumberFormat('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(v)} €`
 
 // Sample portfolio shown to every member until real data is connected
-const units = exampleShares.reduce((sum, s) => sum + s.units, 0)
+const units = memberUnits
 const invested = units * SHARE_PRICE
 const quarterly = (invested * 0.07) / 4
 const paidSoFar = quarterly * 2
@@ -133,10 +132,9 @@ export default function Dashboard() {
         <ShareTracker />
         <ProjectList />
         <TrackRecord />
-        <HowItWorks />
-        <Calculator />
+        <MemberEvents />
+        <MemberDocuments />
         <Service />
-        <Faq />
       </main>
       <Footer />
     </>

@@ -14,60 +14,23 @@ export const company = {
 
 export const callSlots = ['Schnellstmöglich', '9–12 Uhr', '12–15 Uhr', '15–18 Uhr']
 
-// Beispielanteile für die Anteilsverfolgung
-export const shareStages = ['Eingezahlt', 'Zugeordnet', 'Ankauf', 'Sanierung', 'Verkauf', 'Ausgeschüttet']
+// Sample portfolio: the member's Anteile and the projects the Genossenschaft currently invests in.
+// Anteile are not assigned to single houses; the member's money works across all projects.
+export const memberUnits = 4
 
-export type ShareEvent = { date: string; place: string; text: string; hasPhoto: boolean }
-export type ExampleShare = {
-  id: string
-  units: number // Anteile à SHARE_PRICE
+export type PortfolioProject = {
   city: string
-  stage: number // index into shareStages of the current stage
+  name: string
+  progress: number // % of the project completed, from purchase to the last sale
+  phase: 'Ankauf' | 'Modernisierung' | 'Vermietung' | 'Verkauf' | 'Abgeschlossen'
   status: string
-  where: string
-  events: ShareEvent[]
+  updated: string
 }
 
-export const exampleShares: ExampleShare[] = [
-  {
-    id: 'A-24817',
-    units: 2,
-    city: 'Kiel',
-    stage: 2,
-    status: 'In Bearbeitung',
-    where: 'Kiel, Schreventeich – Kaufvertrag beurkundet, Übergabe 15.10.',
-    events: [
-      { date: '30.09.2026', place: 'Portal', text: 'Eigenkapital 476.000 von 620.000 € eingeworben', hasPhoto: false },
-      { date: '15.09.2026', place: 'Kiel', text: 'Kaufvertrag notariell beurkundet', hasPhoto: true },
-      { date: '02.09.2026', place: 'Hamburg', text: 'Anteil dem Projekt Kiel zugeordnet', hasPhoto: false },
-    ],
-  },
-  {
-    id: 'A-19302',
-    units: 1,
-    city: 'Oldenburg',
-    stage: 3,
-    status: 'In Bearbeitung',
-    where: 'Oldenburg, Bürgerfelde – 2. OG, neue Leitungen und Bäder',
-    events: [
-      { date: '18.09.2026', place: 'Oldenburg', text: 'Dach geschlossen', hasPhoto: true },
-      { date: '30.06.2026', place: 'Hamburg', text: 'Zinsen Q2 ausgezahlt · 175,00 €', hasPhoto: false },
-      { date: '02.06.2026', place: 'Oldenburg', text: 'Fenster getauscht', hasPhoto: true },
-    ],
-  },
-  {
-    id: 'A-11054',
-    units: 1,
-    city: 'Hamburg',
-    stage: 4,
-    status: 'Fast abgeschlossen',
-    where: 'Hamburg-Eilbek – Altbau von 1892, Wohnungen im Verkauf',
-    events: [
-      { date: '30.09.2026', place: 'Hamburg', text: 'Zinsen Q3 ausgezahlt · 175,00 €', hasPhoto: false },
-      { date: '26.09.2026', place: 'Hamburg', text: 'Wohnungsverkauf beurkundet', hasPhoto: false },
-      { date: '12.05.2026', place: 'Hamburg', text: 'Musterwohnung fertig, Verkaufsstart', hasPhoto: true },
-    ],
-  },
+export const portfolioProjects: PortfolioProject[] = [
+  { city: 'Kiel', name: 'Schreventeich', progress: 20, phase: 'Ankauf', status: 'Kaufvertrag beurkundet, Übergabe im Oktober', updated: '30.09.2026' },
+  { city: 'Oldenburg', name: 'Bürgerfelde', progress: 55, phase: 'Modernisierung', status: 'Dach geschlossen, Bäder in Arbeit', updated: '18.09.2026' },
+  { city: 'Hamburg', name: 'Eilbek', progress: 85, phase: 'Verkauf', status: 'Wohnungen im Verkauf, erste Verkäufe beurkundet', updated: '26.09.2026' },
 ]
 
 // One share (Geschäftsanteil) is 10.000 €: 7 % p.a. paid quarterly gives the 175 € per share above.
@@ -142,7 +105,7 @@ export const faqs: Faq[] = [
     q: 'Wo ist mein Geld dann genau?',
     lead: 'In einem konkreten Haus – mit Adresse und Fotos.',
     body: 'Jeder Anteil wird einem Projekt zugeordnet. Im Portal sehen Sie Phase, Baufortschritt und jede Ausschüttung.',
-    link: { label: 'Beispielanteil verfolgen', href: '#verfolgen' },
+    link: { label: 'Projektstand ansehen', href: '#verfolgen' },
   },
   {
     q: 'Was bringt mir das bei 25.000 €?',
@@ -186,6 +149,8 @@ export type Project = {
   // Position on the Germany map (viewBox 0 0 600 760); the map shows
   // completed projects and the pipeline only
   pin?: [number, number]
+  // Details from the Exposé, shown when the row is opened (projects for sale)
+  expose?: { images: { src: string; alt: string }[]; facts: [string, string][] }
 }
 
 export const projectsForSale: Project[] = [
@@ -194,12 +159,15 @@ export const projectsForSale: Project[] = [
     city: 'Norderstedt',
     note: '23 Wohnungen ab 57 m², im Verkauf seit vier Monaten',
     status: 'Im Verkauf',
+    // Placeholder until the Exposé figures and photos are in
+    expose: { images: [], facts: [['Wohnungen', '23'], ['Größe', 'ab 57 m²'], ['Ort', 'Norderstedt']] },
   },
   {
     street: 'Oberbilker Allee',
     city: 'Düsseldorf',
     note: '10 Wohnungen ab 57 m², im Verkauf seit vier Monaten',
     status: 'Im Verkauf',
+    expose: { images: [], facts: [['Wohnungen', '10'], ['Größe', 'ab 57 m²'], ['Ort', 'Düsseldorf']] },
   },
 ]
 
@@ -231,3 +199,25 @@ export const projectsPipeline: Project[] = [
 
 export const legalNotice =
   'Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die Zielrendite von 7 % p.a. ist nicht garantiert und hängt vom wirtschaftlichen Erfolg der Genossenschaft ab. Kein Anspruch auf Ausschüttung oder Rückzahlung; Verlust bis zum Totalverlust möglich. Keine gesetzliche Einlagensicherung. Keine Anlageberatung. Bitte lesen Sie vor einer Entscheidung Risikohinweis und Satzung.'
+
+// ---- Mitgliederbereich: Dokumente und Termine (Beispieldaten) ------------------
+
+export type MemberDocument = { title: string; note: string; kind: 'Persönlich' | 'Genossenschaft' }
+
+export const memberDocuments: MemberDocument[] = [
+  { title: 'Mitgliedsbestätigung', note: 'Ihre Aufnahme in die Genossenschaft', kind: 'Persönlich' },
+  { title: 'Steuerbescheinigung 2025', note: 'Für Ihre Steuererklärung', kind: 'Persönlich' },
+  { title: 'Zinsabrechnung Q3 2026', note: 'Auszahlung vom 30.09.2026', kind: 'Persönlich' },
+  { title: 'Satzung', note: 'Grundordnung der Genossenschaft', kind: 'Genossenschaft' },
+  { title: 'Allgemeine Geschäftsordnung', note: 'Verzinsung, Laufzeit, Kündigung', kind: 'Genossenschaft' },
+  { title: 'Jahresabschluss 2025', note: 'Geprüft durch den DIVK e. V.', kind: 'Genossenschaft' },
+]
+
+export type MemberEvent = { day: string; month: string; title: string; place: string; note: string }
+
+export const memberEvents: MemberEvent[] = [
+  { day: '14', month: 'Nov', title: 'Besichtigung Kiel, Schreventeich', place: 'Kiel · 14:00 Uhr', note: 'Rundgang mit der Projektleitung vor Baubeginn' },
+  { day: '03', month: 'Dez', title: 'Online-Projektbericht', place: 'Video · 18:30 Uhr', note: 'Stand aller Projekte, mit Fragerunde' },
+  { day: '20', month: 'Dez', title: 'Heimspiel HSV Handball Hamburg', place: 'Hamburg · Sporthalle', note: 'Gemeinsam mit anderen Mitgliedern' },
+  { day: '12', month: 'Jun', title: 'Mitgliederversammlung 2027', place: 'Hamburg · Langenhorner Chaussee 155', note: 'Bericht von Vorstand und Aufsichtsrat' },
+]

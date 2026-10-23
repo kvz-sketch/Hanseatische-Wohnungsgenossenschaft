@@ -58,10 +58,10 @@ export default function TrackRecord({ projectsHref = '#projekte' }: { projectsHr
         </div>
 
         <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg:gap-[56px]">
-          <div className="mx-auto w-full max-w-[420px]">
-            <GermanyMap variant="filled" className="block w-full" />
-            <div className="mt-4">
-              <MapLegend />
+          <div className="mx-auto w-full max-w-[420px] rounded-card bg-navy-gradient p-6 sm:p-8">
+            <GermanyMap variant="navy" className="block w-full" />
+            <div className="mt-5">
+              <MapLegend onDark />
             </div>
           </div>
 
