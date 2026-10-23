@@ -1111,11 +1111,6 @@ CITIES = [("Hamburg", 269.9, 154.3), ("Berlin", 469.4, 250.9), ("Düsseldorf", 8
           ("Köln", 91.9, 399.0, 16), ("Leipzig", 408.8, 361.5), ("Frankfurt", 192.5, 476.8),
           ("Stuttgart", 221.8, 601.5), ("München", 362.5, 661.5)]  # optional 4th value: label baseline
 
-PROJECTS_TABLE = [("Kiel, Mühlenweg", "21 Wohnungen und 6 Garagen", "5,48 Mio. €", "abgeschlossen"),
-                  ("Norderstedt, Segeberger Chaussee", "28 Wohnungen", "7,97 Mio. €", "90 % verkauft"),
-                  ("Eckernförde, Diestelkamp", "52 Wohnungen", "12,22 Mio. €", "abgeschlossen")]
-
-
 def germany_map():
     paths_ts = (Path(__file__).resolve().parent.parent / "src/data/paths.ts").read_text()
     outline = re.search(r"GERMANY_PATH =\s*'([^']+)'", paths_ts).group(1)
@@ -1129,16 +1124,6 @@ def germany_map():
         f'Zielregionen {names}"><path d="{outline}" class="hs-map-land"/>{dots}</svg>'
         '<figcaption>Unsere Zielregionen: die deutschen A-Städte und Wachstumsregionen mit stabiler Nachfrage.'
         '</figcaption></figure>')}, css="hs-map-widget")
-
-
-def projects_table():
-    rows = "".join(f'<tr><th scope="row">{o}</th><td>{u}</td><td>{v}</td><td>{st}</td></tr>'
-                   for o, u, v, st in PROJECTS_TABLE)
-    return widget("html", {"html": (
-        '<div class="hs-table-wrap"><table class="hs-table"><caption>Weitere Projekte der Gruppe</caption>'
-        '<thead><tr><th scope="col">Objekt</th><th scope="col">Umfang</th><th scope="col">Verkauf</th>'
-        f'<th scope="col">Stand</th></tr></thead><tbody>{rows}</tbody></table></div>'
-        '<p class="hs-table-note">Angaben der Gerlach Immobilien Gruppe, Stand September 2026.</p>')})
 
 
 def standorte():
@@ -1157,8 +1142,6 @@ def standorte():
             ], width=50, gap_px=14),
             container([germany_map()], width=44),
         ], row=True, align="center", justify="space-between", gap_px=40),
-        spacer(24),
-        tile([projects_table()], pad=(32,), pad_mobile=(18, 14)),
     ], bg=GREY_BG, anchor="standorte", gap_px=12)
 
 
