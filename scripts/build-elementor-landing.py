@@ -1086,7 +1086,7 @@ def genossenschaft():
         spacer(12),
         container([
             container([heading(t, "h3", size=26, mobile=22, line=1.2), text(f"<p>{b}</p>", size=16)],
-                      width=31, gap_px=10, css="hs-step-plain")
+                      width=31, gap_px=10)
             for t, b in points
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
     ], bg=GREY_BG, anchor="genossenschaft", gap_px=12)
