@@ -36,7 +36,7 @@ function Welcome({ member }: { member: Member }) {
       <div className="container-site">
         <div className="flex flex-wrap items-center gap-3">
           <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-400 uppercase">Mitgliederbereich</p>
-          <span className="rounded-full bg-gold-100 px-2.5 py-0.5 text-[12px] font-bold text-gold-700">Beispieldaten</span>
+          <span className="rounded-control bg-gold-100 px-2.5 py-0.5 text-[12px] font-bold text-gold-700">Beispieldaten</span>
         </div>
         <h1 className="m-0 mt-3 text-[clamp(30px,3.6vw,44px)] leading-tight font-display font-normal">
           {greeting()}, {member.firstName} {member.lastName}

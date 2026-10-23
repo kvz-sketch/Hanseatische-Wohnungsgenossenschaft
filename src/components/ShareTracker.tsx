@@ -53,7 +53,7 @@ export default function ShareTracker() {
                     <p className="m-0 text-[13px] text-muted">{p.city}</p>
                     <p className="m-0 text-[22px] leading-tight font-semibold">{p.name}</p>
                   </div>
-                  <span className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-bold ${phaseTone[p.phase]}`}>
+                  <span className={`shrink-0 rounded-control px-2.5 py-1 text-[12px] font-bold ${phaseTone[p.phase]}`}>
                     {p.phase}
                   </span>
                 </div>

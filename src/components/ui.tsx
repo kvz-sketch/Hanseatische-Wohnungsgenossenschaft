@@ -38,7 +38,7 @@ const badgeStyles: Record<ProjectStatus | 'Verkauf läuft', string> = {
 
 export function StatusBadge({ status }: { status: keyof typeof badgeStyles }) {
   return (
-    <span className={`inline-block whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-bold ${badgeStyles[status]}`}>
+    <span className={`inline-block whitespace-nowrap rounded-control px-2.5 py-1 text-xs font-bold ${badgeStyles[status]}`}>
       {status}
     </span>
   )
