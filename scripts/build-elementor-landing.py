@@ -540,9 +540,9 @@ def hero():
     ], pad=(18, 22), gap_px=6, max_width=300, css="hs-chip")
     photo_band = container([
         container([
-            heading("Ihr Anteil an Wohnimmobilien. Ohne selbst zu kaufen.", "h1", size=64, mobile=36, color=NAVY, weight="700",
-                    family=UI, line=1.08),
-        ], css="hs-hero-title"),
+            heading("Ihr Anteil an Wohnimmobilien. Ohne selbst zu kaufen.", "h1", size=64, mobile=36, color=WHITE, weight="300",
+                    line=1.04),
+        ], bg=NAVY, radius=8, pad=(36, 44), pad_mobile=(22, 22), css="hs-hero-title"),
         chip,
     ], inner=False, boxed=True, row=True, align="flex-end", justify="space-between", gap_px=32,
         pad=(220, 20, 64, 20), pad_mobile=(180, 16, 32, 16), min_h=680, min_h_mobile=520,
@@ -1268,6 +1268,8 @@ def contact():
                        ("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de"),
                        ("Langenhorner Chaussee 155, 22415 Hamburg", None)],
                       color=NAVY, icon="fas fa-arrow-right", icon_color=GOLD_600, size=15, weight="500", gap_px=14),
+            spacer(16),
+            image("kontakt-team.jpg", "Unser Team im Gespräch am Arbeitsplatz", radius=8, css_extra="hs-contact-img"),
         ], 42, side="l", bg=WHITE, justify="flex-start"),
         panel([widget("shortcode", {"shortcode": "[hansea_kontakt]"})], 58, side="r", bg=GREY_BG, pad=(96, 64)),
     ], anchor="kontakt")
@@ -1292,7 +1294,8 @@ def footer():
                                ("Geprüfter Jahresabschluss auf Anfrage", "mailto:mitgliederservice@hanseainvest.de"),
                                ("Prüfungsverband: DIVK Prüfungsverband", None)]),
             col("Rechtliches", [("Impressum", "/impressum/"), ("Datenschutz", "/datenschutz/"),
-                                ("Cookie-Richtlinie", "/cookie-richtlinie/"), ("Amtsgericht Hamburg, GnR 1175", None)]),
+                                ("Cookie-Richtlinie", "/cookie-richtlinie/"), ("Cookie-Einstellungen", "#cookie-einstellungen"),
+                                ("Amtsgericht Hamburg, GnR 1175", None)]),
         ], row=True, wrap=True, justify="space-between", gap_px=24),
         widget("divider", {"color": "rgba(255,255,255,0.14)", "gap": px(28)}),
         text(f"<p>{LEGAL}</p>", color=ON_NAVY_MUTED, size=12, line=1.6),

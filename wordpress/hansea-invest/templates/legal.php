@@ -10,9 +10,10 @@
 defined( 'ABSPATH' ) || exit;
 
 $hs_links = array(
-	'/impressum/'         => 'Impressum',
-	'/datenschutz/'       => 'Datenschutz',
-	'/cookie-richtlinie/' => 'Cookie-Richtlinie',
+	'/impressum/'           => 'Impressum',
+	'/datenschutz/'         => 'Datenschutz',
+	'/cookie-richtlinie/'   => 'Cookie-Richtlinie',
+	'#cookie-einstellungen' => 'Cookie-Einstellungen', // reopens the consent banner (inc/analytics.php)
 );
 ?>
 <!doctype html>

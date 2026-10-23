@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HANSEA_THEME_VERSION', '1.10.5' );
+define( 'HANSEA_THEME_VERSION', '1.10.7' );
 
 require_once __DIR__ . '/inc/views.php';
 require_once __DIR__ . '/inc/members.php';
@@ -22,6 +22,7 @@ require_once __DIR__ . '/inc/email.php';
 require_once __DIR__ . '/inc/welcome.php';
 require_once __DIR__ . '/inc/docusign.php';
 require_once __DIR__ . '/inc/beitritt.php';
+require_once __DIR__ . '/inc/analytics.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );

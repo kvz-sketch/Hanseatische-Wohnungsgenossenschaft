@@ -19,6 +19,7 @@ const columns = [
       { label: 'Impressum', href: '/impressum/' },
       { label: 'Datenschutz', href: '/datenschutz/' },
       { label: 'Cookie-Richtlinie', href: '/cookie-richtlinie/' },
+      { label: 'Cookie-Einstellungen', href: '#cookie-einstellungen' },
     ],
   },
 ]
