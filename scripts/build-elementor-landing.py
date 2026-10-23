@@ -1196,35 +1196,6 @@ def projektbeispiele():
     ], anchor="projekte", gap_px=12)
 
 
-def mittelverwendung():
-    path = [("01", "Sie übernehmen", "einen oder mehrere Anteile zu je 10.000 Euro"),
-            ("02", "Wir investieren", "in laufende Wohnungsprojekte"),
-            ("03", "Wir entwickeln", "modernisieren, vermieten, verkaufen"),
-            ("04", "Sie erhalten", "alle drei Monate Ihre Zinsen")]
-    blocks = [("Ihr Geld geht in laufende Projekte",
-               "Ihr Geld fließt über die Genossenschaft in Wohnungsprojekte."),
-              ("Aus dem Verkauf kommt das Geld zurück",
-               "Der Erlös deckt die Kosten. Der Rest ist Überschuss."),
-              ("Daraus wird Ihre Verzinsung bedient",
-               "Daraus zahlen wir Ihre Zinsen. Deshalb sind sie nicht garantiert.")]
-    return band([
-        intro_row("Mittelverwendung", "Wohin Ihr Geld fließt.",
-                  "Die häufigste Frage, kurz beantwortet."),
-        spacer(16),
-        container([
-            container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
-                      width=31.5, gap_px=10)
-            for t, b in blocks
-        ], row=True, justify="space-between", align="flex-start", gap_px=24),
-        spacer(24),
-        heading("Sie übernehmen Anteile, wir investieren und entwickeln, Sie erhalten alle drei Monate Ihre Zinsen.",
-                "p", size=30, mobile=24, line=1.25, css_class="hs-statement"),
-        spacer(16),
-        image("brosch-mittelverwendung.jpg", "Mehrfamilienhaus der Gerlach Immobilien Gruppe", radius=8,
-              css_extra="hs-wide-img"),
-    ], anchor="mittelverwendung", gap_px=12)
-
-
 def konditionen():
     terms = [("Ein Anteil", "10.000 €"),
              ("Zinsen", "7 % pro Jahr vorgesehen<br><small>§ 10 der Allgemeinen Geschäftsordnung</small>"),
@@ -1331,7 +1302,7 @@ def build():
     return [header(), *hero(), sport_partners(), about(), at_a_glance(), einstieg(), photo_break("brosch-wohnanlage.jpg"), genossenschaft(),
             quote_band(), sponsoring(), unternehmen(),
             capital_steps(), trust(), projektbeispiele(), case_numbers(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
-            mittelverwendung(), konditionen(), book(), webinar(), team(), press(), subsidiaries(), faq(),
+            photo_break("brosch-mittelverwendung.jpg", "center 55%"), konditionen(), book(), webinar(), team(), press(), subsidiaries(), faq(),
             mitglied_werden(), testimonials(), contact(), footer()]
 
 
