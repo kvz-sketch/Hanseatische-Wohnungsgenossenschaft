@@ -1006,23 +1006,19 @@ def kv_table(rows, *, on_dark=False, title=None):
 
 
 def einstieg():
-    return band([
-        intro_row("Einstieg", "Warum so viele Immobilien wollen und so wenige dazu kommen.",
-                  "Viele wollen Immobilien, aber nicht den Aufwand.", wide=True),
-        spacer(12),
-        container([
-            container([
-                text("<p>Eine eigene Wohnung bindet Sie an ein Objekt, einen Kredit und die Rolle als Vermieter.</p>", size=16),
-                text("<p>__DROP__</p>", size=16),
-            ], width=48, gap_px=8),
-            tile([
-                heading("Ein anderer Weg", "h3", size=28, mobile=24, line=1.2),
-                text("<p>Sie werden Mitglied einer Genossenschaft, die in Wohnimmobilien investiert. Ohne Kredit, ohne Vermieten. <strong>Ein Anteil: 10.000&nbsp;€.</strong></p>",
-                     size=16),
-                text("<p>__DROP__</p>", size=16),
-            ], width=48, bg=CREAM, pad=(36,), pad_mobile=(24, 20), gap_px=10, css="hs-tile--flat"),
-        ], row=True, align="flex-start", justify="space-between", gap_px=32),
-    ], anchor="einstieg", gap_px=12)
+    """Split band: the question on the left, the answer ("Ein anderer Weg") filling the cream right half."""
+    return split([
+        panel([
+            h2("Warum so viele Immobilien wollen und so wenige dazu kommen."),
+            text("<p>Viele wollen Immobilien, aber nicht den Aufwand. Eine eigene Wohnung bindet Sie an ein Objekt, "
+                 "einen Kredit und die Rolle als Vermieter.</p>", size=16),
+        ], 50, side="l", bg=WHITE, pad=(104, 64)),
+        panel([
+            heading("Ein anderer Weg", "h3", size=36, mobile=28, line=1.2),
+            text("<p>Sie werden Mitglied einer Genossenschaft, die in Wohnimmobilien investiert. Ohne Kredit, ohne "
+                 "Vermieten. <strong>Ein Anteil: 10.000&nbsp;€.</strong></p>", size=17),
+        ], 50, side="r", bg=CREAM, pad=(104, 64)),
+    ], anchor="einstieg")
 
 
 def photo_break(name, pos="center center"):
@@ -1040,28 +1036,20 @@ def quote_band():
 
 
 def genossenschaft():
-    facts = [("Gegründet", "30. Juli 2024"), ("Eingetragen", "1. April 2025"),
-             ("Register", "Amtsgericht Hamburg,<br>GnR 1175"), ("Geprüft durch", "DIVK e. V., Hildesheim"),
-             ("Vorstand", "Stephan Hilmar Gerlach<br>Christine Georgia Pistorius"),
-             ("Aufsichtsrat", "Vadim Kogan (Vorsitz)<br>Sophia Dobuch<br>Rainer Bartlau"),
-             ("Sitz", "Langenhorner Chaussee 155<br>22415 Hamburg")]
+    points = [("Eingetragen und geprüft", "Eine eingetragene Genossenschaft gehört ihren Mitgliedern und wird vom "
+               "Prüfungsverband geprüft."),
+              ("Ihre Rolle als Mitglied", "Sie stellen Geld zur Verfügung und erhalten Zinsen. Kein Stimmrecht, keine "
+               "Pflichten im Betrieb."),
+              ("Keine Nachzahlungen", "Eine Nachschusspflicht besteht nicht. So steht es in der Satzung.")]
     return band([
         intro_row("Die Genossenschaft", "Was eine Genossenschaft für Sie bedeutet.",
                   "Gesetzlich streng geregelt und jährlich geprüft.", wide=True),
         spacer(12),
         container([
-            container([
-                text("<p>Eine eingetragene Genossenschaft gehört ihren Mitgliedern und wird vom Prüfungsverband geprüft.</p>", size=16),
-                heading("Ihre Rolle als Mitglied", "h3", size=26, mobile=22, line=1.2),
-                text("<p>Sie stellen Geld zur Verfügung und erhalten Zinsen. Kein Stimmrecht, keine Pflichten im Betrieb.</p>", size=16),
-                heading("Keine Nachzahlungen", "h3", size=26, mobile=22, line=1.2),
-                text("<p>Eine Nachschusspflicht besteht nicht. So steht es in der Satzung.</p>", size=16),
-            ], width=52, gap_px=12),
-            container([
-                tile([kv_table(facts, on_dark=True, title="Die Genossenschaft in Zahlen und Namen")],
-                     bg=NAVY, pad=(36,), pad_mobile=(24, 20)),
-            ], width=42, gap_px=20),
-        ], row=True, align="flex-start", justify="space-between", gap_px=40),
+            container([heading(t, "h3", size=26, mobile=22, line=1.2), text(f"<p>{b}</p>", size=16)],
+                      width=31, gap_px=10, css="hs-step-plain")
+            for t, b in points
+        ], row=True, align="flex-start", justify="space-between", gap_px=32),
     ], bg=GREY_BG, anchor="genossenschaft", gap_px=12)
 
 
