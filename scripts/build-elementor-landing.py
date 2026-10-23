@@ -698,7 +698,7 @@ def capital_steps():
                   note="*Die Wertschöpfung entsteht durch operative Immobilienarbeit, nicht durch Finanzprodukte."),
         spacer(40),
         container(steps, row=True, justify="space-between", align="flex-start", gap_px=24, css="hs-timeline"),
-    ], anchor="so-funktionierts", gap_px=12)
+    ], bg=GREY_BG, anchor="so-funktionierts", gap_px=12)
 
 
 def trust():

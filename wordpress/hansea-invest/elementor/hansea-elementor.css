@@ -177,7 +177,7 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-tl-dot {
 	display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%;
 	background: #ddb851; color: #141a46; font: 700 16px/1 "Inter", sans-serif; font-variant-numeric: tabular-nums;
-	box-shadow: 0 0 0 8px #fff;
+	box-shadow: 0 0 0 8px #f5f5f5; /* ring in the band colour, so the line stops short of the dot */
 }
 @media (max-width: 767px) {
 	.hs-timeline { gap: 32px !important; }
