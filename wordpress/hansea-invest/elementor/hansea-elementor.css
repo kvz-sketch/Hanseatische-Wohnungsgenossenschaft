@@ -420,6 +420,12 @@ html.hs-motion .hs-in .hs-map-city, html.hs-motion .hs-map-widget.hs-in .hs-map-
 .hs-club-logo { height: 100% !important; min-height: 100px; }
 .hs-club-logo img { max-height: 84px; }
 
+/* Borgfelde case: key numbers under the result figure, navy rule on top */
+.hs-figures { margin: 20px 0 0; border-top: 2px solid #141a46; font-family: "Inter", sans-serif; }
+.hs-figures > div { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid #e7e8ec; }
+.hs-figures dt { color: #7a7d89; font-size: 15px; }
+.hs-figures dd { margin: 0; color: #141a46; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
 /* Team photo under the contact details */
 .hs-contact-img img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 30%; }
 @media (max-width: 767px) { .hs-contact-img img { aspect-ratio: 4 / 3; } }

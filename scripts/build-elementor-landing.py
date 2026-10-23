@@ -1191,9 +1191,36 @@ PROJECTS = [
 ]
 
 
+# Borgfelde as a headline case: photo left to the page edge, result figure and key numbers right
+BORGFELDE = {
+    "place": "Hamburg-Borgfelde",
+    "title": "Alle 20 Wohnungen in 7 Monaten verkauft",
+    "figure": "+38 %",
+    "figure_label": "Verkaufserlös über der Gesamtinvestition",
+    "rows": [("Kapital der Mitglieder", "1,0 Mio. €"), ("Gesamtinvestition", "4,75 Mio. €"),
+             ("Verkaufserlös", "6,55 Mio. €"), ("Dauer", "7 Monate")],
+}
+
+
+def borgfelde_case():
+    rows = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in BORGFELDE["rows"])
+    return split([
+        photo("projekt-borgfelde-hof.jpg", 58, min_h=620, pos="center center"),
+        panel([
+            heading(BORGFELDE["place"], "p", size=15, mobile=14, color=NAVY, weight="600", family=UI, line=1.4),
+            heading(BORGFELDE["title"], "h3", size=40, mobile=32, line=1.12),
+            spacer(24),
+            heading(BORGFELDE["figure"], "p", size=140, mobile=88, line=0.95),
+            text(f"<p>{BORGFELDE['figure_label']}</p>", color=MUTED, size=15),
+            widget("html", {"html": f'<dl class="hs-figures">{rows}</dl>'}),
+        ], 42, side="r", bg=WHITE, pad=(56, 64), gap_px=10),
+    ], anchor="borgfelde")
+
+
 def projektbeispiele():
+    """Pinneberg in detail inside the band; Borgfelde follows as its own split section (borgfelde_case)."""
     rows = []
-    for i, (title, img, alt, lead, surplus, revenue, facts, paras) in enumerate(PROJECTS):
+    for i, (title, img, alt, lead, surplus, revenue, facts, paras) in enumerate(PROJECTS[:1]):
         media = container([
             image(img, alt, radius=8, css_extra="hs-project-img"),
             caption(alt),
@@ -1215,14 +1242,12 @@ def projektbeispiele():
         ], width=60, gap_px=14)
         rows.append(container([media, body] if i % 2 == 0 else [body, media], row=True, align="flex-start",
                               justify="space-between", gap_px=40, reverse_mobile=i % 2 == 1))
-        if i < len(PROJECTS) - 1:
-            rows.append(widget("divider", {"color": LINE, "gap": px(32)}))
-    return band([
+    return [band([
         intro_row("Projektbeispiele", "Vom Ankauf bis zur letzten verkauften Wohnung",
                   "Zwei abgeschlossene Projekte der Gerlach Immobilien Gruppe, mit allen Zahlen.", wide=True),
         spacer(24),
         *rows,
-    ], anchor="projekte", gap_px=12)
+    ], anchor="projekte", gap_px=12, pad=(104, 20, 48, 20), pad_mobile=(64, 16, 32, 16)), borgfelde_case()]
 
 
 def konditionen():
@@ -1333,7 +1358,7 @@ def footer():
 def build():
     return [header(), *hero(), sport_partners(), about(), at_a_glance(), einstieg(), photo_break("brosch-wohnanlage.jpg"), genossenschaft(),
             quote_band(), sponsoring(), unternehmen(),
-            capital_steps(), trust(), projektbeispiele(), case_numbers(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
+            capital_steps(), trust(), *projektbeispiele(), case_numbers(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
             photo_break("brosch-mittelverwendung.jpg", "center 55%"), konditionen(), book(), webinar(), team(), press(), subsidiaries(), faq(),
             mitglied_werden(), testimonials(), contact(), footer()]
 
