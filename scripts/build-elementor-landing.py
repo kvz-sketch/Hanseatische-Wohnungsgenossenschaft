@@ -614,13 +614,35 @@ def testimonials():
     ], bg=CREAM, anchor="stimmen", gap_px=8)
 
 
+# Sports clubs we support: logo file, name, website. Empty slots show placeholders until six logos are in.
+SPORT_CLUBS = [
+    ("logo-vfl-gueldenstern-stade.png", "VfL Güldenstern Stade", "https://vflgueldenstern-stade.de/"),
+]
+
+
 def sport_partners():
-    """Logos of the sports clubs we support, right below the hero (placeholders until the logos are in)."""
+    """Logos of the sports clubs we support, right below the hero."""
+    tiles = [
+        tile([widget("image", {
+            "image": {"url": "{{IMG:%s}}" % f, "id": "{{IMGID:%s}}" % f, "alt": name, "source": "library", "size": ""},
+            "image_size": "full", "align": "center",
+            "link_to": "custom", "link": {"url": url, "is_external": "on", "nofollow": "",
+                                          "custom_attributes": f"aria-label|{name} (öffnet neue Seite)"},
+        }, css="hs-sub-logo hs-club-logo")], width=15.5, width_mobile=47, bg=GREY_BG, pad=(16,), pad_mobile=(12,),
+            justify="center", css="hs-tile--flat")
+        for f, name, url in SPORT_CLUBS
+    ]
+    tiles += [
+        tile([placeholder("Logo Platzhalter", "3/2")], width=15.5, width_mobile=47, bg=GREY_BG, pad=(16,),
+             pad_mobile=(12,), css="hs-tile--flat")
+        for _ in range(6 - len(SPORT_CLUBS))
+    ]
     return band([
         heading("Vertrauensvoller Partner folgender Sportvereine", "h2", size=30, mobile=24, line=1.2,
                 align="center"),
         spacer(8),
-        logo_row(6),
+        container(tiles, row=True, wrap=True, mobile_row=True, justify="space-between", align="stretch", gap_px=12,
+                  css="hs-row-wrap"),
     ], pad=(56, 20), pad_mobile=(40, 16), gap_px=16, anchor="sportvereine")
 
 

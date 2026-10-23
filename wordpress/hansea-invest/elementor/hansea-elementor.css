@@ -417,6 +417,10 @@ html.hs-motion .hs-in .hs-map-city, html.hs-motion .hs-map-widget.hs-in .hs-map-
 .hs-statement .elementor-heading-title { max-width: 900px; }
 .hs-step-plain { border-left: 2px solid #ddb851; padding-left: 20px !important; }
 
+/* Sports club logos: same box height as the placeholders next to them */
+.hs-club-logo { height: 100% !important; min-height: 100px; }
+.hs-club-logo img { max-height: 84px; }
+
 /* Team photo under the contact details */
 .hs-contact-img img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 30%; }
 @media (max-width: 767px) { .hs-contact-img img { aspect-ratio: 4 / 3; } }
