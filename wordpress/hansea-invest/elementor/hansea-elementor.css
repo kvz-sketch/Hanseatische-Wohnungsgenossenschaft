@@ -201,7 +201,7 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 }
 @media (max-width: 767px) {
 	/* Phones: the whole visual on top, the text below on the matching blue */
-	.hs-book-band { background-size: 100% auto !important; background-position: top center !important; padding-top: 33.3vw !important; }
+	.hs-book-band { background-size: 100% auto !important; background-position: top center !important; padding-top: 34.6vw !important; } /* = image height / width */
 	.hs-book-space { display: none !important; }
 	.hs-book-text { padding: 28px 22px !important; margin-top: 16px; }
 }

@@ -716,7 +716,7 @@ def book():
             button("Zum Buchkauf", BOOK_URL, external=True),
         ], width=48, width_mobile=100, gap_px=14, css="hs-book-text"),
     ], inner=False, boxed=True, row=True, align="center", justify="space-between", gap_px=32,
-        pad=(80, 20), pad_mobile=(0, 16, 48, 16), min_h=480, bg_image="buch-hintergrund.jpg", bg_pos="left center",
+        pad=(80, 20), pad_mobile=(0, 16, 48, 16), min_h=480, bg_image="buch-hintergrund-v2.jpg", bg_pos="left center",
         bg="#3E6F8E", css="hs-book-band")
 
 
