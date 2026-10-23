@@ -11,15 +11,6 @@ import TrackRecord from '../components/TrackRecord'
 import { navigate } from '../routes'
 import { anteile, company, memberUnits, nextPayout, SHARE_PRICE } from '../data/content'
 
-const memberNav = [
-  { label: 'Übersicht', href: '#uebersicht' },
-  { label: 'Projektstand', href: '#verfolgen' },
-  { label: 'Projekte', href: '#projekte' },
-  { label: 'Bilanz', href: '#bilanz' },
-  { label: 'Termine', href: '#termine' },
-  { label: 'Dokumente', href: '#dokumente' },
-]
-
 const euro = (v: number, digits = 0) =>
   `${new Intl.NumberFormat('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(v)} €`
 
@@ -125,7 +116,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Header nav={memberNav} aside={aside} cta={{ label: 'Rückruf anfordern', href: '#termin' }} homeHref="#uebersicht" />
+      <Header nav={[]} aside={aside} cta={{ label: 'Rückruf anfordern', href: '#termin' }} homeHref="#uebersicht" />
       <main>
         <Welcome member={member} />
         {/* Beitrittserklärung (components/Beitritt.tsx) is hidden for now; add <Beitritt /> back here to show it */}
