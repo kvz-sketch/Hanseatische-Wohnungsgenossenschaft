@@ -34,6 +34,7 @@ export const memberUnits = 4
 export type PortfolioProject = {
   city: string
   name: string
+  image?: string // photo on the left of the card; a placeholder is shown until it is set
   progress: number // % of the project completed, from purchase to the last sale
   phase: 'Ankauf' | 'Modernisierung' | 'Vermietung' | 'Verkauf' | 'Abgeschlossen'
   status: string
@@ -41,9 +42,9 @@ export type PortfolioProject = {
 }
 
 export const portfolioProjects: PortfolioProject[] = [
-  { city: 'Kiel', name: 'Schreventeich', progress: 20, phase: 'Ankauf', status: 'Kaufvertrag beurkundet, Übergabe im Oktober', updated: '30.09.2026' },
-  { city: 'Oldenburg', name: 'Bürgerfelde', progress: 55, phase: 'Modernisierung', status: 'Dach geschlossen, Bäder in Arbeit', updated: '18.09.2026' },
-  { city: 'Hamburg', name: 'Eilbek', progress: 85, phase: 'Verkauf', status: 'Wohnungen im Verkauf, erste Verkäufe beurkundet', updated: '26.09.2026' },
+  { city: 'Hamburg-Bergedorf', name: 'Brookdeich', progress: 20, phase: 'Ankauf', status: 'Kaufvertrag beurkundet, Übergabe im Oktober', updated: '30.09.2026' },
+  { city: 'Hamburg-Eilbek', name: 'Letternkamp', progress: 55, phase: 'Modernisierung', status: 'Dach geschlossen, Bäder in Arbeit', updated: '18.09.2026' },
+  { city: 'Köln', name: 'Lülsdorfer Straße', progress: 85, phase: 'Verkauf', status: 'Wohnungen im Verkauf, erste Verkäufe beurkundet', updated: '26.09.2026' },
 ]
 
 // One share (Geschäftsanteil) is 10.000 €: 7 % p.a. paid quarterly gives the 175 € per share above.
