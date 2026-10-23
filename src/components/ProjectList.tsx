@@ -161,8 +161,7 @@ export default function ProjectList() {
 
         <div className="mt-10 grid grid-cols-1 items-center gap-8 overflow-hidden rounded-card bg-navy-gradient p-6 text-white sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:gap-16 lg:p-14">
           <div>
-            <p className="m-0 text-[13px] font-semibold tracking-[0.18em] text-gold-400 uppercase">Unsere Standorte</p>
-            <p className="m-0 mt-3 font-display text-[clamp(28px,3vw,40px)] leading-tight">
+            <p className="m-0 font-display text-[clamp(28px,3vw,40px)] leading-tight">
               Vom Norden bis nach Nordrhein-Westfalen
             </p>
             <dl className="m-0 mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-card bg-white/10">

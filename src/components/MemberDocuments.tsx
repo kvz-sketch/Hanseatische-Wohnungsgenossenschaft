@@ -8,7 +8,6 @@ export default function MemberDocuments() {
   return (
     <section id="dokumente" className="section">
       <div className="container-site">
-        <p className="m-0 mb-3 text-[13px] font-bold text-gold-700">Dokumente</p>
         <h2 className="h2">Ihre Dokumente</h2>
         <p className="m-0 mt-3 max-w-[640px] text-[17px] leading-relaxed text-ink-2">
           Bescheinigungen, Abrechnungen und die Unterlagen der Genossenschaft an einem Ort.

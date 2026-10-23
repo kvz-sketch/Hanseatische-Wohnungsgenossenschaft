@@ -1,8 +1,7 @@
 /*
- * Scroll animations for the Elementor pages (modelled on eloqwnt.com):
- * - large headings reveal line by line, each line sliding up out of a mask;
- * - every other block (text, buttons, images, cards) fades in while rising;
- * - blocks entering together are staggered;
+ * Scroll animations for the Elementor pages, kept to where motion means something:
+ * - photos, the video, the chart and the map fade in while rising (staggered);
+ * - text, headings and buttons simply appear (motion on every block reads as a template);
  * - the sticky header slides away while scrolling down and returns on scroll up.
  *
  * Layout, colours and type are untouched: the script only adds classes and
@@ -21,36 +20,26 @@
   var LINE_STAGGER = 110 // ms between heading lines
   var MAX_DELAY = 540
 
-  function isCard(el) {
-    // Panels of split bands and photos stay put; their content animates instead
-    if (el.classList.contains('hs-panel')) return false
-    if (el.classList.contains('hs-card') || el.classList.contains('hs-tile')) return true
-    var cs = getComputedStyle(el)
-    return (
-      (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') ||
-      cs.backgroundImage !== 'none' ||
-      parseFloat(cs.borderTopWidth) > 0 ||
-      cs.boxShadow !== 'none'
-    )
-  }
-
   function children(container) {
     var inner = container.querySelector(':scope > .e-con-inner')
     return Array.prototype.slice.call((inner || container).children)
   }
 
-  /** Collect the animated units of a section: cards as a whole, otherwise each widget. */
+  var MEDIA = ['elementor-widget-image', 'elementor-widget-image-carousel', 'elementor-widget-video']
+
+  function isMedia(el) {
+    return (
+      MEDIA.some(function (c) { return el.classList.contains(c) }) ||
+      el.classList.contains('hs-chart-widget') ||
+      el.classList.contains('hs-map-widget')
+    )
+  }
+
+  /** Collect the animated units of a section: media widgets only, looking inside cards and columns. */
   function collect(container, out) {
     children(container).forEach(function (el) {
-      if (el.classList.contains('e-con')) {
-        if (isCard(el)) out.push({ el: el, type: 'rise' })
-        else collect(el, out)
-        return
-      }
-      if (!el.classList.contains('elementor-widget') || el.classList.contains('elementor-widget-spacer')) return
-      var title = el.classList.contains('elementor-widget-heading') && el.querySelector('.elementor-heading-title')
-      if (title && parseFloat(getComputedStyle(title).fontSize) >= 24) out.push({ el: title, type: 'lines' })
-      else out.push({ el: el, type: 'rise' })
+      if (el.classList.contains('e-con')) collect(el, out)
+      else if (el.classList.contains('elementor-widget') && isMedia(el)) out.push({ el: el, type: 'rise' })
     })
     return out
   }

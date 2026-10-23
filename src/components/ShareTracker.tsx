@@ -15,7 +15,6 @@ export default function ShareTracker() {
       <div className="container-site">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-[640px]">
-            <p className="m-0 mb-3 text-[13px] font-bold text-gold-700">Projekte</p>
             <h2 className="h2">Hier arbeitet Ihr Geld</h2>
             <p className="m-0 mt-3 text-[17px] leading-relaxed text-ink-2">
               Ihre Einlage fließt in die Genossenschaft und von dort in alle laufenden Projekte. So weit sind sie.

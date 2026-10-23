@@ -8,7 +8,6 @@ export default function MemberEvents() {
   return (
     <section id="termine" className="section bg-section">
       <div className="container-site">
-        <p className="m-0 mb-3 text-[13px] font-bold text-gold-700">Termine</p>
         <h2 className="h2">Kommende Veranstaltungen</h2>
         <p className="m-0 mt-3 max-w-[640px] text-[17px] leading-relaxed text-ink-2">
           Besichtigungen, Projektberichte und Treffen mit anderen Mitgliedern.

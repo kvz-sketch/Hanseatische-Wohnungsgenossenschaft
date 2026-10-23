@@ -162,11 +162,12 @@ def type_(family, size, weight="400", line=None, mobile=None, spacing=None, tran
 
 # ---------------------------------------------------------------- widgets
 
-def heading(text, tag="h2", *, size=44, mobile=32, color=NAVY, weight="400", align=None, family=DISPLAY, line=1.15):
+def heading(text, tag="h2", *, size=44, mobile=32, color=NAVY, weight="400", align=None, family=DISPLAY, line=1.15,
+            css_class=None):
     s = {"title": text, "header_size": tag, "title_color": color, **type_(family, size, weight, line, mobile)}
     if align:
         s["align"] = align
-    return widget("heading", s)
+    return widget("heading", s, css=css_class)
 
 
 def eyebrow(text, on_dark=False):
@@ -411,7 +412,13 @@ def tile(children, *, width=None, width_mobile=100, bg=WHITE, pad=(32,), pad_mob
                      gap_px=gap_px, css=f"hs-tile {css}".strip(), **kw)
 
 
+# The few small labels that stay; every other eyebrow() is left out (too many read as a template)
+KEEP_EYEBROWS = {"Abgeschlossenes Projekt", "Stimmen unserer Mitglieder", "Spiegel-Bestseller"}
+
+
 def eyebrow(text, on_dark=False):  # noqa: F811 (replaces the plain version above)
+    if text not in KEEP_EYEBROWS:
+        return None
     return widget("heading", {
         "title": text, "header_size": "p", "title_color": GOLD_400 if on_dark else GOLD_700,
         **type_(UI, 12, "600", 1.4, spacing=0.2, transform="uppercase"),
@@ -533,9 +540,9 @@ def hero():
     ], pad=(18, 22), gap_px=6, max_width=300, css="hs-chip")
     photo_band = container([
         container([
-            heading("Ihr Anteil an Wohnimmobilien. Ohne selbst zu kaufen.", "h1", size=64, mobile=36, color=WHITE, weight="300",
-                    line=1.04),
-        ], bg=NAVY, radius=8, pad=(36, 44), pad_mobile=(22, 22), css="hs-hero-title"),
+            heading("Ihr Anteil an Wohnimmobilien. Ohne selbst zu kaufen.", "h1", size=72, mobile=40, color=NAVY, weight="700",
+                    line=1.02),
+        ], css="hs-hero-title"),
         chip,
     ], inner=False, boxed=True, row=True, align="flex-end", justify="space-between", gap_px=32,
         pad=(220, 20, 64, 20), pad_mobile=(180, 16, 32, 16), min_h=680, min_h_mobile=520,
@@ -730,7 +737,6 @@ def case_studies():
             image(photo[0], photo[1], radius=0, css_extra=f"hs-case-img {photo[2]}".strip())
             if photo else placeholder(f"Projektfoto {title}", "16/9"),
             container([
-                heading("Case Study", "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI, line=1.4),
                 heading(title, "h3", size=28, mobile=24),
                 text(f"<p>{intro}</p>", size=15),
                 widget("toggle", {
@@ -1021,10 +1027,21 @@ def einstieg():
                 text("<p>__DROP__</p>", size=16),
             ], width=48, bg=CREAM, pad=(36,), pad_mobile=(24, 20), gap_px=10, css="hs-tile--flat"),
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
-        spacer(16),
-        image("brosch-wohnanlage.jpg", "Wohnanlage in einer deutschen Metropolregion", radius=8, css_extra="hs-wide-img"),
-        caption("Wohnanlage in einer deutschen Metropolregion: So sehen die Objekte aus, in die wir investieren."),
     ], anchor="einstieg", gap_px=12)
+
+
+def photo_break(name, pos="center center"):
+    """Full-width photo with no text: a pause between sections."""
+    return container([], inner=False, min_h=560, min_h_mobile=280, bg_image=name, bg_pos=pos, css="hs-photo-break")
+
+
+def quote_band():
+    return band([
+        heading("„Was einer allein nicht schafft, das schaffen viele.“", "p", size=64, mobile=36, line=1.12,
+                align="center"),
+        heading("Friedrich Wilhelm Raiffeisen, Begründer des Genossenschaftswesens", "p", size=14, mobile=13,
+                color=GOLD_700, weight="600", family=UI, line=1.4, align="center"),
+    ], bg=CREAM, pad=(120, 20), pad_mobile=(72, 16), gap_px=20, max_width=980)
 
 
 def genossenschaft():
@@ -1048,12 +1065,6 @@ def genossenschaft():
             container([
                 tile([kv_table(facts, on_dark=True, title="Die Genossenschaft in Zahlen und Namen")],
                      bg=NAVY, pad=(36,), pad_mobile=(24, 20)),
-                tile([
-                    heading("„Was einer allein nicht schafft, das schaffen viele.“", "p", size=28, mobile=24,
-                            line=1.25),
-                    heading("Friedrich Wilhelm Raiffeisen · Begründer des Genossenschaftswesens", "p", size=12,
-                            mobile=12, color=GOLD_700, weight="600", family=UI, line=1.4),
-                ], bg=CREAM, pad=(32, 36), pad_mobile=(24, 20), gap_px=12, css="hs-tile--flat"),
             ], width=42, gap_px=20),
         ], row=True, align="flex-start", justify="space-between", gap_px=40),
     ], bg=GREY_BG, anchor="genossenschaft", gap_px=12)
@@ -1080,11 +1091,11 @@ def unternehmen():
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
         spacer(12),
         container([
-            tile([
-                heading(v, "p", size=46, mobile=36, line=1),
+            container([
+                heading(v, "p", size=64, mobile=44, line=1),
                 heading(label, "p", size=15, mobile=15, color=NAVY, weight="600", family=UI, line=1.3),
                 text(f"<p>{sub}</p>", color=MUTED, size=13, line=1.4),
-            ], width=32, pad=(32,), pad_mobile=(22, 20), gap_px=8)
+            ], width=31, pad=(20, 0, 0, 0), gap_px=8, css="hs-figure")
             for v, label, sub in stats
         ], row=True, justify="space-between", align="stretch", gap_px=20),
         spacer(16),
@@ -1189,8 +1200,6 @@ def projektbeispiele():
             for (v, label), bg, fg, sub in [(surplus, NAVY, GOLD_400, ON_NAVY), (revenue, CREAM, NAVY, NAVY_TEXT)]
         ], row=True, mobile_row=True, justify="space-between", align="stretch", gap_px=12)
         body = container([
-            heading(f"Projektbeispiel {i + 1:02d}", "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI,
-                    line=1.4),
             heading(title, "h3", size=36, mobile=28, line=1.15),
             text(f"<p>{lead}</p>", size=16),
             figures,
@@ -1224,7 +1233,7 @@ def mittelverwendung():
                "Daraus zahlen wir Ihre Zinsen. Deshalb sind sie nicht garantiert.")]
     return band([
         intro_row("Mittelverwendung", "Wohin Ihr Geld fließt.",
-                  "Das ist die Frage, die uns Interessenten am häufigsten stellen. Hier ist die Antwort ohne Umweg."),
+                  "Die häufigste Frage, kurz beantwortet."),
         spacer(16),
         container([
             container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
@@ -1232,16 +1241,8 @@ def mittelverwendung():
             for t, b in blocks
         ], row=True, justify="space-between", align="flex-start", gap_px=24),
         spacer(24),
-        heading("Der Weg Ihres Geldes", "h3", size=28, mobile=24, line=1.2),
-        container([
-            tile([
-                heading(n, "p", size=40, mobile=34, color=GOLD_400, line=1),
-                heading(t, "p", size=17, mobile=16, color=WHITE, weight="600", family=UI, line=1.3),
-                text(f"<p>{b}</p>", color=ON_NAVY, size=14, line=1.5),
-            ], width=23.5, width_mobile=47, bg=NAVY, pad=(28, 24), pad_mobile=(20, 16), gap_px=8, css="hs-path-step")
-            for n, t, b in path
-        ], row=True, wrap=True, mobile_row=True, justify="space-between", align="stretch", gap_px=16,
-            css="hs-row-wrap hs-path"),
+        heading("Sie übernehmen Anteile, wir investieren und entwickeln, Sie erhalten alle drei Monate Ihre Zinsen.",
+                "p", size=30, mobile=24, line=1.25, css_class="hs-statement"),
         spacer(16),
         image("brosch-mittelverwendung.jpg", "Mehrfamilienhaus der Gerlach Immobilien Gruppe", radius=8,
               css_extra="hs-wide-img"),
@@ -1316,13 +1317,10 @@ def mitglied_werden():
         spacer(16),
         container([
             container([
-                container([
-                    widget("html", {"html": f'<span class="hs-step-num" aria-hidden="true">{n}</span>'}),
-                    container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
-                              gap_px=6),
-                ], row=True, mobile_row=True, align="flex-start", gap_px=20, css="hs-step")
-                for n, t, b in steps
-            ], width=54, gap_px=28),
+                container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
+                          gap_px=6, css="hs-step-plain")
+                for _, t, b in steps
+            ], width=54, gap_px=24),
             tile([
                 eyebrow("Ihr persönlicher Kontakt", on_dark=True),
                 heading("Cornelia Richter", "h3", size=32, mobile=28, color=WHITE, line=1.15),
@@ -1384,8 +1382,9 @@ def footer():
 
 
 def build():
-    return [header(), *hero(), about(), at_a_glance(), einstieg(), genossenschaft(), sponsoring(), unternehmen(),
-            capital_steps(), trust(), projektbeispiele(), case_numbers(), case_studies(), standorte(),
+    return [header(), *hero(), about(), at_a_glance(), einstieg(), photo_break("brosch-wohnanlage.jpg"), genossenschaft(),
+            quote_band(), sponsoring(), unternehmen(),
+            capital_steps(), trust(), projektbeispiele(), case_numbers(), case_studies(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
             mittelverwendung(), konditionen(), book(), webinar(), team(), press(), subsidiaries(), faq(),
             mitglied_werden(), testimonials(), contact(), footer()]
 
