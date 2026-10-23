@@ -808,9 +808,10 @@ def press():
                 text("<p>Ausgewählte Artikel und Veröffentlichungen über uns.</p>", size=16),
                 link_button("Zum Blog", BLOG_URL, external=True),
             ], width=50, gap_px=14, justify="center"),
-            tile([image("presse-sueddeutsche.jpg", "Süddeutsche Zeitung: Stephan Gerlach von der Hanseatischen "
+            tile([widget("html", {"html": '<div class="hs-browser-bar" aria-hidden="true"><i></i><i></i><i></i>'
+                                          '<span>sueddeutsche.de</span></div>'}), image("presse-sueddeutsche.jpg", "Süddeutsche Zeitung: Stephan Gerlach von der Hanseatischen "
                         "Wohnungsgenossenschaft", radius=0, lightbox=True, css_extra="hs-zoom hs-press-img")],
-                 width=34, pad=(0,), pad_mobile=(0,), css="hs-card"),
+                 width=40, pad=(0,), pad_mobile=(0,), css="hs-card hs-browser"),
         ], row=True, align="center", justify="space-between", gap_px=48),
     ], bg=GREY_BG, pad=(56, 20), pad_mobile=(40, 16))
 
@@ -1229,15 +1230,15 @@ def mitglied_werden():
              ("03", "Beitreten",
               "Formular zurücksenden, Anteil einzahlen. Der Aufsichtsrat entscheidet über die Aufnahme.")]
     return band([
-        intro_row("Mitglied werden", "So werden Sie Mitglied.",
-                  "Drei Schritte, ein Gespräch dazwischen. Den Rest erledigen wir für Sie."),
-        spacer(16),
         container([
             container([
-                container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
-                          gap_px=6, css="hs-step-plain")
-                for _, t, b in steps
-            ], width=54, gap_px=24),
+                h2("So werden Sie Mitglied."),
+                text("<p>Drei Schritte, ein Gespräch dazwischen. Den Rest erledigen wir für Sie.</p>", size=16),
+                spacer(8),
+                *[container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
+                            gap_px=6, css="hs-step-plain")
+                  for _, t, b in steps],
+            ], width=54, gap_px=20),
             tile([
                 eyebrow("Ihr persönlicher Kontakt", on_dark=True),
                 heading("Cornelia Richter", "h3", size=32, mobile=28, color=WHITE, line=1.15),
