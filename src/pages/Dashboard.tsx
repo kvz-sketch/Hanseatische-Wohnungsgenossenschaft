@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { currentMember, logout, type Member } from '../auth/auth'
-import Beitritt from '../components/Beitritt'
 import Calculator from '../components/Calculator'
 import Faq from '../components/Faq'
 import Footer from '../components/Footer'
@@ -15,7 +14,6 @@ import { anteile, company, exampleShares, nextPayout, SHARE_PRICE } from '../dat
 
 const memberNav = [
   { label: 'Übersicht', href: '#uebersicht' },
-  { label: 'Beitritt', href: '#beitritt' },
   { label: 'Meine Anteile', href: '#verfolgen' },
   { label: 'Projekte', href: '#projekte' },
   { label: 'Bilanz', href: '#bilanz' },
@@ -40,7 +38,6 @@ function greeting() {
 function Welcome({ member }: { member: Member }) {
   const kpis = [
     { label: 'Ihre Einlage', value: euro(invested), note: `${anteile(units)} à ${euro(SHARE_PRICE)}` },
-    { label: 'Anteilspakete', value: String(exampleShares.length), note: 'in Kiel, Oldenburg und Hamburg' },
     { label: 'Bisher ausgeschüttet', value: euro(paidSoFar, 2), note: 'Q2 und Q3 2026' },
     { label: 'Nächste Ausschüttung', value: euro(quarterly, 2), note: `am ${nextPayout.date} (Ziel)`, accent: true },
   ]
@@ -59,7 +56,7 @@ function Welcome({ member }: { member: Member }) {
           zugeordnet sind.
         </p>
 
-        <dl className="m-0 mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="m-0 mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {kpis.map((k) => (
             <div key={k.label} className="rounded-card border border-white/15 bg-white/5 p-5">
               <dt className="text-[13px] text-light-dark">{k.label}</dt>
@@ -132,7 +129,7 @@ export default function Dashboard() {
       <Header nav={memberNav} aside={aside} cta={{ label: 'Rückruf anfordern', href: '#termin' }} homeHref="#uebersicht" />
       <main>
         <Welcome member={member} />
-        <Beitritt />
+        {/* Beitrittserklärung (components/Beitritt.tsx) is hidden for now; add <Beitritt /> back here to show it */}
         <ShareTracker />
         <ProjectList />
         <TrackRecord />
