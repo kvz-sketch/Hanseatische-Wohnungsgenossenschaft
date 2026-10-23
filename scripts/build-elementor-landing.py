@@ -683,25 +683,21 @@ def book():
 
 
 def capital_steps():
-    """Vertical timeline: gold numbered dots on a centre line, cards alternating left and right."""
-    steps = []
-    for i, (title, body) in enumerate(STEPS):
-        side = "left" if i % 2 == 0 else "right"
-        steps.append(container([
+    """Four steps in a row on one gold line (vertical on phones): number, title, one sentence. No cards."""
+    steps = [
+        container([
             widget("html", {"html": f'<span class="hs-tl-dot" aria-hidden="true">{i + 1:02d}</span>'}, css="hs-tl-marker"),
-            tile([
-                heading(f"Schritt {i + 1:02d}", "p", size=12, mobile=12, color=GOLD_700, weight="600", family=UI,
-                        line=1.4),
-                heading(title, "h3", size=26, mobile=22, line=1.2),
-                text(f"<p>{body}</p>", size=15),
-            ], pad=(32, 36), pad_mobile=(24, 20), gap_px=10, css="hs-tl-card"),
-        ], gap_px=0, css=f"hs-tl-step hs-tl-step--{side}"))
+            heading(title, "h3", size=28, mobile=24, line=1.2),
+            text(f"<p>{body}</p>", size=15),
+        ], width=23, width_mobile=100, gap_px=12, css="hs-tl-step")
+        for i, (title, body) in enumerate(STEPS)
+    ]
     return band([
         intro_row("Das Geschäftsmodell", "Wie aus Wohnhäusern Erträge werden.",
                   "Vier Schritte, immer in derselben Reihenfolge. Daraus kommt die Verzinsung.",
                   note="*Die Wertschöpfung entsteht durch operative Immobilienarbeit, nicht durch Finanzprodukte."),
         spacer(40),
-        container(steps, gap_px=0, css="hs-timeline"),
+        container(steps, row=True, justify="space-between", align="flex-start", gap_px=24, css="hs-timeline"),
     ], anchor="so-funktionierts", gap_px=12)
 
 
@@ -771,7 +767,7 @@ def webinar():
             spacer(4),
             button("Persönlich beraten lassen", "#kontakt"),
         ], 44, side="r"),
-    ])
+    ], css="hs-video-band")
 
 
 def team():
@@ -801,12 +797,12 @@ def press():
                 h2("Öffentlichkeitsarbeit &amp; Artikel"),
                 text("<p>Ausgewählte Artikel und Veröffentlichungen über uns.</p>", size=16),
                 link_button("Zum Blog", BLOG_URL, external=True),
-            ], width=38, gap_px=14, justify="center"),
+            ], width=50, gap_px=14, justify="center"),
             tile([image("presse-sueddeutsche.jpg", "Süddeutsche Zeitung: Stephan Gerlach von der Hanseatischen "
                         "Wohnungsgenossenschaft", radius=0, lightbox=True, css_extra="hs-zoom hs-press-img")],
-                 width=46, pad=(0,), pad_mobile=(0,), css="hs-card"),
+                 width=34, pad=(0,), pad_mobile=(0,), css="hs-card"),
         ], row=True, align="center", justify="space-between", gap_px=48),
-    ], bg=GREY_BG)
+    ], bg=GREY_BG, pad=(56, 20), pad_mobile=(40, 16))
 
 
 CASE_CHART = """
@@ -866,7 +862,7 @@ def case_numbers():
                 h2("Woher der Überschuss kommt", WHITE),
                 text("<p>Der Erlös deckt Kauf und Modernisierung. Was darüber hinausgeht, ist der Überschuss.</p>",
                      color=ON_NAVY, size=15),
-                text("<p>Zahlen aus der Vergangenheit sind keine Zusage für künftige Ergebnisse.</p>",
+                text("<p>* Zahlen aus der Vergangenheit sind keine Zusage für künftige Ergebnisse.</p>",
                      color=ON_NAVY_MUTED, size=13),
             ], width=38, gap_px=14),
             container([case_chart()], width=56),
@@ -890,9 +886,8 @@ def subsidiaries():
             "image_size": "full", "align": "center",
             "link_to": "custom", "link": {"url": url, "is_external": "on", "nofollow": "",
                                           "custom_attributes": f"aria-label|{name} (öffnet neue Seite)"},
-        }, css="hs-sub-logo"),
-            heading(name, "p", size=13, mobile=13, color=MUTED, weight="500", family=UI, line=1.4, align="center")],
-            width=23.5, width_mobile=48, bg=WHITE, pad=(28, 24), pad_mobile=(20, 14), gap_px=14, justify="space-between",
+        }, css="hs-sub-logo")],
+            width=23.5, width_mobile=48, bg=WHITE, pad=(28, 24), pad_mobile=(20, 14), gap_px=14, justify="center",
             css="hs-sub-tile")
         for f, name, url in SUBSIDIARIES
     ]
@@ -1339,7 +1334,7 @@ def footer():
 def build():
     return [header(), *hero(), about(), at_a_glance(), einstieg(), photo_break("brosch-wohnanlage.jpg"), genossenschaft(),
             quote_band(), sponsoring(), unternehmen(),
-            capital_steps(), trust(), projektbeispiele(), case_numbers(), case_studies(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
+            capital_steps(), trust(), projektbeispiele(), case_numbers(), photo_break("brosch-stadt.jpg", "center 60%"), standorte(),
             mittelverwendung(), konditionen(), book(), webinar(), team(), press(), subsidiaries(), faq(),
             mitglied_werden(), testimonials(), contact(), footer()]
 

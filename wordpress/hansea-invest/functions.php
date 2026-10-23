@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HANSEA_THEME_VERSION', '1.9.7' );
+define( 'HANSEA_THEME_VERSION', '1.10.1' );
 
 require_once __DIR__ . '/inc/views.php';
 require_once __DIR__ . '/inc/members.php';

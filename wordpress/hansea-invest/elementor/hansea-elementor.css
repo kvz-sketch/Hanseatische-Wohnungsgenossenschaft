@@ -164,42 +164,29 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .elementor-lightbox .elementor-slideshow__title { font-family: "Inter", sans-serif; font-weight: 600; color: #fff; }
 .elementor-lightbox .elementor-slideshow__description { display: none; }
 
-/* So funktioniert's: timeline. Centre line fills with gold while scrolling (hansea-motion.js sets --hs-tl). */
+/* So funktioniert's: four steps on one line. The gold line fills while scrolling (hansea-motion.js sets --hs-tl);
+   horizontal on desktop, vertical on phones. */
 .hs-timeline { position: relative; }
 .hs-timeline::before, .hs-timeline::after {
-	content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; border-radius: 2px;
+	content: ""; position: absolute; top: 25px; left: 26px; right: calc(23% - 26px); height: 2px; border-radius: 2px;
 }
 .hs-timeline::before { background: #e7e8ec; }
-.hs-timeline::after { background: #ddb851; transform-origin: top; transform: scaleY(var(--hs-tl, 1)); }
-.hs-tl-step { position: relative; width: 50% !important; z-index: 1; }
-.hs-tl-step--left { align-self: flex-start !important; margin-right: auto !important; padding-right: 64px !important; }
-.hs-tl-step--right { align-self: flex-end !important; margin-left: auto !important; padding-left: 64px !important; }
-.hs-tl-step + .hs-tl-step { margin-top: -96px; }
-.hs-tl-marker { position: absolute !important; top: 28px; width: auto !important; z-index: 2; }
-.hs-tl-step--left .hs-tl-marker { right: -26px; }
-.hs-tl-step--right .hs-tl-marker { left: -26px; }
+.hs-timeline::after { background: #ddb851; transform-origin: left; transform: scaleX(var(--hs-tl, 1)); }
+.hs-tl-step { position: relative; z-index: 1 !important; } /* above the line (Elementor sets z-index on containers) */
+.hs-tl-marker { width: auto !important; margin-bottom: 16px; }
 .hs-tl-dot {
 	display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%;
 	background: #ddb851; color: #141a46; font: 700 16px/1 "Inter", sans-serif; font-variant-numeric: tabular-nums;
-	box-shadow: 0 0 0 8px #fff, 0 8px 24px -6px rgba(20, 26, 70, 0.35);
+	box-shadow: 0 0 0 8px #fff;
 }
-.hs-tl-card { position: relative; }
-.hs-tl-card::before { /* small pointer towards the line */
-	content: ""; position: absolute; top: 44px; width: 14px; height: 14px; background: #fff; transform: rotate(45deg);
-	box-shadow: 0 0 0 0 transparent;
-}
-.hs-tl-step--left .hs-tl-card::before { right: -7px; }
-.hs-tl-step--right .hs-tl-card::before { left: -7px; }
-.hs-tl-card { overflow: visible !important; }
 @media (max-width: 767px) {
-	.hs-timeline::before, .hs-timeline::after { left: 26px; }
-	.hs-tl-step, .hs-tl-step--left, .hs-tl-step--right { width: 100% !important; align-self: stretch !important; margin-left: 0 !important; padding: 0 0 0 68px !important; }
-	.hs-tl-step + .hs-tl-step { margin-top: 24px; }
-	.hs-tl-step--left .hs-tl-marker, .hs-tl-step--right .hs-tl-marker { left: 0; right: auto; top: 20px; }
-	.hs-tl-step--left .hs-tl-card::before, .hs-tl-step--right .hs-tl-card::before { left: -7px; right: auto; top: 36px; }
+	.hs-timeline { gap: 32px !important; }
+	.hs-timeline::before, .hs-timeline::after { top: 26px; bottom: auto; left: 25px; right: auto; width: 2px; height: calc(100% - 26px); }
+	.hs-timeline::after { transform-origin: top; transform: scaleY(var(--hs-tl, 1)); }
+	.hs-tl-step { padding-left: 76px !important; }
+	.hs-tl-marker { position: absolute !important; left: 0; top: 0; }
 }
 
-/* Hero photo: natural colours, no overlay; the headline sits in a solid navy box */
 /* Hero headline sits straight on the photo; a soft light halo keeps it legible on darker spots */
 .hs-hero-title { width: auto !important; max-width: 760px; }
 .hs-hero-title .elementor-heading-title { text-shadow: 0 0 28px rgba(255, 255, 255, 0.85), 0 0 6px rgba(255, 255, 255, 0.6); }
@@ -235,7 +222,7 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 .hs-sub-tile { transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .hs-sub-tile:hover { transform: translateY(-4px); }
 .hs-sub-logo { height: 130px; display: flex !important; align-items: center; justify-content: center; }
-.hs-sub-logo .elementor-widget-container, .hs-sub-logo a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.hs-sub-logo .elementor-widget-container, .hs-sub-logo a { display: flex !important; align-items: center; justify-content: center; width: 100%; height: 100%; }
 .hs-sub-logo img { max-height: 110px; max-width: 92%; width: auto; height: auto; object-fit: contain; }
 @media (max-width: 767px) { .hs-sub-logo { height: 84px; } .hs-sub-logo img { max-height: 72px; } }
 
@@ -430,6 +417,10 @@ html.hs-motion .hs-in .hs-map-city, html.hs-motion .hs-map-widget.hs-in .hs-map-
 .hs-figure { border-top: 2px solid #ddb851; }
 .hs-statement .elementor-heading-title { max-width: 900px; }
 .hs-step-plain { border-left: 2px solid #ddb851; padding-left: 20px !important; }
+
+/* White gap between the book photo band and the video band */
+.hs-video-band { margin-top: 56px !important; }
+@media (max-width: 767px) { .hs-video-band { margin-top: 32px !important; } }
 
 @media (prefers-reduced-motion: reduce) {
 	.hs-header { transition: none; }
