@@ -1264,7 +1264,7 @@ def mitglied_werden():
                 text("<p>Drei Schritte, ein Gespräch dazwischen. Den Rest erledigen wir für Sie.</p>", size=16),
                 spacer(8),
                 *[container([heading(t, "h3", size=24, mobile=22, line=1.2), text(f"<p>{b}</p>", size=15)],
-                            gap_px=6, css="hs-step-plain")
+                            gap_px=6)
                   for _, t, b in steps],
             ], width=54, gap_px=20),
             tile([
