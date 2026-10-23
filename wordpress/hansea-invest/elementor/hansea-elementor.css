@@ -420,7 +420,9 @@ html.hs-motion .hs-in .hs-map-city, html.hs-motion .hs-map-widget.hs-in .hs-map-
 .hs-club-logo { height: 100% !important; min-height: 100px; }
 .hs-club-logo img { max-height: 84px; }
 
-/* Borgfelde case: key numbers under the result figure, navy rule on top */
+/* Project cases (Pinneberg, Borgfelde): key numbers under the result figure, navy rule on top; white gap between two cases */
+.hs-case-next { margin-top: 56px !important; }
+@media (max-width: 767px) { .hs-case-next { margin-top: 32px !important; } }
 .hs-figures { margin: 20px 0 0; border-top: 2px solid #141a46; font-family: "Inter", sans-serif; }
 .hs-figures > div { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid #e7e8ec; }
 .hs-figures dt { color: #7a7d89; font-size: 15px; }

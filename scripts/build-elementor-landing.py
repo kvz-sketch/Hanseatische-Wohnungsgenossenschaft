@@ -1167,87 +1167,43 @@ def standorte():
     ], bg=GREY_BG, anchor="standorte", gap_px=12)
 
 
-PROJECTS = [
-    ("Pinneberg, Im Bans.", "projekt-pinneberg.jpg", "Im Bans in Pinneberg. Foto: Gerlach Immobilien Gruppe",
-     "Ein Mehrfamilienhaus vor den Toren Hamburgs, vom Ankauf bis zur letzten Wohnung.",
-     ("1,02 Mio. €", "Überschuss nach allen Kosten von 3,01 Mio. €"),
-     ("4,03 Mio. €", "Erlös aus dem Verkauf, 18 Wohnungen einzeln verkauft"),
-     [("Adresse", "Im Bans, 25421 Pinneberg"), ("Wohnungen", "18"), ("Wohnfläche", "ca. 1.220 m²"),
-      ("Baujahr", "1965"), ("Modernisiert", "2025 bis 2026"), ("Vertrieb ab", "Januar 2026"),
-      ("Alle verkauft", "September 2026")],
-     ["Baujahr 1965, Sackgasse mit altem Baumbestand. 18 Wohnungen, alle mit Balkon, in neun Monaten verkauft.",
-      "__DROP__",
-      "__DROP__"]),
-    ("Hamburg, Borgfelder Straße.", "projekt-borgfelder.jpg", "Borgfelder Straße in Hamburg. Foto: Gerlach Immobilien Gruppe",
-     "Mitten in Hamburg, zwischen Hauptbahnhof und Hamm.",
-     ("1,8 Mio. €", "Überschuss nach allen Kosten von 4,75 Mio. €"),
-     ("6,55 Mio. €", "Erlös aus dem Verkauf, 20 Wohnungen einzeln verkauft"),
-     [("Adresse", "Borgfelder Straße, 20537 Hamburg"), ("Wohnungen", "20"), ("Wohnfläche", "ca. 1.159 m²"),
-      ("Baujahr", "1955"), ("Modernisiert", "2015 bis 2018"), ("Vertrieb ab", "August 2025"),
-      ("Alle verkauft", "April 2026")],
-     ["Baujahr 1955, Aufzug, viele Balkone nach Süden. 20 Wohnungen in acht Monaten verkauft.",
-      "__DROP__",
-      "__DROP__"]),
+# Project examples as headline cases: photo left to the page edge, result figure and key numbers right
+PROJECT_CASES = [
+    {"anchor": "pinneberg", "image": "projekt-pinneberg-aussen.jpg", "place": "Pinneberg",
+     "title": "15 von 18 Wohnungen verkauft", "figure": "+27 %",
+     "figure_label": "Kalkulierter Verkaufserlös über der Gesamtinvestition",
+     "rows": [("Kapital der Mitglieder", "950.000 €"), ("Gesamtinvestition", "3,3 Mio. €"),
+              ("Verkaufserlös", "4,2 Mio. €"), ("Dauer", "8 Monate, läuft")]},
+    {"anchor": "borgfelde", "image": "projekt-borgfelde-hof.jpg", "place": "Hamburg-Borgfelde",
+     "title": "Alle 20 Wohnungen in 7 Monaten verkauft", "figure": "+38 %",
+     "figure_label": "Verkaufserlös über der Gesamtinvestition",
+     "rows": [("Kapital der Mitglieder", "1,0 Mio. €"), ("Gesamtinvestition", "4,75 Mio. €"),
+              ("Verkaufserlös", "6,55 Mio. €"), ("Dauer", "7 Monate")]},
 ]
 
 
-# Borgfelde as a headline case: photo left to the page edge, result figure and key numbers right
-BORGFELDE = {
-    "place": "Hamburg-Borgfelde",
-    "title": "Alle 20 Wohnungen in 7 Monaten verkauft",
-    "figure": "+38 %",
-    "figure_label": "Verkaufserlös über der Gesamtinvestition",
-    "rows": [("Kapital der Mitglieder", "1,0 Mio. €"), ("Gesamtinvestition", "4,75 Mio. €"),
-             ("Verkaufserlös", "6,55 Mio. €"), ("Dauer", "7 Monate")],
-}
-
-
-def borgfelde_case():
-    rows = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in BORGFELDE["rows"])
+def project_case(case, *, first=False):
+    rows = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in case["rows"])
     return split([
-        photo("projekt-borgfelde-hof.jpg", 58, min_h=620, pos="center center"),
+        photo(case["image"], 58, min_h=620, pos="center center"),
         panel([
-            heading(BORGFELDE["place"], "p", size=15, mobile=14, color=NAVY, weight="600", family=UI, line=1.4),
-            heading(BORGFELDE["title"], "h3", size=40, mobile=32, line=1.12),
+            heading(case["place"], "p", size=15, mobile=14, color=NAVY, weight="600", family=UI, line=1.4),
+            heading(case["title"], "h3", size=40, mobile=32, line=1.12),
             spacer(24),
-            heading(BORGFELDE["figure"], "p", size=140, mobile=88, line=0.95),
-            text(f"<p>{BORGFELDE['figure_label']}</p>", color=MUTED, size=15),
+            heading(case["figure"], "p", size=140, mobile=88, line=0.95),
+            text(f"<p>{case['figure_label']}</p>", color=MUTED, size=15),
             widget("html", {"html": f'<dl class="hs-figures">{rows}</dl>'}),
         ], 42, side="r", bg=WHITE, pad=(56, 64), gap_px=10),
-    ], anchor="borgfelde")
+    ], anchor=case["anchor"], css=None if first else "hs-case-next")
 
 
 def projektbeispiele():
-    """Pinneberg in detail inside the band; Borgfelde follows as its own split section (borgfelde_case)."""
-    rows = []
-    for i, (title, img, alt, lead, surplus, revenue, facts, paras) in enumerate(PROJECTS[:1]):
-        media = container([
-            image(img, alt, radius=8, css_extra="hs-project-img"),
-            caption(alt),
-        ], width=36, gap_px=8)
-        figures = container([
-            tile([heading(v, "p", size=34, mobile=26, color=fg, line=1),
-                  text(f"<p>{label}</p>", color=sub, size=13, line=1.4)],
-                 width=48.5, width_mobile=47, bg=bg, pad=(24,), pad_mobile=(16, 14), gap_px=8, css="hs-tile--flat")
-            for (v, label), bg, fg, sub in [(surplus, NAVY, GOLD_400, ON_NAVY), (revenue, CREAM, NAVY, NAVY_TEXT)]
-        ], row=True, mobile_row=True, justify="space-between", align="stretch", gap_px=12)
-        body = container([
-            heading(title, "h3", size=36, mobile=28, line=1.15),
-            text(f"<p>{lead}</p>", size=16),
-            figures,
-            container([
-                container([text("".join(f"<p>{t}</p>" for t in paras if t != DROP), size=15)], width=56),
-                container([kv_table(facts)], width=40),
-            ], row=True, align="flex-start", justify="space-between", gap_px=24),
-        ], width=60, gap_px=14)
-        rows.append(container([media, body] if i % 2 == 0 else [body, media], row=True, align="flex-start",
-                              justify="space-between", gap_px=40, reverse_mobile=i % 2 == 1))
+    """Intro band, then one split section per project (PROJECT_CASES)."""
     return [band([
         intro_row("Projektbeispiele", "Vom Ankauf bis zur letzten verkauften Wohnung",
-                  "Zwei abgeschlossene Projekte der Gerlach Immobilien Gruppe, mit allen Zahlen.", wide=True),
-        spacer(24),
-        *rows,
-    ], anchor="projekte", gap_px=12, pad=(104, 20, 48, 20), pad_mobile=(64, 16, 32, 16)), borgfelde_case()]
+                  "Zwei Projekte der Gerlach Immobilien Gruppe, mit allen Zahlen.", wide=True),
+    ], anchor="projekte", gap_px=12, pad=(104, 20, 48, 20), pad_mobile=(64, 16, 32, 16)),
+        *[project_case(c, first=i == 0) for i, c in enumerate(PROJECT_CASES)]]
 
 
 def konditionen():
