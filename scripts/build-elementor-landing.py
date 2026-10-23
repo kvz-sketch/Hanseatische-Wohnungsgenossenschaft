@@ -617,6 +617,7 @@ def testimonials():
 # Sports clubs we support: logo file, name, website. Empty slots show placeholders until six logos are in.
 SPORT_CLUBS = [
     ("logo-vfl-gueldenstern-stade.png", "VfL Güldenstern Stade", "https://vflgueldenstern-stade.de/"),
+    ("logo-vfl-fredenbeck.png", "VfL Fredenbeck", "https://vfl-fredenbeck.de/"),
 ]
 
 
