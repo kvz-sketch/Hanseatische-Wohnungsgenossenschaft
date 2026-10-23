@@ -620,6 +620,7 @@ SPORT_CLUBS = [
     ("logo-vfl-fredenbeck.png", "VfL Fredenbeck", "https://vfl-fredenbeck.de/"),
     ("logo-dhb-masters.png", "Deutscher Hockey-Bund, Masters Teams", "https://www.hockey.de/"),
     ("logo-mthc.png", "MTHC", "https://mthc.de/"),
+    ("logo-handball-sportverein-hamburg.png", "Handball Sportverein Hamburg", "https://hamburg-handball.de/"),
 ]
 
 
