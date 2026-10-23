@@ -8,6 +8,7 @@ import obInnen1 from '../assets/expose/oberbilker-innen-1.jpg'
 import obInnen2 from '../assets/expose/oberbilker-innen-2.jpg'
 import obInnen3 from '../assets/expose/oberbilker-innen-3.jpg'
 import obInnen4 from '../assets/expose/oberbilker-innen-4.jpg'
+import letternkamp from '../assets/expose/letternkamp.jpg'
 
 // All copy and figures for the Hanseatische Invest eG site.
 // Source: the reference design at hansea.neo-labs.ai (Stand April 2026).
@@ -43,7 +44,7 @@ export type PortfolioProject = {
 
 export const portfolioProjects: PortfolioProject[] = [
   { city: 'Hamburg-Bergedorf', name: 'Brookdeich', progress: 20, phase: 'Ankauf', status: 'Kaufvertrag beurkundet, Übergabe im Oktober', updated: '30.09.2026' },
-  { city: 'Hamburg-Eilbek', name: 'Letternkamp', progress: 55, phase: 'Modernisierung', status: 'Dach geschlossen, Bäder in Arbeit', updated: '18.09.2026' },
+  { city: 'Hamburg-Eilbek', name: 'Letternkamp', image: letternkamp, progress: 55, phase: 'Modernisierung', status: 'Dach geschlossen, Bäder in Arbeit', updated: '18.09.2026' },
   { city: 'Köln', name: 'Lülsdorfer Straße', progress: 85, phase: 'Verkauf', status: 'Wohnungen im Verkauf, erste Verkäufe beurkundet', updated: '26.09.2026' },
 ]
 
