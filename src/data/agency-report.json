@@ -99,6 +99,7 @@
             {
               "id": "52536050978175",
               "name": "Bild10_LeadGen_29.09.2026_Kapitalanleger",
+              "image": "IM_Bild10_Kapitalanleger",
               "status": "active",
               "spend": 130.24,
               "impressions": 2026,
@@ -133,6 +134,7 @@
             {
               "id": "52528218858175",
               "name": "Bild5_LeadGen_07.09.2026_Kapitalanleger",
+              "image": "IM_Bild5_Kapitalanleger",
               "status": "off",
               "spend": 47.1,
               "impressions": 720,
