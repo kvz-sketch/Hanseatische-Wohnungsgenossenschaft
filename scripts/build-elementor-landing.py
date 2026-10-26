@@ -578,13 +578,15 @@ def hero():
 
 
 TESTIMONIALS = [
-    # Placeholders until the real quotes are in (name, since/place)
-    ("Platzhalter für das Zitat eines Mitglieds: zwei bis drei Sätze, warum es Mitglied geworden ist und was es "
-     "überzeugt hat.", "Name des Mitglieds", "Mitglied seit 20XX · Ort", "white"),
-    ("Platzhalter für das Zitat eines Mitglieds: zum Beispiel über Transparenz, die Besichtigung der Häuser oder die "
-     "erste Ausschüttung.", "Name des Mitglieds", "Mitglied seit 20XX · Ort", "gold"),
-    ("Platzhalter für das Zitat eines Mitglieds: zum Beispiel über die persönliche Beratung und das "
-     "Mitgliedertreffen.", "Name des Mitglieds", "Mitglied seit 20XX · Ort", "navy"),
+    # (quote, name, meta, tone)
+    ("Ich wollte weiter im Immobilienbereich investieren, aber nicht noch mehr Objekte selbst verwalten.",
+     "Martin Ullrich", "Immobilienmakler · Mitglied bei Hansea Invest", "white"),
+    ("Meine Erfahrung mit der Hanseatischen Invest eG ist durchweg sehr positiv. Besonders hervorheben möchte ich "
+     "Cornelia Richter, sie ist sehr vertrauensvoll, freundlich und kompetent. Die 7 % Verzinsung finde ich dabei "
+     "besonders interessant. Es ist auch ein Sparplan möglich. Einfach genial! Vielen Dank für die tolle und "
+     "professionelle Begleitung!", "Peter Sawadsky", "Mitglied bei Hansea Invest", "gold"),
+    ("Interessantes Geschäftsmodell. Bisher hat alles super geklappt.", "Karin B.", "Mitglied bei Hansea Invest",
+     "navy"),
 ]
 
 
@@ -595,7 +597,8 @@ def testimonials():
                              "navy": (NAVY, WHITE, ON_NAVY_MUTED, GOLD_400)}[tone]
         cards.append(tile([
             heading("“", "p", size=120, mobile=96, color=mark, line=0.7),
-            heading(quote, "p", size=26, mobile=22, color=fg, line=1.3),
+            heading(quote, "p", size=26 if len(quote) < 160 else 21, mobile=22 if len(quote) < 160 else 19, color=fg,
+                    line=1.3),  # long quotes a size smaller so the cards stay balanced
             container([
                 widget("html", {"html": f'<span class="hs-avatar hs-avatar--{tone}" aria-hidden="true"></span>'}),
                 container([
@@ -943,36 +946,42 @@ def subsidiaries():
     ], gap_px=12)
 
 
+def faq_accordion(items):
+    return widget("accordion", {
+        "tabs": [{"_id": uid(), "tab_title": q, "tab_content": f"<p><strong>{lead}</strong></p><p>{body}</p>"}
+                 for q, lead, body in items],
+        "border_width": px(1), "border_color": LINE, "title_background": WHITE,
+        "title_color": NAVY, "tab_active_color": GOLD_700, "content_background_color": WHITE,
+        "content_color": NAVY_TEXT, "title_padding": box(22, 24), "content_padding": box(0, 24, 24, 24),
+        "title_typography_typography": "custom", "title_typography_font_family": UI,
+        "title_typography_font_size": px(16), "title_typography_font_weight": "600",
+        "content_typography_typography": "custom", "content_typography_font_family": UI,
+        "content_typography_font_size": px(15),
+        "content_typography_line_height": {"unit": "em", "size": 1.6, "sizes": []},
+        "icon_align": "right",
+        "selected_icon": {"value": "fas fa-plus", "library": "fa-solid"},
+        "selected_active_icon": {"value": "fas fa-minus", "library": "fa-solid"},
+    }, css="hs-faq hs-faq-tiles")
+
+
 def faq():
+    """Heading and contact button on top, the questions in two columns (stacked on phones)."""
+    half = (len(FAQS) + 1) // 2
     return band([
         container([
             container([
-                eyebrow("FAQ"),
                 h2("Häufig gestellte Fragen"),
                 text("<p>Ihre Frage ist nicht dabei? Wir rufen Sie gern an und nehmen uns Zeit für Ihre Fragen.</p>",
                      size=16),
-                spacer(4),
-                button("Kontakt aufnehmen", "#kontakt"),
-            ], width=34, gap_px=14),
-            container([
-                widget("accordion", {
-                    "tabs": [{"_id": uid(), "tab_title": q, "tab_content": f"<p><strong>{lead}</strong></p><p>{body}</p>"}
-                             for q, lead, body in FAQS],
-                    "border_width": px(1), "border_color": LINE, "title_background": WHITE,
-                    "title_color": NAVY, "tab_active_color": GOLD_700, "content_background_color": WHITE,
-                    "content_color": NAVY_TEXT, "title_padding": box(22, 24), "content_padding": box(0, 24, 24, 24),
-                    "title_typography_typography": "custom", "title_typography_font_family": UI,
-                    "title_typography_font_size": px(16), "title_typography_font_weight": "600",
-                    "content_typography_typography": "custom", "content_typography_font_family": UI,
-                    "content_typography_font_size": px(15),
-                    "content_typography_line_height": {"unit": "em", "size": 1.6, "sizes": []},
-                    "icon_align": "right",
-                    "selected_icon": {"value": "fas fa-plus", "library": "fa-solid"},
-                    "selected_active_icon": {"value": "fas fa-minus", "library": "fa-solid"},
-                }, css="hs-faq hs-faq-tiles"),
-            ], width=60),
-        ], row=True, align="flex-start", justify="space-between", gap_px=48),
-    ], bg=GREY_BG, anchor="faq")
+            ], width=60, gap_px=14),
+            button("Kontakt aufnehmen", "#kontakt"),
+        ], row=True, align="flex-end", justify="space-between", gap_px=24),
+        spacer(16),
+        container([
+            container([faq_accordion(FAQS[:half])], width=49),
+            container([faq_accordion(FAQS[half:])], width=49),
+        ], row=True, align="flex-start", justify="space-between", gap_px=16),
+    ], bg=GREY_BG, anchor="faq", gap_px=12)
 
 
 # Handball player in a jump throw, line art in gold at low opacity behind the sponsoring band
@@ -1184,9 +1193,13 @@ PROJECT_CASES = [
 
 
 def project_case(case, *, first=False, photo_right=False):
-    """Photo on one side to the page edge, figures on the other; on phones the photo is always on top."""
+    """Framed photo on a light half, figures on the white half; on phones the photo is always on top."""
     rows = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in case["rows"])
-    image_panel = photo(case["image"], 58, min_h=620, pos="center center")
+    # Framed photo on a light half, like the explainer-video block (webinar)
+    image_panel = panel([
+        tile([image(case["image"], f"{case['place']}: {case['title']}", radius=6, css_extra="hs-case-photo")],
+             pad=(10,), pad_mobile=(8,), gap_px=0, css="hs-video-frame"),
+    ], 56, side="r" if photo_right else "l", bg="#EDF1F4", pad=(72, 56), gap_px=0)
     text_panel = panel([
             heading(case["place"], "p", size=15, mobile=14, color=NAVY, weight="600", family=UI, line=1.4),
             heading(case["title"], "h3", size=40, mobile=32, line=1.12),
@@ -1194,7 +1207,7 @@ def project_case(case, *, first=False, photo_right=False):
             heading(case["figure"], "p", size=140, mobile=88, line=0.95),
             text(f"<p>{case['figure_label']}</p>", color=MUTED, size=15),
             widget("html", {"html": f'<dl class="hs-figures">{rows}</dl>'}),
-        ], 42, side="l" if photo_right else "r", bg=WHITE, pad=(56, 64), gap_px=10)
+        ], 44, side="l" if photo_right else "r", bg=WHITE, pad=(72, 64), gap_px=10)
     return split([text_panel, image_panel] if photo_right else [image_panel, text_panel], anchor=case["anchor"],
                  css=None if first else "hs-case-next", reverse_mobile=photo_right)
 

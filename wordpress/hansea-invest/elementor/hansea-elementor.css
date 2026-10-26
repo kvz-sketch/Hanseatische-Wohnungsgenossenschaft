@@ -428,6 +428,8 @@ html.hs-motion .hs-in .hs-map-city, html.hs-motion .hs-map-widget.hs-in .hs-map-
 .hs-figures dt { color: #7a7d89; font-size: 15px; }
 .hs-figures dd { margin: 0; color: #141a46; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
+.hs-case-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
 /* Team photo under the contact details */
 .hs-contact-img img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 30%; }
 @media (max-width: 767px) { .hs-contact-img img { aspect-ratio: 4 / 3; } }
