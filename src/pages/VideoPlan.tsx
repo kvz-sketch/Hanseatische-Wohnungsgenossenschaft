@@ -454,20 +454,6 @@ export function VideoPlan() {
             <Calendar items={items} onOpen={open} onCreate={createAt} />
           </Section>
 
-          <Section title="Geplante Shoots" hint="Shoots mit festem Termin, nach Datum sortiert. Nach dem Dreh als „gedreht“ markieren." count={planned.length}>
-            {!loaded ? (
-              <Empty>Lädt …</Empty>
-            ) : planned.length === 0 ? (
-              <Empty>Keine geplanten Shoots. Ein Shoot erscheint hier, sobald er einen Termin hat.</Empty>
-            ) : (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {planned.map((i) => (
-                  <BriefCard key={i.id} item={i} onOpen={open} footer={canEdit ? <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} /> : undefined} />
-                ))}
-              </div>
-            )}
-          </Section>
-
           <Section
             title="Ungeplante Shoots"
             hint="Briefings ohne Termin. Sobald ein Datum eingetragen ist, erscheint der Shoot im Kalender."
@@ -485,6 +471,20 @@ export function VideoPlan() {
             ) : (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {unscheduled.map((i) => (
+                  <BriefCard key={i.id} item={i} onOpen={open} footer={canEdit ? <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} /> : undefined} />
+                ))}
+              </div>
+            )}
+          </Section>
+
+          <Section title="Geplante Shoots" hint="Shoots mit festem Termin, nach Datum sortiert. Nach dem Dreh als „gedreht“ markieren." count={planned.length}>
+            {!loaded ? (
+              <Empty>Lädt …</Empty>
+            ) : planned.length === 0 ? (
+              <Empty>Keine geplanten Shoots. Ein Shoot erscheint hier, sobald er einen Termin hat.</Empty>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {planned.map((i) => (
                   <BriefCard key={i.id} item={i} onOpen={open} footer={canEdit ? <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} /> : undefined} />
                 ))}
               </div>
