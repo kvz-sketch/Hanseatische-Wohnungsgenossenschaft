@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "../router";
 import { RoofIcon } from "../components/brandbook/RoofIcon";
+import { AgencySection } from "../components/performanceReport/AgencySection";
 import { CampaignRow } from "../components/performanceReport/CampaignRow";
 import { disqualificationRate, useReport, type Campaign } from "../data/performanceReport";
 import {
@@ -212,6 +213,8 @@ export function PerformanceMarketingReport() {
           </div>
         </div>
       </section>
+
+      <AgencySection />
 
       <footer className="border-t border-navy/8 px-5 py-8 sm:px-8 lg:px-11">
         <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-3 text-[11.5px] text-muted sm:flex-row sm:items-center">
