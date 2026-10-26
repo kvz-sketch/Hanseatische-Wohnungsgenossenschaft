@@ -24,6 +24,8 @@ export type AgencyAd = {
   name: string;
   /** Creative thumbnail URL, resolved from the JSON's image key (a filename stem in src/assets/ads/). */
   image?: string;
+  /** Video creative served from public/ (e.g. "/videos/IM_Video4_Kapitalanleger.mp4"); `image` is its poster. */
+  video?: string;
   status: Status;
   spend: number;
   impressions: number;

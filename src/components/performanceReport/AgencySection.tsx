@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Lightbox } from "./AdCard";
 import { useAgencyReport, type AgencyAd, type AgencyCampaign, type AgencyLeadStatus } from "../../data/agencyReport";
 
@@ -28,6 +28,36 @@ function Kpi({ label, value, sub, accent }: { label: string; value: string; sub?
   );
 }
 
+function VideoLightbox({ src, poster, onClose }: { src: string; poster?: string; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/80 p-6" onClick={onClose}>
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Schließen"
+        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+      >
+        ✕
+      </button>
+      <video
+        src={src}
+        poster={poster}
+        controls
+        autoPlay
+        playsInline
+        onClick={(e) => e.stopPropagation()}
+        className="max-h-full max-w-full rounded-md shadow-2xl"
+      />
+    </div>
+  );
+}
+
 function AdThumb({ ad }: { ad: AgencyAd }) {
   const [open, setOpen] = useState(false);
   if (!ad.image) return <span className="h-9 w-9 shrink-0 rounded-[2px] border border-dashed border-navy/15 bg-mist" aria-hidden="true" />;
@@ -36,12 +66,22 @@ function AdThumb({ ad }: { ad: AgencyAd }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="h-9 w-9 shrink-0 cursor-zoom-in overflow-hidden rounded-[2px] border border-navy/8"
-        aria-label={`Creative ${ad.name} vergrößern`}
+        className={`relative h-9 w-9 shrink-0 overflow-hidden rounded-[2px] border border-navy/8 ${ad.video ? "cursor-pointer" : "cursor-zoom-in"}`}
+        aria-label={ad.video ? `Video ${ad.name} abspielen` : `Creative ${ad.name} vergrößern`}
       >
         <img src={ad.image} alt={ad.name} className="h-full w-full object-cover" />
+        {ad.video && (
+          <span className="absolute inset-0 flex items-center justify-center bg-navy/35 text-[11px] text-white" aria-hidden="true">
+            ▶
+          </span>
+        )}
       </button>
-      {open && <Lightbox src={ad.image} alt={ad.name} onClose={() => setOpen(false)} />}
+      {open &&
+        (ad.video ? (
+          <VideoLightbox src={ad.video} poster={ad.image} onClose={() => setOpen(false)} />
+        ) : (
+          <Lightbox src={ad.image} alt={ad.name} onClose={() => setOpen(false)} />
+        ))}
     </>
   );
 }
