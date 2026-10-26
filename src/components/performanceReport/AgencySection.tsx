@@ -60,18 +60,18 @@ function VideoLightbox({ src, poster, onClose }: { src: string; poster?: string;
 
 function AdThumb({ ad }: { ad: AgencyAd }) {
   const [open, setOpen] = useState(false);
-  if (!ad.image) return <span className="h-9 w-9 shrink-0 rounded-[2px] border border-dashed border-navy/15 bg-mist" aria-hidden="true" />;
+  if (!ad.image) return <span className="h-16 w-16 shrink-0 rounded-[2px] border border-dashed border-navy/15 bg-mist" aria-hidden="true" />;
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`relative h-9 w-9 shrink-0 overflow-hidden rounded-[2px] border border-navy/8 ${ad.video ? "cursor-pointer" : "cursor-zoom-in"}`}
+        className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-[2px] border border-navy/8 ${ad.video ? "cursor-pointer" : "cursor-zoom-in"}`}
         aria-label={ad.video ? `Video ${ad.name} abspielen` : `Creative ${ad.name} vergrößern`}
       >
         <img src={ad.image} alt={ad.name} className="h-full w-full object-cover" />
         {ad.video && (
-          <span className="absolute inset-0 flex items-center justify-center bg-navy/35 text-[11px] text-white" aria-hidden="true">
+          <span className="absolute inset-0 flex items-center justify-center bg-navy/35 text-[18px] text-white" aria-hidden="true">
             ▶
           </span>
         )}
@@ -194,8 +194,8 @@ function AgencyCampaignCard({ campaign }: { campaign: AgencyCampaign }) {
                       .sort((a, b) => (b.leads ?? -1) - (a.leads ?? -1))
                       .map((ad) => (
                         <tr key={ad.id} className="border-b border-line/60 last:border-0">
-                          <td className="py-1.5 pr-3">
-                            <span className="flex min-w-0 items-center gap-2">
+                          <td className="py-2 pr-3">
+                            <span className="flex min-w-0 items-center gap-3">
                               <AdThumb ad={ad} />
                               <StatusDot status={ad.status} />
                               <span className="truncate text-navy" title={ad.name}>{ad.name}</span>
