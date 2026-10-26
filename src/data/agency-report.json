@@ -78,6 +78,7 @@
             {
               "id": "52536050225575",
               "name": "Bild1_LeadGen_29.09.2026_Kapitalanleger",
+              "image": "IM_Bild1_Kapitalanleger",
               "status": "active",
               "spend": 314.62,
               "impressions": 11388,
@@ -124,6 +125,7 @@
             {
               "id": "52528231568175",
               "name": "Bild6_LeadGen_07.09.2026_Kapitalanleger",
+              "image": "IM_Bild6_Kapitalanleger",
               "status": "off",
               "spend": 434.85,
               "impressions": 14684,
@@ -174,6 +176,7 @@
             {
               "id": "52528247916975",
               "name": "Bild6_Persp_07.09.2026_Kapitalanleger",
+              "image": "IM_Bild6_Kapitalanleger",
               "status": "off",
               "spend": 172.59,
               "impressions": 3237,
@@ -184,6 +187,7 @@
             {
               "id": "52528232455975",
               "name": "Bild5_Persp_07.09.2026_Kapitalanleger",
+              "image": "IM_Bild5_Kapitalanleger",
               "status": "off",
               "spend": 64.68,
               "impressions": 1449,
