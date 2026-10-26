@@ -58,31 +58,62 @@ function VideoLightbox({ src, poster, onClose }: { src: string; poster?: string;
   );
 }
 
-function AdThumb({ ad }: { ad: AgencyAd }) {
+/** One agency ad, laid out like the in-house report's AdCard (square creative, name, stats). */
+function AgencyAdCard({ ad }: { ad: AgencyAd }) {
   const [open, setOpen] = useState(false);
-  if (!ad.image) return <span className="h-16 w-16 shrink-0 rounded-[2px] border border-dashed border-navy/15 bg-mist" aria-hidden="true" />;
+  const stats: [string, string, boolean?][] = [
+    ["Leads (Meta)", ad.leads == null ? "n. v." : String(ad.leads), !!ad.leads],
+    ["CPL", cpl(ad.spend, ad.leads)],
+    ["Ausgegeben", fmtEur(ad.spend)],
+    ["Klicks", fmtNum(ad.clicks)],
+    ["Reichweite", fmtNum(ad.reach)],
+    ["Impressionen", fmtNum(ad.impressions)],
+  ];
   return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-[2px] border border-navy/8 ${ad.video ? "cursor-pointer" : "cursor-zoom-in"}`}
-        aria-label={ad.video ? `Video ${ad.name} abspielen` : `Creative ${ad.name} vergrößern`}
-      >
-        <img src={ad.image} alt={ad.name} className="h-full w-full object-cover" />
-        {ad.video && (
-          <span className="absolute inset-0 flex items-center justify-center bg-navy/35 text-[18px] text-white" aria-hidden="true">
-            ▶
-          </span>
-        )}
-      </button>
-      {open &&
-        (ad.video ? (
-          <VideoLightbox src={ad.video} poster={ad.image} onClose={() => setOpen(false)} />
-        ) : (
-          <Lightbox src={ad.image} alt={ad.name} onClose={() => setOpen(false)} />
+    <div className="rounded-md border border-navy/8 bg-white p-3">
+      {ad.image ? (
+        <>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className={`relative block aspect-square w-full overflow-hidden rounded-[3px] border border-navy/8 ${ad.video ? "cursor-pointer" : "cursor-zoom-in"}`}
+            aria-label={ad.video ? `Video ${ad.name} abspielen` : `Creative ${ad.name} vergrößern`}
+          >
+            <img src={ad.image} alt={ad.name} className="h-full w-full object-cover transition-transform hover:scale-105" />
+            {ad.video && (
+              <span className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-navy/70 pl-0.5 text-[16px] text-white">▶</span>
+              </span>
+            )}
+          </button>
+          {open &&
+            (ad.video ? (
+              <VideoLightbox src={ad.video} poster={ad.image} onClose={() => setOpen(false)} />
+            ) : (
+              <Lightbox src={ad.image} alt={ad.name} onClose={() => setOpen(false)} />
+            ))}
+        </>
+      ) : (
+        <div className="aspect-square w-full rounded-[3px] border border-dashed border-navy/15 bg-mist" aria-hidden="true" />
+      )}
+      <div className="mt-2.5 flex items-start gap-1.5">
+        <span className="mt-[5px]">
+          <StatusDot status={ad.status} />
+        </span>
+        <span className="text-[12px] font-bold leading-snug text-navy [overflow-wrap:anywhere]">
+          {/* Let long Meta ad names wrap after underscores instead of mid-word. */}
+          {ad.name.replace(/_/g, "_\u200b")}
+        </span>
+      </div>
+      <div className="mt-2.5 grid grid-cols-2 gap-x-2 gap-y-1.5 border-t border-line pt-2.5 text-[11px] [font-variant-numeric:tabular-nums]">
+        {stats.map(([label, value, highlight]) => (
+          <div key={label}>
+            <div className={`font-bold ${highlight ? "text-koralle" : "text-navy"}`}>{value}</div>
+            <div className="text-[10px] text-muted">{label}</div>
+          </div>
         ))}
-    </>
+      </div>
+    </div>
   );
 }
 
@@ -176,45 +207,14 @@ function AgencyCampaignCard({ campaign }: { campaign: AgencyCampaign }) {
                   {set.leads == null ? "n. v." : set.leads} {set.leads === 1 ? "Lead" : "Leads"} · CPL {cpl(set.spend, set.leads)}
                 </span>
               </div>
-              <div className="mt-2 overflow-x-auto">
-                <table className="w-full min-w-[640px] table-fixed text-left text-[11.5px] [font-variant-numeric:tabular-nums]">
-                  <thead>
-                    <tr className="border-b border-line text-[10px] uppercase tracking-[0.08em] text-fog">
-                      <th className="w-[38%] py-1.5 pr-3 font-bold">Anzeige</th>
-                      <th className="py-1.5 pr-3 text-right font-bold">Leads</th>
-                      <th className="py-1.5 pr-3 text-right font-bold">CPL</th>
-                      <th className="py-1.5 pr-3 text-right font-bold">Ausgegeben</th>
-                      <th className="py-1.5 pr-3 text-right font-bold">Klicks</th>
-                      <th className="py-1.5 pr-3 text-right font-bold">Reichweite</th>
-                      <th className="py-1.5 text-right font-bold">Impressionen</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[...set.ads]
-                      .sort((a, b) => (b.leads ?? -1) - (a.leads ?? -1))
-                      .map((ad) => (
-                        <tr key={ad.id} className="border-b border-line/60 last:border-0">
-                          <td className="py-2 pr-3">
-                            <span className="flex min-w-0 items-center gap-3">
-                              <AdThumb ad={ad} />
-                              <StatusDot status={ad.status} />
-                              <span className="truncate text-navy" title={ad.name}>{ad.name}</span>
-                            </span>
-                          </td>
-                          <td className={`py-1.5 pr-3 text-right font-bold ${ad.leads ? "text-koralle" : "text-muted"}`}>
-                            {ad.leads == null ? "n. v." : ad.leads}
-                          </td>
-                          <td className="py-1.5 pr-3 text-right text-navy">{cpl(ad.spend, ad.leads)}</td>
-                          <td className="py-1.5 pr-3 text-right text-navy">{fmtEur(ad.spend)}</td>
-                          <td className="py-1.5 pr-3 text-right text-navy">{fmtNum(ad.clicks)}</td>
-                          <td className="py-1.5 pr-3 text-right text-navy">{fmtNum(ad.reach)}</td>
-                          <td className="py-1.5 text-right text-navy">{fmtNum(ad.impressions)}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                {[...set.ads]
+                  .sort((a, b) => (b.leads ?? -1) - (a.leads ?? -1))
+                  .map((ad) => (
+                    <AgencyAdCard key={ad.id} ad={ad} />
+                  ))}
               </div>
-              {set.note && <p className="mt-1.5 text-[11px] text-muted">{set.note}</p>}
+              {set.note && <p className="mt-2 text-[11px] text-muted">{set.note}</p>}
             </div>
           ))}
         </div>
