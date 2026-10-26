@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useAgencyReport, type AgencyCampaign, type AgencyLeadStatus } from "../../data/agencyReport";
+import { Lightbox } from "./AdCard";
+import { useAgencyReport, type AgencyAd, type AgencyCampaign, type AgencyLeadStatus } from "../../data/agencyReport";
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
@@ -24,6 +25,24 @@ function Kpi({ label, value, sub, accent }: { label: string; value: string; sub?
       <div className="mt-2 font-serif-display text-[24px] text-navy [font-variant-numeric:tabular-nums]">{value}</div>
       {sub && <div className="mt-1 text-[11px] text-muted">{sub}</div>}
     </div>
+  );
+}
+
+function AdThumb({ ad }: { ad: AgencyAd }) {
+  const [open, setOpen] = useState(false);
+  if (!ad.image) return <span className="h-9 w-9 shrink-0 rounded-[2px] border border-dashed border-navy/15 bg-mist" aria-hidden="true" />;
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="h-9 w-9 shrink-0 cursor-zoom-in overflow-hidden rounded-[2px] border border-navy/8"
+        aria-label={`Creative ${ad.name} vergrößern`}
+      >
+        <img src={ad.image} alt={ad.name} className="h-full w-full object-cover" />
+      </button>
+      {open && <Lightbox src={ad.image} alt={ad.name} onClose={() => setOpen(false)} />}
+    </>
   );
 }
 
@@ -137,6 +156,7 @@ function AgencyCampaignCard({ campaign }: { campaign: AgencyCampaign }) {
                         <tr key={ad.id} className="border-b border-line/60 last:border-0">
                           <td className="py-1.5 pr-3">
                             <span className="flex min-w-0 items-center gap-2">
+                              <AdThumb ad={ad} />
                               <StatusDot status={ad.status} />
                               <span className="truncate text-navy" title={ad.name}>{ad.name}</span>
                             </span>

@@ -8,12 +8,22 @@ import bundledReport from "./agency-report.json";
 // its own totals, never added to the report's headline numbers. Values are
 // Meta lifetime figures; `leads: null` means Meta reports no lead count
 // (e.g. website leads whose event isn't tracked), which is not the same as 0.
+// An ad's `image` is a filename stem from src/assets/ads/, resolved to the
+// bundled image URL here (same convention as the in-house report).
+
+const adImages: Record<string, string> = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<string>("../assets/ads/*.jpg", { eager: true, import: "default" }),
+  ).map(([path, url]) => [path.slice(path.lastIndexOf("/") + 1, -".jpg".length), url]),
+);
 
 type Status = "active" | "off";
 
 export type AgencyAd = {
   id: string;
   name: string;
+  /** Creative thumbnail URL, resolved from the JSON's image key (a filename stem in src/assets/ads/). */
+  image?: string;
   status: Status;
   spend: number;
   impressions: number;
@@ -73,6 +83,19 @@ export type AgencyReport = {
   campaigns: AgencyCampaign[];
 };
 
+function resolveImages(report: AgencyReport): AgencyReport {
+  return {
+    ...report,
+    campaigns: report.campaigns.map((c) => ({
+      ...c,
+      adSets: c.adSets.map((s) => ({
+        ...s,
+        ads: s.ads.map((a) => ({ ...a, image: a.image ? adImages[a.image] : undefined })),
+      })),
+    })),
+  };
+}
+
 function isAgencyReport(raw: unknown): raw is AgencyReport {
   const r = raw as Partial<AgencyReport> | null;
   return !!r && typeof r.asOf === "string" && Array.isArray(r.campaigns);
@@ -80,13 +103,13 @@ function isAgencyReport(raw: unknown): raw is AgencyReport {
 
 /** The bundled agency report right away, swapped for the live /data/agency-report.json once it loads. */
 export function useAgencyReport(): AgencyReport {
-  const [report, setReport] = useState(bundledReport as AgencyReport);
+  const [report, setReport] = useState(() => resolveImages(bundledReport as AgencyReport));
   useEffect(() => {
     let cancelled = false;
     fetch("/data/agency-report.json", { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((raw) => {
-        if (!cancelled && isAgencyReport(raw)) setReport(raw);
+        if (!cancelled && isAgencyReport(raw)) setReport(resolveImages(raw));
       })
       .catch(() => {});
     return () => {
