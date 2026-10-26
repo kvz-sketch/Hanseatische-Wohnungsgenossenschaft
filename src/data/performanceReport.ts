@@ -45,13 +45,15 @@ export type LeadStatus = {
   nichtErreicht: number;
   disqualifiziert: number;
   abschluss?: number;
+  /** HubSpot "Bereit fürs 1. Closing": qualified, handed over to closing. */
+  closing?: number;
   /** HubSpot "Wiedervorlage" — follow-up scheduled. */
   wiedervorlage?: number;
 };
 
 /** Disqualification rate from a lead-status breakdown: of all deals, and of worked deals (all except "neu"). */
 export function disqualificationRate(s: LeadStatus) {
-  const total = s.neu + s.nichtErreicht + s.disqualifiziert + (s.wiedervorlage ?? 0) + (s.abschluss ?? 0);
+  const total = s.neu + s.nichtErreicht + s.disqualifiziert + (s.wiedervorlage ?? 0) + (s.closing ?? 0) + (s.abschluss ?? 0);
   const worked = total - s.neu;
   return {
     total,
