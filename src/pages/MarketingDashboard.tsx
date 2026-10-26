@@ -8,6 +8,8 @@ type Tile = {
   description: string;
   to?: string;
   external?: string;
+  /** Small extra line under the description, e.g. access details. */
+  note?: string;
   status: "live" | "soon";
   icon: (props: { className?: string }) => ReactElement;
 };
@@ -95,6 +97,15 @@ function IconCalendar({ className = "" }: { className?: string }) {
   );
 }
 
+function IconHouse({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M9.5 20v-5.5h5V20" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function IconChart({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -131,18 +142,28 @@ const tiles: Tile[] = [
     icon: IconCalendar,
   },
   {
-    id: "templates",
-    title: "Vorlagen",
-    description: "Präsentationen, Briefpapier, Signaturen und Social-Media-Formate zum Download.",
-    status: "soon",
-    icon: IconGrid,
+    id: "exposees",
+    title: "Exposées",
+    description: "Alle Objekt-Exposées der Hanseatischen Wohnungsgenossenschaft auf einer Seite.",
+    external: "https://exposees.hanseatische-wohnungsgenossenschaft.de/",
+    note: "Passwort: GIGxHansea2026!",
+    status: "live",
+    icon: IconHouse,
   },
   {
     id: "assets",
     title: "Bildmaterial",
     description: "Freigegebene Fotografie, Objektbilder und Grafikelemente für Marketing & Vertrieb.",
-    status: "soon",
+    to: "/dashboard/bildmaterial",
+    status: "live",
     icon: IconImage,
+  },
+  {
+    id: "templates",
+    title: "Vorlagen",
+    description: "Präsentationen, Briefpapier, Signaturen und Social-Media-Formate zum Download.",
+    status: "soon",
+    icon: IconGrid,
   },
   {
     id: "social",
@@ -201,6 +222,7 @@ function TileCard({ tile }: { tile: Tile }) {
         <p className={`mt-2 text-[13px] leading-relaxed ${isLive ? "text-muted" : "text-muted/60"}`}>
           {tile.description}
         </p>
+        {tile.note && <p className="mt-2 text-[12px] font-bold text-navy">{tile.note}</p>}
         {isLive && (
           <span className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-koralle">
             Öffnen
@@ -217,6 +239,13 @@ function TileCard({ tile }: { tile: Tile }) {
     </div>
   );
 
+  if (tile.external) {
+    return (
+      <a href={tile.external} target="_blank" rel="noopener noreferrer" className="block h-full">
+        {inner}
+      </a>
+    );
+  }
   if (tile.to) {
     return (
       <Link to={tile.to} className="block h-full">
