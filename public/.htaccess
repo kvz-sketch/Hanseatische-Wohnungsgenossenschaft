@@ -25,7 +25,7 @@
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
   # Refreshed daily in place (same name, no hash) — always revalidate.
-  <FilesMatch "^(performance|agency)-report\.json$">
+  <FilesMatch "^(performance|agency|closinglab)-report\.json$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>

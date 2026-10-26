@@ -18,7 +18,7 @@ function StatusDot({ status }: { status: "active" | "off" }) {
   );
 }
 
-function Kpi({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
+export function Kpi({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
   return (
     <div className={`rounded-md bg-white p-5 ${accent ? "border-2 border-koralle/30" : "border border-navy/8"}`}>
       <span className={`text-[11px] font-bold uppercase tracking-[0.1em] ${accent ? "text-koralle" : "text-fog"}`}>{label}</span>

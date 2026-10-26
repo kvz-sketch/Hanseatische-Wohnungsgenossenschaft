@@ -4,14 +4,15 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // Publishes src/data/performance-report.json as /data/performance-report.json
-// (and the separate agency report as /data/agency-report.json),
+// (and the separate agency reports as /data/agency-report.json and
+// /data/closinglab-report.json),
 // which the Performance Marketing Report fetches at runtime. The daily refresh
 // replaces just that file on the server — see docs/performance-report-refresh.md.
 function publishReportData(): Plugin {
   return {
     name: 'publish-report-data',
     generateBundle() {
-      for (const name of ['performance-report', 'agency-report']) {
+      for (const name of ['performance-report', 'agency-report', 'closinglab-report']) {
         this.emitFile({
           type: 'asset',
           fileName: `data/${name}.json`,

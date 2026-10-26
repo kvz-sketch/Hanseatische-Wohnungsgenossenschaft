@@ -1,0 +1,17 @@
+{
+  "asOf": "26.10.2026",
+  "updatedAt": "2026-10-26",
+  "agency": "Closing Lab",
+  "note": "Vorerst nur der Lead-Status aus HubSpot; Kampagnen-, Ausgaben- und Anzeigendaten der Agentur folgen, sobald wir Zugriff haben.",
+  "leadStatusSource": "HubSpot, 26.10.2026 · Deals „Lead Kapitalanleger x Closing Lab“",
+  "stages": [
+    { "label": "Bedarfsanalysephase", "phase": "Closing", "group": "closing", "count": 11 },
+    { "label": "Objektfindungsphase", "phase": "Closing", "group": "closing", "count": 7 },
+    { "label": "Bereit fürs 1. Closing", "phase": "Closing", "group": "closing", "count": 10 },
+    { "label": "Gesettet", "phase": "Setting", "group": "open", "count": 1 },
+    { "label": "Wiedervorlage", "phase": "Setting", "group": "open", "count": 3 },
+    { "label": "Nicht erreicht (2.–4. Versuch)", "phase": "Setting", "group": "open", "count": 4 },
+    { "label": "Disqualifiziert", "phase": "Setting", "group": "disqualified", "count": 10 },
+    { "label": "Disqualifiziert", "phase": "Closing", "group": "disqualified", "count": 67 }
+  ]
+}
