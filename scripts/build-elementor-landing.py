@@ -1123,11 +1123,10 @@ def unternehmen():
         ], row=True, align="flex-start", justify="space-between", gap_px=32),
         spacer(12),
         container([
-            container([
-                heading(v, "p", size=64, mobile=44, line=1),
-                heading(label, "p", size=15, mobile=15, color=NAVY, weight="600", family=UI, line=1.3),
-                text(f"<p>{sub}</p>", color=MUTED, size=13, line=1.4),
-            ], width=31, pad=(20, 0, 0, 0), gap_px=8, css="hs-figure")
+            tile([  # same tiles as in "Über uns"
+                heading(v, "p", size=54, mobile=40, line=1),
+                text(f"<p>{label}<br>{sub}</p>", color=MUTED, size=14),
+            ], width=32, pad=(36, 32), pad_mobile=(24, 18), gap_px=8)
             for v, label, sub in stats
         ], row=True, justify="space-between", align="stretch", gap_px=20),
         spacer(16),

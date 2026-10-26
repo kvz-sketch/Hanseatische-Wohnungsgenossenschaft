@@ -411,9 +411,8 @@ html.hs-motion .hs-in .hs-map-city, html.hs-motion .hs-map-widget.hs-in .hs-map-
 .hs-step > .elementor-widget-html { flex: 0 0 auto; width: auto; }
 .hs-path-step { position: relative; }
 
-/* Editorial pieces: full-width photo breaks, large figures on a hairline, one-sentence statements */
+/* Editorial pieces: full-width photo breaks, one-sentence statements */
 .hs-photo-break { background-size: cover; }
-.hs-figure { border-top: 2px solid #ddb851; }
 .hs-statement .elementor-heading-title { max-width: 900px; }
 
 /* Sports club logos: same box height as the placeholders next to them */
