@@ -600,7 +600,6 @@ def testimonials():
             heading(quote, "p", size=26 if len(quote) < 160 else 21, mobile=22 if len(quote) < 160 else 19, color=fg,
                     line=1.3),  # long quotes a size smaller so the cards stay balanced
             container([
-                widget("html", {"html": f'<span class="hs-avatar hs-avatar--{tone}" aria-hidden="true"></span>'}),
                 container([
                     heading(name, "p", size=15, mobile=15, color=fg, weight="700", family=UI, line=1.3),
                     heading(meta, "p", size=13, mobile=13, color=sub, weight="400", family=UI, line=1.4),

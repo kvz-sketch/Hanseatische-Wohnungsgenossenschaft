@@ -314,9 +314,6 @@ html.hs-motion .hs-chart-widget.hs-in .hs-seg { transform: none; }
 .hs-quote .elementor-heading-title { text-wrap: pretty; }
 .hs-quote-author { border-top: 1px solid rgba(20, 26, 70, 0.12); padding-top: 20px !important; }
 .hs-quote--navy .hs-quote-author { border-top-color: rgba(255, 255, 255, 0.16); }
-.hs-avatar { display: block; width: 48px; height: 48px; border-radius: 50%; background: #e7e8ec; }
-.hs-avatar--gold { background: rgba(20, 26, 70, 0.14); }
-.hs-avatar--navy { background: rgba(255, 255, 255, 0.16); }
 .hs-quote-author .elementor-widget-html { flex: 0 0 auto; width: auto !important; }
 
 /* ---------------------------------------------------------------------------
