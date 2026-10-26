@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useAgencyReport, type AgencyCampaign } from "../../data/agencyReport";
+import { useAgencyReport, type AgencyCampaign, type AgencyLeadStatus } from "../../data/agencyReport";
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
 const fmtDate = (iso: string) => iso.split("-").reverse().join(".");
+const fmtPct = (v: number) => `${Math.round(v * 100)} %`;
 const cpl = (spend: number, leads: number | null) => (leads ? fmtEur(spend / leads) : "n. v.");
 
 function StatusDot({ status }: { status: "active" | "off" }) {
@@ -22,6 +23,31 @@ function Kpi({ label, value, sub, accent }: { label: string; value: string; sub?
       <span className={`text-[11px] font-bold uppercase tracking-[0.1em] ${accent ? "text-koralle" : "text-fog"}`}>{label}</span>
       <div className="mt-2 font-serif-display text-[24px] text-navy [font-variant-numeric:tabular-nums]">{value}</div>
       {sub && <div className="mt-1 text-[11px] text-muted">{sub}</div>}
+    </div>
+  );
+}
+
+function LeadStatusChips({ status, source }: { status: AgencyLeadStatus; source?: string }) {
+  const total = status.closing + status.disqualifiziert;
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">
+        Lead-Status{source ? ` (${source})` : ""}:
+      </span>
+      <span
+        className="rounded-[2px] bg-[#1f8a5a]/10 px-2 py-0.5 text-[11px] font-bold text-[#1f8a5a]"
+        title={status.closingStages?.join(", ")}
+      >
+        {status.closing} im Closing{status.closingStages?.length ? ` (${status.closingStages.join(", ")})` : ""}
+      </span>
+      <span className="rounded-[2px] bg-koralle/10 px-2 py-0.5 text-[11px] font-bold text-koralle">
+        {status.disqualifiziert} Disqualifiziert
+      </span>
+      {total > 0 && (
+        <span className="text-[11px] text-muted">
+          Disqualifizierungsrate <b className="text-navy">{fmtPct(status.disqualifiziert / total)}</b>
+        </span>
+      )}
     </div>
   );
 }
@@ -70,6 +96,7 @@ function AgencyCampaignCard({ campaign }: { campaign: AgencyCampaign }) {
           seit {fmtDate(campaign.start)}
           {campaign.dailyBudget != null && ` · ${fmtEur(campaign.dailyBudget)} / Tag`}
         </div>
+        {campaign.leadStatus && <LeadStatusChips status={campaign.leadStatus} source={campaign.leadStatusSource} />}
       </button>
 
       {open && (
@@ -143,6 +170,9 @@ export function AgencySection() {
   const leads = report.campaigns.reduce((s, c) => s + (c.leads ?? 0), 0);
   const leadSpend = report.campaigns.filter((c) => c.leads != null).reduce((s, c) => s + c.spend, 0);
   const active = report.campaigns.filter((c) => c.status === "active").length;
+  const statuses = report.campaigns.flatMap((c) => (c.leadStatus ? [c.leadStatus] : []));
+  const closing = statuses.reduce((s, x) => s + x.closing, 0);
+  const disq = statuses.reduce((s, x) => s + x.disqualifiziert, 0);
 
   return (
     <section className="border-t-4 border-gold/60 bg-white px-5 py-10 sm:px-8 lg:px-11">
@@ -161,8 +191,20 @@ export function AgencySection() {
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Kpi label="Ausgegeben" value={fmtEur(spend)} sub={`über ${report.campaigns.length} Kampagnen, ${active} aktiv`} />
           <Kpi label="Leads (Meta)" value={fmtNum(leads)} sub="Lead-Formular, gesamte Laufzeit" accent />
-          <Kpi label="CPL" value={leads > 0 ? fmtEur(leadSpend / leads) : "n. v."} sub="nur Kampagnen mit Lead-Zählung" />
-          <Kpi label="CPL inkl. aller Kosten" value={leads > 0 ? fmtEur(spend / leads) : "n. v."} sub="Gesamtausgaben ÷ Leads" />
+          <Kpi
+            label="CPL"
+            value={leads > 0 ? fmtEur(leadSpend / leads) : "n. v."}
+            sub={leads > 0 ? `${fmtEur(spend / leads)} inkl. aller Agentur-Kosten` : undefined}
+          />
+          <Kpi
+            label="Im Closing"
+            value={statuses.length ? fmtNum(closing) : "n. v."}
+            sub={
+              statuses.length
+                ? `${disq} disqualifiziert${closing + disq > 0 ? ` (${fmtPct(disq / (closing + disq))})` : ""} · HubSpot`
+                : "keine CRM-Daten"
+            }
+          />
         </div>
 
         <div className="mt-6 flex flex-col gap-4">

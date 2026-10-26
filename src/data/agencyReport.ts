@@ -37,6 +37,14 @@ export type AgencyAdSet = {
   note?: string;
 };
 
+/** HubSpot status of a campaign's leads — counts only, no personal data. */
+export type AgencyLeadStatus = {
+  /** Deals in a closing stage (e.g. Bedarfsanalyse-, Objektfindungsphase). */
+  closing: number;
+  closingStages?: string[];
+  disqualifiziert: number;
+};
+
 export type AgencyCampaign = {
   id: string;
   name: string;
@@ -49,6 +57,9 @@ export type AgencyCampaign = {
   reach: number;
   clicks: number;
   leads: number | null;
+  leadStatus?: AgencyLeadStatus;
+  /** Where/when the lead status comes from, e.g. "HubSpot, 26.10.2026". */
+  leadStatusSource?: string;
   note?: string;
   adSets: AgencyAdSet[];
 };
