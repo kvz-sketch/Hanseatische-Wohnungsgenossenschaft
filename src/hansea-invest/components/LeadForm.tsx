@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { contact, hubspot } from "../content";
 import { trackLead } from "../tracking";
+import { PreviewForm } from "./PreviewForm";
 
 type LegacyHbspt = {
   forms: {
@@ -78,7 +79,9 @@ export function LeadForm({ id }: { id: string }) {
       </p>
 
       <div className="mt-5 min-h-[320px]">
-        {!isConfigured ? (
+        {import.meta.env.MODE === "artifact" ? (
+          <PreviewForm />
+        ) : !isConfigured ? (
           <div className="flex min-h-[320px] flex-col items-center justify-center rounded-md border border-dashed border-line bg-mist p-6 text-center">
             <p className="text-[13.5px] leading-relaxed text-muted">
               Hier erscheint das HubSpot-Formular, sobald Portal- und Formular-ID in
