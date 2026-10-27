@@ -48,3 +48,23 @@ One-time setup:
      default `/httpdocs/`
 
 Until `FTP_SERVER` is set, the workflow only builds and skips the upload.
+
+## Hansea Invest landing page (`/hansea-invest/`)
+
+Taboola campaign page for the Hanseatische Invest eG, built as a second Vite
+entry (`hansea-invest/index.html` → `src/hansea-invest/`). It is deployed with
+the homepage and served at `/hansea-invest/`. Copy and product facts live in
+`src/hansea-invest/content.ts`; values marked `VERIFY` must be checked against
+the Satzung / Beitrittsunterlagen before the campaign goes live. Ad copy:
+`marketing/taboola/hansea-invest-native-ads.md`.
+
+Build-time environment variables (e.g. in `.env.local` or the CI build step):
+
+- `VITE_LEAD_ENDPOINT` — URL that receives the form as a JSON POST (CRM
+  webhook, Zapier/Make …). Without it the form opens a pre-filled e-mail.
+- `VITE_TABOOLA_ACCOUNT_ID` — fires Taboola's `lead` event on submit, provided
+  the Taboola pixel was loaded (via the consent tool / tag manager).
+
+Leads carry the Taboola click id (`tblci`) and UTM parameters from the URL, so
+Taboola tracking templates should append e.g.
+`?tblci={click_id}&utm_source=taboola&utm_campaign={campaign_name}&utm_content={campaign_item_id}`.
