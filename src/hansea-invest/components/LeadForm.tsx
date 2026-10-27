@@ -75,7 +75,7 @@ export function LeadForm({ id }: { id: string }) {
     >
       <div className="subheading text-[20px] leading-tight text-navy">Kostenloses Infopaket anfordern</div>
       <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
-        Alle Konditionen, Chancen und Risiken — unverbindlich per E-Mail.
+        Alle Konditionen, Chancen und Risiken kostenlos per E-Mail.
       </p>
 
       <div className="mt-5 min-h-[320px]">

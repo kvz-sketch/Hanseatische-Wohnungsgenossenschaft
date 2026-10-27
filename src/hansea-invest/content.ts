@@ -8,8 +8,8 @@
 export const offer = {
   issuer: "Hanseatische Invest eG",
   brand: "Hansea Invest",
-  targetDividend: 7, // % p.a., target, not guaranteed — set by the Generalversammlung
-  minAmount: 10_000, // € — VERIFY
+  targetDividend: 7, // % p.a., target, not guaranteed; set by the Generalversammlung
+  minAmount: 10_000, // €, VERIFY
   payout: "quartalsweise", // VERIFY
   minTermYears: 1, // VERIFY
 };
@@ -50,7 +50,7 @@ export const reasons = [
   {
     title: "Sachwert statt Zahlen auf Papier",
     description:
-      "Hinter Ihren Anteilen stehen echte Mietwohnungen — keine Aktienkurse, keine komplizierten Finanzprodukte.",
+      "Hinter Ihren Anteilen stehen echte Mietwohnungen statt Aktienkursen oder komplizierter Finanzprodukte.",
   },
   {
     title: "Wohnraum ist gefragt",
@@ -60,14 +60,14 @@ export const reasons = [
   {
     title: "Das Genossenschaftsprinzip",
     description:
-      "Eine eG gehört ihren Mitgliedern. Jedes Mitglied hat eine Stimme — unabhängig davon, wie viele Anteile es hält.",
+      "Eine eG gehört ihren Mitgliedern. Jedes Mitglied hat eine Stimme, unabhängig davon, wie viele Anteile es hält.",
   },
 ];
 
 export const group = {
   heading: "Hinter Hansea Invest steht die Gerlach Immobilien Gruppe",
   paragraph:
-    "Die Gerlach Immobilien Gruppe aus Hamburg erwirbt und entwickelt Mehrfamilienhäuser in Norddeutschland — vom Ankauf über die Sanierung bis zur Vermietung und Verwaltung. Über die Hanseatische Invest eG können sich auch Privatanleger an diesem Bestand beteiligen.",
+    "Die Gerlach Immobilien Gruppe aus Hamburg erwirbt und entwickelt Mehrfamilienhäuser in Norddeutschland und begleitet sie vom Ankauf über die Sanierung bis zur Vermietung und Verwaltung. Über die Hanseatische Invest eG können sich auch Privatanleger an diesem Bestand beteiligen.",
   points: [
     "Ankauf & Bestand in Norddeutschland",
     "Nachhaltige Sanierung & Entwicklung",
@@ -109,7 +109,7 @@ export const faq = [
   },
   {
     q: "Wie komme ich wieder an mein Geld?",
-    a: "Sie können Ihre Mitgliedschaft bzw. Ihre Anteile kündigen. Die Auszahlung des Auseinandersetzungsguthabens erfolgt nach den Fristen der Satzung — Details stehen im Infopaket.",
+    a: "Sie können Ihre Mitgliedschaft bzw. Ihre Anteile kündigen. Die Auszahlung des Auseinandersetzungsguthabens erfolgt nach den Fristen der Satzung. Details stehen im Infopaket.",
   },
   {
     q: "Ist das Infopaket wirklich kostenlos und unverbindlich?",

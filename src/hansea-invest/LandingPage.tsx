@@ -93,7 +93,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-5 max-w-[520px] text-[16px] leading-relaxed text-fog sm:text-[17px]">
-              Werden Sie Mitglied der {offer.issuer} und beteiligen Sie sich an echten Mietwohnungen in Hamburg — als
+              Werden Sie Mitglied der {offer.issuer} und beteiligen Sie sich an echten Mietwohnungen in Hamburg, als
               Baustein für Rente, Vermögensaufbau und Schutz vor Inflation.
             </p>
           </Reveal>
@@ -160,7 +160,7 @@ function HowItWorks() {
         <SectionHeading
           eyebrow="So funktioniert's"
           title="In drei Schritten an Hamburger Wohnungen beteiligt"
-          intro="Kein eigener Wohnungskauf, keine Mieterbetreuung, kein Notartermin — die Genossenschaft übernimmt Ankauf, Sanierung und Verwaltung."
+          intro="Kein eigener Wohnungskauf, keine Mieterbetreuung, kein Notartermin. Die Genossenschaft übernimmt Ankauf, Sanierung und Verwaltung."
         />
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
           {steps.map((s, i) => (
@@ -349,7 +349,7 @@ function FinalCta() {
     <section className="bg-gradient-to-br from-navy-light via-navy to-navy-deep px-5 py-16 text-center sm:px-8 md:py-20 lg:px-11">
       <Reveal className="mx-auto max-w-[640px]">
         <h2 className="font-serif-display text-[28px] leading-tight text-white sm:text-[36px]">
-          Jetzt in Ruhe informieren — kostenlos und unverbindlich
+          Jetzt kostenlos und unverbindlich informieren
         </h2>
         <p className="mt-4 text-[15.5px] leading-relaxed text-fog">
           Fordern Sie das Infopaket an oder sprechen Sie direkt mit unserem Team in Hamburg.

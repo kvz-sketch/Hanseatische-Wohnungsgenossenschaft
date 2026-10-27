@@ -1,4 +1,4 @@
-// Two interlocking rounded squares — the mark used in the Taboola ad creative.
+// Two interlocking rounded squares, the mark used in the Taboola ad creative.
 export function HanseaMark({ size = 28, color = "#141A46", className }: { size?: number; color?: string; className?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className} aria-hidden="true">
