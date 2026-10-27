@@ -117,13 +117,19 @@ export const faq = [
   },
 ];
 
-export const amountOptions = [
-  "10.000 – 25.000 €",
-  "25.000 – 50.000 €",
-  "50.000 – 100.000 €",
-  "über 100.000 €",
-  "Noch unsicher",
-];
+// HubSpot form embedded in the hero card. Copy the values from the form's
+// embed code in HubSpot (Marketing → Forms → Share → Embed code):
+//   region   → data-region / "region" (e.g. "eu1", "na1")
+//   portalId → data-portal-id / "portalId"
+//   formId   → data-form-id / "formId"
+// embed: "frame" for forms built in the new forms editor (embed code contains
+// class="hs-form-frame"), "legacy" for old forms (hbspt.forms.create(...)).
+export const hubspot = {
+  region: "eu1",
+  portalId: "",
+  formId: "",
+  embed: "frame" as "frame" | "legacy",
+};
 
 export const legal = {
   imprint: "https://gerlachgroup.de/impressum/",

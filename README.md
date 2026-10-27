@@ -58,13 +58,18 @@ the homepage and served at `/hansea-invest/`. Copy and product facts live in
 the Satzung / Beitrittsunterlagen before the campaign goes live. Ad copy:
 `marketing/taboola/hansea-invest-native-ads.md`.
 
-Build-time environment variables (e.g. in `.env.local` or the CI build step):
+Leads go straight into HubSpot via the HubSpot form embedded in the hero card.
+Set `region`, `portalId`, `formId` and `embed` in the `hubspot` block of
+`src/hansea-invest/content.ts` (values are in the form's embed code; `embed` is
+`"frame"` for forms from the new forms editor, `"legacy"` for
+`hbspt.forms.create` forms). Fields, consent text, thank-you message and form
+styling are managed in HubSpot.
 
-- `VITE_LEAD_ENDPOINT` — URL that receives the form as a JSON POST (CRM
-  webhook, Zapier/Make …). Without it the form opens a pre-filled e-mail.
-- `VITE_TABOOLA_ACCOUNT_ID` — fires Taboola's `lead` event on submit, provided
-  the Taboola pixel was loaded (via the consent tool / tag manager).
-
-Leads carry the Taboola click id (`tblci`) and UTM parameters from the URL, so
-Taboola tracking templates should append e.g.
+For campaign attribution, add hidden fields to the HubSpot form named `tblci`,
+`utm_source`, `utm_campaign` and `utm_content`; HubSpot fills them from the URL
+query string. Taboola tracking templates should append e.g.
 `?tblci={click_id}&utm_source=taboola&utm_campaign={campaign_name}&utm_content={campaign_item_id}`.
+
+`VITE_TABOOLA_ACCOUNT_ID` (build-time env var) fires Taboola's `lead` event when
+the HubSpot form is submitted, provided the Taboola pixel was loaded (via the
+consent tool / tag manager).
