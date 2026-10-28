@@ -149,6 +149,11 @@ export default function Dashboard() {
 
   const aside = (
     <>
+      {member.crm && (
+        <a href="/mitgliederliste/" className="text-[14px] font-semibold text-ink underline-offset-4 hover:underline">
+          Mitgliederliste
+        </a>
+      )}
       <span className="text-[14px] text-muted">{member.email}</span>
       <button
         type="button"

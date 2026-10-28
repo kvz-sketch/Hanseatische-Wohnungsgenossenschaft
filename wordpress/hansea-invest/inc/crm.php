@@ -78,10 +78,14 @@ add_action( 'init', function () {
 	}
 } );
 
-/** Staff who only manage members (no editors): they land in the CRM, not in wp-admin or the members' area. */
+/**
+ * Staff who only manage members (no editors, no member account of their
+ * own): they land in the CRM, not in wp-admin or the members' area. Someone
+ * with both roles (subscriber + Mitgliederverwaltung) can use both.
+ */
 function hansea_crm_staff_only( $user = null ) {
 	$user = $user ?: wp_get_current_user();
-	return $user instanceof WP_User && $user->exists() && user_can( $user, HANSEA_CRM_CAP ) && ! user_can( $user, 'edit_posts' );
+	return $user instanceof WP_User && $user->exists() && user_can( $user, HANSEA_CRM_CAP ) && ! user_can( $user, 'edit_posts' ) && ! in_array( 'subscriber', (array) $user->roles, true );
 }
 
 add_filter( 'login_redirect', function ( $redirect_to, $requested, $user ) {

@@ -35,6 +35,8 @@ export type Member = {
   createdAt: string
   /** null until the account is linked to the member's record in the Mitgliederliste. */
   portfolio?: Portfolio | null
+  /** May open the Mitgliederliste (staff). */
+  crm?: boolean
 }
 
 const SESSION_KEY = 'hs-demo-session'
