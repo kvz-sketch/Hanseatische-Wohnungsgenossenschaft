@@ -85,6 +85,36 @@ add_filter( 'wp_new_user_notification_email', function ( $email, $user ) {
 	return array_merge( $email, $welcome, array( 'headers' => array( 'Content-Type: text/html; charset=UTF-8' ) ) );
 }, 10, 2 );
 
+/**
+ * Creates a member account (subscriber) for the portal, without sending anything.
+ * Members sign in with their email; the username is just a unique handle and
+ * the random password is replaced by the member via the welcome link.
+ *
+ * @return int|WP_Error User ID.
+ */
+function hansea_create_member_account( $first, $last, $email ) {
+	if ( email_exists( $email ) ) {
+		return new WP_Error( 'hansea_exists', 'Für diese E-Mail-Adresse gibt es bereits ein Konto.' );
+	}
+	do {
+		$login = 'mitglied_' . strtolower( wp_generate_password( 10, false, false ) );
+	} while ( username_exists( $login ) );
+
+	$user_id = wp_insert_user( array(
+		'user_login'   => $login,
+		'user_email'   => $email,
+		'user_pass'    => wp_generate_password( 32, true, true ),
+		'first_name'   => $first,
+		'last_name'    => $last,
+		'display_name' => trim( $first . ' ' . $last ),
+		'role'         => 'subscriber',
+	) );
+	if ( ! is_wp_error( $user_id ) ) {
+		update_user_meta( $user_id, 'hansea_created_by', get_current_user_id() );
+	}
+	return $user_id;
+}
+
 /* ---------------------------------------------------------------------------
  * Benutzer → Mitglied anlegen
  * ------------------------------------------------------------------------ */
@@ -114,25 +144,11 @@ add_action( 'admin_post_hansea_member_create', function () {
 		wp_safe_redirect( add_query_arg( 'hansea_notice', 'exists', $back ) );
 		exit;
 	}
-	// Members sign in with their email; the username is just a unique handle.
-	do {
-		$login = 'mitglied_' . strtolower( wp_generate_password( 10, false, false ) );
-	} while ( username_exists( $login ) );
-
-	$user_id = wp_insert_user( array(
-		'user_login'   => $login,
-		'user_email'   => $email,
-		'user_pass'    => wp_generate_password( 32, true, true ), // replaced by the member via the welcome link
-		'first_name'   => $first,
-		'last_name'    => $last,
-		'display_name' => trim( $first . ' ' . $last ),
-		'role'         => 'subscriber',
-	) );
+	$user_id = hansea_create_member_account( $first, $last, $email );
 	if ( is_wp_error( $user_id ) ) {
 		wp_safe_redirect( add_query_arg( 'hansea_notice', 'failed', $back ) );
 		exit;
 	}
-	update_user_meta( $user_id, 'hansea_created_by', get_current_user_id() );
 
 	$notice = 'created';
 	if ( $send ) {

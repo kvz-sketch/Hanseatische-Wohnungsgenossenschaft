@@ -23,20 +23,25 @@ const HANSEA_VIEWS = array(
 		'entry' => 'src/passwort.tsx',
 		'title' => 'Passwort festlegen',
 	),
+	'mitgliederliste' => array(
+		'entry' => 'src/mitgliederliste.tsx',
+		'title' => 'Mitgliederliste',
+	),
 );
 
 // Bump when the rewrite rules change so they are flushed once.
-const HANSEA_REWRITE_VERSION = '2';
+const HANSEA_REWRITE_VERSION = '3';
 
 add_action( 'init', function () {
 	add_rewrite_rule( '^login/?$', 'index.php?hansea_view=login', 'top' );
 	add_rewrite_rule( '^mitglieder/?$', 'index.php?hansea_view=mitglieder', 'top' );
 	add_rewrite_rule( '^passwort-vergessen/?$', 'index.php?hansea_view=passwort', 'top' );
+	add_rewrite_rule( '^mitgliederliste/?$', 'index.php?hansea_view=mitgliederliste', 'top' );
 
 	// Flush when our rules are new or missing: a plugin that flushes before
 	// the theme registers them (e.g. on activation) drops them otherwise.
 	$rules = get_option( 'rewrite_rules' );
-	if ( get_option( 'hansea_rewrite_version' ) !== HANSEA_REWRITE_VERSION || ! is_array( $rules ) || ! isset( $rules['^mitglieder/?$'], $rules['^passwort-vergessen/?$'] ) ) {
+	if ( get_option( 'hansea_rewrite_version' ) !== HANSEA_REWRITE_VERSION || ! is_array( $rules ) || ! isset( $rules['^mitglieder/?$'], $rules['^passwort-vergessen/?$'], $rules['^mitgliederliste/?$'] ) ) {
 		flush_rewrite_rules( false );
 		update_option( 'hansea_rewrite_version', HANSEA_REWRITE_VERSION );
 	}
@@ -58,18 +63,23 @@ function hansea_current_view() {
 	return is_front_page() && 'posts' === get_option( 'show_on_front' ) ? 'home' : null;
 }
 
-// Access rules: members' area needs a login, the login page doesn't.
+// Access rules: members' area and Mitgliederliste need a login, the login
+// page doesn't; the Mitgliederliste also needs the CRM capability (inc/crm.php).
 add_action( 'template_redirect', function () {
 	$view = hansea_current_view();
-	if ( 'mitglieder' === $view && ! is_user_logged_in() ) {
-		wp_safe_redirect( home_url( '/login/' ) );
+	if ( in_array( $view, array( 'mitglieder', 'mitgliederliste' ), true ) && ! is_user_logged_in() ) {
+		wp_safe_redirect( 'mitgliederliste' === $view ? wp_login_url( home_url( '/mitgliederliste/' ) ) : home_url( '/login/' ) );
 		exit;
 	}
-	if ( 'login' === $view && is_user_logged_in() ) {
+	if ( 'mitgliederliste' === $view && ! current_user_can( HANSEA_CRM_CAP ) ) {
 		wp_safe_redirect( home_url( '/mitglieder/' ) );
 		exit;
 	}
-	if ( in_array( $view, array( 'login', 'mitglieder', 'passwort' ), true ) ) {
+	if ( ( 'login' === $view && is_user_logged_in() ) || ( 'mitglieder' === $view && hansea_crm_staff_only() ) ) {
+		wp_safe_redirect( home_url( hansea_crm_staff_only() ? '/mitgliederliste/' : '/mitglieder/' ) );
+		exit;
+	}
+	if ( in_array( $view, array( 'login', 'mitglieder', 'passwort', 'mitgliederliste' ), true ) ) {
 		nocache_headers();
 	}
 } );

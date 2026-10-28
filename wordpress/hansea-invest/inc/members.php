@@ -20,7 +20,7 @@ add_action( 'admin_init', function () {
 	if ( wp_doing_ajax() || current_user_can( 'edit_posts' ) ) {
 		return;
 	}
-	wp_safe_redirect( home_url( '/mitglieder/' ) );
+	wp_safe_redirect( home_url( current_user_can( 'hansea_crm' ) ? '/mitgliederliste/' : '/mitglieder/' ) );
 	exit;
 } );
 
