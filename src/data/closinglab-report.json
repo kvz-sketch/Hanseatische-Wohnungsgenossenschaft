@@ -2,16 +2,114 @@
   "asOf": "26.10.2026",
   "updatedAt": "2026-10-26",
   "agency": "Closing Lab",
-  "note": "Vorerst nur der Lead-Status aus HubSpot; Kampagnen-, Ausgaben- und Anzeigendaten der Agentur folgen, sobald wir Zugriff haben.",
+  "note": "Lead-Status aus HubSpot und Kosten laut Rechnungen von Closing Lab; Kampagnen- und Anzeigendaten der Agentur folgen, sobald wir Zugriff haben.",
   "leadStatusSource": "HubSpot, 26.10.2026 · Deals „Lead Kapitalanleger x Closing Lab“",
   "stages": [
-    { "label": "Bedarfsanalysephase", "phase": "Closing", "group": "closing", "count": 11 },
-    { "label": "Objektfindungsphase", "phase": "Closing", "group": "closing", "count": 7 },
-    { "label": "Bereit fürs 1. Closing", "phase": "Closing", "group": "closing", "count": 10 },
-    { "label": "Gesettet", "phase": "Setting", "group": "open", "count": 1 },
-    { "label": "Wiedervorlage", "phase": "Setting", "group": "open", "count": 3 },
-    { "label": "Nicht erreicht (2.–4. Versuch)", "phase": "Setting", "group": "open", "count": 4 },
-    { "label": "Disqualifiziert", "phase": "Setting", "group": "disqualified", "count": 10 },
-    { "label": "Disqualifiziert", "phase": "Closing", "group": "disqualified", "count": 67 }
+    {
+      "label": "Bedarfsanalysephase",
+      "phase": "Closing",
+      "group": "closing",
+      "count": 11
+    },
+    {
+      "label": "Objektfindungsphase",
+      "phase": "Closing",
+      "group": "closing",
+      "count": 7
+    },
+    {
+      "label": "Bereit fürs 1. Closing",
+      "phase": "Closing",
+      "group": "closing",
+      "count": 10
+    },
+    {
+      "label": "Gesettet",
+      "phase": "Setting",
+      "group": "open",
+      "count": 1
+    },
+    {
+      "label": "Wiedervorlage",
+      "phase": "Setting",
+      "group": "open",
+      "count": 3
+    },
+    {
+      "label": "Nicht erreicht (2.–4. Versuch)",
+      "phase": "Setting",
+      "group": "open",
+      "count": 4
+    },
+    {
+      "label": "Disqualifiziert",
+      "phase": "Setting",
+      "group": "disqualified",
+      "count": 10
+    },
+    {
+      "label": "Disqualifiziert",
+      "phase": "Closing",
+      "group": "disqualified",
+      "count": 67
+    }
+  ],
+  "invoicesSource": "Rechnungen Closing Lab, Stand 28.10.2026",
+  "invoices": [
+    {
+      "from": "2026-10-29",
+      "to": "2026-11-28",
+      "quantity": null,
+      "unit": "Termin",
+      "unitPrice": null,
+      "setup": null,
+      "total": 7470,
+      "status": "overdue",
+      "paidOn": null
+    },
+    {
+      "from": "2026-09-29",
+      "to": "2026-10-28",
+      "quantity": 30,
+      "unit": "Termin",
+      "unitPrice": 249,
+      "setup": 0,
+      "total": 7470,
+      "status": "paid",
+      "paidOn": "2026-09-23"
+    },
+    {
+      "from": "2026-08-29",
+      "to": "2026-09-28",
+      "quantity": 30,
+      "unit": "Termin",
+      "unitPrice": 249,
+      "setup": 0,
+      "total": 7470,
+      "status": "paid",
+      "paidOn": "2026-08-22"
+    },
+    {
+      "from": "2026-07-29",
+      "to": "2026-08-28",
+      "quantity": 30,
+      "unit": "Termin",
+      "unitPrice": 249,
+      "setup": 0,
+      "total": 7470,
+      "status": "paid",
+      "paidOn": "2026-07-22"
+    },
+    {
+      "from": "2026-06-29",
+      "to": "2026-07-28",
+      "quantity": 30,
+      "unit": "Termin",
+      "unitPrice": 249,
+      "setup": 1500,
+      "total": 8970,
+      "status": "paid",
+      "paidOn": "2026-06-22"
+    }
   ]
 }

@@ -15,6 +15,21 @@ export type ClosingLabStage = {
   count: number;
 };
 
+/** One Closing Lab invoice (monthly billing period). Amounts in EUR, dates ISO. */
+export type ClosingLabInvoice = {
+  from: string;
+  to: string;
+  /** Booked appointments; null when the invoice doesn't itemise them. */
+  quantity: number | null;
+  unit: string;
+  unitPrice: number | null;
+  /** One-off setup fee, null or 0 when none. */
+  setup: number | null;
+  total: number;
+  status: "paid" | "open" | "overdue" | "draft";
+  paidOn: string | null;
+};
+
 export type ClosingLabReport = {
   asOf: string;
   updatedAt: string;
@@ -22,6 +37,9 @@ export type ClosingLabReport = {
   note: string;
   leadStatusSource: string;
   stages: ClosingLabStage[];
+  invoicesSource?: string;
+  /** Newest first. */
+  invoices?: ClosingLabInvoice[];
 };
 
 function isClosingLabReport(raw: unknown): raw is ClosingLabReport {
