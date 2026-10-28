@@ -1,8 +1,8 @@
-# Hansea Invest – Taboola Native Ads (Runde 1)
+# Hansea Invest: Taboola Native Ads (Runde 1)
 
 Thema: Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft, Ziel-Dividende
 **bis zu 7 % p. a.**
-Zielgruppe: 45–70 Jahre, DACH (Fokus DE), Sparer mit 5.000–50.000 € auf Tagesgeld /
+Zielgruppe: 45 bis 70 Jahre, DACH (Fokus DE), Sparer mit 5.000 bis 50.000 € auf Tagesgeld /
 Sparbuch, Interesse an Rente, Inflation, Immobilien.
 
 **Taboola-Specs**
@@ -20,11 +20,11 @@ Sparbuch, Interesse an Rente, Inflation, Immobilien.
 
 ---
 
-## Winkel 1 – Rendite (Kontrolle, nah am bestehenden Ad)
+## Winkel 1: Rendite (Kontrolle, nah am bestehenden Ad)
 
-**1A** (45 / 112)
+**1A** (45 / 110)
 **Titel:** Bis zu 7 % p. a. mit Hamburger Wohnimmobilien
-**Text:** Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft – für
+**Text:** Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft für
 Rente, Vermögensaufbau und Inflationsschutz.
 
 **1B** (51 / 116)
@@ -32,20 +32,20 @@ Rente, Vermögensaufbau und Inflationsschutz.
 **Text:** Schon ab kleinen Beträgen Mitglied werden und an echten Wohnimmobilien in
 Hamburg beteiligt sein. Jetzt informieren.
 
-**1C** (51 / 114)
-**Titel:** Bis zu 7 % p. a. – mit Wohnungen statt Aktienkursen
+**1C** (49 / 114)
+**Titel:** Bis zu 7 % p. a. mit Wohnungen statt Aktienkursen
 **Text:** Wie Sparer mit Genossenschaftsanteilen an Hamburger Mietwohnungen
 beteiligt sein können. Alle Fakten im Überblick.
 
-## Winkel 2 – Tagesgeld-Vergleich / Zinsfrust
+## Winkel 2: Tagesgeld-Vergleich / Zinsfrust
 
-**2A** (60 / 112)
+**2A** (60 / 111)
 **Titel:** Tagesgeld sinkt wieder: Diese Alternative kennen viele nicht
 **Text:** Hamburger Wohnungsgenossenschaft mit Ziel-Dividende bis 7 % p. a. Wie das
-Modell funktioniert – einfach erklärt.
+Modell funktioniert, einfach erklärt.
 
-**2B** (52 / 97)
-**Titel:** Sparbuch, Tagesgeld – oder Hamburger Wohnimmobilien?
+**2B** (50 / 97)
+**Titel:** Sparbuch, Tagesgeld oder Hamburger Wohnimmobilien?
 **Text:** Ein Vergleich, den viele Sparer über 50 noch nicht gemacht haben.
 Ziel-Dividende bis zu 7 % p. a.
 
@@ -54,11 +54,11 @@ Ziel-Dividende bis zu 7 % p. a.
 **Text:** Sachwert statt Sparbuch: Genossenschaftsanteile mit Ziel-Dividende bis zu
 7 % p. a. Jetzt Infos sichern.
 
-## Winkel 3 – Rente / Altersvorsorge
+## Winkel 3: Rente / Altersvorsorge
 
-**3A** (50 / 114)
+**3A** (50 / 112)
 **Titel:** Rentenlücke? Wie Hamburger Wohnungen helfen können
-**Text:** Genossenschaftsanteile als Baustein für die Altersvorsorge – mit
+**Text:** Genossenschaftsanteile als Baustein für die Altersvorsorge mit
 Ziel-Dividende bis zu 7 % p. a. Kostenlose Infos.
 
 **3B** (54 / 120)
@@ -66,12 +66,12 @@ Ziel-Dividende bis zu 7 % p. a. Kostenlose Infos.
 **Text:** Beteiligung an Hamburger Wohnimmobilien über eine Genossenschaft. Bis zu
 7 % p. a. Ziel-Dividende. Jetzt Ratgeber lesen.
 
-**3C** (44 / 95)
+**3C** (44 / 93)
 **Titel:** Rente aufbessern mit Hamburger Mietwohnungen
-**Text:** Wie Genossenschaftsanteile funktionieren, was sie bringen können – und
+**Text:** Wie Genossenschaftsanteile funktionieren, was sie bringen können und
 für wen sie sich eignen.
 
-## Winkel 4 – Sachwert / Inflation
+## Winkel 4: Sachwert / Inflation
 
 **4A** (46 / 99)
 **Titel:** Inflation frisst Erspartes: Sachwerte im Fokus
@@ -83,16 +83,16 @@ Genossenschaft daran beteiligt.
 **Text:** Genossenschaftsanteile mit Ziel-Dividende bis zu 7 % p. a. Erfahren
 Sie, wie das Modell funktioniert.
 
-## Winkel 5 – Neugier / Ratgeber (Advertorial-Stil)
+## Winkel 5: Neugier / Ratgeber (Advertorial-Stil)
 
-**5A** (53 / 104)
+**5A** (53 / 103)
 **Titel:** Hamburger Genossenschaft: Das steckt hinter 7 % p. a.
-**Text:** Was Sparer über Genossenschaftsanteile wissen sollten – Chancen, Risiken
+**Text:** Was Sparer über Genossenschaftsanteile wissen sollten: Chancen, Risiken
 und Mindestanlage im Überblick.
 
-**5B** (47 / 101)
+**5B** (47 / 103)
 **Titel:** Genossenschaftsanteile: Was ist das eigentlich?
-**Text:** Seit über 100 Jahren in Hamburg verbreitet – jetzt auch als Geldanlage
+**Text:** Seit über 100 Jahren in Hamburg verbreitet und jetzt auch als Geldanlage
 neu entdeckt. Einfach erklärt.
 
 **5C** (44 / 94)
@@ -100,11 +100,11 @@ neu entdeckt. Einfach erklärt.
 **Text:** Genossenschaftsanteile an Hamburger Wohnimmobilien: Ziel-Dividende bis
 7 % p. a. Der Ratgeber.
 
-## Winkel 6 – Regional / Hamburg-Stolz (Geo-Targeting Norddeutschland)
+## Winkel 6: Regional / Hamburg-Stolz (Geo-Targeting Norddeutschland)
 
-**6A** (50 / 95)
+**6A** (50 / 94)
 **Titel:** Für Hamburger: Am eigenen Wohnungsmarkt beteiligen
-**Text:** Mitglied in einer Hamburger Wohnungsgenossenschaft werden – mit
+**Text:** Mitglied in einer Hamburger Wohnungsgenossenschaft werden, mit
 Ziel-Dividende bis zu 7 % p. a.
 
 **6B** (52 / 99)
@@ -128,7 +128,7 @@ pro Variante die schwächsten 50 % abschalten. Branding-Text als eigener A/B-Tes
 
 ---
 
-## Compliance – vor dem Livegang prüfen lassen
+## Compliance: vor dem Livegang prüfen lassen
 
 - **„Bis zu 7 %“ ist eine Ziel-Dividende, keine Zinszusage.** Die Dividende einer
   Genossenschaft beschließt die Generalversammlung; deshalb in allen Ads
@@ -137,12 +137,12 @@ pro Variante die schwächsten 50 % abschalten. Branding-Text als eigener A/B-Tes
 - **Risikohinweis:** Je nach rechtlicher Einordnung des Angebots (Ausnahme für
   Genossenschaften nach § 2 VermAnlG ja/nein, provisionsbasierter Vertrieb) kann
   der Warnhinweis nach § 12 VermAnlG in der Werbung Pflicht sein. Bitte juristisch
-  klären, bevor die Ads laufen – das betrifft ggf. auch den Beschreibungstext.
+  klären, bevor die Ads laufen. Das betrifft ggf. auch den Beschreibungstext.
 - **Taboola-Richtlinien Finanzen:** keine garantierten Renditen, keine
   Dringlichkeits-Tricks („nur heute“), keine Promi-Bezüge, Landingpage muss
   Anbieter, Impressum und Risiken klar zeigen.
 - **Advertorial-Domain (z. B. ratgeber-sparen.com):** Seite muss als „Anzeige“
   gekennzeichnet sein und den Anbieter (Hansea Invest) eindeutig nennen.
 - Zahlen wie „seit über 100 Jahren“ (5B) nur verwenden, wenn sie für die
-  konkrete Genossenschaft stimmen – sonst auf allgemeines Genossenschaftsmodell
+  konkrete Genossenschaft stimmen, sonst auf allgemeines Genossenschaftsmodell
   umformulieren.
