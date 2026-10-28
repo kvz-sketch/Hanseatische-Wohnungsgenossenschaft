@@ -8,6 +8,8 @@ import {
   TEMPLATES,
   api,
   fmtDateTime,
+  miroBoardId,
+  miroEmbedUrl,
   useAuthorName,
   useEditAccess,
   type Board,
@@ -111,16 +113,26 @@ function NewBoardDialog({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [template, setTemplate] = useState("journey");
+  const [mode, setMode] = useState<"build" | "miro">("build");
+  const [miroUrl, setMiroUrl] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (mode === "miro" && !miroBoardId(miroUrl)) {
+      setError("Bitte den Link eines Miro-Boards einfügen (https://miro.com/app/board/…).");
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
       const t = TEMPLATES.find((x) => x.id === template) ?? TEMPLATES[0];
-      const { board } = await api.create({ title: title.trim(), description: description.trim(), ...t.build() }, author);
+      const content =
+        mode === "miro"
+          ? { nodes: [], edges: [], miroUrl: miroUrl.trim() }
+          : { ...t.build(), miroUrl: "" };
+      const { board } = await api.create({ title: title.trim(), description: description.trim(), ...content }, author);
       navigate(`${BASE}/${board.id}`);
     } catch (err) {
       setError((err as Error).message);
@@ -132,6 +144,24 @@ function NewBoardDialog({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/50 p-4" onClick={onClose}>
       <form onSubmit={submit} onClick={(e) => e.stopPropagation()} className="w-full max-w-[560px] rounded-lg bg-white p-6 shadow-2xl">
         <h2 className="font-serif-display text-[24px] text-navy">Neuer Prozess</h2>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {(
+            [
+              ["build", "Hier gestalten", "Mit dem Board-Editor im Dashboard aufbauen."],
+              ["miro", "Miro-Board verlinken", "Der Prozess liegt in Miro (z. B. aus Teams) und wird hier angezeigt."],
+            ] as const
+          ).map(([m, label, text]) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMode(m)}
+              className={`rounded-md border p-3 text-left transition-colors ${mode === m ? "border-navy bg-navy/[0.04] ring-1 ring-navy" : "border-navy/12 hover:border-navy/40"}`}
+            >
+              <div className="text-[13px] font-bold text-navy">{label}</div>
+              <div className="mt-1 text-[11.5px] leading-snug text-muted">{text}</div>
+            </button>
+          ))}
+        </div>
         <label className="mt-5 block">
           <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Name</span>
           <input
@@ -153,22 +183,39 @@ function NewBoardDialog({ onClose }: { onClose: () => void }) {
             className="min-h-[70px] w-full rounded-md border border-navy/15 px-3 py-2 text-[13px] text-navy focus:border-navy focus:outline-none"
           />
         </label>
-        <div className="mt-4">
-          <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Vorlage</span>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            {TEMPLATES.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setTemplate(t.id)}
-                className={`rounded-md border p-3 text-left transition-colors ${template === t.id ? "border-navy bg-navy/[0.04] ring-1 ring-navy" : "border-navy/12 hover:border-navy/40"}`}
-              >
-                <div className="text-[13px] font-bold text-navy">{t.label}</div>
-                <div className="mt-1 text-[11.5px] leading-snug text-muted">{t.description}</div>
-              </button>
-            ))}
+        {mode === "miro" ? (
+          <label className="mt-4 block">
+            <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Link zum Miro-Board</span>
+            <input
+              type="url"
+              required
+              value={miroUrl}
+              onChange={(e) => setMiroUrl(e.target.value)}
+              placeholder="https://miro.com/app/board/…"
+              className="w-full rounded-md border border-navy/15 px-3 py-2 text-[13px] text-navy placeholder:text-fog focus:border-navy focus:outline-none"
+            />
+            <span className="mt-1.5 block text-[11.5px] leading-snug text-muted">
+              In Miro oben rechts auf „Teilen“ und „Link kopieren“. Damit das Board hier angezeigt wird, muss es für alle mit dem Link oder für euer Team sichtbar sein.
+            </span>
+          </label>
+        ) : (
+          <div className="mt-4">
+            <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Vorlage</span>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {TEMPLATES.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setTemplate(t.id)}
+                  className={`rounded-md border p-3 text-left transition-colors ${template === t.id ? "border-navy bg-navy/[0.04] ring-1 ring-navy" : "border-navy/12 hover:border-navy/40"}`}
+                >
+                  <div className="text-[13px] font-bold text-navy">{t.label}</div>
+                  <div className="mt-1 text-[11.5px] leading-snug text-muted">{t.description}</div>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         {error && <p className="mt-4 rounded-md bg-koralle/10 px-3 py-2 text-[12.5px] font-semibold text-[#b8402f]">{error}</p>}
         <div className="mt-6 flex justify-end gap-3">
           <button type="button" onClick={onClose} className="rounded-md px-4 py-2 text-[11.5px] font-bold uppercase tracking-[0.06em] text-muted hover:text-navy">
@@ -240,8 +287,14 @@ function ProzessList() {
                     <h3 className="subheading text-[18px] text-navy">{b.title}</h3>
                     {b.description && <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-muted">{b.description}</p>}
                     <div className="mt-auto flex flex-wrap gap-2 pt-5 text-[11px] font-bold text-navy">
-                      <span className="rounded-[2px] bg-navy/[0.06] px-2 py-1">{b.phases} Phasen</span>
-                      <span className="rounded-[2px] bg-navy/[0.06] px-2 py-1">{b.elements} Elemente</span>
+                      {b.miroUrl ? (
+                        <span className="rounded-[2px] bg-[#ffd02f]/40 px-2 py-1 text-[#4a3b00]">Miro-Board</span>
+                      ) : (
+                        <>
+                          <span className="rounded-[2px] bg-navy/[0.06] px-2 py-1">{b.phases} Phasen</span>
+                          <span className="rounded-[2px] bg-navy/[0.06] px-2 py-1">{b.elements} Elemente</span>
+                        </>
+                      )}
                     </div>
                     <div className="mt-3 text-[11px] text-muted">
                       Zuletzt geändert {fmtDateTime(b.updatedAt)}
@@ -276,7 +329,113 @@ function ProzessList() {
 type SaveState = { kind: "saved" | "dirty" | "saving" | "error" | "locked"; message?: string; at?: string };
 
 const sameContent = (a: BoardContent, b: BoardContent) => JSON.stringify(a) === JSON.stringify(b);
-const contentOf = (b: Board): BoardContent => ({ title: b.title, description: b.description, nodes: b.nodes, edges: b.edges });
+const contentOf = (b: Board): BoardContent => ({
+  title: b.title,
+  description: b.description,
+  nodes: b.nodes,
+  edges: b.edges,
+  miroUrl: b.miroUrl ?? "",
+});
+
+const fieldCls =
+  "w-full rounded-md border border-navy/15 bg-white px-3 py-2 text-[13px] text-navy placeholder:text-fog focus:border-navy focus:outline-none disabled:bg-mist disabled:text-ink";
+const fieldLabel = "mb-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-muted";
+
+/** A process that lives in Miro: the board embedded, plus name, description and link. */
+function MiroView({
+  content,
+  canEdit,
+  onChange,
+  onBuildHere,
+}: {
+  content: BoardContent;
+  canEdit: boolean;
+  onChange: (content: BoardContent) => void;
+  onBuildHere: () => void;
+}) {
+  const [link, setLink] = useState(content.miroUrl ?? "");
+  const valid = miroBoardId(link) !== null;
+  const embed = miroEmbedUrl(content.miroUrl ?? "");
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
+      <div className="relative min-h-[460px] flex-1 bg-mist">
+        {embed ? (
+          <iframe
+            key={embed}
+            src={embed}
+            title={`Miro-Board: ${content.title}`}
+            className="absolute inset-0 h-full w-full border-0"
+            allow="fullscreen; clipboard-read; clipboard-write"
+            allowFullScreen
+          />
+        ) : (
+          <p className="p-8 text-[13px] text-muted">Kein gültiger Miro-Link hinterlegt.</p>
+        )}
+      </div>
+      <aside className="flex w-full shrink-0 flex-col gap-4 overflow-y-auto border-t border-navy/8 bg-white p-5 lg:w-[320px] lg:border-l lg:border-t-0">
+        <a
+          href={content.miroUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-md bg-[#ffd02f] px-4 py-2.5 text-center text-[12px] font-bold uppercase tracking-[0.06em] text-[#050038] hover:brightness-95"
+        >
+          In Miro öffnen ↗
+        </a>
+        <p className="text-[11.5px] leading-relaxed text-muted">
+          Bearbeitet wird dieses Board direkt in Miro (auch über Teams). Wird es links nicht angezeigt, ist es in Miro nicht für alle mit dem Link freigegeben oder du bist nicht angemeldet: dann über den Button öffnen.
+        </p>
+        <label>
+          <span className={fieldLabel}>Name des Prozesses</span>
+          <input
+            className={fieldCls}
+            value={content.title}
+            disabled={!canEdit}
+            maxLength={120}
+            onChange={(e) => onChange({ ...content, title: e.target.value })}
+          />
+        </label>
+        <label>
+          <span className={fieldLabel}>Kurzbeschreibung</span>
+          <textarea
+            className={`${fieldCls} min-h-[90px] resize-y`}
+            value={content.description}
+            disabled={!canEdit}
+            maxLength={1000}
+            placeholder={canEdit ? "Wofür ist dieser Prozess, wer arbeitet damit?" : ""}
+            onChange={(e) => onChange({ ...content, description: e.target.value })}
+          />
+        </label>
+        {canEdit && (
+          <>
+            <label>
+              <span className={fieldLabel}>Link zum Miro-Board</span>
+              <input
+                type="url"
+                className={fieldCls}
+                value={link}
+                onChange={(e) => {
+                  setLink(e.target.value);
+                  if (miroBoardId(e.target.value)) onChange({ ...content, miroUrl: e.target.value.trim() });
+                }}
+              />
+              {!valid && <span className="mt-1 block text-[11.5px] font-semibold text-[#b8402f]">Kein gültiger Miro-Board-Link, die Änderung wird nicht gespeichert.</span>}
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm("Den Miro-Link entfernen und den Prozess stattdessen hier im Dashboard aufbauen?")) onBuildHere();
+              }}
+              className="self-start text-[11px] font-bold uppercase tracking-[0.06em] text-muted hover:text-navy"
+            >
+              Stattdessen hier gestalten
+            </button>
+          </>
+        )}
+      </aside>
+    </div>
+  );
+}
 
 function BoardPage({ id }: { id: string }) {
   const { canEdit } = useEditAccess();
@@ -288,6 +447,9 @@ function BoardPage({ id }: { id: string }) {
   const [conflict, setConflict] = useState<Board | null>(null);
   const [hint, setHint] = useState<string | null>(null);
   const [title, setTitle] = useState("");
+  // What the editor or Miro view starts from, and the current content for the Miro view.
+  const [initial, setInitial] = useState<BoardContent | null>(null);
+  const [current, setCurrent] = useState<BoardContent | null>(null);
 
   const latest = useRef<BoardContent | null>(null);
   const version = useRef(0);
@@ -309,6 +471,8 @@ function BoardPage({ id }: { id: string }) {
       version.current = b.version;
       latest.current = contentOf(b);
       savedContent.current = contentOf(b);
+      setInitial(contentOf(b));
+      setCurrent(contentOf(b));
       setEditorKey((k) => k + 1);
       setSave({ kind: "saved", at: b.updatedAt });
       setConflict(null);
@@ -367,6 +531,7 @@ function BoardPage({ id }: { id: string }) {
   const onChange = useCallback(
     (content: BoardContent) => {
       latest.current = content;
+      setCurrent(content);
       setTitle(content.title);
       setSave((s) => (s.kind === "saving" ? s : { kind: "dirty" }));
       if (timer.current) clearTimeout(timer.current);
@@ -477,10 +642,23 @@ function BoardPage({ id }: { id: string }) {
           )}
         </div>
       </div>
-      {board ? (
+      {board && initial && current?.miroUrl ? (
+        <MiroView
+          key={editorKey}
+          content={current}
+          canEdit={canEdit}
+          onChange={onChange}
+          onBuildHere={() => {
+            const next = { ...current, miroUrl: "" };
+            onChange(next);
+            setInitial(next);
+            setEditorKey((k) => k + 1);
+          }}
+        />
+      ) : board && initial ? (
         <BoardEditor
           key={editorKey}
-          initial={contentOf(board)}
+          initial={initial}
           canEdit={canEdit}
           onChange={onChange}
           onRequestEdit={() => setHint("Zum Bearbeiten bitte zuerst das Team-Passwort eingeben.")}

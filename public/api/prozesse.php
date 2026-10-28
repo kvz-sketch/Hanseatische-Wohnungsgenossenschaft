@@ -15,6 +15,9 @@
 //                     {action:"delete",    id, author}           (soft delete, logged)
 //                     {action:"unlock"}                          (checks the edit password)
 //
+// A board is either built here (nodes + edges) or links a Miro board
+// (miroUrl), for colleagues who prefer Miro and its Teams integration.
+//
 // Viewing is open to every visitor; every POST needs the team edit password
 // in the X-Edit-Password header. It is the same password as the Videoplan:
 // this file only READS the bcrypt hash from the Videoplan's data folder and
@@ -32,6 +35,8 @@ header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
 const NODE_TYPES = ['phase', 'step', 'decision', 'note', 'text', 'frame'];
+// A process can also just point to a Miro board instead of being built here.
+const MIRO_URL = '#^https://miro\.com/app/(board|live-embed)/[A-Za-z0-9_=-]+/?(\?[^\s"<>\\\\]*)?$#';
 const COLORS = ['navy', 'gold', 'koralle', 'green', 'blue', 'grey'];
 const MAX_NODES = 600;
 const MAX_EDGES = 1200;
@@ -219,9 +224,14 @@ function cleanBoard($in): array
         if (!isset($nodes[$from], $nodes[$to]) || $from === $to || isset($edges[$id])) continue;
         $edges[$id] = ['id' => $id, 'from' => $from, 'to' => $to, 'label' => str($e['label'] ?? '', 120)];
     }
+    $miro = str($in['miroUrl'] ?? '', 500);
+    if ($miro !== '' && !preg_match(MIRO_URL, $miro)) {
+        fail(400, 'Bitte einen gültigen Miro-Board-Link angeben (https://miro.com/app/board/…).');
+    }
     return [
         'title' => $title,
         'description' => text($in['description'] ?? '', 1000),
+        'miroUrl' => $miro,
         'nodes' => array_values($nodes),
         'edges' => array_values($edges),
     ];
@@ -254,6 +264,7 @@ function summary(array $row): array
         'id' => $row['id'],
         'title' => $b['title'],
         'description' => $b['description'],
+        'miroUrl' => $b['miroUrl'] ?? '',
         'phases' => $count('phase'),
         'elements' => count($b['nodes']),
         'updatedBy' => $b['updatedBy'] ?? '',

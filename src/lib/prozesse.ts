@@ -21,8 +21,8 @@ export type BoardNode = {
 
 export type BoardEdge = { id: string; from: string; to: string; label: string };
 
-/** The editable part of a board, what "save" sends. */
-export type BoardContent = { title: string; description: string; nodes: BoardNode[]; edges: BoardEdge[] };
+/** The editable part of a board, what "save" sends. With miroUrl set, the process lives in Miro instead. */
+export type BoardContent = { title: string; description: string; nodes: BoardNode[]; edges: BoardEdge[]; miroUrl?: string };
 
 export type Board = BoardContent & {
   id: string;
@@ -37,6 +37,7 @@ export type BoardSummary = {
   id: string;
   title: string;
   description: string;
+  miroUrl: string;
   phases: number;
   elements: number;
   updatedBy: string;
@@ -65,6 +66,19 @@ export const COLORS: Record<NodeColor, { label: string; strong: string; soft: st
 };
 
 export const newElementId = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+
+// ---------- Miro ----------
+
+const MIRO_RE = /^https:\/\/miro\.com\/app\/(?:board|live-embed)\/([A-Za-z0-9_=-]+)\/?(?:\?[^\s"<>\\]*)?$/;
+
+/** Board ID from a Miro share or embed link, or null if it isn't one. */
+export const miroBoardId = (url: string) => MIRO_RE.exec(url.trim())?.[1] ?? null;
+
+/** Miro's live embed for a board; shows it to everyone the board is shared with. */
+export const miroEmbedUrl = (url: string) => {
+  const id = miroBoardId(url);
+  return id ? `https://miro.com/app/live-embed/${id}/?autoplay=true` : null;
+};
 
 // ---------- templates ----------
 
