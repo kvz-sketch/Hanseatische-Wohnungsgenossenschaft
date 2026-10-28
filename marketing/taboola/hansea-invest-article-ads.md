@@ -18,6 +18,11 @@ Branding-Text max. 25 Zeichen, Bild 1200 × 674 px.
 
 **Branding-Text:** `Hansea Invest`
 
+**Upload-Bogen:** `hansea-invest-article-ads.csv` (Semikolon-getrennt, UTF-8)
+enthält alle 14 Anzeigen mit Titel, Beschreibung, Branding, Button
+„Weiterlesen“, Bilddatei und Ziel-URL. `DOMAIN` in der Ziel-URL durch die
+Live-Domain ersetzen.
+
 > Zeichenzahlen in Klammern: Titel / Beschreibung.
 
 ---
