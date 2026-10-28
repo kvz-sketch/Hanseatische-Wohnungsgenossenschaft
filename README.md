@@ -58,6 +58,10 @@ the homepage and served at `/hansea-invest/`. Copy and product facts live in
 the Satzung / Beitrittsunterlagen before the campaign goes live. Ad copy:
 `marketing/taboola/hansea-invest-native-ads.md`.
 
+The advertorial article that ads can link to first lives at
+`/hansea-invest/ratgeber/` (`src/hansea-invest/article/`). Its buttons lead to
+the landing page's form and carry the visitor's `tblci`/UTM parameters along.
+
 Leads go straight into HubSpot via the HubSpot form embedded in the hero card.
 Set `region`, `portalId`, `formId` and `embed` in the `hubspot` block of
 `src/hansea-invest/content.ts` (values are in the form's embed code; `embed` is

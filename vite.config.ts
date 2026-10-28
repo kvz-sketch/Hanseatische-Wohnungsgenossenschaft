@@ -9,10 +9,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Multi-page build: GIG homepage at /, Hansea Invest campaign page
-      // (Taboola landing page) at /hansea-invest/.
+      // (Taboola landing page) at /hansea-invest/ and its advertorial article
+      // at /hansea-invest/ratgeber/.
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         hanseaInvest: resolve(import.meta.dirname, 'hansea-invest/index.html'),
+        hanseaInvestRatgeber: resolve(import.meta.dirname, 'hansea-invest/ratgeber/index.html'),
       },
     },
   },
