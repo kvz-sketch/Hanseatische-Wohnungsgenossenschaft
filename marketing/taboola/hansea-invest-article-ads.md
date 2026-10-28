@@ -122,6 +122,28 @@ KI-generiert (GPT Image 2.5 über Higgsfield), ohne lesbaren Text und ohne Logos
 | `images/d-klinkerbau-modernisierung.jpg` | Hamburger Klinkerbau mit Baugerüst | D1, D2, D3 |
 | `images/e-checkliste.jpg` | Hand mit Stift über Checkliste, Hausmodell im Hintergrund | E1, E2 |
 
+Jedes Bild gibt es zusätzlich quadratisch (1080 × 1080, Endung `-1x1.jpg`) für
+Platzierungen mit quadratischen Kacheln.
+
+## Anlage im Taboola Ads Manager („Create Ads“)
+
+Taboola kombiniert im Format **Standard** jeden eingetragenen Titel mit jedem
+hochgeladenen Bild. Deshalb pro Winkel einen eigenen Durchgang anlegen, damit
+z. B. der Ärztinnen-Titel nicht mit dem Bild des Paares ausgespielt wird:
+
+| Durchgang | Titel | Bilder (16:9 und 1:1) |
+|---|---|---|
+| 1 | A1, A2, A3 | `a-zeithorizont-planer` |
+| 2 | B1, B3 | `b-unternehmer-werkstatt` |
+| 3 | B2 | `b2-aerztin-praxis` |
+| 4 | C1, C2, C3 | `c-paar-balkon-hamburg` |
+| 5 | D1, D2, D3 | `d-klinkerbau-modernisierung` |
+| 6 | E1, E2 | `e-checkliste` |
+
+In jedem Durchgang: Format Standard, Titel und Beschreibungen aus dem
+Upload-Bogen, Branding-Text `Hansea Invest`, CTA „Weiterlesen“ (bzw. „Mehr
+erfahren“, falls nicht verfügbar), Ziel-URL des Artikels mit Tracking-Parametern.
+
 ## Testsetup
 
 - Eigene Kampagne getrennt von Runde 1 (Direktlink auf die Landingpage), damit
