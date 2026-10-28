@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import {
+  AVAILABILITY_META,
   CATEGORY_META,
   MONTHS,
   WEEKDAYS,
@@ -7,12 +8,16 @@ import {
   parseLocal,
   timePart,
   ymd,
+  type Availability,
+  type AvailabilityStatus,
   type Item,
 } from "../../lib/videoplan";
 
 // Outlook-style calendar for the Videoplan, limited to Oct–Dec 2026:
 // month view (overview) and week view (hourly slots to block shoot times).
 // Clicking a free day/slot creates an entry there; clicking an entry opens it.
+// The Cutter's availability is shown per day; in "Verfügbarkeit" mode a click
+// on a day cycles it (verfügbar → Schnitt-Tag → nicht eingetragen) instead.
 
 export const RANGE_START = new Date(2026, 9, 1);
 export const RANGE_END = new Date(2026, 11, 31);
@@ -42,6 +47,21 @@ function itemsOnDay(items: Item[], day: string) {
   });
 }
 
+type AvailMap = Map<string, AvailabilityStatus>;
+
+function AvailPill({ status, compact = false }: { status: AvailabilityStatus | undefined; compact?: boolean }) {
+  if (!status) return null;
+  const m = AVAILABILITY_META[status];
+  return (
+    <span
+      title={`${m.label}: ${m.hint}`}
+      className={`truncate rounded-[2px] px-1 py-px text-[9px] font-bold uppercase tracking-[0.04em] ${m.pill} ${compact ? "max-w-[64px] sm:max-w-none" : ""}`}
+    >
+      {m.short}
+    </span>
+  );
+}
+
 function Chip({ item, onOpen }: { item: Item; onOpen: (i: Item) => void }) {
   const c = CATEGORY_META[item.category];
   return (
@@ -63,11 +83,13 @@ function Chip({ item, onOpen }: { item: Item; onOpen: (i: Item) => void }) {
 function MonthView({
   cursor,
   items,
+  avail,
   onOpen,
   onCreate,
 }: {
   cursor: Date;
   items: Item[];
+  avail: AvailMap;
   onOpen: (i: Item) => void;
   onCreate: (date: string, hour?: number) => void;
 }) {
@@ -101,9 +123,9 @@ function MonthView({
               onKeyDown={(e) => e.key === "Enter" && inRange(d) && onCreate(key)}
               className={`group min-h-[96px] border-b border-r border-navy/8 p-1.5 text-left transition-colors sm:min-h-[112px] ${
                 outside ? "bg-mist/50" : "bg-white hover:bg-gold/[0.06]"
-              } ${inRange(d) ? "cursor-pointer" : "cursor-default"}`}
+              } ${inRange(d) ? "cursor-pointer" : "cursor-default"} ${!outside && avail.get(key) ? AVAILABILITY_META[avail.get(key)!].cell : ""}`}
             >
-              <div className="mb-1 flex items-center justify-between">
+              <div className="mb-1 flex items-center justify-between gap-1">
                 <span
                   className={`flex h-6 w-6 items-center justify-center rounded-full text-[11.5px] font-bold ${
                     key === today ? "bg-koralle text-white" : outside ? "text-fog" : "text-navy"
@@ -111,10 +133,14 @@ function MonthView({
                 >
                   {d.getDate()}
                 </span>
-                {inRange(d) && (
-                  <span className="text-[14px] font-bold text-koralle opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">
-                    +
-                  </span>
+                {!outside && avail.get(key) ? (
+                  <AvailPill status={avail.get(key)} compact />
+                ) : (
+                  inRange(d) && (
+                    <span className="text-[14px] font-bold text-koralle opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">
+                      +
+                    </span>
+                  )
                 )}
               </div>
               <div className="flex flex-col gap-0.5">
@@ -160,11 +186,15 @@ function layoutDay(dayItems: Item[]) {
 function WeekView({
   cursor,
   items,
+  avail,
+  marking,
   onOpen,
   onCreate,
 }: {
   cursor: Date;
   items: Item[];
+  avail: AvailMap;
+  marking: boolean;
   onOpen: (i: Item) => void;
   onCreate: (date: string, hour?: number) => void;
 }) {
@@ -178,14 +208,26 @@ function WeekView({
       <div className="min-w-[760px]">
         <div className="grid grid-cols-[52px_repeat(7,1fr)] border-b border-navy/10 bg-mist/60">
           <div />
-          {days.map((d) => (
-            <div key={ymd(d)} className="border-l border-navy/8 px-2 py-2">
-              <div className="text-[10.5px] font-bold uppercase tracking-[0.08em] text-muted">{WEEKDAYS[(d.getDay() + 6) % 7]}</div>
-              <div className={`text-[15px] font-bold ${ymd(d) === today ? "text-koralle" : inRange(d) ? "text-navy" : "text-fog"}`}>
-                {d.getDate()}. {MONTHS[d.getMonth()].slice(0, 3)}
-              </div>
-            </div>
-          ))}
+          {days.map((d) => {
+            const key = ymd(d);
+            return (
+              <button
+                key={key}
+                type="button"
+                disabled={!marking || !inRange(d)}
+                onClick={() => onCreate(key)}
+                className={`border-l border-navy/8 px-2 py-2 text-left disabled:cursor-default ${avail.get(key) ? AVAILABILITY_META[avail.get(key)!].cell : ""} ${marking && inRange(d) ? "hover:bg-gold/[0.12]" : ""}`}
+              >
+                <div className="text-[10.5px] font-bold uppercase tracking-[0.08em] text-muted">{WEEKDAYS[(d.getDay() + 6) % 7]}</div>
+                <div className={`text-[15px] font-bold ${key === today ? "text-koralle" : inRange(d) ? "text-navy" : "text-fog"}`}>
+                  {d.getDate()}. {MONTHS[d.getMonth()].slice(0, 3)}
+                </div>
+                <div className="mt-1 min-h-[16px]">
+                  <AvailPill status={avail.get(key)} />
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         {/* All-day row */}
@@ -217,7 +259,7 @@ function WeekView({
             const key = ymd(d);
             const timed = layoutDay(itemsOnDay(items, key).filter((i) => !i.allDay));
             return (
-              <div key={key} className="relative border-l border-navy/8">
+              <div key={key} className={`relative border-l border-navy/8 ${avail.get(key) ? AVAILABILITY_META[avail.get(key)!].cell : ""}`}>
                 {hours.map((h) => (
                   <button
                     key={h}
@@ -268,16 +310,31 @@ function WeekView({
 
 export function Calendar({
   items,
+  availability,
+  canMark,
   onOpen,
   onCreate,
+  onMark,
+  onRequestEdit,
 }: {
   items: Item[];
+  availability: Availability[];
+  /** Whether this visitor may mark availability (edit password entered). */
+  canMark: boolean;
   onOpen: (i: Item) => void;
   onCreate: (date: string, hour?: number) => void;
+  /** Cycles the Cutter's availability for one day. */
+  onMark: (date: string) => void;
+  onRequestEdit: () => void;
 }) {
   const [view, setView] = useState<View>("month");
   const [cursor, setCursor] = useState(initialCursor);
+  const [marking, setMarking] = useState(false);
   const scheduled = useMemo(() => items.filter((i) => i.start), [items]);
+  const avail = useMemo<AvailMap>(() => new Map(availability.map((a) => [a.day, a.status])), [availability]);
+  const markOn = marking && canMark;
+  // In marking mode a click on a day (or hour slot) marks it instead of creating an entry.
+  const onDay = (date: string, hour?: number) => (markOn ? onMark(date) : onCreate(date, hour));
 
   const step = (dir: 1 | -1) => {
     const next =
@@ -331,6 +388,16 @@ export function Calendar({
           </button>
           <h3 className="subheading ml-1 text-[16px] text-navy">{title}</h3>
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={() => (canMark ? setMarking((m) => !m) : onRequestEdit())}
+          className={`rounded-md border px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] ${
+            markOn ? "border-[#1f8a5a] bg-[#1f8a5a] text-white" : "border-navy/15 bg-white text-navy hover:border-navy"
+          }`}
+        >
+          {markOn ? "✓ Fertig" : "Verfügbarkeit Cutter"}
+        </button>
         <div className="flex rounded-md border border-navy/15 bg-white p-0.5">
           {(["month", "week"] as View[]).map((v) => (
             <button
@@ -345,17 +412,23 @@ export function Calendar({
             </button>
           ))}
         </div>
+        </div>
       </div>
-      {view === "month" ? (
-        <MonthView cursor={cursor} items={scheduled} onOpen={onOpen} onCreate={onCreate} />
-      ) : (
-        <WeekView cursor={cursor} items={scheduled} onOpen={onOpen} onCreate={onCreate} />
+      {markOn && (
+        <div className="rounded-md border border-[#1f8a5a]/30 bg-[#1f8a5a]/[0.07] px-4 py-2.5 text-[12.5px] text-[#1f6a46]">
+          <b>Verfügbarkeit eintragen:</b> Tag anklicken = Cutter verfügbar, nochmal = Schnitt-Tag (kein Dreh), nochmal = Eintrag entfernen. Mit „Fertig“ zurück zum normalen Kalender.
+        </div>
       )}
-      <div className="flex flex-wrap gap-3">
-        {Object.entries(CATEGORY_META).map(([k, c]) => (
+      {view === "month" ? (
+        <MonthView cursor={cursor} items={scheduled} avail={avail} onOpen={onOpen} onCreate={onDay} />
+      ) : (
+        <WeekView cursor={cursor} items={scheduled} avail={avail} marking={markOn} onOpen={onOpen} onCreate={onDay} />
+      )}
+      <div className="flex flex-wrap gap-4">
+        {(Object.keys(AVAILABILITY_META) as AvailabilityStatus[]).map((k) => (
           <span key={k} className="flex items-center gap-1.5 text-[11px] text-muted">
-            <span className={`h-2.5 w-2.5 rounded-[2px] border-l-[3px] ${c.bg} ${c.border}`} />
-            {c.label}
+            <AvailPill status={k} />
+            {AVAILABILITY_META[k].hint}
           </span>
         ))}
       </div>

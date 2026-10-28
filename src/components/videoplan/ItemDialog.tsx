@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import {
+  AVAILABILITY_META,
   BRIEF_FIELDS,
-  CATEGORY_META,
+  PRIORITY_META,
   STATUS_LABEL,
   api,
   cleanLink,
   datePart,
   timePart,
   toLocal,
-  type Category,
+  type Availability,
   type Item,
   type ItemDraft,
+  type Priority,
   type Status,
 } from "../../lib/videoplan";
 
@@ -25,6 +27,7 @@ export type DialogTarget = { item: Item } | { draft: ItemDraft };
 
 export function ItemDialog({
   target,
+  availability = [],
   readOnly = false,
   author,
   onAuthor,
@@ -32,6 +35,8 @@ export function ItemDialog({
   onSaved,
 }: {
   target: DialogTarget;
+  /** Cutter availability, to warn when a shoot lands on an editing day. */
+  availability?: Availability[];
   /** View-only: the brief can be read but not changed (edit password not entered). */
   readOnly?: boolean;
   author: string;
@@ -43,7 +48,9 @@ export function ItemDialog({
   const init = existing ?? (target as { draft: ItemDraft }).draft;
 
   const [title, setTitle] = useState(init.title);
-  const [category, setCategory] = useState<Category>(init.category);
+  // Categories are no longer chosen in the dialog; existing entries keep theirs.
+  const category = init.category;
+  const [priority, setPriority] = useState<Priority>(init.priority ?? "");
   const [status, setStatus] = useState<Status>(init.status);
   const [date, setDate] = useState(init.start ? datePart(init.start) : "");
   const [endDate, setEndDate] = useState(init.end ? datePart(init.end) : init.start ? datePart(init.start) : "");
@@ -92,6 +99,7 @@ export function ItemDialog({
     return {
       title: title.trim(),
       category,
+      priority,
       status: st,
       start: date ? (allDay ? toLocal(date, "00:00") : toLocal(date, from)) : null,
       end: date ? (allDay ? toLocal(endDate && endDate >= date ? endDate : date, "23:59") : toLocal(date, to)) : null,
@@ -164,10 +172,11 @@ export function ItemDialog({
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className={labelCls} htmlFor="vp-cat">Kategorie</label>
-              <select id="vp-cat" className={inputCls} value={category} onChange={(e) => setCategory(e.target.value as Category)}>
-                {Object.entries(CATEGORY_META).map(([k, c]) => (
-                  <option key={k} value={k}>{c.label}</option>
+              <label className={labelCls} htmlFor="vp-prio">Priorität</label>
+              <select id="vp-prio" className={inputCls} value={priority} onChange={(e) => setPriority(e.target.value as Priority)}>
+                <option value="">Keine</option>
+                {Object.entries(PRIORITY_META).map(([k, p]) => (
+                  <option key={k} value={k}>{p.label}</option>
                 ))}
               </select>
             </div>
@@ -206,6 +215,24 @@ export function ItemDialog({
                 </>
               )}
             </div>
+            {(() => {
+              // Days the Cutter has marked within the chosen date range.
+              if (!date) return null;
+              const last = allDay && endDate > date ? endDate : date;
+              const marked = availability.filter((a) => a.day >= date && a.day <= last);
+              const editing = marked.filter((a) => a.status === "schnitt");
+              if (editing.length > 0) {
+                return (
+                  <p className="mt-3 rounded-md border border-koralle/40 bg-koralle/[0.08] px-3 py-2 text-[12px] font-semibold text-[#b8402f]">
+                    ⚠ {editing.length === 1 ? "Dieser Tag ist" : `${editing.length} Tage sind`} als {AVAILABILITY_META.schnitt.label} eingetragen: {AVAILABILITY_META.schnitt.hint}.
+                  </p>
+                );
+              }
+              if (!allDay || last === date ? marked.some((a) => a.status === "verfuegbar") : false) {
+                return <p className="mt-3 text-[12px] font-semibold text-[#1f6a46]">✓ Cutter ist an diesem Tag als verfügbar eingetragen.</p>;
+              }
+              return null;
+            })()}
             <div className="mt-3 flex flex-wrap items-center gap-4">
               <label className="flex items-center gap-2 text-[12.5px] text-ink">
                 <input type="checkbox" checked={allDay} onChange={(e) => setAllDay(e.target.checked)} />

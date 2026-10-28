@@ -5,6 +5,10 @@ import { useCallback, useEffect, useState } from "react";
 
 export type Status = "ungeplant" | "geplant" | "schnitt" | "freigabe" | "freigegeben";
 export type Category = "shoot" | "schnitt" | "meeting" | "creative" | "sonstiges";
+export type Priority = "" | "hoch" | "mittel" | "niedrig";
+/** Cutter availability for a day: available for shoots, or blocked for editing (no shoot). */
+export type AvailabilityStatus = "verfuegbar" | "schnitt";
+export type Availability = { day: string; status: AvailabilityStatus; note: string };
 
 export const BRIEF_FIELDS = [
   { key: "projekt", label: "Projekt / Marke", rows: 1 },
@@ -37,6 +41,8 @@ export type Item = {
   allDay: boolean;
   brief: Brief;
   links: ItemLink[];
+  /** Missing on entries saved before priorities existed; treat as "". */
+  priority?: Priority;
   createdBy?: string;
   updatedBy?: string;
   createdAt: string;
@@ -54,6 +60,37 @@ export const STATUS_LABEL: Record<Status, string> = {
   freigabe: "In Freigabe",
   freigegeben: "Freigegeben",
 };
+
+export const PRIORITY_META: Record<Exclude<Priority, "">, { label: string; rank: number; cls: string }> = {
+  hoch: { label: "Hoch", rank: 0, cls: "bg-koralle text-white" },
+  mittel: { label: "Mittel", rank: 1, cls: "bg-gold text-navy" },
+  niedrig: { label: "Niedrig", rank: 2, cls: "bg-navy/10 text-navy" },
+};
+
+/** Sort key: hoch, mittel, niedrig, then entries without priority. */
+export const priorityRank = (i: Item) => (i.priority ? PRIORITY_META[i.priority].rank : 3);
+
+export const AVAILABILITY_META: Record<AvailabilityStatus, { label: string; short: string; hint: string; cell: string; pill: string }> = {
+  verfuegbar: {
+    label: "Cutter verfügbar",
+    short: "✓ Cutter frei",
+    hint: "Kann an diesem Tag drehen",
+    // Background images, so they tint over the cell's own background colour.
+    cell: "bg-[linear-gradient(rgba(31,138,90,0.09),rgba(31,138,90,0.09))]",
+    pill: "bg-[#1f8a5a] text-white",
+  },
+  schnitt: {
+    label: "Schnitt-Tag",
+    short: "✂ Schnitt-Tag",
+    hint: "Cutter schneidet, kein Dreh möglich",
+    cell: "bg-[repeating-linear-gradient(135deg,rgba(20,26,70,0.05)_0_6px,transparent_6px_12px)]",
+    pill: "bg-navy text-white",
+  },
+};
+
+/** Click order when marking days: verfügbar → Schnitt-Tag → nicht eingetragen. */
+export const nextAvailability = (s: AvailabilityStatus | undefined): AvailabilityStatus | "" =>
+  s === undefined ? "verfuegbar" : s === "verfuegbar" ? "schnitt" : "";
 
 export const CATEGORY_META: Record<Category, { label: string; bg: string; border: string; text: string }> = {
   shoot: { label: "Shoot", bg: "bg-koralle/15", border: "border-koralle", text: "text-[#b8402f]" },
@@ -139,6 +176,8 @@ export const api = {
   create: (item: ItemDraft) => edit<{ item: Item }>({ action: "create", item }),
   update: (id: string, item: Partial<ItemDraft>) => edit<{ item: Item }>({ action: "update", id, item }),
   remove: (id: string, author: string) => edit<{ ok: true }>({ action: "delete", id, author }),
+  availability: (day: string, status: AvailabilityStatus | "", author: string) =>
+    edit<{ ok: true }>({ action: "availability", day, status, author }),
   feedback: (itemId: string, author: string, text: string) =>
     call<{ feedback: Feedback }>({ action: "feedback", itemId, author, text }),
 };
@@ -147,14 +186,16 @@ export const api = {
 export function useVideoplan() {
   const [items, setItems] = useState<Item[]>([]);
   const [feedback, setFeedback] = useState<Feedback[]>([]);
+  const [availability, setAvailability] = useState<Availability[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   const reload = useCallback(async () => {
     try {
-      const data = await call<{ items: Item[]; feedback: Feedback[] }>();
+      const data = await call<{ items: Item[]; feedback: Feedback[]; availability?: Availability[] }>();
       setItems(data.items);
       setFeedback(data.feedback);
+      setAvailability(data.availability ?? []);
       setError(null);
     } catch (e) {
       setError((e as Error).message);
@@ -176,7 +217,7 @@ export function useVideoplan() {
     };
   }, [reload]);
 
-  return { items, feedback, error, loaded, reload };
+  return { items, feedback, availability, setAvailability, error, loaded, reload };
 }
 
 /** The visitor's name, remembered in this browser, used as author for edits and feedback. */

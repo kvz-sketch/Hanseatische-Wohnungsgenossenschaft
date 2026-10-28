@@ -13,6 +13,9 @@
 //                       {action:"delete",   id}             (soft delete, logged)
 //                       {action:"feedback", itemId, author, text}
 //                       {action:"unlock"}                (checks the edit password)
+//                       {action:"availability", day, status, note, author}
+//                            Cutter availability for one day: "verfuegbar", "schnitt"
+//                            (editing day, no shoot possible) or "" to clear it.
 //   GET  videoplan.php?health=1              → storage diagnostics
 //
 // Viewing and feedback are open to every visitor. create / update / delete
@@ -36,6 +39,8 @@ header('X-Content-Type-Options: nosniff');
 
 const STATUSES = ['ungeplant', 'geplant', 'schnitt', 'freigabe', 'freigegeben'];
 const CATEGORIES = ['shoot', 'schnitt', 'meeting', 'creative', 'sonstiges'];
+const PRIORITIES = ['', 'hoch', 'mittel', 'niedrig'];
+const AVAILABILITY = ['verfuegbar', 'schnitt'];
 const BRIEF_FIELDS = [
     'projekt', 'ziel', 'botschaft', 'zielgruppe', 'location', 'ansprechpartner', 'crew',
     'talent', 'shotlist', 'equipment', 'formate', 'deadline', 'notizen',
@@ -154,6 +159,14 @@ function db(): PDO
         after_json TEXT
     )');
     $pdo->exec('CREATE TABLE IF NOT EXISTS writes (ip_hash TEXT NOT NULL, at INTEGER NOT NULL)');
+    // Cutter availability per day (added Oct 2026; additive, existing data untouched).
+    $pdo->exec('CREATE TABLE IF NOT EXISTS availability (
+        day TEXT PRIMARY KEY,
+        status TEXT NOT NULL,
+        note TEXT NOT NULL DEFAULT \'\',
+        updated_at TEXT NOT NULL,
+        updated_by TEXT
+    )');
     return $pdo;
 }
 
@@ -227,6 +240,10 @@ function cleanItem(array $in, array $base): array
             $links[] = ['url' => linkUrl($l['url']), 'label' => str($l['label'] ?? '', 120)];
         }
         $item['links'] = $links;
+    }
+    if (array_key_exists('priority', $in)) {
+        $item['priority'] = (string) $in['priority'];
+        if (!in_array($item['priority'], PRIORITIES, true)) fail(400, 'Ungültige Priorität.');
     }
     if (array_key_exists('updatedBy', $in)) $item['updatedBy'] = str($in['updatedBy'], 80);
 
@@ -340,7 +357,10 @@ function listAll(): array
         'SELECT f.id, f.item_id AS itemId, f.author, f.text, f.created_at AS createdAt FROM feedback f
          JOIN items i ON i.id = f.item_id AND i.deleted_at IS NULL ORDER BY f.created_at'
     )->fetchAll();
-    return ['items' => $items, 'feedback' => $feedback];
+    $availability = db()->query(
+        'SELECT day, status, note FROM availability ORDER BY day'
+    )->fetchAll();
+    return ['items' => $items, 'feedback' => $feedback, 'availability' => $availability];
 }
 
 try {
@@ -368,7 +388,7 @@ try {
     rateLimit();
     $pdo = db();
     $action = (string) ($body['action'] ?? '');
-    if (in_array($action, ['create', 'update', 'delete', 'unlock'], true)) {
+    if (in_array($action, ['create', 'update', 'delete', 'unlock', 'availability'], true)) {
         requireEditor();
     }
 
@@ -376,7 +396,7 @@ try {
         echo json_encode(['ok' => true]);
     } elseif ($action === 'create') {
         $base = ['title' => '', 'status' => 'ungeplant', 'category' => 'shoot', 'start' => null, 'end' => null,
-            'allDay' => false, 'brief' => array_fill_keys(BRIEF_FIELDS, ''), 'links' => [], 'updatedBy' => ''];
+            'allDay' => false, 'brief' => array_fill_keys(BRIEF_FIELDS, ''), 'links' => [], 'priority' => '', 'updatedBy' => ''];
         $item = cleanItem(is_array($body['item'] ?? null) ? $body['item'] : [], $base);
         $item['createdBy'] = $item['updatedBy'];
         $id = newId();
@@ -397,6 +417,26 @@ try {
         $row = loadItem(str($body['id'] ?? '', 40));
         $pdo->prepare('UPDATE items SET deleted_at = ? WHERE id = ?')->execute([now(), $row['id']]);
         logWrite('delete', $row['id'], str($body['author'] ?? '', 80), json_decode($row['data'], true), null);
+        echo json_encode(['ok' => true]);
+    } elseif ($action === 'availability') {
+        $day = (string) ($body['day'] ?? '');
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $day)) fail(400, 'Ungültiges Datum.');
+        $status = (string) ($body['status'] ?? '');
+        if ($status !== '' && !in_array($status, AVAILABILITY, true)) fail(400, 'Ungültige Verfügbarkeit.');
+        $author = str($body['author'] ?? '', 80);
+        $note = str($body['note'] ?? '', 200);
+        $st = $pdo->prepare('SELECT status, note FROM availability WHERE day = ?');
+        $st->execute([$day]);
+        $before = $st->fetch() ?: null;
+        if ($status === '') {
+            $pdo->prepare('DELETE FROM availability WHERE day = ?')->execute([$day]);
+        } else {
+            $pdo->prepare('INSERT INTO availability (day, status, note, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(day) DO UPDATE SET status = excluded.status, note = excluded.note,
+                updated_at = excluded.updated_at, updated_by = excluded.updated_by')
+                ->execute([$day, $status, $note, now(), $author]);
+        }
+        logWrite('availability', $day, $author, $before, $status === '' ? null : ['status' => $status, 'note' => $note]);
         echo json_encode(['ok' => true]);
     } elseif ($action === 'feedback') {
         $row = loadItem(str($body['itemId'] ?? '', 40));

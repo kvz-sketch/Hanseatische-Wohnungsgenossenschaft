@@ -5,8 +5,11 @@ import { Calendar } from "../components/videoplan/Calendar";
 import { ItemDialog, type DialogTarget } from "../components/videoplan/ItemDialog";
 import {
   CATEGORY_META,
+  PRIORITY_META,
   STATUS_LABEL,
   api,
+  nextAvailability,
+  priorityRank,
   emptyBrief,
   formatRange,
   linkPreview,
@@ -19,6 +22,7 @@ import {
   type Feedback,
   type Item,
   type ItemDraft,
+  type Priority,
   type Status,
 } from "../lib/videoplan";
 
@@ -31,6 +35,7 @@ const newDraft = (patch: Partial<ItemDraft> = {}): ItemDraft => ({
   allDay: false,
   brief: emptyBrief(),
   links: [],
+  priority: "",
   ...patch,
 });
 
@@ -74,7 +79,11 @@ function BriefCard({ item, onOpen, footer }: { item: Item; onOpen: (i: Item) => 
     <div className={`flex flex-col rounded-md border border-navy/8 border-l-[3px] bg-white ${c.border}`}>
       <button type="button" onClick={() => onOpen(item)} className="flex flex-1 flex-col gap-2 p-4 text-left hover:bg-mist/40">
         <div className="flex items-center gap-2">
-          <span className={`rounded-[2px] px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] ${c.bg} ${c.text}`}>{c.label}</span>
+          {item.priority && (
+            <span className={`rounded-[2px] px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] ${PRIORITY_META[item.priority].cls}`}>
+              Priorität {PRIORITY_META[item.priority].label}
+            </span>
+          )}
           <span className="text-[10.5px] font-semibold text-muted">{formatRange(item)}</span>
         </div>
         <div className="subheading text-[14px] text-navy">{item.title}</div>
@@ -118,6 +127,47 @@ function StatusMove({ item, to, label, author, onDone }: { item: Item; to: Statu
         {busy ? "…" : label}
       </button>
       {error && <span className="text-[11px] text-[#b8402f]">{error}</span>}
+    </div>
+  );
+}
+
+/** Quick priority switch on a card (edit mode only). */
+function PriorityPicker({ item, author, onDone }: { item: Item; author: string; onDone: () => void }) {
+  const canEdit = useContext(EditContext);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  if (!canEdit) return null;
+  const current = item.priority ?? "";
+  const set = async (priority: Priority) => {
+    setBusy(true);
+    setError(null);
+    try {
+      await api.update(item.id, { priority: priority === current ? "" : priority, updatedBy: author });
+      onDone();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="mr-0.5 text-[10px] font-bold uppercase tracking-[0.06em] text-muted">Priorität</span>
+      {(Object.keys(PRIORITY_META) as Exclude<Priority, "">[]).map((p) => (
+        <button
+          key={p}
+          type="button"
+          disabled={busy}
+          onClick={() => void set(p)}
+          title={current === p ? "Priorität entfernen" : `Priorität ${PRIORITY_META[p].label}`}
+          className={`rounded-[2px] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.06em] disabled:opacity-50 ${
+            current === p ? PRIORITY_META[p].cls : "bg-navy/[0.05] text-muted hover:text-navy"
+          }`}
+        >
+          {PRIORITY_META[p].label}
+        </button>
+      ))}
+      {error && <span className="w-full text-[11px] text-[#b8402f]">{error}</span>}
     </div>
   );
 }
@@ -362,7 +412,8 @@ function UnlockBar({
 }
 
 export function VideoPlan() {
-  const { items, feedback, error, loaded, reload } = useVideoplan();
+  const { items, feedback, availability, setAvailability, error, loaded, reload } = useVideoplan();
+  const [markError, setMarkError] = useState<string | null>(null);
   const [author, setAuthor] = useAuthorName();
   const [dialog, setDialog] = useState<DialogTarget | null>(null);
   const { canEdit, unlock, lock } = useEditAccess();
@@ -388,12 +439,30 @@ export function VideoPlan() {
       }),
     }))();
 
+  /** Cycles the Cutter's availability for a day; shown right away, saved in the background. */
+  const markDay = async (day: string) => {
+    const current = availability.find((a) => a.day === day)?.status;
+    const next = nextAvailability(current);
+    setAvailability((list) => {
+      const rest = list.filter((a) => a.day !== day);
+      return next ? [...rest, { day, status: next, note: "" }] : rest;
+    });
+    setMarkError(null);
+    try {
+      await api.availability(day, next, author);
+    } catch (e) {
+      setMarkError((e as Error).message);
+      reload();
+    }
+  };
+
   const byUpdated = (a: Item, b: Item) => b.updatedAt.localeCompare(a.updatedAt);
+  const byPriority = (a: Item, b: Item) => priorityRank(a) - priorityRank(b) || byUpdated(a, b);
   const planned = items
     .filter((i) => i.status === "geplant")
     .sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
-  const unscheduled = items.filter((i) => i.status === "ungeplant").sort(byUpdated);
-  const inEdit = items.filter((i) => i.status === "schnitt").sort(byUpdated);
+  const unscheduled = items.filter((i) => i.status === "ungeplant").sort(byPriority);
+  const inEdit = items.filter((i) => i.status === "schnitt").sort(byPriority);
   const inApproval = items.filter((i) => i.status === "freigabe").sort(byUpdated);
   const approved = items.filter((i) => i.status === "freigegeben").sort(byUpdated);
 
@@ -451,12 +520,25 @@ export function VideoPlan() {
           )}
 
           <Section title="Kalender" hint="Ein Klick auf einen Tag oder eine Uhrzeit blockt einen Termin. Ein Klick auf einen Eintrag öffnet das Briefing." count={items.filter((i) => i.start).length}>
-            <Calendar items={items} onOpen={open} onCreate={createAt} />
+            {markError && (
+              <div className="rounded-md border border-koralle/30 bg-koralle/10 px-4 py-2.5 text-[12.5px] font-semibold text-[#b8402f]">
+                Verfügbarkeit nicht gespeichert: {markError}
+              </div>
+            )}
+            <Calendar
+              items={items}
+              availability={availability}
+              canMark={canEdit}
+              onOpen={open}
+              onCreate={createAt}
+              onMark={(day) => void markDay(day)}
+              onRequestEdit={guarded(() => {})}
+            />
           </Section>
 
           <Section
             title="Ungeplante Shoots"
-            hint="Briefings ohne Termin. Sobald ein Datum eingetragen ist, erscheint der Shoot im Kalender."
+            hint="Briefings ohne Termin, nach Priorität sortiert. Sobald ein Datum eingetragen ist, erscheint der Shoot im Kalender."
             count={unscheduled.length}
             action={
               <button type="button" onClick={guarded(() => setDialog({ draft: newDraft() }))} className="text-[11px] font-bold uppercase tracking-[0.06em] text-koralle hover:underline">
@@ -471,7 +553,19 @@ export function VideoPlan() {
             ) : (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {unscheduled.map((i) => (
-                  <BriefCard key={i.id} item={i} onOpen={open} footer={canEdit ? <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} /> : undefined} />
+                  <BriefCard
+                    key={i.id}
+                    item={i}
+                    onOpen={open}
+                    footer={
+                      canEdit ? (
+                        <div className="flex flex-col gap-2">
+                          <PriorityPicker item={i} author={author} onDone={reload} />
+                          <StatusMove item={i} to="schnitt" label="Gedreht → in den Schnitt" author={author} onDone={reload} />
+                        </div>
+                      ) : undefined
+                    }
+                  />
                 ))}
               </div>
             )}
@@ -491,7 +585,7 @@ export function VideoPlan() {
             )}
           </Section>
 
-          <Section title="Shoots im Schnitt" hint="Gedrehte Shoots in der Postproduktion. Für die Freigabe einen Link im Briefing hinterlegen." count={inEdit.length}>
+          <Section title="Shoots im Schnitt" hint="Gedrehte Shoots in der Postproduktion, nach Priorität sortiert. Für die Freigabe einen Link im Briefing hinterlegen." count={inEdit.length}>
             {inEdit.length === 0 ? (
               <Empty>Aktuell ist nichts im Schnitt. Ein Shoot landet hier, sobald er als „gedreht“ markiert wird.</Empty>
             ) : (
@@ -502,12 +596,17 @@ export function VideoPlan() {
                     item={i}
                     onOpen={open}
                     footer={
-                      !canEdit ? undefined : i.links.length ? (
-                        <StatusMove item={i} to="freigabe" label="Zur Freigabe geben →" author={author} onDone={reload} />
-                      ) : (
-                        <button type="button" onClick={() => open(i)} className="text-[11px] font-bold uppercase tracking-[0.06em] text-navy hover:text-koralle">
-                          Link hinzufügen & zur Freigabe →
-                        </button>
+                      !canEdit ? undefined : (
+                        <div className="flex flex-col gap-2">
+                          <PriorityPicker item={i} author={author} onDone={reload} />
+                          {i.links.length ? (
+                            <StatusMove item={i} to="freigabe" label="Zur Freigabe geben →" author={author} onDone={reload} />
+                          ) : (
+                            <button type="button" onClick={() => open(i)} className="self-start text-[11px] font-bold uppercase tracking-[0.06em] text-navy hover:text-koralle">
+                              Link hinzufügen & zur Freigabe →
+                            </button>
+                          )}
+                        </div>
                       )
                     }
                   />
@@ -569,6 +668,7 @@ export function VideoPlan() {
       {dialog && (
         <ItemDialog
           target={dialog}
+          availability={availability}
           readOnly={!canEdit}
           author={author}
           onAuthor={setAuthor}
