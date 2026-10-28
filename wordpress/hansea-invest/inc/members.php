@@ -12,6 +12,7 @@ function hansea_member_payload( WP_User $user ) {
 		'lastName'  => $user->last_name,
 		'email'     => $user->user_email,
 		'createdAt' => mysql_to_rfc3339( $user->user_registered ),
+		'portfolio' => hansea_crm_portfolio( $user ), // inc/crm.php; null until linked to the Mitgliederliste
 	);
 }
 

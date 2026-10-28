@@ -23,6 +23,8 @@ defined( 'ABSPATH' ) || exit;
 
 const HANSEA_CRM_TYPE = 'hansea_mitglied';
 const HANSEA_CRM_CAP  = 'hansea_crm';
+/** Target interest on paid-in capital, p.a. (not guaranteed). */
+const HANSEA_CRM_ZINS = 0.07;
 
 /** Text fields of a member record. */
 const HANSEA_CRM_TEXT = array(
@@ -629,4 +631,104 @@ function hansea_crm_label( $field ) {
 		'iban' => 'IBAN', 'steuer_id' => 'Steuer-ID', 'kirchensteuer' => 'Kirchensteuer',
 	);
 	return $labels[ $field ] ?? $field;
+}
+
+/* ---------------------------------------------------------------------------
+ * Members' area: the logged-in member's own figures
+ * ------------------------------------------------------------------------ */
+
+/** CRM post linked to a portal account (both sides must point at each other), or 0. */
+function hansea_crm_member_of( WP_User $user ) {
+	$post_id = (int) get_user_meta( $user->ID, 'hansea_crm_member', true );
+	$post    = $post_id ? get_post( $post_id ) : null;
+	return $post && HANSEA_CRM_TYPE === $post->post_type && (int) get_post_meta( $post_id, 'hansea_crm_user', true ) === $user->ID ? $post_id : 0;
+}
+
+/** Days from $from to $to, both counted (as in the Zinsliste). */
+function hansea_crm_days( $from, $to ) {
+	return (int) ( new DateTime( $from ) )->diff( new DateTime( $to ) )->format( '%r%a' ) + 1;
+}
+
+/**
+ * Next interest payment (target, 7 % p.a.), from the payments in the record:
+ * a subscription earns pro rata from its payment until its first interest
+ * end, then a quarter's interest each quarter. Cancelled shares earn until
+ * their date. Paid by the 14th after the quarter (15 January for Q4).
+ *
+ * @return array{date:string, amount:float}|null
+ */
+function hansea_crm_next_interest( array $r, $today ) {
+	// Start with the previous quarter: its payment can still be ahead.
+	$end = new DateTime( $today );
+	$end->setDate( (int) $end->format( 'Y' ), (int) ceil( $end->format( 'n' ) / 3 ) * 3 - 3, 1 );
+	$end->modify( 'last day of this month' );
+
+	for ( $i = 0; $i < 6; $i++, $end->modify( 'first day of +3 months' )->modify( 'last day of this month' ) ) {
+		$q        = $end->format( 'Y-m-d' );
+		$prev_end = ( clone $end )->modify( 'first day of -3 months' )->modify( 'last day of this month' )->format( 'Y-m-d' );
+		$pay      = ( clone $end )->modify( '12' === $end->format( 'm' ) ? '+15 days' : '+14 days' )->format( 'Y-m-d' );
+		if ( $pay < $today ) {
+			continue;
+		}
+		$amount = 0.0;
+		foreach ( $r['zeichnungen'] as $z ) {
+			if ( ! $z['betrag'] || ! $z['zahlung'] || $z['zahlung'] > $q ) {
+				continue;
+			}
+			// First period: from the payment to its first interest end (by default the quarter it was paid in).
+			$first_end = $z['zins_ende'] ?: ( $z['zahlung'] > $prev_end ? $q : $prev_end );
+			if ( $first_end > $q ) {
+				continue; // still running, paid in one sum at its end
+			}
+			$amount += $first_end === $q
+				? $z['betrag'] * HANSEA_CRM_ZINS * hansea_crm_days( $z['zahlung'], $q ) / 365
+				: $z['betrag'] * HANSEA_CRM_ZINS / 4;
+		}
+		// Cancelled shares stop earning on their date.
+		foreach ( $r['kuendigungen'] as $k ) {
+			if ( ! $k['zum'] || $k['zum'] >= $q || ! $k['betrag'] ) {
+				continue;
+			}
+			$amount -= $k['zum'] <= $prev_end
+				? $k['betrag'] * HANSEA_CRM_ZINS / 4
+				: $k['betrag'] * HANSEA_CRM_ZINS * ( hansea_crm_days( $k['zum'], $q ) - 1 ) / 365;
+		}
+		if ( $amount > 0.005 ) {
+			return array( 'date' => $pay, 'amount' => round( $amount, 2 ) );
+		}
+	}
+	return null;
+}
+
+/** What the members' area shows: shares, capital and interest of the logged-in member; null without a CRM record. */
+function hansea_crm_portfolio( WP_User $user ) {
+	$post_id = hansea_crm_member_of( $user );
+	if ( ! $post_id ) {
+		return null;
+	}
+	$r      = hansea_crm_record( $post_id );
+	$t      = hansea_crm_totals( $r );
+	$today  = current_time( 'Y-m-d' );
+	$paid   = 0;
+	$open   = array();
+	foreach ( $r['kuendigungen'] as $k ) {
+		if ( $k['zum'] && $k['zum'] <= $today ) {
+			$paid += (float) $k['betrag'];
+		} else {
+			$open[] = array( 'anteile' => $k['anteile'], 'zum' => $k['zum'] );
+		}
+	}
+	$einlage = max( 0, $t['kapital'] - $paid );
+	return array(
+		'nr'           => $r['nr'],
+		'since'        => $r['zulassung_datum'],
+		'anteile'      => $t['aktiv'],
+		'einlage'      => $einlage,
+		'zinsenJahr'   => round( $einlage * HANSEA_CRM_ZINS, 2 ),
+		'next'         => hansea_crm_next_interest( $r, $today ),
+		'zeichnungen'  => array_map( function ( $z ) {
+			return array( 'anteile' => $z['anteile'], 'betrag' => $z['betrag'], 'zahlung' => $z['zahlung'] );
+		}, $r['zeichnungen'] ),
+		'kuendigungen' => $open,
+	);
 }

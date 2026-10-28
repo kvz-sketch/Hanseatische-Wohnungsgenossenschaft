@@ -9,7 +9,9 @@ const phaseTone: Record<PortfolioProject['phase'], string> = {
 }
 
 /** Progress report on the projects the Genossenschaft invests the members' money in. */
-export default function ShareTracker() {
+/** `next`: the member's next interest payment from the Mitgliederliste; undefined shows the sample date. */
+export default function ShareTracker({ next }: { next?: { date: string; amount: number } | null }) {
+  const euro = (v: number) => `${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v)} €`
   return (
     <section id="verfolgen" className="section">
       <div className="container-site">
@@ -21,9 +23,13 @@ export default function ShareTracker() {
             </p>
           </div>
           <div className="rounded-card bg-section px-5 py-4">
-            <p className="m-0 text-[13px] text-muted">Nächste Ausschüttung</p>
-            <p className="m-0 mt-1 text-[18px] font-semibold">{nextPayout.date}</p>
-            <p className="m-0 text-[13px] font-bold text-green">{nextPayout.perShare}</p>
+            <p className="m-0 text-[13px] text-muted">{next === undefined ? 'Nächste Ausschüttung' : 'Nächste Zinszahlung'}</p>
+            <p className="m-0 mt-1 text-[18px] font-semibold">
+              {next === undefined ? nextPayout.date : next ? next.date.split('-').reverse().join('.') : 'nach Einzahlung'}
+            </p>
+            <p className="m-0 text-[13px] font-bold text-green">
+              {next === undefined ? nextPayout.perShare : next ? `${euro(next.amount)} (Ziel)` : '7 % p.a. Zielverzinsung'}
+            </p>
           </div>
         </div>
 

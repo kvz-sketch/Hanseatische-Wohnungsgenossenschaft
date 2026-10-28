@@ -11,11 +11,27 @@
 
 import { IS_WORDPRESS, WordPressError, wp, wpPost } from '../backend'
 
+/** The member's own figures from the Mitgliederliste (inc/crm.php → hansea_crm_portfolio). */
+export type Portfolio = {
+  nr: number | null
+  since: string
+  anteile: number
+  einlage: number
+  zinsenJahr: number
+  /** Next interest payment (target, 7 % p.a.), or null when nothing is due. */
+  next: { date: string; amount: number } | null
+  zeichnungen: { anteile: number | null; betrag: number | null; zahlung: string }[]
+  /** Cancellations not yet paid out. */
+  kuendigungen: { anteile: number | null; zum: string }[]
+}
+
 export type Member = {
   firstName: string
   lastName: string
   email: string
   createdAt: string
+  /** null until the account is linked to the member's record in the Mitgliederliste. */
+  portfolio?: Portfolio | null
 }
 
 const SESSION_KEY = 'hs-demo-session'
