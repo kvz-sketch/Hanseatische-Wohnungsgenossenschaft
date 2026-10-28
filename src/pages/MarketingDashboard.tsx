@@ -106,6 +106,17 @@ function IconHouse({ className = "" }: { className?: string }) {
   );
 }
 
+function IconFlow({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <rect x="3" y="4" width="6" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="15" y="4" width="6" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="9" y="15" width="6" height="5" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M9 6.5h6M18 9v3H12v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function IconChart({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -140,6 +151,14 @@ const tiles: Tile[] = [
     to: "/dashboard/videoplan",
     status: "live",
     icon: IconCalendar,
+  },
+  {
+    id: "prozesse",
+    title: "Prozesse & Customer Journeys",
+    description: "Alle Abläufe der Gruppe an einem Ort: Phasen, Schritte und Zuständigkeiten auf einem Board gestalten und pflegen.",
+    to: "/dashboard/prozesse",
+    status: "live",
+    icon: IconFlow,
   },
   {
     id: "exposees",

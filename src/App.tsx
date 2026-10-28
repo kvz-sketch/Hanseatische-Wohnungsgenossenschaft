@@ -17,6 +17,7 @@ import { BrandBook } from "./pages/BrandBook";
 import { PerformanceMarketingReport } from "./pages/PerformanceMarketingReport";
 import { VideoPlan } from "./pages/VideoPlan";
 import { Bildmaterial } from "./pages/Bildmaterial";
+import { Prozesse } from "./pages/Prozesse";
 
 function Site() {
   return (
@@ -47,6 +48,7 @@ function Routes() {
   if (path === "/dashboard/performance-marketing-report") return <PerformanceMarketingReport />;
   if (path === "/dashboard/videoplan") return <VideoPlan />;
   if (path === "/dashboard/bildmaterial") return <Bildmaterial />;
+  if (path === "/dashboard/prozesse" || path.startsWith("/dashboard/prozesse/")) return <Prozesse />;
   return <MarketingDashboard />;
 }
 
