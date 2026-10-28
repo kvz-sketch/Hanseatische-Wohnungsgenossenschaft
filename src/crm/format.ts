@@ -40,7 +40,7 @@ export const PORTAL: Record<MemberSummary['portal'], string> = {
 }
 
 /** Aufsichtsrat members who approved earlier decisions, as suggestions. */
-export const AR_NAMES = ['Bartlau', 'Dobuch', 'Kogan']
+export const AR_NAMES = ['Bartlau', 'Kogan', 'Pistorius']
 
 export const go = (hash: string) => {
   location.hash = hash

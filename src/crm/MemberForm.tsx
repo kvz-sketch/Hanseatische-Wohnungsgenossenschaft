@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from 'react'
+import { useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { ANTEIL_EUR, emptyRecord, type MemberRecord, type Secrets, type SecretsInput } from './api'
 import { AR_NAMES, STATUS, inputClass, labelClass } from './format'
 import { Button, ErrorNote } from './ui'
@@ -22,13 +22,58 @@ export function MemberForm({
   initial?: MemberRecord
   masked?: Secrets
   revealed?: Secrets | null
-  onSave: (record: MemberRecord, secrets: SecretsInput) => Promise<void>
+  /** `document`: a dropped PDF, to attach to the member after saving. */
+  onSave: (record: MemberRecord, secrets: SecretsInput, document: File | null) => Promise<void>
   onCancel: () => void
 }) {
   const [r, setR] = useState<MemberRecord>(() => structuredClone(initial ?? { ...emptyRecord(), zeichnungen: [blankZeichnung()] }))
   const [secrets, setSecrets] = useState<Secrets>(revealed ?? { iban: '', steuer_id: '', kirchensteuer: '' })
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [doc, setDoc] = useState<File | null>(null)
+  const [pdf, setPdf] = useState<{ found: string[]; note: string } | null>(null)
+  const [fromPdf, setFromPdf] = useState<Set<string>>(new Set())
+  const hl = (key: string) => (fromPdf.has(key) ? 'border-gold bg-cream' : '')
+
+  /** Reads a dropped Beitrittserklärung and fills the form with what it finds. */
+  async function readPdf(file: File) {
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setError('Bitte eine PDF-Datei ablegen.')
+      return
+    }
+    setError('')
+    setDoc(file)
+    try {
+      const { pdfLines, parseBeitritt } = await import('./pdfImport')
+      const res = parseBeitritt(await pdfLines(file))
+      const keys = new Set<string>()
+      let note = ''
+      setR((prev) => {
+        const next = { ...prev }
+        for (const [k, v] of Object.entries(res.record) as [keyof MemberRecord, never][]) {
+          if (k === 'zeichnungen') {
+            const units = res.record.zeichnungen?.[0]?.anteile
+            if (mode === 'neu' || prev.zeichnungen.length === 0) {
+              next.zeichnungen = res.record.zeichnungen!
+              keys.add('zeichnungen')
+            } else if (units) note = `Laut PDF ${units} Anteil${units === 1 ? '' : 'e'}: bei weiteren Anteilen bitte unten eine Zeile hinzufügen.`
+          } else if (k === 'bemerkungen') {
+            if (!prev.bemerkungen.includes(String(v))) next.bemerkungen = [prev.bemerkungen, v].filter(Boolean).join('\n')
+          } else {
+            next[k] = v
+            keys.add(k)
+          }
+        }
+        return next
+      })
+      setSecrets((prev) => ({ ...prev, ...res.secrets }))
+      Object.keys(res.secrets).forEach((k) => keys.add(k))
+      setFromPdf(keys)
+      setPdf({ found: res.found, note })
+    } catch {
+      setPdf({ found: [], note: 'Der Text des PDFs konnte nicht gelesen werden (z. B. ein eingescanntes Bild). Es wird trotzdem angehängt; bitte die Felder von Hand ausfüllen.' })
+    }
+  }
 
   const set = <K extends keyof MemberRecord>(key: K, value: MemberRecord[K]) => setR((prev) => ({ ...prev, [key]: value }))
   const text = (key: keyof MemberRecord & string, label: string, props: { type?: string; className?: string; list?: string } = {}) => (
@@ -36,7 +81,7 @@ export function MemberForm({
       <input
         type={props.type ?? 'text'}
         list={props.list}
-        className={inputClass}
+        className={`${inputClass} ${hl(key)}`}
         value={(r[key] as string | number | null) ?? ''}
         onChange={(e) => set(key, (key === 'nr' || key === 'freistellung' ? (e.target.value === '' ? null : Number(e.target.value)) : e.target.value) as never)}
       />
@@ -57,7 +102,7 @@ export function MemberForm({
       if (revealed ? secrets[k] !== revealed[k] : secrets[k] !== '') out[k] = secrets[k]
     }
     try {
-      await onSave(r, out)
+      await onSave(r, out, doc)
     } catch (err) {
       setError((err as Error).message)
       setBusy(false)
@@ -69,6 +114,20 @@ export function MemberForm({
   return (
     <form onSubmit={submit} className="grid gap-5">
       <datalist id="ar-names">{AR_NAMES.map((n) => <option key={n} value={n} />)}</datalist>
+
+      <DropZone file={doc} onFile={readPdf} onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()) }}>
+        {pdf && (
+          <div className="mt-3 text-sm text-ink-2">
+            {pdf.found.length > 0 && (
+              <p className="m-0">
+                <strong>Übernommen:</strong> {pdf.found.join(', ')}. Die Felder sind gelb markiert, bitte prüfen.
+              </p>
+            )}
+            {pdf.note && <p className="mb-0 mt-1">{pdf.note}</p>}
+            <p className="mb-0 mt-1 text-xs text-muted">Das PDF wird beim Speichern verschlüsselt an das Profil angehängt.</p>
+          </div>
+        )}
+      </DropZone>
 
       <Section title="Person und Kontakt">
         <Field label="Anrede">
@@ -166,14 +225,14 @@ export function MemberForm({
 
       <Section title="Bank und Steuer" hint="IBAN, Steuer-ID und Kirchensteuer werden verschlüsselt gespeichert.">
         <Field label="IBAN" className="sm:col-span-2">
-          <input className={inputClass} value={secrets.iban} placeholder={secretPlaceholder('iban')} onChange={(e) => setSecrets({ ...secrets, iban: e.target.value })} autoComplete="off" />
+          <input className={`${inputClass} ${hl('iban')}`} value={secrets.iban} placeholder={secretPlaceholder('iban')} onChange={(e) => setSecrets({ ...secrets, iban: e.target.value })} autoComplete="off" />
         </Field>
         {text('kontoinhaber', 'Kontoinhaber')}
         <Field label="Steuer-ID">
-          <input className={inputClass} value={secrets.steuer_id} placeholder={secretPlaceholder('steuer_id')} onChange={(e) => setSecrets({ ...secrets, steuer_id: e.target.value })} autoComplete="off" />
+          <input className={`${inputClass} ${hl('steuer_id')}`} value={secrets.steuer_id} placeholder={secretPlaceholder('steuer_id')} onChange={(e) => setSecrets({ ...secrets, steuer_id: e.target.value })} autoComplete="off" />
         </Field>
         <Field label="Kirchensteuer">
-          <select className={inputClass} value={secrets.kirchensteuer} onChange={(e) => setSecrets({ ...secrets, kirchensteuer: e.target.value })}>
+          <select className={`${inputClass} ${hl('kirchensteuer')}`} value={secrets.kirchensteuer} onChange={(e) => setSecrets({ ...secrets, kirchensteuer: e.target.value })}>
             <option value="">{masked?.kirchensteuer && !revealed ? 'unverändert' : '–'}</option>
             <option value="ja">ja</option>
             <option value="nein">nein</option>
@@ -348,5 +407,48 @@ function Rows<R extends Record<string, unknown>>({
       </div>
       <Button variant="quiet" className="mt-3" onClick={() => onChange([...rows, blank()])}>+ {addLabel}</Button>
     </fieldset>
+  )
+}
+
+/** Drop area (or file picker) for the signed Beitrittserklärung. */
+function DropZone({ file, onFile, onRemove, children }: { file: File | null; onFile: (f: File) => void; onRemove: () => void; children?: ReactNode }) {
+  const input = useRef<HTMLInputElement>(null)
+  const [over, setOver] = useState(false)
+  return (
+    <div
+      onDragOver={(e) => {
+        e.preventDefault()
+        setOver(true)
+      }}
+      onDragLeave={() => setOver(false)}
+      onDrop={(e) => {
+        e.preventDefault()
+        setOver(false)
+        const f = e.dataTransfer.files[0]
+        if (f) onFile(f)
+      }}
+      className={`rounded-card border-2 border-dashed px-5 py-5 transition-colors ${over ? 'border-gold bg-cream' : 'border-line bg-white'}`}
+    >
+      <div className="flex flex-wrap items-center gap-4">
+        <span aria-hidden className="grid h-12 w-10 shrink-0 place-items-center rounded bg-navy-050 text-[11px] font-bold text-ink">PDF</span>
+        <div className="min-w-0 flex-1">
+          {file ? (
+            <p className="m-0 text-sm font-semibold">{file.name}</p>
+          ) : (
+            <>
+              <p className="m-0 text-sm font-semibold">Unterschriebene Beitrittserklärung hier ablegen</p>
+              <p className="m-0 text-xs text-muted">Die Angaben werden aus dem DocuSign-PDF übernommen. Oder die Felder unten von Hand ausfüllen.</p>
+            </>
+          )}
+        </div>
+        <input ref={input} type="file" accept="application/pdf,.pdf" className="sr-only" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
+        {file ? (
+          <Button variant="quiet" onClick={onRemove}>Entfernen</Button>
+        ) : (
+          <Button variant="quiet" onClick={() => input.current?.click()}>PDF auswählen</Button>
+        )}
+      </div>
+      {children}
+    </div>
   )
 }

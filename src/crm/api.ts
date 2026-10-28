@@ -1,7 +1,7 @@
 // Mitglieder-CRM data: the theme's REST API (inc/crm.php) in the WordPress
 // build, a few made-up members in memory everywhere else.
 
-import { IS_WORDPRESS, WordPressError, wpPost, wpUrl } from '../backend'
+import { IS_WORDPRESS, WordPressError, wp, wpPost, wpUrl } from '../backend'
 
 export type Status = 'antrag' | 'zugelassen' | 'abgelehnt' | 'ausgeschieden'
 export type ArStatus = '' | 'offen' | 'zugestimmt' | 'abgelehnt'
@@ -88,9 +88,35 @@ export type MemberDetail = {
   /** Calculated next interest payment (7 % target), null when none is due. */
   next: NextInterest | null
   log: LogEntry[]
+  documents: CrmDocument[]
+  beschluesse: Beschluss[]
 }
 
 export type ActionResult = { member: MemberDetail; message: string }
+
+/** Encrypted file attached to a member (e.g. the signed Beitrittserklärung). */
+export type CrmDocument = { id: string; name: string; size: number; time: string; user: string }
+
+export type BeschlussType = 'zulassung' | 'zeichnung' | 'kuendigung' | 'ausscheiden'
+export type Vote = { name: string; vote: '' | 'zugestimmt' | 'abgelehnt'; time: string; note: string }
+/** A decision put to the Aufsichtsrat; every member must agree. */
+export type Beschluss = {
+  id: string
+  type: BeschlussType
+  title: string
+  /** Row in Anteile/Kündigungen for zeichnung/kuendigung. */
+  ref: number
+  status: 'offen' | 'zugestimmt' | 'abgelehnt' | 'zurückgezogen'
+  created: string
+  by: string
+  portal: boolean
+  closed: string
+  votes: Vote[]
+  /** The logged-in Aufsichtsrat member can still vote on it. */
+  canVote: boolean
+}
+export type InboxItem = Beschluss & { member: number; name: string; documents: CrmDocument[] }
+export type Inbox = { items: InboxItem[]; ar: string[]; size: number }
 
 /** Secret fields to save: null keeps the stored value. */
 export type SecretsInput = { [K in keyof Secrets]: string | null }
@@ -121,9 +147,21 @@ export const api = IS_WORDPRESS
       create: (record: MemberRecord, secrets: SecretsInput) => wpPost<MemberDetail>('crm/members', { record, secrets }),
       update: (id: number, record: MemberRecord, secrets: SecretsInput) => wpPost<MemberDetail>(`crm/members/${id}`, { record, secrets }),
       reveal: (id: number) => wpPost<Secrets>(`crm/members/${id}/reveal`, {}),
-      approve: (id: number, body: { ar: string; datum: string; portal: boolean }) => wpPost<ActionResult>(`crm/members/${id}/approve`, body),
-      reject: (id: number, body: { ar: string; datum: string; grund: string }) => wpPost<ActionResult>(`crm/members/${id}/reject`, body),
       portal: (id: number) => wpPost<ActionResult>(`crm/members/${id}/portal`, {}),
+      vorlegen: (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => wpPost<ActionResult>(`crm/members/${id}/beschluss`, body),
+      vote: (id: number, bid: string, body: { vote: 'zugestimmt' | 'abgelehnt'; note: string }) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/vote`, body),
+      cancel: (id: number, bid: string) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/cancel`, {}),
+      inbox: () => wpGet<Inbox>('crm/beschluesse'),
+      upload: async (id: number, file: File) => {
+        const { restUrl, nonce } = wp()
+        const body = new FormData()
+        body.append('file', file)
+        const res = await fetch(`${restUrl}hansea/v1/crm/members/${id}/documents`, { method: 'POST', credentials: 'same-origin', headers: { 'X-WP-Nonce': nonce }, body })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) throw new WordPressError(data?.message ?? 'Das Dokument konnte nicht hochgeladen werden.', res.status)
+        return data as MemberDetail
+      },
+      documentUrl: (id: number, doc: string) => wpUrl(`crm/members/${id}/documents/${doc}`),
     }
   : demoApi()
 
@@ -136,7 +174,9 @@ function demoApi() {
   const zeichnung = (zugelassen: string, anteile: number, zahlung: string): Zeichnung => ({
     zugelassen, anteile, ar: 'Muster', ar_status: 'zugestimmt', zahlung, betrag: zahlung ? anteile * ANTEIL_EUR : null, zins_ende: '', zins_zahlung: '',
   })
-  type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string }
+  type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string; docs: (CrmDocument & { url: string })[]; beschluesse: Beschluss[] }
+  // Demo: the three Aufsichtsrat members vote one after another from this browser.
+  const AR = ['Bartlau', 'Kogan', 'Pistorius']
   const rows = new Map<number, Row>()
   let nextId = 1
   const add = (patch: Partial<MemberRecord>, secrets: Partial<Secrets> = {}, portal: Portal = { status: 'keiner' }) => {
@@ -146,6 +186,8 @@ function demoApi() {
       log: [{ time: '2026-10-20T09:00:00Z', user: 'System', action: 'Import aus der Google-Tabelle', detail: '' }],
       portal,
       updated: '2026-10-20T09:00:00Z',
+      docs: [],
+      beschluesse: [],
     })
   }
   add({ nr: 1, status: 'zugelassen', zulassung_status: 'zugestimmt', art: 'o', vorname: 'Erika', nachname: 'Beispiel', firma: 'Beispiel Verwaltung GmbH', strasse: 'Musterweg 1', plz: '20095', ort: 'Hamburg', email: 'erika@example.org', zulassung_datum: '2024-07-30', zeichnungen: [zeichnung('2024-07-30', 1, '')] })
@@ -164,7 +206,28 @@ function demoApi() {
   const log = (r: Row, action: string, detail = '') => { r.log.unshift({ time: new Date().toISOString(), user: 'Vorschau', action, detail }); r.updated = new Date().toISOString() }
   const detail = (id: number): MemberDetail => {
     const r = row(id)
-    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log] }
+    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log], documents: r.docs.map(({ url: _url, ...d }) => d), beschluesse: r.beschluesse.map(publicB) }
+  }
+  const publicB = (b: Beschluss): Beschluss => ({ ...b, votes: b.votes.map((v) => ({ ...v })), canVote: b.status === 'offen' })
+  const TYPES: Record<BeschlussType, string> = { zulassung: 'Aufnahme als Mitglied', zeichnung: 'Weitere Geschäftsanteile', kuendigung: 'Kündigung von Geschäftsanteilen', ausscheiden: 'Ausscheiden' }
+  const applyB = (id: number, b: Beschluss) => {
+    const r = row(id)
+    const ok = b.status === 'zugestimmt'
+    const names = AR.join(', ')
+    if (b.type === 'zulassung') {
+      Object.assign(r.record, { zulassung_status: b.status, zulassung_ar: names, zulassung_datum: today(), status: ok ? 'zugelassen' : 'abgelehnt' })
+      if (ok) {
+        r.record.nr = r.record.nr ?? Math.max(0, ...[...rows.values()].map((x) => x.record.nr ?? 0)) + 1
+        r.record.zeichnungen = r.record.zeichnungen.map((z) => (z.zugelassen ? z : { ...z, zugelassen: today(), ar: names, ar_status: 'zugestimmt' }))
+        return `Alle haben zugestimmt: Mitglied Nr. ${r.record.nr} ist zugelassen. ${b.portal ? openPortal(id) : 'Kein Portal-Zugang angelegt.'}`
+      }
+    } else if (b.type === 'ausscheiden') {
+      Object.assign(r.record, { aus_ar_status: b.status, aus_ar: names }, ok ? { status: 'ausgeschieden' } : {})
+    } else {
+      const list = b.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen
+      if (list[b.ref]) Object.assign(list[b.ref], { ar_status: b.status, ar: names })
+    }
+    return ok ? 'Alle haben zugestimmt, der Beschluss ist gefasst.' : 'Der Beschluss ist abgelehnt.'
   }
   const setSecrets = (r: Row, s: SecretsInput) => { for (const k of ['iban', 'steuer_id', 'kirchensteuer'] as const) if (s[k] !== null) r.secrets[k] = s[k] ?? '' }
   const openPortal = (id: number) => {
@@ -194,21 +257,49 @@ function demoApi() {
     }),
     update: (id: number, record: MemberRecord, secrets: SecretsInput) => wait(() => { const r = row(id); r.record = structuredClone(record); setSecrets(r, secrets); log(r, 'Geändert'); return detail(id) }),
     reveal: (id: number) => wait(() => { const r = row(id); log(r, 'Bank- und Steuerdaten angezeigt'); return { ...r.secrets } }),
-    approve: (id: number, body: { ar: string; datum: string; portal: boolean }) => wait(() => {
-      const r = row(id)
-      const nr = r.record.nr ?? Math.max(0, ...[...rows.values()].map((x) => x.record.nr ?? 0)) + 1
-      Object.assign(r.record, { status: 'zugelassen', zulassung_status: 'zugestimmt', zulassung_ar: body.ar, zulassung_datum: body.datum || today(), nr })
-      r.record.zeichnungen = r.record.zeichnungen.map((z) => (z.zugelassen ? z : { ...z, zugelassen: body.datum || today(), ar: body.ar, ar_status: 'zugestimmt' }))
-      log(r, 'Zugelassen', `Mitgliedsnummer ${nr}, Zustimmung Aufsichtsrat: ${body.ar}`)
-      const portal = body.portal ? openPortal(id) : 'Kein Portal-Zugang angelegt.'
-      return { member: detail(id), message: `Zugelassen als Mitglied Nr. ${nr}. ${portal}` }
-    }),
-    reject: (id: number, body: { ar: string; datum: string; grund: string }) => wait(() => {
-      const r = row(id)
-      Object.assign(r.record, { status: 'abgelehnt', zulassung_status: 'abgelehnt', zulassung_ar: body.ar, zulassung_datum: body.datum || today() })
-      log(r, 'Abgelehnt', body.grund)
-      return { member: detail(id), message: 'Antrag abgelehnt.' }
-    }),
     portal: (id: number) => wait(() => ({ message: openPortal(id), member: detail(id) })),
+    vorlegen: (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => wait(() => {
+      const r = row(id)
+      const ref = body.ref ?? 0
+      if (r.beschluesse.some((b) => b.status === 'offen' && b.type === body.type && b.ref === ref)) throw new Error('Dazu liegt dem Aufsichtsrat schon ein offener Beschluss vor.')
+      const b: Beschluss = { id: Math.random().toString(16).slice(2, 18).padEnd(16, '0'), type: body.type, ref, title: `${TYPES[body.type]}: ${name(r.record)}`, status: 'offen', created: new Date().toISOString(), by: 'Vorschau', portal: !!body.portal, closed: '', votes: AR.map((n) => ({ name: n, vote: '', time: '', note: '' })), canVote: true }
+      r.beschluesse.push(b)
+      if (body.type === 'zulassung') r.record.zulassung_status = 'offen'
+      else if (body.type === 'ausscheiden') r.record.aus_ar_status = 'offen'
+      else (body.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen)[ref].ar_status = 'offen'
+      log(r, 'Dem Aufsichtsrat vorgelegt', b.title)
+      return { member: detail(id), message: `Dem Aufsichtsrat vorgelegt. ${AR.join(', ')} wurden per E-Mail benachrichtigt. (Vorschau: es wird nichts gesendet.)` }
+    }),
+    vote: (id: number, bid: string, body: { vote: 'zugestimmt' | 'abgelehnt'; note: string }) => wait(() => {
+      const r = row(id)
+      const b = r.beschluesse.find((x) => x.id === bid)
+      const slot = b?.votes.find((v) => !v.vote)
+      if (!b || b.status !== 'offen' || !slot) throw new Error('Über diesen Beschluss ist schon entschieden.')
+      Object.assign(slot, { vote: body.vote, time: new Date().toISOString(), note: body.note })
+      log(r, `Aufsichtsrat: ${body.vote === 'zugestimmt' ? 'Zustimmung' : 'Ablehnung'}`, `${b.title} (${slot.name})`)
+      if (body.vote === 'abgelehnt') b.status = 'abgelehnt'
+      else if (b.votes.every((v) => v.vote === 'zugestimmt')) b.status = 'zugestimmt'
+      const done = b.status !== 'offen' ? ` ${applyB(id, b)}` : ` ${b.votes.filter((v) => v.vote).length} von ${b.votes.length} Stimmen liegen vor.`
+      return { member: detail(id), message: `Stimme von ${slot.name} gespeichert (Vorschau).${done}` }
+    }),
+    cancel: (id: number, bid: string) => wait(() => {
+      const r = row(id)
+      const b = r.beschluesse.find((x) => x.id === bid)
+      if (b) b.status = 'zurückgezogen'
+      log(r, 'Vorlage zurückgezogen', b?.title)
+      return { member: detail(id), message: 'Vorlage zurückgezogen.' }
+    }),
+    inbox: () => wait((): Inbox => ({
+      items: [...rows].flatMap(([id, r]) => r.beschluesse.filter((b) => b.status === 'offen').map((b) => ({ ...publicB(b), member: id, name: name(r.record), documents: r.docs.map(({ url: _url, ...d }) => d) }))),
+      ar: AR,
+      size: 3,
+    })),
+    upload: (id: number, file: File) => wait(() => {
+      const r = row(id)
+      r.docs.push({ id: Math.random().toString(16).slice(2).padEnd(32, '0').slice(0, 32), name: file.name, size: file.size, time: new Date().toISOString(), user: 'Vorschau', url: URL.createObjectURL(file) })
+      log(r, 'Dokument hochgeladen', file.name)
+      return detail(id)
+    }),
+    documentUrl: (id: number, doc: string) => rows.get(id)?.docs.find((d) => d.id === doc)?.url ?? '#',
   }
 }

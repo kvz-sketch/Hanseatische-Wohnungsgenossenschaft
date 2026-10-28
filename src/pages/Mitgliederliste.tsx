@@ -2,19 +2,20 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { currentMember, logout } from '../auth/auth'
 import { Logo } from '../components/ui'
 import { api, type MemberSummary } from '../crm/api'
+import { BeschlussInbox } from '../crm/Beschluesse'
 import MemberPage from '../crm/MemberPage'
 import { MemberForm } from '../crm/MemberForm'
 import { PORTAL, STATUS, date, eur, go, kuendigungLabel, num } from '../crm/format'
 import { Badge, Button, ErrorNote } from '../crm/ui'
 
 /** Views by URL hash: #/ (list), #/antraege, #/bonus, #/neu, #/mitglied/12. */
-type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' } | { view: 'member'; id: number }
+type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' } | { view: 'member'; id: number }
 
 function parseHash(): Route {
   const h = location.hash.replace(/^#\/?/, '')
   const m = /^mitglied\/(\d+)/.exec(h)
   if (m) return { view: 'member', id: Number(m[1]) }
-  if (h === 'antraege' || h === 'bonus' || h === 'neu') return { view: h }
+  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse') return { view: h }
   return { view: 'list' }
 }
 
@@ -32,8 +33,11 @@ export default function Mitgliederliste() {
     return () => removeEventListener('hashchange', onHash)
   }, [])
 
+  const [pending, setPending] = useState(0)
   const reload = useCallback(() => {
     api.list().then(setMembers, (e: Error) => setError(e.message))
+    // Decisions waiting for the logged-in Aufsichtsrat member (0 for other staff)
+    api.inbox().then((i) => setPending(i.items.filter((b) => b.canVote).length), () => setPending(0))
   }, [])
   useEffect(reload, [reload])
 
@@ -52,6 +56,9 @@ export default function Mitgliederliste() {
             <Tab href="#/" active={route.view === 'list' || route.view === 'member'}>Mitglieder</Tab>
             <Tab href="#/antraege" active={route.view === 'antraege'}>
               Anträge{antraege > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-px text-[11px] font-bold text-ink">{antraege}</span>}
+            </Tab>
+            <Tab href="#/beschluesse" active={route.view === 'beschluesse'}>
+              Beschlüsse{pending > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-px text-[11px] font-bold text-ink">{pending}</span>}
             </Tab>
             <Tab href="#/bonus" active={route.view === 'bonus'}>Zeichnungsbonus</Tab>
           </nav>
@@ -75,6 +82,8 @@ export default function Mitgliederliste() {
         {error && <ErrorNote>{error}</ErrorNote>}
         {route.view === 'member' ? (
           <MemberPage key={route.id} id={route.id} onChange={reload} />
+        ) : route.view === 'beschluesse' ? (
+          <BeschlussInbox onChange={reload} />
         ) : route.view === 'neu' ? (
           <NewAntrag onCreated={reload} />
         ) : !members ? (
@@ -287,8 +296,9 @@ function NewAntrag({ onCreated }: { onCreated: () => void }) {
       <MemberForm
         mode="neu"
         onCancel={() => go('#/antraege')}
-        onSave={async (record, secrets) => {
+        onSave={async (record, secrets, document) => {
           const created = await api.create(record, secrets)
+          if (document) await api.upload(created.id, document)
           onCreated()
           go(`#/mitglied/${created.id}`)
         }}

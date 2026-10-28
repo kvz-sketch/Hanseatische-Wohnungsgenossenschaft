@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
-import { api, ZINS, type MemberDetail, type Secrets, type Zinszahlung } from './api'
+import { useEffect, useRef, useState } from 'react'
+import { api, ZINS, type BeschlussType, type MemberDetail, type Secrets, type Zinszahlung } from './api'
+import { BeschlussCard, DocumentLinks } from './Beschluesse'
 import { MemberForm } from './MemberForm'
-import { AR_NAMES, PORTAL, STATUS, date, dateTime, eur, inputClass, kuendigungLabel, labelClass, num, today } from './format'
+import { PORTAL, STATUS, date, dateTime, eur, inputClass, kuendigungLabel, labelClass, num, today } from './format'
 import { Badge, Button, Card, ErrorNote, Facts, Notice, Table } from './ui'
 
 const sum = (rows: Zinszahlung[], key: 'betrag' | 'steuer') => rows.reduce((s, z) => s + (z[key] ?? 0), 0)
@@ -14,7 +15,8 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
   const [notice, setNotice] = useState('')
   const [secrets, setSecrets] = useState<Secrets | null>(null)
   const [editing, setEditing] = useState(false)
-  const [deciding, setDeciding] = useState<'approve' | 'reject' | null>(null)
+  const [presenting, setPresenting] = useState(false)
+  const upload = useRef<HTMLInputElement>(null)
   const [busy, setBusy] = useState(false)
   const [payout, setPayout] = useState<Zinszahlung | null>(null)
 
@@ -34,7 +36,7 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
     try {
       const res = await action()
       apply(res.member, res.message)
-      setDeciding(null)
+      setPresenting(false)
     } catch (e) {
       setError((e as Error).message)
     } finally {
@@ -68,8 +70,9 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           masked={m.masked}
           revealed={secrets}
           onCancel={() => setEditing(false)}
-          onSave={async (record, s) => {
-            const detail = await api.update(id, record, s)
+          onSave={async (record, s, document) => {
+            let detail = await api.update(id, record, s)
+            if (document) detail = await api.upload(id, document)
             if (secrets) setSecrets(await api.reveal(id).catch(() => null))
             apply(detail, 'Gespeichert.')
             setEditing(false)
@@ -79,7 +82,18 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
     )
   }
 
-  const zinsRows = r.zeichnungen.map((z) => [
+  const open = (type: BeschlussType, ref = 0) => m.beschluesse.some((b) => b.status === 'offen' && b.type === type && b.ref === ref)
+  const present = (type: BeschlussType, ref = 0) => run(() => api.vorlegen(id, { type, ref }))
+  // "Vorlegen" in a row of Anteile or Kündigungen that the Aufsichtsrat has not approved yet
+  const presentCell = (type: BeschlussType, ref: number, status: string) =>
+    r.status !== 'zugelassen' || status === 'zugestimmt' ? '' : open(type, ref) || status === 'offen' ? (
+      <span key={`${type}${ref}`} className="text-xs text-gold-700">beim Aufsichtsrat</span>
+    ) : (
+      <Button key={`${type}${ref}`} variant="quiet" className="h-7 px-2 text-xs" disabled={busy} onClick={() => present(type, ref)}>Vorlegen</Button>
+    )
+  const beschluesse = [...m.beschluesse].sort((a, b) => Number(b.status === 'offen') - Number(a.status === 'offen') || b.created.localeCompare(a.created))
+
+  const zinsRows = r.zeichnungen.map((z, i) => [
     num(z.anteile),
     eur(z.betrag),
     date(z.zahlung),
@@ -89,6 +103,7 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
     z.betrag ? eur((z.betrag * ZINS) / 4) : '–',
     date(z.zins_ende),
     date(z.zins_zahlung),
+    presentCell('zeichnung', i, z.ar_status),
   ])
 
   return (
@@ -105,12 +120,7 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           </div>
         </div>
         <div className="ml-auto flex flex-wrap gap-2">
-          {r.status === 'antrag' && (
-            <>
-              <Button onClick={() => setDeciding('approve')}>Zulassen</Button>
-              <Button variant="quiet" onClick={() => setDeciding('reject')}>Ablehnen</Button>
-            </>
-          )}
+          {r.status === 'antrag' && !open('zulassung') && <Button onClick={() => setPresenting(true)}>Dem Aufsichtsrat vorlegen</Button>}
           {r.status === 'zugelassen' && (
             <Button variant={m.portal.status === 'keiner' ? 'primary' : 'quiet'} disabled={busy} onClick={() => run(() => api.portal(id))}>
               {m.portal.status === 'keiner' ? 'Portal-Zugang einrichten' : 'Willkommensmail erneut senden'}
@@ -122,7 +132,17 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
 
       {notice && <Notice onClose={() => setNotice('')}>{notice}</Notice>}
       {error && <ErrorNote>{error}</ErrorNote>}
-      {deciding && <Decision kind={deciding} busy={busy} hasEmail={!!r.email} onCancel={() => setDeciding(null)} onSubmit={(body) => run(() => (deciding === 'approve' ? api.approve(id, body) : api.reject(id, body)))} />}
+      {presenting && (
+        <Vorlegen busy={busy} hasEmail={!!r.email} hasDocument={m.documents.length > 0} onCancel={() => setPresenting(false)} onSubmit={(portal) => run(() => api.vorlegen(id, { type: 'zulassung', portal }))} />
+      )}
+
+      {beschluesse.length > 0 && (
+        <div className="mb-5 grid gap-3">
+          {beschluesse.map((b) => (
+            <BeschlussCard key={b.id} member={id} b={b} documents={m.documents} canCancel onDone={(res) => apply(res.member, res.message)} />
+          ))}
+        </div>
+      )}
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Card title="Zulassung">
@@ -163,11 +183,11 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           <Table
             head={[
               { label: 'Anteile', right: true }, { label: 'Betrag', right: true }, { label: 'Zahlungseingang' }, { label: 'Zugelassen am' }, { label: 'Aufsichtsrat' },
-              { label: `Zinsen p.a. (${Math.round(ZINS * 100)} %)`, right: true }, { label: 'Zinsen p.q.', right: true }, { label: 'Erstes Ende Verzinsung' }, { label: 'Erste Zinszahlung bis' },
+              { label: `Zinsen p.a. (${Math.round(ZINS * 100)} %)`, right: true }, { label: 'Zinsen p.q.', right: true }, { label: 'Erstes Ende Verzinsung' }, { label: 'Erste Zinszahlung bis' }, { label: '' },
             ]}
             rows={zinsRows}
             empty="Keine Anteile eingetragen."
-            foot={r.zeichnungen.length > 1 ? [num(m.totals.anteile), eur(m.totals.kapital), '', '', '', eur(m.totals.kapital * ZINS), eur((m.totals.kapital * ZINS) / 4), '', ''] : undefined}
+            foot={r.zeichnungen.length > 1 ? [num(m.totals.anteile), eur(m.totals.kapital), '', '', '', eur(m.totals.kapital * ZINS), eur((m.totals.kapital * ZINS) / 4), '', '', ''] : undefined}
           />
         </Card>
 
@@ -232,8 +252,8 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
 
         <Card title="Kündigungen">
           <Table
-            head={[{ label: 'Anteile', right: true }, { label: 'Kündigung eingegangen' }, { label: 'Gekündigt zum' }, { label: 'Betrag', right: true }, { label: 'Aufsichtsrat' }, { label: 'Stand' }]}
-            rows={r.kuendigungen.map((c) => [num(c.anteile), date(c.datum), date(c.zum), eur(c.betrag), AR(c.ar, c.ar_status), c.zum && c.zum <= today() ? 'ausgezahlt / fällig' : 'läuft'])}
+            head={[{ label: 'Anteile', right: true }, { label: 'Kündigung eingegangen' }, { label: 'Gekündigt zum' }, { label: 'Betrag', right: true }, { label: 'Aufsichtsrat' }, { label: 'Stand' }, { label: '' }]}
+            rows={r.kuendigungen.map((c, i) => [num(c.anteile), date(c.datum), date(c.zum), eur(c.betrag), AR(c.ar, c.ar_status), c.zum && c.zum <= today() ? 'ausgezahlt / fällig' : 'läuft', presentCell('kuendigung', i, c.ar_status)])}
             empty="Keine Kündigungen."
           />
         </Card>
@@ -261,7 +281,12 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
         </div>
 
         {(r.status === 'ausgeschieden' || r.aus_datum || r.aus_grund) && (
-          <Card title="Ausscheiden">
+          <Card
+            title="Ausscheiden"
+            aside={r.status === 'zugelassen' && r.aus_ar_status !== 'zugestimmt' && !open('ausscheiden') ? (
+              <Button variant="quiet" className="h-8" disabled={busy} onClick={() => present('ausscheiden')}>Dem Aufsichtsrat vorlegen</Button>
+            ) : null}
+          >
             <Facts items={[['Tag der Eintragung', date(r.aus_eintragung)], ['Tag des Ausscheidens', date(r.aus_datum)], ['Grund', r.aus_grund], ['Zustimmung Aufsichtsrat', AR(r.aus_ar, r.aus_ar_status)]]} />
           </Card>
         )}
@@ -275,6 +300,38 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
             />
           </Card>
         )}
+
+        <Card
+          title="Dokumente"
+          aside={
+            <>
+              <input
+                ref={upload}
+                type="file"
+                accept="application/pdf,.pdf"
+                className="sr-only"
+                onChange={async (e) => {
+                  const f = e.target.files?.[0]
+                  e.target.value = ''
+                  if (!f) return
+                  setBusy(true)
+                  setError('')
+                  try {
+                    apply(await api.upload(id, f), 'Dokument angehängt.')
+                  } catch (err) {
+                    setError((err as Error).message)
+                  } finally {
+                    setBusy(false)
+                  }
+                }}
+              />
+              <Button variant="quiet" className="h-8" disabled={busy} onClick={() => upload.current?.click()}>PDF anhängen</Button>
+            </>
+          }
+        >
+          <DocumentLinks member={id} documents={m.documents} />
+          <p className="mb-0 mt-3 text-xs text-muted">Verschlüsselt gespeichert. Das Öffnen wird im Verlauf festgehalten.</p>
+        </Card>
 
         <Card title="Verlauf">
           {m.log.length === 0 ? (
@@ -297,63 +354,41 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
   )
 }
 
-function Decision({
-  kind,
+/** Puts an Antrag to the Aufsichtsrat; the portal invite follows once all have agreed. */
+function Vorlegen({
   busy,
   hasEmail,
+  hasDocument,
   onCancel,
   onSubmit,
 }: {
-  kind: 'approve' | 'reject'
   busy: boolean
   hasEmail: boolean
+  hasDocument: boolean
   onCancel: () => void
-  onSubmit: (body: { ar: string; datum: string; portal: boolean; grund: string }) => void
+  onSubmit: (portal: boolean) => void
 }) {
-  const [ar, setAr] = useState('')
-  const [datum, setDatum] = useState(today())
   const [portal, setPortal] = useState(hasEmail)
-  const [grund, setGrund] = useState('')
-  const approve = kind === 'approve'
   return (
     <form
       className="mb-5 rounded-card border border-gold bg-cream px-5 py-4"
       onSubmit={(e) => {
         e.preventDefault()
-        onSubmit({ ar: ar.trim(), datum, portal, grund })
+        onSubmit(portal)
       }}
     >
-      <h2 className="m-0 text-[15px] font-semibold">{approve ? 'Antrag zulassen' : 'Antrag ablehnen'}</h2>
+      <h2 className="m-0 text-[15px] font-semibold">Antrag dem Aufsichtsrat vorlegen</h2>
       <p className="mb-0 mt-1 text-sm text-ink-2">
-        {approve
-          ? 'Das Mitglied erhält die nächste freie Mitgliedsnummer. Mit Portal-Zugang wird das Konto angelegt und die Willkommensmail gesendet.'
-          : 'Der Antrag wird als abgelehnt gespeichert. Es wird keine E-Mail gesendet.'}
+        Alle Mitglieder des Aufsichtsrats erhalten eine E-Mail und stimmen in der Mitgliederliste ab. Sobald alle zugestimmt haben, wird das Mitglied
+        mit der nächsten freien Mitgliedsnummer zugelassen.
       </p>
-      <div className="mt-4 grid gap-4 sm:grid-cols-3">
-        <label className="block">
-          <span className={labelClass}>{approve ? 'Zustimmender Aufsichtsrat' : 'Aufsichtsrat'}</span>
-          <input className={inputClass} list="decision-ar" value={ar} onChange={(e) => setAr(e.target.value)} required={approve} />
-          <datalist id="decision-ar">{AR_NAMES.map((n) => <option key={n} value={n} />)}</datalist>
-        </label>
-        <label className="block">
-          <span className={labelClass}>{approve ? 'Tag der Zulassung' : 'Datum'}</span>
-          <input type="date" className={inputClass} value={datum} onChange={(e) => setDatum(e.target.value)} required />
-        </label>
-        {!approve && (
-          <label className="block">
-            <span className={labelClass}>Grund (optional)</span>
-            <input className={inputClass} value={grund} onChange={(e) => setGrund(e.target.value)} />
-          </label>
-        )}
-      </div>
-      {approve && (
-        <label className="mt-4 flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={portal} disabled={!hasEmail} onChange={(e) => setPortal(e.target.checked)} />
-          Portal-Zugang einrichten und Willkommensmail senden{!hasEmail && ' (keine E-Mail-Adresse hinterlegt)'}
-        </label>
-      )}
+      {!hasDocument && <p className="mb-0 mt-2 text-sm text-coral-600">Noch keine unterschriebene Beitrittserklärung angehängt (unten unter „Dokumente“).</p>}
+      <label className="mt-4 flex items-center gap-2 text-sm">
+        <input type="checkbox" checked={portal} disabled={!hasEmail} onChange={(e) => setPortal(e.target.checked)} />
+        Nach der Zulassung Portal-Zugang einrichten und Willkommensmail senden{!hasEmail && ' (keine E-Mail-Adresse hinterlegt)'}
+      </label>
       <div className="mt-4 flex gap-3">
-        <Button type="submit" disabled={busy}>{busy ? 'Speichert …' : approve ? 'Zulassen' : 'Ablehnen'}</Button>
+        <Button type="submit" disabled={busy}>{busy ? 'Speichert …' : 'Vorlegen'}</Button>
         <Button variant="quiet" onClick={onCancel} disabled={busy}>Abbrechen</Button>
       </div>
     </form>
