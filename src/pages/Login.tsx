@@ -62,7 +62,7 @@ function LoginForm({ onDone }: { onDone: () => void }) {
       {forgot && (
         <p className="m-0 text-[14px] text-ink-2">
           Bitte wenden Sie sich an unseren Mitgliederservice unter{' '}
-          <a href={company.phoneHref}>{company.phone}</a> oder <a href={`mailto:${company.email}`}>{company.email}</a>.
+          <a href={`mailto:${company.email}`}>{company.email}</a>.
           Wir setzen Ihr Passwort zurück.
         </p>
       )}
@@ -94,7 +94,7 @@ export default function Login() {
               <a href={href('home', '#kontakt')} className="text-link underline">
                 Sprechen Sie mit uns
               </a>{' '}
-              oder rufen Sie an: <a href={company.phoneHref}>{company.phone}</a>.
+              oder schreiben Sie uns: <a href={`mailto:${company.email}`}>{company.email}</a>.
             </p>
           </div>
 

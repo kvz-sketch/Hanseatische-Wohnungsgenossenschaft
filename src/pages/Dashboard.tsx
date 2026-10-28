@@ -9,7 +9,7 @@ import ProjectList from '../components/ProjectList'
 import ShareTracker from '../components/ShareTracker'
 import TrackRecord from '../components/TrackRecord'
 import { navigate } from '../routes'
-import { anteile, company, memberUnits, nextPayout, SHARE_PRICE } from '../data/content'
+import { anteile, company, MEMBER_SERVICE_BOOKING_URL, memberUnits, nextPayout, SHARE_PRICE } from '../data/content'
 
 const euro = (v: number, digits = 0) =>
   `${new Intl.NumberFormat('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(v)} €`
@@ -40,7 +40,9 @@ function kpisFor(p: Portfolio | null | undefined) {
       value: euro(p.einlage),
       note: p.einlage > 0 ? `${units}${p.nr ? ` · Mitglied Nr. ${p.nr}` : ''}` : `${units} · Einzahlung noch nicht verbucht`,
     },
-    { label: 'Zinsen im Jahr', value: euro(p.zinsenJahr, 2), note: '7 % p.a. Zielverzinsung, nicht garantiert' },
+    p.zinszahlungen.length > 0
+      ? { label: 'Bisher ausgezahlt', value: euro(p.ausgezahlt, 2), note: `Zinsen brutto · Ziel ${euro(p.zinsenJahr)} im Jahr (7 % p.a.)` }
+      : { label: 'Zinsen im Jahr', value: euro(p.zinsenJahr, 2), note: '7 % p.a. Zielverzinsung, nicht garantiert' },
     p.next
       ? { label: 'Nächste Zinszahlung', value: euro(p.next.amount, 2), note: `bis ${isoDate(p.next.date)} (Ziel)`, accent: true }
       : { label: 'Nächste Zinszahlung', value: '–', note: 'Sobald Ihre Einzahlung verbucht ist', accent: true },
@@ -81,14 +83,20 @@ function Welcome({ member }: { member: Member }) {
           ))}
         </dl>
 
-        {p && (payments.length > 1 || p.kuendigungen.length > 0) && (
+        {p && (payments.length > 1 || p.kuendigungen.length > 0 || p.zinszahlungen.length > 0) && (
           <details className="mt-4 rounded-card border border-white/15 bg-white/5 px-5 py-4 text-[14px]">
-            <summary className="cursor-pointer font-semibold text-white">Ihre Einzahlungen{p.kuendigungen.length > 0 && ' und Kündigungen'}</summary>
+            <summary className="cursor-pointer font-semibold text-white">Ihre Einzahlungen und Zinszahlungen</summary>
             <ul className="m-0 mt-3 list-none p-0 text-lighter-dark">
               {payments.map((z, i) => (
                 <li key={i} className="flex justify-between gap-4 border-t border-white/10 py-2 tabular-nums">
                   <span>{z.zahlung ? isoDate(z.zahlung) : 'Datum folgt'} · {anteile(z.anteile ?? 0)}</span>
                   <span>{euro(z.betrag ?? 0)}</span>
+                </li>
+              ))}
+              {[...p.zinszahlungen].sort((a, b) => a.datum.localeCompare(b.datum)).map((z, i) => (
+                <li key={`z${i}`} className="flex justify-between gap-4 border-t border-white/10 py-2 tabular-nums">
+                  <span>{isoDate(z.datum)} · Zinsen{z.zeitraum ? ` bis ${isoDate(z.zeitraum)}` : ''}</span>
+                  <span className="text-gold-400">+ {euro(z.betrag ?? 0, 2)}</span>
                 </li>
               ))}
               {p.kuendigungen.map((k, i) => (
@@ -116,8 +124,8 @@ function Service() {
             Aufstocken, Kündigung, Ausschüttungen oder Steuerbescheinigung: Ihr Berater ruft Sie im gewählten Zeitfenster an.
           </p>
           <p className="m-0 mt-6 text-[15px] leading-loose text-lighter-dark">
-            <a href={company.phoneHref} className="font-bold text-white underline">
-              {company.phone}
+            <a href={MEMBER_SERVICE_BOOKING_URL} target="_blank" rel="noopener" className="font-bold text-white underline">
+              Termin mit Cornelia Richter buchen
             </a>
             <br />
             <a href={`mailto:${company.email}`} className="text-white underline">

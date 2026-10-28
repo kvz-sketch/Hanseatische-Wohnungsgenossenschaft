@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { api, ZINS, type MemberDetail, type Secrets } from './api'
+import { api, ZINS, type MemberDetail, type Secrets, type Zinszahlung } from './api'
 import { MemberForm } from './MemberForm'
 import { AR_NAMES, PORTAL, STATUS, date, dateTime, eur, inputClass, kuendigungLabel, labelClass, num, today } from './format'
 import { Badge, Button, Card, ErrorNote, Facts, Notice, Table } from './ui'
+
+const sum = (rows: Zinszahlung[], key: 'betrag' | 'steuer') => rows.reduce((s, z) => s + (z[key] ?? 0), 0)
 
 const AR = (name: string, status: string) => [status, name].filter(Boolean).join(', ') || '–'
 
@@ -14,6 +16,7 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
   const [editing, setEditing] = useState(false)
   const [deciding, setDeciding] = useState<'approve' | 'reject' | null>(null)
   const [busy, setBusy] = useState(false)
+  const [payout, setPayout] = useState<Zinszahlung | null>(null)
 
   useEffect(() => {
     api.get(id).then(setM, (e: Error) => setError(e.message))
@@ -166,6 +169,65 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
             empty="Keine Anteile eingetragen."
             foot={r.zeichnungen.length > 1 ? [num(m.totals.anteile), eur(m.totals.kapital), '', '', '', eur(m.totals.kapital * ZINS), eur((m.totals.kapital * ZINS) / 4), '', ''] : undefined}
           />
+        </Card>
+
+        <Card
+          title="Zinszahlungen"
+          aside={m.next && !payout && r.status === 'zugelassen' ? (
+            <Button variant="quiet" className="h-8" onClick={() => setPayout({ datum: m.next!.date, zeitraum: m.next!.period, betrag: m.next!.amount, steuer: null })}>
+              Fällige Zahlung eintragen
+            </Button>
+          ) : null}
+        >
+          {payout && (
+            <form
+              className="mb-4 rounded-card border border-gold bg-cream p-4"
+              onSubmit={async (e) => {
+                e.preventDefault()
+                setBusy(true)
+                setError('')
+                try {
+                  const detail = await api.update(id, { ...r, zinszahlungen: [...r.zinszahlungen, payout] }, { iban: null, steuer_id: null, kirchensteuer: null })
+                  apply(detail, 'Zinszahlung eingetragen.')
+                  setPayout(null)
+                } catch (err) {
+                  setError((err as Error).message)
+                } finally {
+                  setBusy(false)
+                }
+              }}
+            >
+              <p className="m-0 mb-3 text-sm text-ink-2">Vorschlag aus den Einzahlungen (7 % p.a.). Bitte mit der tatsächlichen Überweisung abgleichen.</p>
+              <div className="grid gap-3 sm:grid-cols-4">
+                {([['datum', 'Ausgezahlt am', 'date'], ['zeitraum', 'Zeitraum bis', 'date'], ['betrag', 'Brutto €', 'number'], ['steuer', 'Steuer einbehalten €', 'number']] as const).map(([key, label, type]) => (
+                  <label key={key} className="block">
+                    <span className={labelClass}>{label}</span>
+                    <input
+                      type={type}
+                      step={type === 'number' ? '0.01' : undefined}
+                      required={key !== 'steuer'}
+                      className={inputClass}
+                      value={payout[key] ?? ''}
+                      onChange={(e) => setPayout({ ...payout, [key]: type === 'number' ? (e.target.value === '' ? null : Number(e.target.value)) : e.target.value })}
+                    />
+                  </label>
+                ))}
+              </div>
+              <div className="mt-3 flex gap-3">
+                <Button type="submit" disabled={busy}>{busy ? 'Speichert …' : 'Eintragen'}</Button>
+                <Button variant="quiet" onClick={() => setPayout(null)} disabled={busy}>Abbrechen</Button>
+              </div>
+            </form>
+          )}
+          <Table
+            head={[{ label: 'Ausgezahlt am' }, { label: 'Zeitraum bis' }, { label: 'Brutto', right: true }, { label: 'Steuer einbehalten', right: true }, { label: 'Netto', right: true }]}
+            rows={[...r.zinszahlungen].sort((a, b) => a.datum.localeCompare(b.datum)).map((z) => [date(z.datum), date(z.zeitraum), eur(z.betrag), eur(z.steuer ?? 0), eur((z.betrag ?? 0) - (z.steuer ?? 0))])}
+            empty="Noch keine Zinszahlungen eingetragen."
+            foot={r.zinszahlungen.length > 1 ? ['Summe', '', eur(sum(r.zinszahlungen, 'betrag')), eur(sum(r.zinszahlungen, 'steuer')), eur(sum(r.zinszahlungen, 'betrag') - sum(r.zinszahlungen, 'steuer'))] : undefined}
+          />
+          {m.next && r.status === 'zugelassen' && (
+            <p className="mb-0 mt-3 text-xs text-muted">Nächste fällige Zahlung (berechnet): {eur(m.next.amount)} für den Zeitraum bis {date(m.next.period)}, spätestens am {date(m.next.date)}.</p>
+          )}
         </Card>
 
         <Card title="Kündigungen">

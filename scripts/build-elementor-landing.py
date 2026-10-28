@@ -355,6 +355,7 @@ FAQS = [
 ]
 
 BOOKING_URL = "https://calendly.com/dpp-gerlachgroup/30min-erstgesprach-gig"  # Calendly, 30-minute first call
+RICHTER_BOOKING_URL = "https://calendly.com/mitgliederservice-hanseainvest/30min"  # Cornelia Richter, Mitgliederservice
 BOOK_URL = "https://www.remote-verlag.de/products/immobilien-investitionen-leicht-gemacht"
 BLOG_URL = "https://blog.gerlachgroup.de/%C3%B6ffentlichkeit-pr-blog"
 
@@ -1266,12 +1267,11 @@ def mitglied_werden():
                 heading("Cornelia Richter", "h3", size=32, mobile=28, color=WHITE, line=1.15),
                 text("<p>Mitgliederservice · Hanseatische Invest eG</p>", color=ON_NAVY, size=15),
                 icon_list([("cr@gerlachgroup.de", "mailto:cr@gerlachgroup.de"),
-                           ("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de"),
-                           ("+49 40 22862372-0", "tel:+4940228623720")],
+                           ("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de")],
                           color=WHITE, icon="fas fa-arrow-right", icon_color=GOLD_400, size=15, weight="500",
                           gap_px=12),
                 spacer(4),
-                button("Termin buchen", BOOKING_URL, external=True),
+                button("Termin buchen", RICHTER_BOOKING_URL, external=True),
                 text("<p>30 Minuten, Telefon oder Video</p>", color=ON_NAVY_MUTED, size=13),
             ], width=40, bg=NAVY, pad=(40,), pad_mobile=(28, 20), gap_px=12),
         ], row=True, align="flex-start", justify="space-between", gap_px=40),
@@ -1286,8 +1286,7 @@ def contact():
             h2("Sprechen Sie mit uns"),
             text("<p>Fragen oder ein persönliches Gespräch? Wir melden uns gern.</p>", size=16),
             spacer(8),
-            icon_list([("+49 40 22862372-0", "tel:+4940228623720"),
-                       ("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de"),
+            icon_list([("mitgliederservice@hanseainvest.de", "mailto:mitgliederservice@hanseainvest.de"),
                        ("Langenhorner Chaussee 155, 22415 Hamburg", None)],
                       color=NAVY, icon="fas fa-arrow-right", icon_color=GOLD_600, size=15, weight="500", gap_px=14),
             spacer(16),

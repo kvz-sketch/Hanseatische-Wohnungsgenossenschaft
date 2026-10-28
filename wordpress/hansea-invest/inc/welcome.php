@@ -58,7 +58,7 @@ function hansea_welcome_email( WP_User $user, $note = '' ) {
 			'preheader' => 'Ihre Zugangsdaten für den Mitgliederbereich der Hanseatischen Invest eG.',
 			'html'      => $html,
 			'button'    => array( 'label' => 'Passwort festlegen und anmelden', 'url' => $link ),
-			'note'      => sprintf( 'Der Link ist %d Tage gültig und kann einmal verwendet werden. Danach melden Sie sich jederzeit mit Ihrer E-Mail-Adresse und Ihrem Passwort an; über „Passwort vergessen?“ auf der Anmeldeseite erhalten Sie bei Bedarf einen neuen Link. Fragen? Rufen Sie uns an: +49 40 22862372-0.', HANSEA_WELCOME_LINK_DAYS ),
+			'note'      => sprintf( 'Der Link ist %d Tage gültig und kann einmal verwendet werden. Danach melden Sie sich jederzeit mit Ihrer E-Mail-Adresse und Ihrem Passwort an; über „Passwort vergessen?“ auf der Anmeldeseite erhalten Sie bei Bedarf einen neuen Link. Fragen? Schreiben Sie uns an mitgliederservice@hanseainvest.de.', HANSEA_WELCOME_LINK_DAYS ),
 		) ),
 	);
 }

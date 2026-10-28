@@ -18,6 +18,9 @@ export type Zeichnung = {
 }
 export type Kuendigung = { datum: string; anteile: number | null; zum: string; betrag: number | null; ar: string; ar_status: ArStatus }
 export type Bonus = { projekt: string; anteile: number | null; betrag: number | null; auszahlung: string }
+/** Interest paid out: date, end of the interest period, gross amount, tax withheld. */
+export type Zinszahlung = { datum: string; zeitraum: string; betrag: number | null; steuer: number | null }
+export type NextInterest = { date: string; amount: number; period: string }
 
 export type MemberRecord = {
   nr: number | null
@@ -51,6 +54,7 @@ export type MemberRecord = {
   zeichnungen: Zeichnung[]
   kuendigungen: Kuendigung[]
   bonus: Bonus[]
+  zinszahlungen: Zinszahlung[]
 }
 
 export type Secrets = { iban: string; steuer_id: string; kirchensteuer: string }
@@ -81,6 +85,8 @@ export type MemberDetail = {
   masked: Secrets
   portal: Portal
   totals: Totals
+  /** Calculated next interest payment (7 % target), null when none is due. */
+  next: NextInterest | null
   log: LogEntry[]
 }
 
@@ -93,7 +99,7 @@ export const emptyRecord = (): MemberRecord => ({
   nr: null, status: 'antrag', art: 'i', firma: '', anrede: '', vorname: '', nachname: '', strasse: '', plz: '', ort: '',
   land: 'DE', telefon: '', email: '', geburtstag: '', zulassung_datum: '', zulassung_status: 'offen', zulassung_ar: '',
   bundesland: '', freistellung: null, kontoinhaber: '', kuendbar_zu: '', empfehler: '', bemerkungen: '', aus_eintragung: '',
-  aus_grund: '', aus_datum: '', aus_ar_status: '', aus_ar: '', zeichnungen: [], kuendigungen: [], bonus: [],
+  aus_grund: '', aus_datum: '', aus_ar_status: '', aus_ar: '', zeichnungen: [], kuendigungen: [], bonus: [], zinszahlungen: [],
 })
 
 /** Interest the Genossenschaft pays on paid-in capital, p.a. */
@@ -143,7 +149,7 @@ function demoApi() {
     })
   }
   add({ nr: 1, status: 'zugelassen', zulassung_status: 'zugestimmt', art: 'o', vorname: 'Erika', nachname: 'Beispiel', firma: 'Beispiel Verwaltung GmbH', strasse: 'Musterweg 1', plz: '20095', ort: 'Hamburg', email: 'erika@example.org', zulassung_datum: '2024-07-30', zeichnungen: [zeichnung('2024-07-30', 1, '')] })
-  add({ nr: 2, status: 'zugelassen', zulassung_status: 'zugestimmt', zulassung_ar: 'Muster', anrede: 'Herr', vorname: 'Max', nachname: 'Mustermann', strasse: 'Hauptstraße 5', plz: '50667', ort: 'Köln', email: 'max@example.org', telefon: '+49 221 000000', zulassung_datum: '2025-03-04', empfehler: 'Website', kuendbar_zu: '2025-12-31', freistellung: 1000, kontoinhaber: 'Max Mustermann', bundesland: 'NRW', zeichnungen: [zeichnung('2025-03-04', 5, '2025-03-06'), zeichnung('2026-03-13', 2, '2026-03-16')], kuendigungen: [{ datum: '2026-06-24', anteile: 2, zum: '2027-03-31', betrag: 20000, ar: 'Muster', ar_status: 'zugestimmt' }], bonus: [{ projekt: 'Eilbek', anteile: 2, betrag: 600, auszahlung: '2027-09-30' }] }, { iban: 'DE02120300000000202051', steuer_id: '12 345 678 901', kirchensteuer: 'nein' }, { status: 'eingeladen', email: 'max@example.org', invited: '2026-04-01T09:00:00Z' })
+  add({ nr: 2, status: 'zugelassen', zulassung_status: 'zugestimmt', zulassung_ar: 'Muster', anrede: 'Herr', vorname: 'Max', nachname: 'Mustermann', strasse: 'Hauptstraße 5', plz: '50667', ort: 'Köln', email: 'max@example.org', telefon: '+49 221 000000', zulassung_datum: '2025-03-04', empfehler: 'Website', kuendbar_zu: '2025-12-31', freistellung: 1000, kontoinhaber: 'Max Mustermann', bundesland: 'NRW', zeichnungen: [zeichnung('2025-03-04', 5, '2025-03-06'), zeichnung('2026-03-13', 2, '2026-03-16')], kuendigungen: [{ datum: '2026-06-24', anteile: 2, zum: '2027-03-31', betrag: 20000, ar: 'Muster', ar_status: 'zugestimmt' }], bonus: [{ projekt: 'Eilbek', anteile: 2, betrag: 600, auszahlung: '2027-09-30' }], zinszahlungen: [{ datum: '2026-07-14', zeitraum: '2026-06-30', betrag: 875, steuer: 0 }, { datum: '2026-10-14', zeitraum: '2026-09-30', betrag: 1225, steuer: 0 }] }, { iban: 'DE02120300000000202051', steuer_id: '12 345 678 901', kirchensteuer: 'nein' }, { status: 'eingeladen', email: 'max@example.org', invited: '2026-04-01T09:00:00Z' })
   add({ nr: 3, status: 'ausgeschieden', zulassung_status: 'zugestimmt', anrede: 'Frau', vorname: 'Anna', nachname: 'Probe', ort: 'Berlin', zulassung_datum: '2026-03-10', aus_eintragung: '2026-05-05', aus_datum: '2026-05-05', aus_grund: 'Beitritt zurückgezogen', aus_ar_status: 'zugestimmt', aus_ar: 'Muster' })
   add({ anrede: 'Frau', vorname: 'Petra', nachname: 'Antrag', strasse: 'Am Hafen 3', plz: '22415', ort: 'Hamburg', email: 'petra@example.org', empfehler: 'Veranstaltung', zeichnungen: [zeichnung('', 3, '')] })
 
@@ -158,7 +164,7 @@ function demoApi() {
   const log = (r: Row, action: string, detail = '') => { r.log.unshift({ time: new Date().toISOString(), user: 'Vorschau', action, detail }); r.updated = new Date().toISOString() }
   const detail = (id: number): MemberDetail => {
     const r = row(id)
-    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), log: [...r.log] }
+    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log] }
   }
   const setSecrets = (r: Row, s: SecretsInput) => { for (const k of ['iban', 'steuer_id', 'kirchensteuer'] as const) if (s[k] !== null) r.secrets[k] = s[k] ?? '' }
   const openPortal = (id: number) => {

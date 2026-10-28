@@ -36,10 +36,6 @@ export default function Footer() {
             <p className="m-0 font-bold text-white">{company.name}</p>
             <p className="m-0">{company.street}</p>
             <p className="m-0">{company.city}</p>
-            <a href={company.phoneHref} className={linkClass}>
-              {company.phone}
-            </a>
-            <br />
             <a href={`mailto:${company.email}`} className={linkClass}>
               {company.email}
             </a>

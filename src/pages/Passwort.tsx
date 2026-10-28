@@ -155,7 +155,7 @@ export default function Passwort() {
           <div className="mt-8 rounded-card border border-line bg-white p-6 sm:p-8">
             {!IS_WORDPRESS ? (
               <p className="m-0 text-[15px] text-ink-2">
-                Bitte wenden Sie sich an unseren Mitgliederservice unter {company.phone} oder {company.email}.
+                Bitte wenden Sie sich an unseren Mitgliederservice unter {company.email}.
               </p>
             ) : resetting ? (
               <ResetForm login={login} resetKey={resetKey} />
@@ -169,7 +169,7 @@ export default function Passwort() {
               Zurück zur Anmeldung
             </a>
             <span className="mx-2 text-muted">·</span>
-            Fragen? {company.phone}
+            Fragen? <a href={`mailto:${company.email}`}>{company.email}</a>
           </p>
         </div>
       </main>

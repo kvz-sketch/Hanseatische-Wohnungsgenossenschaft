@@ -66,7 +66,7 @@ function hansea_email_html( array $args ) {
 		. '</td></tr>'
 		// Footer
 		. '<tr><td style="background:' . $navy . ';padding:24px 40px;border-radius:0 0 8px 8px;" bgcolor="' . $navy . '">'
-		. '<p style="margin:0 0 8px;font-family:' . $font . ';font-size:13px;line-height:1.6;color:#E3E4EE;"><strong style="color:#FFFFFF;">Hanseatische Invest eG</strong><br>Langenhorner Chaussee 155 · 22415 Hamburg<br>+49 40 22862372-0 · mitgliederservice@hanseainvest.de</p>'
+		. '<p style="margin:0 0 8px;font-family:' . $font . ';font-size:13px;line-height:1.6;color:#E3E4EE;"><strong style="color:#FFFFFF;">Hanseatische Invest eG</strong><br>Langenhorner Chaussee 155 · 22415 Hamburg<br>mitgliederservice@hanseainvest.de</p>'
 		. '<p style="margin:0;font-family:' . $font . ';font-size:11px;line-height:1.5;color:#8A8FB2;">Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die Zielrendite von 7 % p.a. ist nicht garantiert. Verlust bis zum Totalverlust möglich. Keine gesetzliche Einlagensicherung.</p>'
 		. '</td></tr></table></td></tr></table></body></html>';
 }

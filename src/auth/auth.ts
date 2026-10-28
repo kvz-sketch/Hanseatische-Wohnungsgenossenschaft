@@ -21,6 +21,9 @@ export type Portfolio = {
   /** Next interest payment (target, 7 % p.a.), or null when nothing is due. */
   next: { date: string; amount: number } | null
   zeichnungen: { anteile: number | null; betrag: number | null; zahlung: string }[]
+  /** Interest paid out so far (gross) and the single payments. */
+  ausgezahlt: number
+  zinszahlungen: { datum: string; zeitraum: string; betrag: number | null; steuer: number | null }[]
   /** Cancellations not yet paid out. */
   kuendigungen: { anteile: number | null; zum: string }[]
 }

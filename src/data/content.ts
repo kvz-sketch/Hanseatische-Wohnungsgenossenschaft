@@ -19,14 +19,14 @@ export const company = {
   name: 'Hanseatische Invest eG',
   street: 'Langenhorner Chaussee 155',
   city: '22415 Hamburg',
-  phone: '+49 40 22862372-0',
-  phoneHref: 'tel:+4940228623720',
   email: 'mitgliederservice@hanseainvest.de',
   register: 'Amtsgericht Hamburg, GnR 1175',
   auditor: 'DIVK Prüfungsverband',
 }
 
 export const BOOKING_URL = 'https://calendly.com/dpp-gerlachgroup/30min-erstgesprach-gig'
+/** Cornelia Richter, Mitgliederservice: 30-minute appointment. */
+export const MEMBER_SERVICE_BOOKING_URL = 'https://calendly.com/mitgliederservice-hanseainvest/30min'
 
 export const callSlots = ['Schnellstmöglich', '9–12 Uhr', '12–15 Uhr', '15–18 Uhr']
 

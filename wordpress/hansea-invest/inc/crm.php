@@ -45,6 +45,8 @@ const HANSEA_CRM_LISTS = array(
 	'zeichnungen'  => array( 'zugelassen' => 'date', 'anteile' => 'number', 'ar' => 'text', 'ar_status' => 'ar', 'zahlung' => 'date', 'betrag' => 'number', 'zins_ende' => 'date', 'zins_zahlung' => 'date' ),
 	'kuendigungen' => array( 'datum' => 'date', 'anteile' => 'number', 'zum' => 'date', 'betrag' => 'number', 'ar' => 'text', 'ar_status' => 'ar' ),
 	'bonus'        => array( 'projekt' => 'text', 'anteile' => 'number', 'betrag' => 'number', 'auszahlung' => 'date' ),
+	// Interest paid out: date, end of the interest period, gross amount, tax withheld.
+	'zinszahlungen' => array( 'datum' => 'date', 'zeitraum' => 'date', 'betrag' => 'number', 'steuer' => 'number' ),
 );
 /** Encrypted fields. */
 const HANSEA_CRM_SECRETS = array( 'iban', 'steuer_id', 'kirchensteuer' );
@@ -363,6 +365,7 @@ function hansea_crm_detail( $post_id ) {
 		),
 		'portal'  => hansea_crm_portal( $post_id ),
 		'totals'  => hansea_crm_totals( hansea_crm_record( $post_id ) ),
+		'next'    => hansea_crm_next_interest( hansea_crm_record( $post_id ), current_time( 'Y-m-d' ) ),
 		'log'     => array_values( $log ),
 	);
 }
@@ -627,7 +630,7 @@ function hansea_crm_label( $field ) {
 		'kontoinhaber' => 'Kontoinhaber', 'kuendbar_zu' => 'Kündigung möglich zu', 'empfehler' => 'Empfehler',
 		'bemerkungen' => 'Bemerkungen', 'aus_eintragung' => 'Ausscheiden: Eintragung', 'aus_grund' => 'Ausscheiden: Grund',
 		'aus_datum' => 'Tag des Ausscheidens', 'aus_ar_status' => 'Ausscheiden: Zustimmung AR', 'aus_ar' => 'Ausscheiden: AR',
-		'zeichnungen' => 'Anteile und Zahlungen', 'kuendigungen' => 'Kündigungen', 'bonus' => 'Zeichnungsbonus',
+		'zeichnungen' => 'Anteile und Zahlungen', 'kuendigungen' => 'Kündigungen', 'bonus' => 'Zeichnungsbonus', 'zinszahlungen' => 'Zinszahlungen',
 		'iban' => 'IBAN', 'steuer_id' => 'Steuer-ID', 'kirchensteuer' => 'Kirchensteuer',
 	);
 	return $labels[ $field ] ?? $field;
@@ -654,8 +657,9 @@ function hansea_crm_days( $from, $to ) {
  * a subscription earns pro rata from its payment until its first interest
  * end, then a quarter's interest each quarter. Cancelled shares earn until
  * their date. Paid by the 14th after the quarter (15 January for Q4).
+ * Quarters that already have a recorded Zinszahlung are skipped.
  *
- * @return array{date:string, amount:float}|null
+ * @return array{date:string, amount:float, period:string}|null
  */
 function hansea_crm_next_interest( array $r, $today ) {
 	// Start with the previous quarter: its payment can still be ahead.
@@ -667,7 +671,7 @@ function hansea_crm_next_interest( array $r, $today ) {
 		$q        = $end->format( 'Y-m-d' );
 		$prev_end = ( clone $end )->modify( 'first day of -3 months' )->modify( 'last day of this month' )->format( 'Y-m-d' );
 		$pay      = ( clone $end )->modify( '12' === $end->format( 'm' ) ? '+15 days' : '+14 days' )->format( 'Y-m-d' );
-		if ( $pay < $today ) {
+		if ( $pay < $today || in_array( $q, array_column( $r['zinszahlungen'], 'zeitraum' ), true ) ) {
 			continue;
 		}
 		$amount = 0.0;
@@ -694,7 +698,7 @@ function hansea_crm_next_interest( array $r, $today ) {
 				: $k['betrag'] * HANSEA_CRM_ZINS * ( hansea_crm_days( $k['zum'], $q ) - 1 ) / 365;
 		}
 		if ( $amount > 0.005 ) {
-			return array( 'date' => $pay, 'amount' => round( $amount, 2 ) );
+			return array( 'date' => $pay, 'amount' => round( $amount, 2 ), 'period' => $q );
 		}
 	}
 	return null;
@@ -725,6 +729,8 @@ function hansea_crm_portfolio( WP_User $user ) {
 		'anteile'      => $t['aktiv'],
 		'einlage'      => $einlage,
 		'zinsenJahr'   => round( $einlage * HANSEA_CRM_ZINS, 2 ),
+		'ausgezahlt'   => round( array_sum( array_column( $r['zinszahlungen'], 'betrag' ) ), 2 ),
+		'zinszahlungen' => $r['zinszahlungen'],
 		'next'         => hansea_crm_next_interest( $r, $today ),
 		'zeichnungen'  => array_map( function ( $z ) {
 			return array( 'anteile' => $z['anteile'], 'betrag' => $z['betrag'], 'zahlung' => $z['zahlung'] );

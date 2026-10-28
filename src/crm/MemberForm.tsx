@@ -215,6 +215,21 @@ export function MemberForm({
         addLabel="Bonus hinzufügen"
       />
 
+      <Rows
+        title="Zinszahlungen"
+        hint="Ausgezahlte Zinsen. Der Zeitraum ist das Ende der Zinsperiode, z. B. 31.12.2026 für das vierte Quartal."
+        rows={r.zinszahlungen}
+        cols={[
+          { key: 'datum', label: 'Ausgezahlt am', type: 'date' },
+          { key: 'zeitraum', label: 'Zeitraum bis', type: 'date' },
+          { key: 'betrag', label: 'Brutto €', type: 'number', width: '120px' },
+          { key: 'steuer', label: 'Steuer einbehalten €', type: 'number', width: '140px' },
+        ]}
+        blank={() => ({ datum: '', zeitraum: '', betrag: null, steuer: null })}
+        onChange={(rows) => set('zinszahlungen', rows)}
+        addLabel="Zinszahlung hinzufügen"
+      />
+
       <Section title="Bemerkungen">
         <Field label="Bemerkungen" className="sm:col-span-full">
           <textarea className={`${inputClass} h-auto min-h-[110px] py-2`} value={r.bemerkungen} onChange={(e) => set('bemerkungen', e.target.value)} />
