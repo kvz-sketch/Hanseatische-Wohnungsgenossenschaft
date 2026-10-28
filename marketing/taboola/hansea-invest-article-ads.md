@@ -104,29 +104,26 @@ tatsächlich? Sechs Fragen vor der Entscheidung.
 
 ---
 
-## Bildideen (je 1200 × 674, 16:9)
+## Bilder (1200 × 674 px, JPG, in `images/`)
 
-1. **A (Zeithorizont):** Tischkalender oder Jahresplaner neben Hausschlüssel,
-   ruhige Schreibtisch-Szene, Tageslicht
-2. **B (Unternehmer):** Unternehmer, etwa 45, im eigenen Betrieb oder Büro,
-   nachdenklich, nicht gestellt
-3. **B2 (Praxis):** Ärztin im leeren, hellen Praxisraum (Übernahme-Situation)
-4. **C (ab 50):** Paar um die 60 auf Balkon oder Terrasse mit Unterlagen,
-   entspannt
-5. **D (Anlageformen):** Hamburger Altbau mit Baugerüst während der
-   Modernisierung
-6. **E (Checkliste):** Hand mit Stift über ausgedruckter Checkliste, Hausmodell
-   unscharf im Hintergrund
+KI-generiert (GPT Image 2.5 über Higgsfield), ohne lesbaren Text und ohne Logos.
 
-Keine Geldbündel, keine Diagramme mit steilen Kurven, kein Text im Bild über
-etwa 20 % der Fläche.
+| Datei | Motiv | Passt zu |
+|---|---|---|
+| `images/a-zeithorizont-planer.jpg` | Jahresplaner, Hausschlüssel und Kaffee am Fenster | A1, A2, A3 |
+| `images/b-unternehmer-werkstatt.jpg` | Unternehmer, etwa 45, im eigenen Betrieb am Fenster | B1, B3 |
+| `images/b2-aerztin-praxis.jpg` | Ärztin in leeren, renovierten Praxisräumen | B2 |
+| `images/c-paar-balkon-hamburg.jpg` | Paar um die 60 mit Unterlagen auf Hamburger Balkon | C1, C2, C3 |
+| `images/d-klinkerbau-modernisierung.jpg` | Hamburger Klinkerbau mit Baugerüst | D1, D2, D3 |
+| `images/e-checkliste.jpg` | Hand mit Stift über Checkliste, Hausmodell im Hintergrund | E1, E2 |
 
 ## Testsetup
 
 - Eigene Kampagne getrennt von Runde 1 (Direktlink auf die Landingpage), damit
   sich Kosten pro Lead von Artikel-Funnel und Direkt-Funnel vergleichen lassen.
-- Start mit den 5 Winkeln je 2 Titeln und 2 Bildern; Zielgruppen-Winkel B und C
-  zusätzlich mit passendem Bild aus der Liste oben.
+- Start mit den 5 Winkeln, je 2 Titel mit dem passenden Bild aus der Tabelle;
+  als zweites Bild pro Winkel testweise `a-zeithorizont-planer.jpg` oder
+  `e-checkliste.jpg` (motivneutral).
 - Neben der Klickrate auf zwei Kennzahlen achten: Anteil der Artikel-Leser, die
   zur Landingpage weiterklicken, und Leads pro 1.000 Artikel-Besuche.
 
