@@ -117,7 +117,9 @@
       "group": "okt-objekt",
       "type": "Objekt-Anzeige",
       "portalAd": "Objekt Düsseldorf-Oberbilk · ab 172.000 € · ab 3.000 € Eigenkapital · rund 5 % Bruttorendite · +200 € Cashflow pro Monat",
-      "images": [],
+      "images": [
+        "CL_DUS_Oberbilk_Altbau"
+      ],
       "firstTermin": "2026-10-03",
       "lastTermin": "2026-10-28",
       "termine": 20,
@@ -136,7 +138,10 @@
       "group": "okt-objekt",
       "type": "Objekt-Anzeige",
       "portalAd": "Objekt Bonn-Hardtberg · ab 271.000 € · ab 5.000 € Eigenkapital · 5,3 % Bruttorendite · +200 € Cashflow pro Monat",
-      "images": [],
+      "images": [
+        "CL_Bonn_Westen_Innen",
+        "CL_Bonn_Westen_Fassade"
+      ],
       "firstTermin": "2026-10-05",
       "lastTermin": "2026-10-08",
       "termine": 4,
