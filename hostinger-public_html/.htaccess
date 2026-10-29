@@ -1,0 +1,28 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+
+# Main domain (with or without www) forwards to the Exposé site, keeping the path
+RewriteCond %{HTTP_HOST} ^(www\.)?hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^(.*)$ https://exposees.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Lead magnet: superreichensteuer.* is served from the /superreichensteuer/ folder
+RewriteCond %{HTTP_HOST} ^superreichensteuer\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/superreichensteuer/
+RewriteRule ^(.*)$ /superreichensteuer/$1 [L]
+
+# The lead magnet folder is only reachable under its own address
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^superreichensteuer/(.*)$ https://superreichensteuer.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Lead magnet: 120wohnungen.* is served from the /120-wohnungen/ folder
+RewriteCond %{HTTP_HOST} ^120wohnungen\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/120-wohnungen/
+RewriteRule ^(.*)$ /120-wohnungen/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^120-wohnungen/(.*)$ https://120wohnungen.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Forgive links with junk pasted after ".html" (e.g. "seite.htmlgedorf" -> "seite.html")
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-z0-9-]+\.html).+$ /$1 [R=301,L]
