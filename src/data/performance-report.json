@@ -44,10 +44,11 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
       "perspectiveFunnelId": "6a7ed6e71f79146cdd7611b7",
       "leadStatus": {
-        "neu": 2,
-        "nichtErreicht": 5,
-        "disqualifiziert": 23,
-        "wiedervorlage": 3
+        "neu": 0,
+        "nichtErreicht": 3,
+        "disqualifiziert": 30,
+        "wiedervorlage": 3,
+        "closing": 1
       },
       "ads": [
         {
@@ -203,7 +204,7 @@
       ],
       "note": "Meta meldet 29 Website-Leads bei 140,93 € je Lead. Perspective bestätigt 36 echte Kontakte (280926_Bergedorf_Ad3: 15, 280926_Bergedorf_Ad4: 12, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 7, 280926_Bergedorf_Ad9: 1). 8 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 26. Oktober 2026.",
       "incomplete": false,
-      "leadStatusSource": "HubSpot, 26.10.2026 · 33 Deals"
+      "leadStatusSource": "HubSpot, 29.10.2026 · 37 Deals"
     },
     {
       "id": "fullservice",
