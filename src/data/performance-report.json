@@ -560,6 +560,57 @@
       "leadStatusSource": "HubSpot, 29.10.2026 · 189 Deals"
     },
     {
+      "id": "hansea-grow",
+      "name": "261026_Hansea Grow",
+      "meta": {
+        "level": "campaign",
+        "id": "120251180197630344"
+      },
+      "status": "active",
+      "objective": "Leads (Formular)",
+      "dailyBudget": 100,
+      "spend": 62.98,
+      "reach": 1225,
+      "impressions": 1439,
+      "delivery": "seit 26. Okt 2026",
+      "recommendations": 0,
+      "metaResults": 1,
+      "metaCostPerResult": 62.98,
+      "perspectiveLeads": 0,
+      "perspectiveFunnel": "Hansea Grow: Meta Lead-Formular (kein Perspective-Funnel)",
+      "perspectiveFunnelUrl": "",
+      "leadSource": "meta-form",
+      "incomplete": false,
+      "unattributedLeadsCount": 1,
+      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 1 Lead bei 62,98 € Ausgaben (Stand 29. Oktober 2026). Ausgespielt werden aktuell nur die zwei Videos (Dane, Julia); die vier Bild-Anzeigen im Ad Set „261026_Hansea Grow_Bild“ sind pausiert und hatten noch keine Auslieferung.",
+      "ads": [
+        {
+          "id": "grow-dane",
+          "name": "260126_Hansea Grow_Video_Dane",
+          "metaAdId": "120251181717610344",
+          "image": "261026_Hansea_Grow_Video_Dane",
+          "videoUrl": "/videos/261026_Hansea_Grow_Video_Dane.mp4",
+          "metaResults": 1,
+          "metaCostPerResult": 46.41,
+          "spend": 46.41,
+          "reach": 1076,
+          "impressions": 1243
+        },
+        {
+          "id": "grow-julia",
+          "name": "260126_Hansea Grow_Video_Julia",
+          "metaAdId": "120251233979690344",
+          "image": "261026_Hansea_Grow_Video_Julia",
+          "videoUrl": "/videos/261026_Hansea_Grow_Video_Julia.mp4",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 16.57,
+          "reach": 185,
+          "impressions": 196
+        }
+      ]
+    },
+    {
       "id": "hansea-invest-videos",
       "name": "250926_Hansea Invest_Videos",
       "meta": {

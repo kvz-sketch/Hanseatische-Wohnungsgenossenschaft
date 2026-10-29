@@ -187,14 +187,18 @@ export function PerformanceMarketingReport() {
                   <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-navy/10 pb-2">
                     <div className="flex items-baseline gap-2.5">
                       <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">Funnel</span>
-                      <a
-                        href={group.funnelUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="subheading text-[14px] text-navy underline decoration-koralle/30 underline-offset-2 hover:text-koralle hover:decoration-koralle"
-                      >
-                        {group.funnel} ↗
-                      </a>
+                      {group.funnelUrl ? (
+                        <a
+                          href={group.funnelUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="subheading text-[14px] text-navy underline decoration-koralle/30 underline-offset-2 hover:text-koralle hover:decoration-koralle"
+                        >
+                          {group.funnel} ↗
+                        </a>
+                      ) : (
+                        <span className="subheading text-[14px] text-navy">{group.funnel}</span>
+                      )}
                       <span className="text-[11px] text-muted">
                         · {group.campaigns.length} {group.campaigns.length === 1 ? "Kampagne" : "Kampagnen"}
                       </span>
