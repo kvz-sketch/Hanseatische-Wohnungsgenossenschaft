@@ -56,7 +56,9 @@ jobs:
 
       # Assets go up before index.html so the live page never points at missing
       # files; stale hashed assets are pruned only after the new index.html is in
-      # place. Nothing outside assets/ is ever deleted.
+      # place. Nothing outside assets/ is ever deleted: hanseagrow/ (root of the
+      # subdomain hanseagrow.gerlach-group.de) and anything else on the server
+      # must stay. See docs/deploy.md.
       - name: Upload to Hostinger
         if: env.FTP_SERVER != ''
         env:
