@@ -582,7 +582,7 @@
       "leadSource": "meta-form",
       "incomplete": false,
       "unattributedLeadsCount": 1,
-      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 1 Lead bei 62,98 € Ausgaben (Stand 29. Oktober 2026). Ausgespielt werden aktuell nur die zwei Videos (Dane, Julia); die vier Bild-Anzeigen im Ad Set „261026_Hansea Grow_Bild“ sind pausiert und hatten noch keine Auslieferung.",
+      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 1 Lead bei 62,98 € Ausgaben (Stand 29. Oktober 2026). Ausgespielt werden aktuell nur die zwei Videos (Dane, Julia). Die vier Bild-Anzeigen im Ad Set „261026_Hansea Grow_Bild“ sind pausiert und hatten noch keine Auslieferung; sie sind unten trotzdem mit ihren Motiven aufgeführt.",
       "ads": [
         {
           "id": "grow-dane",
@@ -607,6 +607,54 @@
           "spend": 16.57,
           "reach": 185,
           "impressions": 196
+        },
+        {
+          "id": "grow-bild-01",
+          "name": "261026_Hansea Grow_Bild_01",
+          "metaAdId": "120251181375210344",
+          "image": "261026_Hansea_Grow_Bild_01",
+          "badge": "Pausiert, keine Auslieferung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0,
+          "reach": 0,
+          "impressions": 0
+        },
+        {
+          "id": "grow-bild-02",
+          "name": "261026_Hansea Grow_Bild_02",
+          "metaAdId": "120251181387710344",
+          "image": "261026_Hansea_Grow_Bild_02",
+          "badge": "Pausiert, keine Auslieferung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0,
+          "reach": 0,
+          "impressions": 0
+        },
+        {
+          "id": "grow-bild-03",
+          "name": "261026_Hansea Grow_Bild_03",
+          "metaAdId": "120251181401730344",
+          "image": "261026_Hansea_Grow_Bild_03",
+          "badge": "Pausiert, keine Auslieferung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0,
+          "reach": 0,
+          "impressions": 0
+        },
+        {
+          "id": "grow-bild-04",
+          "name": "261026_Hansea Grow_Bild_04",
+          "metaAdId": "120251181434960344",
+          "image": "261026_Hansea_Grow_Bild_04",
+          "badge": "Pausiert, keine Auslieferung",
+          "metaResults": null,
+          "metaCostPerResult": null,
+          "spend": 0,
+          "reach": 0,
+          "impressions": 0
         }
       ]
     },
