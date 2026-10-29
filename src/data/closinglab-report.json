@@ -395,7 +395,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "330.000 € · 5,3 % Rendite · Hamburger Umland",
-      "images": [],
+      "images": [
+        "CL_HH_Umland_330K"
+      ],
       "firstTermin": "2026-07-24",
       "lastTermin": "2026-07-24",
       "termine": 1,
@@ -415,7 +417,8 @@
       "type": "Objekt-Anzeige",
       "portalAd": "290.000 € · 5,5 % Rendite · Nordrhein-Westfalen (1 Termin mit 289.500 €)",
       "images": [
-        "CL_NRW_290K_Sparbuch"
+        "CL_NRW_290K_Sparbuch",
+        "CL_NRW_290K_ErsteKapitalanlage"
       ],
       "firstTermin": "2026-07-04",
       "lastTermin": "2026-07-27",
