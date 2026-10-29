@@ -62,7 +62,7 @@ export type ClosingLabCreative = {
   id: string;
   name: string;
   group: string;
-  /** "Objekt-Anzeige", "Video", "Aktions-Anzeige" or "unbekannt". */
+  /** "Objekt-Anzeige", "Video", "Aktions-Anzeige", "Steuer-Anzeige" or "unbekannt". */
   type: string;
   /** The ad text the portal records for the Termin. */
   portalAd: string;

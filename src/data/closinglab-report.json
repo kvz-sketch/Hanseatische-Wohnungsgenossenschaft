@@ -215,9 +215,12 @@
       "id": "ad-motiv",
       "name": "„Ad-Motiv“ (im Portal nicht benannt)",
       "group": "ad-motiv",
-      "type": "unbekannt",
+      "type": "Steuer-Anzeige",
       "portalAd": "Im Portal nur als „Ad-Motiv“ erfasst",
-      "images": [],
+      "images": [
+        "CL_AdMotiv_WasKostetNichtstun",
+        "CL_AdMotiv_ImmoSteuerAngebot"
+      ],
       "firstTermin": "2026-07-30",
       "lastTermin": "2026-09-30",
       "termine": 17,
