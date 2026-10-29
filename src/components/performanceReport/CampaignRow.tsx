@@ -111,7 +111,7 @@ export function CampaignRow({
             )}
             {!!campaign.leadStatus.closing && (
               <span className="rounded-[2px] bg-[#1f8a5a]/10 px-2 py-0.5 text-[11px] font-bold text-[#1f8a5a]">
-                {campaign.leadStatus.closing} Bereit fürs Closing
+                {campaign.leadStatus.closing} Im Closing
               </span>
             )}
             <span className="rounded-[2px] bg-navy/[0.06] px-2 py-0.5 text-[11px] font-bold text-navy">

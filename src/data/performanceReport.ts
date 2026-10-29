@@ -45,7 +45,7 @@ export type LeadStatus = {
   nichtErreicht: number;
   disqualifiziert: number;
   abschluss?: number;
-  /** HubSpot "Bereit fürs 1. Closing": qualified, handed over to closing. */
+  /** In the HubSpot closing pipeline ("Bereit fürs 1. Closing" and later stages): qualified, handed over to closing. */
   closing?: number;
   /** HubSpot "Wiedervorlage" — follow-up scheduled. */
   wiedervorlage?: number;
