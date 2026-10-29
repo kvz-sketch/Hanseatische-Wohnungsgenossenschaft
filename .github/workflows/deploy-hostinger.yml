@@ -1,10 +1,11 @@
 # Builds the marketing dashboard and uploads dist/ to Hostinger over FTPS (lftp)
 # on every push to the dashboard branch. The site behind it serves both
-# pink-scorpion-227708.hostingersite.com and marketing.gerlach-group.de.
+# marketing.gerlach-group.de (Hostinger website gerlach-group.de; the dashboard
+# is only used through the marketing subdomain).
 #
 # Required repository secrets (Settings → Secrets and variables → Actions):
 #   HOSTINGER_FTP_SERVER    FTP hostname from hPanel → Files → FTP Accounts
-#   HOSTINGER_FTP_USERNAME  FTP user of the pink-scorpion website
+#   HOSTINGER_FTP_USERNAME  FTP user of the gerlach-group.de website
 #   HOSTINGER_FTP_PASSWORD  password of that FTP user
 # Optional:
 #   HOSTINGER_FTP_SERVER_DIR  web root as seen by that FTP user, ending in "/"
@@ -82,7 +83,7 @@ jobs:
         if: env.FTP_SERVER != ''
         run: |
           expected=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' dist/index.html)
-          for url in https://marketing.gerlach-group.de/dashboard https://pink-scorpion-227708.hostingersite.com/dashboard; do
+          for url in https://marketing.gerlach-group.de/dashboard; do
             live=$(curl -fsS -H 'Cache-Control: no-cache' "$url" | grep -o 'assets/index-[A-Za-z0-9_-]*\.js' || true)
             echo "$url → ${live:-nothing found} (expected $expected)"
             [ "$live" = "$expected" ] || echo "::warning::$url does not serve the new build yet (CDN cache?)"

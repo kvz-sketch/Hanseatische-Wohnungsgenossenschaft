@@ -12,7 +12,7 @@ replaced on the server.
 |---|---|
 | Spend, reach, impressions, Meta results, status, budget | Meta Ads MCP, ad account **GIGxHansea** `1606528074401845` |
 | Real lead counts and dates | Perspective MCP, workspace **Funnels** `6a7d902c7dab204368ae12c8` |
-| Live site | Hostinger, user `u873563229`, domain `pink-scorpion-227708.hostingersite.com` |
+| Live site | https://marketing.gerlach-group.de (the only address in use). Hostinger user `u873563229`, website `gerlach-group.de` in the API, with `marketing.gerlach-group.de` parked on it |
 
 Every report campaign in the JSON is pinned to its Meta object
 (`meta: { level, id }`; most are Meta **ad sets**, the two Full-Service rows
@@ -128,11 +128,11 @@ otherwise Perspective leads.
    working branch.
 4. Upload the JSON to the live site with Hostinger's
    `hosting_files_generate-upload-url` (`username: u873563229`,
-   `domain: pink-scorpion-227708.hostingersite.com`). Use TUS to
+   `domain: gerlach-group.de`). Use TUS to
    `data/performance-report.json?override=true`, as in that operation's
    description: a `POST` with `Upload-Length`, then a `PATCH` with the bytes.
 5. Verify:
-   `curl -s https://pink-scorpion-227708.hostingersite.com/data/performance-report.json | head -c 200`
+   `curl -s https://marketing.gerlach-group.de/data/performance-report.json | head -c 200`
    must show the new `asOf`.
 
 If Meta or Perspective is unreachable, stop and publish nothing. Yesterday's
