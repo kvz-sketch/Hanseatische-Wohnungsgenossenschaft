@@ -46,7 +46,7 @@
       "leadStatus": {
         "neu": 0,
         "nichtErreicht": 3,
-        "disqualifiziert": 30,
+        "disqualifiziert": 28,
         "wiedervorlage": 3,
         "closing": 1
       },
@@ -204,7 +204,7 @@
       ],
       "note": "Meta meldet 29 Website-Leads bei 140,93 € je Lead. Perspective bestätigt 36 echte Kontakte (280926_Bergedorf_Ad3: 15, 280926_Bergedorf_Ad4: 12, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 7, 280926_Bergedorf_Ad9: 1). 8 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 26. Oktober 2026.",
       "incomplete": false,
-      "leadStatusSource": "HubSpot, 29.10.2026 · 37 Deals"
+      "leadStatusSource": "HubSpot, 29.10.2026 · 35 Deals (ohne 2 Test-Deals)"
     },
     {
       "id": "fullservice",
