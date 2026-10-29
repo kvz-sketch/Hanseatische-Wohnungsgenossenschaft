@@ -176,7 +176,7 @@ function demoApi() {
   })
   type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string; docs: (CrmDocument & { url: string })[]; beschluesse: Beschluss[] }
   // Demo: the three Aufsichtsrat members vote one after another from this browser.
-  const AR = ['Bartlau', 'Kogan', 'Pistorius']
+  const AR = ['Bartlau', 'Dobuch', 'Kogan']
   const rows = new Map<number, Row>()
   let nextId = 1
   const add = (patch: Partial<MemberRecord>, secrets: Partial<Secrets> = {}, portal: Portal = { status: 'keiner' }) => {
