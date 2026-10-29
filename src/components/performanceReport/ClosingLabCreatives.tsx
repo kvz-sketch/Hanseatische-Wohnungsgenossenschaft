@@ -209,7 +209,7 @@ export function ClosingLabCreatives({
           </table>
         </div>
         <p className="mt-3 text-[11px] leading-relaxed text-muted">
-          In Pipeline: nach dem Termin in Bereit fürs 1. Closing, Bedarfsanalyse- oder Objektfindungsphase. Kosten: Termine × {fmtEur(price)}. Leads aus dem Oktober sind jünger;
+          In Pipeline: nach dem Termin in Bereit fürs 1. Closing, Bedarfsanalyse- oder Objektfindungsphase. Kosten: Termine × {price.toLocaleString("de-DE", { style: "currency", currency: "EUR" })} (Vertragspreis je Termin). Leads aus dem Oktober sind jünger;
           ein Teil der Pipeline kann noch disqualifiziert werden.
         </p>
       </div>

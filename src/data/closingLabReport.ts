@@ -26,19 +26,17 @@ export type ClosingLabStage = {
   count: number;
 };
 
-/** One Closing Lab invoice (monthly billing period). Amounts in EUR, dates ISO. */
-export type ClosingLabInvoice = {
-  from: string;
-  to: string;
-  /** Booked appointments; null when the invoice doesn't itemise them. */
-  quantity: number | null;
-  unit: string;
-  unitPrice: number | null;
-  /** One-off setup fee, null or 0 when none. */
-  setup: number | null;
-  total: number;
-  status: "paid" | "open" | "overdue" | "draft";
-  paidOn: string | null;
+/** What Closing Lab costs under the contract. Amounts in EUR, dates ISO. */
+export type ClosingLabCosts = {
+  source: string;
+  /** Monthly fee. */
+  monthly: number;
+  /** Termine the monthly fee covers. */
+  termineProMonat: number;
+  since: string;
+  /** Paid so far, including the one-off setup. */
+  paidToDate: number;
+  setup: number;
 };
 
 /** Termine from the Closing Lab portal, overall. */
@@ -52,7 +50,7 @@ export type ClosingLabTermine = {
   noShow: number;
   /** Unconfirmed or postponed. */
   offen: number;
-  /** What Closing Lab bills per Termin, in EUR. */
+  /** Contract price per Termin (monthly fee / Termine per month), in EUR. */
   pricePerTermin: number;
   note: string;
 };
@@ -94,9 +92,7 @@ export type ClosingLabReport = {
   note: string;
   leadStatusSource: string;
   stages: ClosingLabStage[];
-  invoicesSource?: string;
-  /** Newest first. */
-  invoices?: ClosingLabInvoice[];
+  costs?: ClosingLabCosts;
   termine?: ClosingLabTermine;
   creativeGroups?: ClosingLabCreativeGroup[];
   creatives?: ClosingLabCreative[];
