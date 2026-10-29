@@ -248,7 +248,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "392.500 € · 5,0 % Rendite · A-Lage Hamburg",
-      "images": [],
+      "images": [
+        "CL_HH_392K_ALage"
+      ],
       "firstTermin": "2026-07-29",
       "lastTermin": "2026-08-13",
       "termine": 8,
