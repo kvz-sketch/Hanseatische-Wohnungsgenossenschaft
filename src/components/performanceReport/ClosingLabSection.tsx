@@ -1,5 +1,6 @@
 import { useClosingLabReport, type ClosingLabInvoice, type ClosingLabStage } from "../../data/closingLabReport";
 import { Kpi } from "./AgencySection";
+import { ClosingLabCreatives } from "./ClosingLabCreatives";
 
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
 const fmtPct = (v: number) => `${Math.round(v * 100)} %`;
@@ -187,8 +188,12 @@ export function ClosingLabSection() {
           />
         )}
 
+        {report.termine && report.creatives && report.creatives.length > 0 && (
+          <ClosingLabCreatives termine={report.termine} groups={report.creativeGroups ?? []} creatives={report.creatives} />
+        )}
+
         <div className="mt-4 rounded-md border border-dashed border-navy/15 bg-mist px-5 py-4 text-[12px] text-muted">
-          Kampagnen und Anzeigen von {report.agency} folgen, sobald wir Zugriff auf die Daten haben.
+          Ausgaben, Reichweite und Leads je Anzeige aus Meta folgen, sobald wir Zugriff auf das Werbekonto von {report.agency} haben.
         </div>
       </div>
     </section>
