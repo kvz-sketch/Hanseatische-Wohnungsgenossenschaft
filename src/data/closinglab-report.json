@@ -298,7 +298,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "315.000 € · 68 m² · 3,9 % Rendite · Stadtrand Hamburg",
-      "images": [],
+      "images": [
+        "CL_HH_315K_Stadtrand68"
+      ],
       "firstTermin": "2026-09-08",
       "lastTermin": "2026-09-08",
       "termine": 1,
