@@ -403,7 +403,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "327.900 € · 5,3 % Rendite · Hamburger Umland",
-      "images": [],
+      "images": [
+        "CL_HH_Umland_327K"
+      ],
       "firstTermin": "2026-07-10",
       "lastTermin": "2026-07-23",
       "termine": 3,
