@@ -8,6 +8,8 @@ type Tile = {
   description: string;
   to?: string;
   external?: string;
+  /** Standalone page on this site outside the SPA (full page load, same tab). */
+  href?: string;
   /** Small extra line under the description, e.g. access details. */
   note?: string;
   status: "live" | "soon";
@@ -117,6 +119,15 @@ function IconFlow({ className = "" }: { className?: string }) {
   );
 }
 
+function IconPlanner({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <rect x="4" y="5" width="16" height="15" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M8 3.5v3M16 3.5v3M4 9.5h16M8 13h3M8 16.5h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function IconChart({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -151,6 +162,14 @@ const tiles: Tile[] = [
     to: "/dashboard/videoplan",
     status: "live",
     icon: IconCalendar,
+  },
+  {
+    id: "redaktionsplan",
+    title: "Redaktionsplan",
+    description: "Posts, Stories, Videos und LinkedIn-Beiträge im Wochenplan, mit Captions, Motiven und Freigabestatus.",
+    href: "/tools/redaktionsplan/",
+    status: "live",
+    icon: IconPlanner,
   },
   {
     id: "prozesse",
@@ -261,6 +280,13 @@ function TileCard({ tile }: { tile: Tile }) {
   if (tile.external) {
     return (
       <a href={tile.external} target="_blank" rel="noopener noreferrer" className="block h-full">
+        {inner}
+      </a>
+    );
+  }
+  if (tile.href) {
+    return (
+      <a href={tile.href} className="block h-full">
         {inner}
       </a>
     );
