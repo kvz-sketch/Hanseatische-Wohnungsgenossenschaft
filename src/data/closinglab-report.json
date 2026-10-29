@@ -205,7 +205,9 @@
       "group": "okt-video",
       "type": "Video",
       "portalAd": "Objekt Düsseldorf-Oberbilk · Zeichentrick Steuer-Erklärung · 8,33 % Abschreibung · +200 € Cashflow · ab 3.000 € Eigenkapital",
-      "images": [],
+      "images": [
+        "CL_DUS_Zeichentrick_Steuern"
+      ],
       "firstTermin": "2026-10-16",
       "lastTermin": "2026-10-19",
       "termine": 2,
@@ -243,7 +245,10 @@
       "group": "okt-aktion",
       "type": "Aktions-Anzeige",
       "portalAd": "Kein bestimmtes Objekt · Anzeige „ab 3.000 € Eigenkapital, Grunderwerbsteuer zahlt der Verkäufer“ · Aktion bis 31.12.2026",
-      "images": [],
+      "images": [
+        "CL_Aktion_3000EK_Grunderwerbsteuer",
+        "CL_Aktion_3000EK_SoFunktionierts"
+      ],
       "firstTermin": "2026-10-05",
       "lastTermin": "2026-10-05",
       "termine": 1,
