@@ -277,7 +277,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "315.000 € · 58 m² · 3,6 % Rendite · B-Lage Hamburg",
-      "images": [],
+      "images": [
+        "CL_HH_315K_BLage"
+      ],
       "firstTermin": "2026-08-24",
       "lastTermin": "2026-08-31",
       "termine": 4,
@@ -315,7 +317,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "289.000 € · 62 m² · 3,9 % Rendite · Stadtrand Hamburg",
-      "images": [],
+      "images": [
+        "CL_HH_289K_Stadtrand"
+      ],
       "firstTermin": "2026-08-13",
       "lastTermin": "2026-08-24",
       "termine": 2,
@@ -334,7 +338,9 @@
       "group": "hh",
       "type": "Objekt-Anzeige",
       "portalAd": "329.000 € · 34 m² · 3,0 % Rendite · TOP-A-Lage Hamburg",
-      "images": [],
+      "images": [
+        "CL_HH_329K_TopALage"
+      ],
       "firstTermin": "2026-08-18",
       "lastTermin": "2026-08-18",
       "termine": 1,
