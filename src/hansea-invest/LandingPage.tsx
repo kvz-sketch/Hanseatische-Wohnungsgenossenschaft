@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../components/ui/Button";
 import { Reveal } from "../components/Reveal";
 import { team } from "../data/content";
+import bookCover from "./assets/buch-immobilien-investitionen-leicht-gemacht.jpg";
 import { Calculator } from "./components/Calculator";
 import logoNavy from "./assets/logo-hanseatische-invest-navy.png";
 import logoWhite from "./assets/logo-hanseatische-invest-white.png";
@@ -10,7 +11,7 @@ import {
   contact,
   facts,
   faq,
-  group,
+  ceo,
   legal,
   offer,
   opportunities,
@@ -20,7 +21,7 @@ import {
 } from "./content";
 
 const FORM_ID = "infopaket";
-const people = team.filter((p) => ["CEO", "CFO", "Director Relationship Management"].includes(p.role));
+const ceoPhoto = team.find((p) => p.name === "Stephan Gerlach")?.photo;
 
 export function LandingPage() {
   return (
@@ -33,7 +34,7 @@ export function LandingPage() {
         <HowItWorks />
         <CalculatorSection />
         <WhyHamburg />
-        <Group />
+        <Ceo />
         <ChancesRisks />
         <Faq />
         <FinalCta />
@@ -220,38 +221,70 @@ function WhyHamburg() {
   );
 }
 
-function Group() {
+function Ceo() {
   return (
     <section className="bg-navy px-5 py-16 text-white sm:px-8 md:py-20 lg:px-11">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <Reveal>
+          <figure className="mx-auto max-w-[420px] lg:mx-0">
+            <img
+              src={ceoPhoto}
+              alt={`${ceo.name}, ${ceo.role}`}
+              loading="lazy"
+              className="aspect-[4/5] w-full max-w-full rounded-md object-cover"
+            />
+            <figcaption className="mt-4">
+              <div className="subheading text-[18px]">{ceo.name}</div>
+              <div className="mt-0.5 text-[13.5px] text-fog/80">{ceo.role}</div>
+              <a
+                href={ceo.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block text-[13px] font-semibold text-gold underline-offset-2 hover:underline"
+              >
+                LinkedIn-Profil
+              </a>
+            </figcaption>
+          </figure>
+        </Reveal>
+        <Reveal delay={100}>
           <span className="subheading text-[11px] uppercase tracking-[0.2em] text-gold">Wer dahintersteht</span>
-          <h2 className="font-serif-display mt-3 text-[28px] leading-tight sm:text-[34px]">{group.heading}</h2>
-          <p className="mt-4 text-[15.5px] leading-relaxed text-fog">{group.paragraph}</p>
-          <ul className="mt-6 flex flex-col gap-2.5 text-[15px]">
-            {group.points.map((p) => (
-              <li key={p} className="flex items-center gap-3">
-                <Check />
-                {p}
-              </li>
-            ))}
-          </ul>
+          <h2 className="font-serif-display mt-3 text-[28px] leading-tight [text-wrap:balance] sm:text-[34px]">
+            {ceo.heading}
+          </h2>
+          {ceo.paragraphs.map((text) => (
+            <p key={text.slice(0, 30)} className="mt-4 text-[15.5px] leading-relaxed text-fog">
+              {text}
+            </p>
+          ))}
+
+          <a
+            href={ceo.book.url}
+            target="_blank"
+            rel="noreferrer"
+            className="group mt-8 flex gap-5 rounded-md border border-white/15 bg-white/[0.06] p-4 transition-colors hover:border-gold/60 sm:p-5"
+          >
+            <img
+              src={bookCover}
+              alt={`Buchcover: ${ceo.book.title}`}
+              loading="lazy"
+              className="h-auto w-[92px] flex-none rounded-[3px] shadow-[0_10px_24px_rgba(0,0,0,0.35)] sm:w-[110px]"
+            />
+            <div className="min-w-0">
+              <span className="subheading inline-block rounded-[2px] bg-gold px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-navy">
+                {ceo.book.badge}
+              </span>
+              <div className="subheading mt-2.5 text-[17px] leading-snug text-white">{ceo.book.title}</div>
+              <div className="mt-1 text-[13px] leading-snug text-fog/80">{ceo.book.subtitle}</div>
+              <p className="mt-2.5 text-[13.5px] leading-relaxed text-fog">{ceo.book.text}</p>
+              <span className="mt-3 inline-block text-[13px] font-semibold text-gold group-hover:underline">
+                Zum Buch beim {ceo.book.publisher} →
+              </span>
+            </div>
+          </a>
+
           <p className="mt-6 text-[13px] text-fog/70">Sitz: {contact.address}</p>
         </Reveal>
-        <div className="grid grid-cols-3 gap-3 self-center sm:gap-4">
-          {people.map((p, i) => (
-            <Reveal key={p.name} delay={i * 90}>
-              <img
-                src={p.photo}
-                alt={p.name}
-                loading="lazy"
-                className="aspect-[3/4] w-full rounded-md object-cover grayscale-[20%]"
-              />
-              <div className="subheading mt-2.5 text-[13px] leading-tight">{p.name}</div>
-              <div className="mt-0.5 text-[11.5px] leading-snug text-fog/70">{p.role}</div>
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );

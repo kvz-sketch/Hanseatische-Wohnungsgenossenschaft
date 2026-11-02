@@ -63,15 +63,24 @@ export const reasons = [
   },
 ];
 
-export const group = {
-  heading: "Hinter der Hanseatische Invest eG steht die Gerlach Immobilien Gruppe",
-  paragraph:
-    "Die Gerlach Immobilien Gruppe aus Hamburg erwirbt und entwickelt Mehrfamilienhäuser in Norddeutschland und begleitet sie vom Ankauf über die Sanierung bis zur Vermietung und Verwaltung. Über die Hanseatische Invest eG können sich auch Privatanleger an diesem Bestand beteiligen.",
-  points: [
-    "Ankauf & Bestand in Norddeutschland",
-    "Nachhaltige Sanierung & Entwicklung",
-    "Vermietung & Verwaltung aus einer Hand",
+// "Wer dahintersteht": facts as stated on hanseainvest.de (Nov 2026).
+export const ceo = {
+  name: "Stephan Gerlach",
+  role: "Vorstand der Hanseatischen Invest eG",
+  heading: "Stephan Gerlach: der Kopf hinter der Hanseatischen Invest eG",
+  paragraphs: [
+    "Stephan Gerlach ist Vorstand der Hanseatischen Invest eG und Gründer der Gerlach Immobilien Gruppe aus Hamburg. Er gilt als Experte für Kapitalanlage-Immobilien.",
+    "Mit der Gerlach Immobilien Gruppe kauft er Mehrfamilienhäuser, modernisiert sie und verkauft die Wohnungen einzeln. Über die Hanseatische Invest eG können sich Anleger an dieser Strategie beteiligen.",
   ],
+  linkedin: "https://www.linkedin.com/in/stephan-gerlach-3798ba245/",
+  book: {
+    badge: "Spiegel-Bestseller",
+    title: "Immobilien Investitionen leicht gemacht",
+    subtitle: "Passives Einkommen und Dein Weg zur finanziellen Unabhängigkeit",
+    text: "Der Spiegel-Bestseller von Stephan Gerlach: Ihr Leitfaden für Immobilien als Kapitalanlage.",
+    publisher: "Remote Verlag",
+    url: "https://www.remote-verlag.de/products/immobilien-investitionen-leicht-gemacht",
+  },
 };
 
 export const opportunities = [
