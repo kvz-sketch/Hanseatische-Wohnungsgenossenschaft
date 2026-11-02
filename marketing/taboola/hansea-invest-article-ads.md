@@ -1,6 +1,6 @@
 # Hansea Invest: Taboola Native Ads für den Ratgeber-Artikel (Runde 2)
 
-Ziel-URL: `/hansea-invest/ratgeber/` (Artikel „Immobilieninvestitionen müssen zur
+Ziel-URL: `https://hanseainvest.de/hansea-invest/ratgeber/` (Artikel „Immobilieninvestitionen müssen zur
 Lebensplanung passen“), von dort weiter zum Infopaket auf `/hansea-invest/`.
 Tracking-Parameter an die URL anhängen:
 `?tblci={click_id}&utm_source=taboola&utm_campaign={campaign_name}&utm_content={campaign_item_id}`
@@ -20,8 +20,7 @@ Branding-Text max. 25 Zeichen, Bild 1200 × 674 px.
 
 **Upload-Bogen:** `hansea-invest-article-ads.csv` (Semikolon-getrennt, UTF-8)
 enthält alle 14 Anzeigen mit Titel, Beschreibung, Branding, Button
-„Weiterlesen“, Bilddatei und Ziel-URL. `DOMAIN` in der Ziel-URL durch die
-Live-Domain ersetzen.
+„Weiterlesen“, Bilddatei und Ziel-URL auf `https://hanseainvest.de`.
 
 > Zeichenzahlen in Klammern: Titel / Beschreibung.
 
