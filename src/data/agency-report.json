@@ -1,6 +1,6 @@
 {
-  "asOf": "26.10.2026",
-  "updatedAt": "2026-10-26",
+  "asOf": "02.11.2026",
+  "updatedAt": "2026-11-02",
   "agency": "ImmoMarketer",
   "account": {
     "name": "GerlachxImmo-Marketer",
@@ -14,11 +14,11 @@
       "status": "active",
       "objective": "Leads (Meta-Formular)",
       "start": "2026-09-07",
-      "spend": 1405.79,
-      "impressions": 44481,
-      "reach": 23431,
-      "clicks": 735,
-      "leads": 31,
+      "spend": 1603.46,
+      "impressions": 49105,
+      "reach": 25540,
+      "clicks": 809,
+      "leads": 32,
       "leadStatus": {
         "closing": 2,
         "closingStages": [
@@ -35,22 +35,34 @@
           "status": "active",
           "start": "2026-10-21",
           "dailyBudget": 16.5,
-          "spend": 99.57,
-          "impressions": 1627,
-          "reach": 1169,
-          "clicks": 35,
+          "spend": 197.87,
+          "impressions": 3026,
+          "reach": 2062,
+          "clicks": 58,
           "leads": 1,
           "ads": [
+            {
+              "id": "52542226370575",
+              "name": "Video1_LeadGen_29.10.2026_Kapitalanleger",
+              "image": "IM_Video1_Kapitalanleger",
+              "video": "/videos/IM_Video1_Kapitalanleger.mp4",
+              "status": "active",
+              "spend": 41.22,
+              "impressions": 618,
+              "reach": 579,
+              "clicks": 10,
+              "leads": 0
+            },
             {
               "id": "52540241438175",
               "name": "Video4_LeadGen_21.10.2026_Kapitalanleger",
               "image": "IM_Video4_Kapitalanleger",
               "video": "/videos/IM_Video4_Kapitalanleger.mp4",
-              "status": "active",
-              "spend": 83.52,
-              "impressions": 1243,
-              "reach": 928,
-              "clicks": 29,
+              "status": "off",
+              "spend": 121.95,
+              "impressions": 1729,
+              "reach": 1211,
+              "clicks": 36,
               "leads": 1
             },
             {
@@ -59,10 +71,10 @@
               "image": "IM_Video7_Kapitalanleger",
               "video": "/videos/IM_Video7_Kapitalanleger.mp4",
               "status": "active",
-              "spend": 16.05,
-              "impressions": 384,
-              "reach": 333,
-              "clicks": 6,
+              "spend": 34.7,
+              "impressions": 679,
+              "reach": 551,
+              "clicks": 12,
               "leads": 0
             }
           ]
@@ -73,21 +85,21 @@
           "status": "active",
           "start": "2026-09-29",
           "dailyBudget": 16.5,
-          "spend": 824.27,
-          "impressions": 27450,
-          "reach": 14457,
-          "clicks": 425,
-          "leads": 16,
+          "spend": 923.64,
+          "impressions": 30675,
+          "reach": 15866,
+          "clicks": 476,
+          "leads": 17,
           "ads": [
             {
               "id": "52536050225575",
               "name": "Bild1_LeadGen_29.09.2026_Kapitalanleger",
               "image": "IM_Bild1_Kapitalanleger",
               "status": "active",
-              "spend": 314.62,
-              "impressions": 11388,
-              "reach": 7155,
-              "clicks": 157,
+              "spend": 397.69,
+              "impressions": 14433,
+              "reach": 8570,
+              "clicks": 200,
               "leads": 7
             },
             {
@@ -106,11 +118,11 @@
               "name": "Bild10_LeadGen_29.09.2026_Kapitalanleger",
               "image": "IM_Bild10_Kapitalanleger",
               "status": "active",
-              "spend": 130.24,
-              "impressions": 2026,
-              "reach": 1341,
-              "clicks": 39,
-              "leads": 2
+              "spend": 146.54,
+              "impressions": 2206,
+              "reach": 1444,
+              "clicks": 47,
+              "leads": 3
             }
           ],
           "note": "Dazu 9 pausierte Kopien (Bild1/3/10, v2–v4 vom 07.10.) ohne Auslieferung."
