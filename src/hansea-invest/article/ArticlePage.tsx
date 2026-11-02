@@ -2,6 +2,10 @@ import { Fragment, useEffect, useState, type ReactNode } from "react";
 import { Button } from "../../components/ui/Button";
 import logoNavy from "../assets/logo-hanseatische-invest-navy.png";
 import logoWhite from "../assets/logo-hanseatische-invest-white.png";
+import imgBuilding from "../assets/article/d-klinkerbau-modernisierung.jpg";
+import imgPlanner from "../assets/article/a-zeithorizont-planer.jpg";
+import imgOwner from "../assets/article/b-unternehmer-werkstatt.jpg";
+import imgChecklist from "../assets/article/e-checkliste.jpg";
 import { legal, offer } from "../content";
 import { article, closingCta, modelCta, riskNotice, sections, type Block } from "./content";
 
@@ -14,6 +18,27 @@ function landingHref() {
 }
 
 const serif = { fontFamily: '"Source Serif 4", Georgia, "Times New Roman", serif' };
+
+// Photos placed directly under a section's heading (or above it, for the
+// dark checklist box). The same motifs run in the Taboola ads.
+const sectionImages: Record<string, { src: string; alt: string; above?: boolean }> = {
+  "eigene-wohnung": { src: imgPlanner, alt: "Aufgeschlagener Jahresplaner mit Hausschlüssel auf einem Holztisch" },
+  lebensplanung: { src: imgOwner, alt: "Unternehmer steht nachdenklich am Fenster seines Betriebs" },
+  "sechs-fragen": { src: imgChecklist, alt: "Hand mit Stift über einer Checkliste, im Hintergrund ein Hausmodell", above: true },
+};
+
+function Photo({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={1200}
+      height={674}
+      loading="lazy"
+      className={`aspect-[1200/674] w-full max-w-full rounded-md object-cover ${className}`}
+    />
+  );
+}
 
 // Editorial extras placed after the section with the given id.
 const inserts: Record<string, ReactNode> = {
@@ -53,11 +78,23 @@ export function ArticlePage() {
             </div>
           </header>
 
+          <img
+            src={imgBuilding}
+            alt="Hamburger Klinker-Mehrfamilienhaus mit Baugerüst während der Modernisierung"
+            width={1200}
+            height={674}
+            fetchPriority="high"
+            className="aspect-[1200/674] w-full max-w-full rounded-md object-cover"
+          />
+
           {sections.map((s) => (
             <Fragment key={s.id}>
+              {sectionImages[s.id]?.above && (
+                <Photo src={sectionImages[s.id].src} alt={sectionImages[s.id].alt} className="mt-12" />
+              )}
               <section
                 id={s.id}
-                className={s.id === "sechs-fragen" ? "mt-12 rounded-md bg-navy p-6 text-white sm:p-8" : "mt-10"}
+                className={s.id === "sechs-fragen" ? "mt-4 rounded-md bg-navy p-6 text-white sm:p-8" : "mt-10"}
               >
                 <h2
                   className={`subheading text-[22px] leading-snug hyphens-auto sm:hyphens-none [text-wrap:balance] sm:text-[25px] ${
@@ -66,6 +103,9 @@ export function ArticlePage() {
                 >
                   {s.heading}
                 </h2>
+                {sectionImages[s.id] && !sectionImages[s.id].above && (
+                  <Photo src={sectionImages[s.id].src} alt={sectionImages[s.id].alt} className="mt-5" />
+                )}
                 <div className="mt-4 flex flex-col gap-5">
                   {s.blocks.map((b, i) => (
                     <BlockView key={i} block={b} dark={s.id === "sechs-fragen"} />

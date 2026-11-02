@@ -108,7 +108,7 @@ export const faq = [
   },
   {
     q: "Wie komme ich wieder an mein Geld?",
-    a: "Sie können Ihre Mitgliedschaft bzw. Ihre Anteile kündigen. Die Auszahlung des Auseinandersetzungsguthabens erfolgt nach den Fristen der Satzung. Details stehen im Infopaket.",
+    a: "Sie können Ihre Mitgliedschaft bzw. Ihre Anteile kündigen. Die Mindestlaufzeit beträgt 12 Monate, die Kündigungsfrist neun Monate. Die Auszahlung des Auseinandersetzungsguthabens erfolgt nach den Bedingungen der Satzung. Details stehen im Infopaket.",
   },
   {
     q: "Ist das Infopaket wirklich kostenlos und unverbindlich?",
