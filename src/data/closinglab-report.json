@@ -1,6 +1,6 @@
 {
-  "asOf": "26.10.2026",
-  "updatedAt": "2026-10-26",
+  "asOf": "02.11.2026",
+  "updatedAt": "2026-11-02",
   "agency": "Closing Lab",
   "note": "Lead-Status aus HubSpot, Termine je Creative aus dem Closing-Lab-Portal, Kosten laut Vertrag; Kampagnen- und Ausgabendaten aus Meta folgen, sobald wir Zugriff haben.",
   "leadStatusSource": "HubSpot, 26.10.2026 · Deals „Lead Kapitalanleger x Closing Lab“",
@@ -63,15 +63,15 @@
     "setup": 1500
   },
   "termine": {
-    "source": "Closing-Lab-Portal, Termin-Übersicht, Stand 29.10.2026",
-    "leads": 110,
-    "ohneTermin": 25,
-    "termine": 85,
-    "stattgefunden": 61,
-    "noShow": 19,
-    "offen": 5,
+    "source": "Closing-Lab-Portal, Termin-Übersicht, Stand 02.11.2026",
+    "leads": 114,
+    "ohneTermin": 28,
+    "termine": 86,
+    "stattgefunden": 60,
+    "noShow": 20,
+    "offen": 6,
     "pricePerTermin": 186.75,
-    "note": "Das Portal nennt die Anzeige nur bei Leads mit Termin; die 25 Leads ohne Termin sind keiner Anzeige zugeordnet. Creatives werden deshalb ab dem Termin verglichen. Kosten je Creative: Termine × 186,75 € (7.470 € pro Monat für 40 Termine). Ein Termin (der neueste) fehlt im Export und steht unter „Ohne Zuordnung“."
+    "note": "Das Portal nennt die Anzeige nur bei Leads mit Termin; die 28 Leads ohne Termin sind keiner Anzeige zugeordnet. Creatives werden deshalb ab dem Termin verglichen. Kosten je Creative: Termine × 186,75 € (7.470 € pro Monat für 40 Termine). Offen: 5 unbestätigte bzw. verschobene Termine und 1 kommender Termin (07.11.). Die Portal-Zahlen oben enthalten einen Test-Eintrag („Marcel test“, 28.10., No-Show); in der Auswertung je Creative ist er nicht mitgezählt."
   },
   "creativeGroups": [
     {
@@ -123,16 +123,16 @@
         "CL_DUS_Oberbilk_Weg200"
       ],
       "firstTermin": "2026-10-03",
-      "lastTermin": "2026-10-28",
-      "termine": 20,
+      "lastTermin": "2026-11-07",
+      "termine": 21,
       "stattgefunden": 16,
       "noShow": 3,
-      "offen": 1,
+      "offen": 2,
       "pipeline": 11,
       "bereit": 3,
       "disqualifiziert": 7,
       "offenStage": 2,
-      "ohneStatus": 0
+      "ohneStatus": 1
     },
     {
       "id": "bonn-objekt",
@@ -448,11 +448,11 @@
       "stattgefunden": 1,
       "noShow": 2,
       "offen": 1,
-      "pipeline": 0,
+      "pipeline": 1,
       "bereit": 0,
       "disqualifiziert": 2,
       "offenStage": 0,
-      "ohneStatus": 2
+      "ohneStatus": 1
     },
     {
       "id": "nrw-312",
@@ -483,16 +483,16 @@
       "portalAd": "Im Portal keine Anzeige angegeben",
       "images": [],
       "firstTermin": "2026-07-27",
-      "lastTermin": "2026-10-28",
-      "termine": 4,
-      "stattgefunden": 3,
+      "lastTermin": "2026-10-06",
+      "termine": 3,
+      "stattgefunden": 2,
       "noShow": 1,
       "offen": 0,
       "pipeline": 0,
       "bereit": 0,
       "disqualifiziert": 2,
       "offenStage": 1,
-      "ohneStatus": 1
+      "ohneStatus": 0
     }
   ]
 }
