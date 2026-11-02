@@ -125,9 +125,9 @@ export const faq = [
 // embed: "frame" for forms built in the new forms editor (embed code contains
 // class="hs-form-frame"), "legacy" for old forms (hbspt.forms.create(...)).
 export const hubspot = {
-  region: "eu1",
-  portalId: "",
-  formId: "",
+  region: "na1",
+  portalId: "19607021",
+  formId: "de2aa5dd-fe20-4c1f-a445-b9ec3efa4c89",
   embed: "frame" as "frame" | "legacy",
 };
 
