@@ -287,6 +287,10 @@ dialog::backdrop{background:rgba(20,20,20,.5)}
 .empty b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
 .llayout{max-width:1240px;margin:0 auto;padding:20px 24px 64px}
 .li-grid{max-width:820px}
+.tla-tag{position:absolute;left:6px;top:6px;font-size:10.5px;font-weight:600;color:#fff;background:#0a66c2;padding:2px 6px;border-radius:3px}
+.res4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.res4 .f input{width:100%;min-width:0}
+.f-sec{margin:14px 0 6px;font-size:12px;font-weight:600;color:var(--ink-2)}
 .tile.sq{aspect-ratio:1/1}
 .sq .g.t{top:9.259%} .sq .g.b{bottom:9.259%}
 .frame.r11{aspect-ratio:1/1;max-width:440px}
@@ -403,8 +407,8 @@ dialog::backdrop{background:rgba(20,20,20,.5)}
 
 <main class="llayout" data-view="linkedin" hidden>
   <div class="sec-head">
-    <div><h2>LinkedIn</h2><span class="note">1080 × 1080 px, Einzelbild oder Karussell, Text ca. 200 Zeichen</span></div>
-    <div class="st-tools"><label>Datum <input type="date" id="liDate"></label><button class="btn primary" id="addLi">LinkedIn-Post anlegen</button></div>
+    <div><h2>LinkedIn</h2><span class="note">1080 × 1080 px, Einzelbild oder Karussell, Text ca. 200 Zeichen. Thought Leader Ads: wöchentlich, mit Link zum Lead-Magnet</span></div>
+    <div class="st-tools"><label>Datum <input type="date" id="liDate"></label><button class="btn" id="addTla">Thought Leader Ad anlegen</button><button class="btn primary" id="addLi">LinkedIn-Post anlegen</button></div>
   </div>
   <div id="liGrid"></div>
 </main>
@@ -1176,7 +1180,8 @@ ved.addEventListener('click',e=>{
 }));
 
 /* ---------- linkedin tab ---------- */
-const LIF={einzel:'Einzelbild',karussell:'Karussell'};
+const LIF={einzel:'Einzelbild',karussell:'Karussell',tla:'Thought Leader Ad'};
+const kw=k=>{const d=pk(k),t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-y)/864e5+1)/7)};
 const ldlg=$('#ldlg'),liGrid=$('#liGrid');
 function liSorted(){return Object.values(S.linkedin).sort((a,b)=>b.date.localeCompare(a.date)||(b.created||0)-(a.created||0))}
 function renderLinkedIn(){
@@ -1188,13 +1193,20 @@ function renderLinkedIn(){
   liGrid.className='grid li-grid';
   liGrid.innerHTML=list.map(l=>{const m=(l.media||[])[0];
     return `<div class="cell${S.lsel===l.id?' selected':''}" data-li="${l.id}"><div class="date-label"><i class="dot st-${l.status}" title="${STATUS[l.status]}"></i>${fmt(l.date)}</div>
-<div class="tile sq${m?' has-media':''}" tabindex="0" role="button" aria-label="${esc(`LinkedIn ${longDate(l.date)}, ${LIF[l.format]}, ${STATUS[l.status]}`)}">${m?`<img src="${src(m)}" alt="" draggable="false">`:`<div class="hint"><b>${LIF[l.format]}</b><span>${esc(l.title||'Ohne Titel')}</span></div>`}${GUIDES}${l.format==='karussell'?ICON.carousel:''}</div></div>`}).join('');
+<div class="tile sq${m?' has-media':''}" tabindex="0" role="button" aria-label="${esc(`LinkedIn ${longDate(l.date)}, ${LIF[l.format]}, ${STATUS[l.status]}`)}">${m?`<img src="${src(m)}" alt="" draggable="false">`:`<div class="hint"><b>${LIF[l.format]}${l.format==='tla'?` · KW ${kw(l.date)}`:''}</b><span>${esc(l.title||'Ohne Titel')}</span></div>`}${GUIDES}${l.format==='karussell'?ICON.carousel:''}${l.format==='tla'?`<span class="tla-tag">Thought Leader Ad · KW ${kw(l.date)}</span>`:''}</div></div>`}).join('');
 }
 function saveLi(l,quiet){l.updatedAt=Date.now();if(!l.created)l.created=Date.now();S.linkedin[l.id]=l;renderLinkedIn();if(!quiet&&ldlg.open)renderLiModal(false);persist('linkedin',l.id,strip(l))}
 $('#addLi').onclick=()=>{
   if(S.readOnly){toast('Nur Leserechte.');return}
   const date=$('#liDate').value;if(!isWkKey(date)){toast('Wir posten nur werktags. Bitte einen Wochentag wählen.');return}
   const l={id:uid('l'),date,status:'planung',format:'einzel',title:'',text:'',notes:'',media:[],created:Date.now()};
+  saveLi(l);openLi(l.id);
+};
+$('#addTla').onclick=()=>{
+  if(S.readOnly){toast('Nur Leserechte.');return}
+  const date=$('#liDate').value;if(!isWkKey(date)){toast('Wir posten nur werktags. Bitte einen Wochentag wählen.');return}
+  if(Object.values(S.linkedin).some(x=>x.format==='tla'&&kw(x.date)===kw(date)&&x.date.slice(0,4)===date.slice(0,4))&&!confirm(`In KW ${kw(date)} gibt es schon eine Thought Leader Ad. Trotzdem eine weitere anlegen?`))return;
+  const l={id:uid('l'),date,status:'planung',format:'tla',title:'',text:'',leadMagnet:'',spend:'',impressions:'',clicks:'',leads:'',notes:'',media:[],created:Date.now()};
   saveLi(l);openLi(l.id);
 };
 liGrid.addEventListener('click',e=>{const c=e.target.closest('[data-li]');if(c)openLi(c.dataset.li)});
@@ -1213,18 +1225,22 @@ function renderLiModal(full){
   const ae=document.activeElement;
   if(!full&&ldlg.contains(ae)&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName)){ldlg.querySelector('.m-preview').innerHTML=liPreview(l);ldlg.querySelector('.seg').outerHTML=statusSeg(l.status);return}
   ldlg.innerHTML=`<div class="m-wrap"><div class="m-preview">${liPreview(l)}</div><div class="m-side">
-<div class="m-head"><div><div class="m-date">${esc(longDate(l.date))}</div><div class="m-sub">LinkedIn, ${LIF[l.format]}</div></div><button class="x" data-lact="close" aria-label="Schließen">×</button></div>
+<div class="m-head"><div><div class="m-date">${esc(longDate(l.date))}</div><div class="m-sub">LinkedIn, ${LIF[l.format]}${l.format==='tla'?`, KW ${kw(l.date)}`:''}</div></div><button class="x" data-lact="close" aria-label="Schließen">×</button></div>
 <div class="f">Status ${statusSeg(l.status)}</div>
 <div class="row2"><label class="f">Format<select data-lf="format">${Object.keys(LIF).map(k=>`<option value="${k}" ${l.format===k?'selected':''}>${LIF[k]}</option>`).join('')}</select></label><label class="f">Datum<input type="date" data-lf="date" value="${l.date}"></label></div>
 <label class="f">Arbeitstitel<input data-lf="title" value="${esc(l.title)}" placeholder="z. B. Restnutzungsdauer: 2 % oder 4 %?"></label>
-<label class="f">Text<textarea data-lf="text" rows="6" placeholder="Ca. 200 Zeichen: Hook, eine klare Information, Call-to-Action">${esc(l.text)}</textarea><span class="count" id="liCount"></span></label>
+${l.format==='tla'?`<label class="f">Anzeigentext<textarea data-lf="text" rows="8" placeholder="Text der Thought Leader Ad, wie er im Beitrag erscheint">${esc(l.text)}</textarea><span class="count" id="liCount"></span></label>
+<label class="f">Link zum Lead-Magnet<input type="url" data-lf="leadMagnet" value="${esc(l.leadMagnet||'')}" placeholder="https://…"></label>
+<div class="f-sec">Ergebnisse aus dem LinkedIn Campaign Manager (nach der Ausspielung eintragen)</div>
+<div class="res4"><label class="f">Ausgaben €<input inputmode="decimal" data-lf="spend" value="${esc(l.spend||'')}"></label><label class="f">Impressionen<input inputmode="numeric" data-lf="impressions" value="${esc(l.impressions||'')}"></label><label class="f">Klicks<input inputmode="numeric" data-lf="clicks" value="${esc(l.clicks||'')}"></label><label class="f">Leads<input inputmode="numeric" data-lf="leads" value="${esc(l.leads||'')}"></label></div>`:`<label class="f">Text<textarea data-lf="text" rows="6" placeholder="Ca. 200 Zeichen: Hook, eine klare Information, Call-to-Action">${esc(l.text)}</textarea><span class="count" id="liCount"></span></label>`}
 <label class="f">Notizen<textarea data-lf="notes" rows="3" placeholder="Interne Hinweise, Quellen, Freigaben">${esc(l.notes)}</textarea></label>
 <div class="m-actions"><button class="btn danger" data-lact="del">Post löschen</button><button class="btn primary" data-lact="close">Fertig</button></div></div></div>`;
   updLiCount();
 }
-function updLiCount(){const t=ldlg.querySelector('[data-lf="text"]'),c=$('#liCount');if(!t||!c)return;const n=t.value.length;c.textContent=`${n.toLocaleString('de-DE')} Zeichen, Ziel ca. 200`;c.style.color=n>260?'var(--amber)':''}
+function updLiCount(){const t=ldlg.querySelector('[data-lf="text"]'),c=$('#liCount');if(!t||!c)return;const n=t.value.length,tla=(S.linkedin[S.lsel]||{}).format==='tla';c.textContent=tla?`${n.toLocaleString('de-DE')} Zeichen, LinkedIn kürzt nach ca. 150 mit „mehr anzeigen“`:`${n.toLocaleString('de-DE')} Zeichen, Ziel ca. 200`;c.style.color=!tla&&n>260?'var(--amber)':''}
 async function addLiFiles(id,files){
   if(S.readOnly){toast('Nur Leserechte.');return}
+  flushFields();
   for(const f of files){
     if(!f.type.startsWith('image/')){toast(`${f.name}: bitte ein Bild hochladen.`);continue}
     const a=await upload(f,'linkedin');if(!a)continue;const l=S.linkedin[id];if(!l)return;const q=clone(l);
@@ -1255,7 +1271,7 @@ ldlg.addEventListener('input',e=>{
 });
 ldlg.addEventListener('change',e=>{
   const f=e.target.dataset.lf,l=S.linkedin[S.lsel];if(!l||S.readOnly)return;
-  if(f==='format'){const q=clone(l);q.format=e.target.value;if(q.format==='einzel'&&(q.media||[]).length>1)toast('Einzelbild zeigt nur das erste Bild. Die übrigen bleiben gespeichert.');saveLi(q);renderLiModal(true)}
+  if(f==='format'){const q=clone(l);q.format=e.target.value;if(q.format!=='karussell'&&(q.media||[]).length>1)toast('Einzelbild zeigt nur das erste Bild. Die übrigen bleiben gespeichert.');saveLi(q);renderLiModal(true)}
   if(f==='date'){const v=e.target.value;if(!v)return;if(!isWkKey(v)){toast('Wir posten nur werktags. Bitte einen Wochentag wählen.');e.target.value=l.date;return}const q=clone(l);q.date=v;saveLi(q);renderLiModal(true)}
 });
 ['dragover','dragleave','drop'].forEach(ev=>ldlg.addEventListener(ev,e=>{
