@@ -59,7 +59,13 @@ the Satzung / Beitrittsunterlagen before the campaign goes live. Ad copy:
 `marketing/taboola/hansea-invest-native-ads.md`.
 
 The advertorial article that ads can link to first lives at
-`/hansea-invest/ratgeber/` (`src/hansea-invest/article/`). Its buttons lead to
+`/hansea-invest/ratgeber/` (`src/hansea-invest/article/`).
+
+Live, both pages are hosted on Vercel (project `hansea-ratgeber`) under
+`https://ratgeber.hanseainvest.de/` (article) and `/infopaket/` (landing page).
+The Vercel project builds this repo and copies only these two pages into its
+output; the build command and `VITE_LANDING_URL=/infopaket/` are set in the
+Vercel project settings. Its buttons lead to
 the landing page's form and carry the visitor's `tblci`/UTM parameters along.
 
 Leads go straight into HubSpot via the HubSpot form embedded in the hero card.

@@ -5,6 +5,10 @@ Thema: Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft, Ziel-Divid
 Zielgruppe: 45 bis 70 Jahre, DACH (Fokus DE), Sparer mit 5.000 bis 50.000 € auf Tagesgeld /
 Sparbuch, Interesse an Rente, Inflation, Immobilien.
 
+Ziel-URL: `https://ratgeber.hanseainvest.de/infopaket/` (Landingpage mit
+HubSpot-Formular), mit Tracking-Parametern
+`?tblci={click_id}&utm_source=taboola&utm_medium=native&utm_campaign={campaign_name}&utm_content={campaign_item_id}`
+
 **Taboola-Specs**
 
 - Titel: max. 60 Zeichen empfohlen (darüber wird je nach Placement abgeschnitten)
