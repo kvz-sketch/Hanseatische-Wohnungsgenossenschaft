@@ -1,87 +1,186 @@
 // Advertorial article for the Hanseatische Invest eG Taboola campaign
-// (/hansea-invest/ratgeber/). Text as supplied by the client; only the
-// editorial extras (pull quote, diagram labels, checklist) are derived from it.
+// (ratgeber.hanseainvest.de). Text as supplied by the client; dashes were
+// replaced with commas per the client's style, nothing else was reworded.
 
 export const article = {
   kicker: "Ratgeber Vermögensplanung",
-  title: "Immobilieninvestitionen müssen zur Lebensplanung passen",
-  dek: "Kapital und Interesse am Immobilienmarkt sind vorhanden. Ob ein Investment trotzdem passt, entscheidet vor allem eine Frage: Wie lange soll das Geld gebunden sein?",
-  readingMinutes: 4,
+  title: "Immobilien kaufen oder sich beteiligen? Was Anleger vorher wissen sollten",
+  dek: "Wer in Immobilien investieren möchte, muss nicht zwangsläufig selbst eine Wohnung kaufen. Welche Möglichkeiten es gibt und warum Kapitalbindung, persönlicher Aufwand und Lebensplanung bei der Entscheidung eine wichtige Rolle spielen.",
+  readingMinutes: 5,
 };
+
+// A section body is a list of blocks: plain paragraphs, highlighted
+// statements, or numbered points with a short title.
+export type Block =
+  | { kind: "p"; text: string }
+  | { kind: "highlight"; text: string }
+  | { kind: "points"; items: { title: string; text: string }[] };
 
 export type Section = {
   id: string;
   heading: string;
-  paragraphs: string[];
+  blocks: Block[];
 };
+
+const p = (text: string): Block => ({ kind: "p", text });
 
 export const sections: Section[] = [
   {
-    id: "interesse",
-    heading: "Interesse allein entscheidet noch nicht über den Kauf",
-    paragraphs: [
-      "Eine vermietete Eigentumswohnung kann als Kapitalanlage interessant sein. Dennoch passt der Kauf nicht automatisch zur persönlichen Situation. Wer eine Wohnung erwirbt, entscheidet sich für Eigentum, übernimmt Verantwortung und plant häufig über viele Jahre.",
-      "Genau diese Bindung kann gegen einen Kauf sprechen, obwohl Kapital vorhanden ist und Interesse am Immobilienmarkt besteht. Die entscheidende Frage lautet deshalb: Über welchen Zeitraum soll das Geld investiert werden, und welche Aufgaben soll es danach erfüllen?",
-      "Eine wirtschaftlich sinnvolle Anlageentscheidung beginnt mit dieser Einordnung.",
+    id: "einstieg",
+    heading: "Immobilien sind interessant. Aber ist eine eigene Wohnung immer die richtige Entscheidung?",
+    blocks: [
+      p("Immobilien gehören für viele Menschen zu einer langfristigen Vermögensstrategie. Sie bieten die Möglichkeit, an Mieteinnahmen und der wirtschaftlichen Entwicklung von Wohnimmobilien teilzuhaben."),
+      p("Doch wer heute über eine Immobilieninvestition nachdenkt, stellt möglicherweise andere Fragen als noch vor einigen Jahren."),
+      p("Möchte ich wirklich selbst eine Wohnung kaufen? Wie viel Zeit will ich in Verwaltung und Vermietung investieren? Und wie lange kann ich auf mein Kapital verzichten?"),
+      p("Denn eine Immobilieninvestition sollte nicht nur wirtschaftlich sinnvoll erscheinen. Sie muss auch zu den eigenen Zielen, der persönlichen Lebenssituation und dem verfügbaren Kapital passen."),
+      p("Dabei lohnt es sich, über den klassischen Wohnungskauf hinauszuschauen."),
     ],
   },
   {
-    id: "unternehmer",
-    heading: "Unternehmerische Vorhaben bestimmen den Zeithorizont",
-    paragraphs: [
-      "Gerade bei Unternehmern und Freiberuflern steht privates Vermögen häufig in Verbindung mit beruflichen Plänen. Kapital kann heute für eine Anlage zur Verfügung stehen und später für ein konkretes Vorhaben benötigt werden.",
-      "Ein Unternehmer plant beispielsweise, in einigen Jahren einen weiteren Standort aufzubauen. Eine Ärztin erwägt die Übernahme einer Praxis, möchte sich aber zunächst beruflich weiter orientieren. In beiden Fällen beeinflusst der mögliche spätere Kapitalbedarf bereits die heutige Entscheidung.",
-      "Daraus entsteht der Wunsch nach einer überschaubareren Bindung. Entscheidend bleibt, ob die Bedingungen einer Investition mit den eigenen Vorhaben vereinbar sind. Ein kürzerer Anlagehorizont bedeutet schließlich noch keine jederzeitige Verfügbarkeit.",
+    id: "eigene-wohnung",
+    heading: "Eine eigene Wohnung bedeutet mehr als nur den Kaufpreis",
+    blocks: [
+      p("Wer eine Eigentumswohnung als Investment kauft, erwirbt einen konkreten Vermögenswert. Gleichzeitig entstehen Aufgaben und Verpflichtungen, die häufig unterschätzt werden."),
+      p("Bereits vor dem Kauf müssen Standort, Objektzustand, Finanzierung und mögliche Mieterträge geprüft werden. Anschließend folgen laufende Themen wie Vermietung, Instandhaltung, Hausgeldabrechnungen und mögliche Modernisierungen."),
+      p("Viele dieser Aufgaben lassen sich an eine professionelle Verwaltung übertragen. Die wirtschaftliche Verantwortung bleibt jedoch beim Eigentümer."),
+      p("Für manche Anleger ist das genau das richtige Modell. Sie möchten selbst entscheiden, welche Immobilie gekauft wird, und die Entwicklung ihres Eigentums aktiv gestalten."),
+      p("Andere interessieren sich vor allem für Immobilien als Anlageklasse, ohne die zusätzliche Verantwortung eines eigenen Wohnungsbestands übernehmen zu wollen."),
+      {
+        kind: "highlight",
+        text: "Deshalb stellt sich vor dem Kauf eine grundlegende Frage: Möchte ich selbst Immobilieneigentümer werden oder mich lieber an einer Immobilienstrategie beteiligen?",
+      },
     ],
   },
   {
-    id: "prioritaeten",
-    heading: "Mit aufgebautem Vermögen verändern sich die Prioritäten",
-    paragraphs: [
-      "Auch Menschen, die bereits Vermögen aufgebaut haben, bewerten neue Investitionen möglicherweise anders als früher. Ab etwa 50 können die Gestaltung der nächsten Lebensphase und der gewünschte persönliche Aufwand stärker in den Vordergrund rücken.",
-      "Eine weitere Eigentumswohnung kann weiterhin sinnvoll erscheinen. Sie kann aber ebenso zusätzliche Verpflichtungen mit sich bringen, die jemand bewusst nicht mehr übernehmen möchte.",
-      "Ein überschaubarerer Anlagehorizont ist deshalb zunächst eine persönliche Präferenz. Ob eine Investition dazu passt, hängt von ihren tatsächlichen Bedingungen ab. Eine kurze beworbene Laufzeit allein beantwortet diese Frage noch nicht.",
+    id: "lebensplanung",
+    heading: "Wenn sich die Lebensplanung verändert, verändern sich auch die Anforderungen",
+    blocks: [
+      p("Eine Investition, die heute gut zur persönlichen Situation passt, kann in einigen Jahren anders bewertet werden."),
+      p("Gerade Unternehmer und Freiberufler kennen diese Herausforderung. Kapital, das momentan zur Verfügung steht, könnte später für die Expansion des eigenen Unternehmens, eine Praxisübernahme oder größere Investitionen benötigt werden."),
+      p("Auch Menschen, die bereits Vermögen aufgebaut haben, setzen mit zunehmender Lebenserfahrung häufig andere Prioritäten."),
+      p("Vielleicht steht nicht mehr der Aufbau eines weiteren eigenen Immobilienbestands im Vordergrund, sondern der Wunsch nach weniger organisatorischem Aufwand und einer übersichtlicheren Vermögensstruktur."),
+      p("Eine weitere Eigentumswohnung kann weiterhin infrage kommen. Ebenso kann es sinnvoll sein, andere Formen der Immobilieninvestition zu prüfen."),
+      p("Entscheidend ist dabei nicht das Alter oder der Beruf, sondern die Frage, welche Anforderungen die jeweilige Investition erfüllen soll."),
     ],
   },
   {
-    id: "anlageformen",
-    heading: "Immobilienwirtschaft umfasst unterschiedliche Anlageformen",
-    paragraphs: [
-      "Wer sich mit Immobilien beschäftigt, begegnet unterschiedlichen wirtschaftlichen Ansätzen. Neben dem langfristigen Halten und Vermieten steht die Entwicklung von Bestandsobjekten: Immobilien werden angekauft, modernisiert, neu vermietet oder anschließend verkauft.",
-      "Beteiligungen an Unternehmen, die solche Vorhaben umsetzen, unterscheiden sich wesentlich vom eigenen Wohnungskauf. Anleger übernehmen eine andere rechtliche und wirtschaftliche Rolle.",
-      "Dabei sind zwei Zeiträume auseinanderzuhalten: die Dauer eines Immobilienprojekts und die Bindung des angelegten Kapitals. Auch wenn ein Objekt verkauft wurde, muss daraus kein unmittelbarer Rückzahlungsanspruch für den Anleger entstehen.",
+    id: "unterschied",
+    heading: "Wohnungskauf oder Immobilienbeteiligung: Wo liegt der Unterschied?",
+    blocks: [
+      p("Neben dem direkten Immobilienkauf gibt es die Möglichkeit, sich an Unternehmen oder Genossenschaften zu beteiligen, die selbst Immobilien erwerben, entwickeln und bewirtschaften."),
+      p("Bei einem eigenen Wohnungskauf wird der Anleger Eigentümer einer konkreten Immobilie."),
+      p("Bei einer Genossenschaftsbeteiligung erwirbt er dagegen Anteile an einer Genossenschaft. Die operative Umsetzung der Immobilienstrategie liegt bei dieser Organisation."),
+      p("Dadurch unterscheiden sich beide Ansätze insbesondere in drei Punkten:"),
+      {
+        kind: "points",
+        items: [
+          {
+            title: "Persönlicher Aufwand",
+            text: "Eigentümer müssen die Verwaltung ihrer Immobilie selbst organisieren oder Dienstleister damit beauftragen. Bei einer Immobiliengenossenschaft wird die operative Arbeit gemeinschaftlich organisiert.",
+          },
+          {
+            title: "Einfluss und Verantwortung",
+            text: "Der Eigentümer entscheidet unmittelbar über seine Immobilie und trägt die damit verbundenen Verpflichtungen. Bei einer Beteiligung richten sich die Mitwirkungsrechte nach den rechtlichen und vertraglichen Bedingungen.",
+          },
+          {
+            title: "Kapitalbindung und Risiken",
+            text: "Eine eigene Immobilie lässt sich grundsätzlich verkaufen, wobei Verkaufsdauer, Marktbedingungen und mögliche Finanzierungskosten eine Rolle spielen. Eine Genossenschaftsbeteiligung unterliegt dagegen den jeweiligen Laufzeit-, Kündigungs- und Rückzahlungsbedingungen. Zudem besteht ein unternehmerisches Risiko, das bis zum Verlust des eingesetzten Kapitals reichen kann.",
+          },
+        ],
+      },
+      p("Keine dieser Anlageformen ist grundsätzlich die bessere Wahl. Entscheidend ist, welche Struktur zu den individuellen Zielen und Möglichkeiten passt."),
     ],
   },
   {
-    id: "bedingungen",
-    heading: "Beteiligungsbedingungen entscheiden über die Einordnung",
-    paragraphs: [
-      "Ein Beispiel für diesen Zugang ist die Hanseatische Invest eG. Anleger erwerben Genossenschaftsanteile; das Kapital wird gemeinsam mit der Gerlach Immobilien Gruppe für Wohnimmobilienprojekte eingesetzt. Sie kaufen damit keine eigene Wohnung, sondern beteiligen sich unternehmerisch an einer Genossenschaft.",
-      "Für die persönliche Planung sind insbesondere Mindestlaufzeit, Kündigungsfristen und Rückzahlungsbedingungen relevant. Die Rückzahlung hängt auch von der wirtschaftlichen Lage der Genossenschaft ab; Kapitalverluste sind möglich.",
-      "Ob ein solches Modell zum eigenen Zeithorizont passt, lässt sich deshalb erst anhand der konkreten Bedingungen beurteilen. Kapital, das zu einem festen Termin benötigt wird, stellt andere Anforderungen als Vermögen, dessen Einsatz zeitlich offenbleiben kann.",
+    id: "praxis",
+    heading: "Wie funktioniert eine Immobilienbeteiligung in der Praxis?",
+    blocks: [
+      p("Ein Beispiel für ein solches Modell ist die Hanseatische Invest eG aus Hamburg."),
+      p("Über Genossenschaftsanteile können sich Anleger an einer gemeinschaftlichen Immobilienstrategie beteiligen, ohne selbst eine Wohnung kaufen, finanzieren oder verwalten zu müssen."),
+      p("Die Immobilienprojekte werden gemeinsam mit der Gerlach Immobilien Gruppe umgesetzt."),
+      p("Im Mittelpunkt stehen Wohnimmobilien in Hamburg und Norddeutschland. Diese werden angekauft, wirtschaftlich und baulich optimiert, vermietet und gegebenenfalls wieder veräußert."),
+      p("Das Ziel ist es, durch die Entwicklung und Bewirtschaftung der Immobilien wirtschaftliche Überschüsse zu erwirtschaften."),
+      p("Mit dem Erwerb von Genossenschaftsanteilen entsteht jedoch kein direktes Eigentum an einer bestimmten Immobilie. Mitglieder beteiligen sich unternehmerisch an der Genossenschaft und tragen die damit verbundenen Risiken."),
+    ],
+  },
+  {
+    id: "kapitalbindung",
+    heading: "Warum eine kurze Projektdauer nicht automatisch eine kurze Kapitalbindung bedeutet",
+    blocks: [
+      p("Bei Immobilienbeteiligungen werden häufig verschiedene Zeiträume miteinander verwechselt."),
+      p("Die erste Zeitspanne betrifft das Immobilienprojekt selbst: Ein Objekt wird angekauft, entwickelt, vermietet oder verkauft."),
+      p("Die zweite betrifft den Anleger und sein eingesetztes Kapital."),
+      p("Auch wenn ein Immobilienprojekt erfolgreich abgeschlossen und eine Immobilie verkauft wurde, bedeutet das nicht automatisch, dass Genossenschaftsmitglieder ihre Anteile unmittelbar zurückgeben oder eine Rückzahlung verlangen können."),
+      p("Bei der Hanseatischen Invest eG beträgt die veröffentlichte Mindestlaufzeit 12 Monate. Zusätzlich gilt eine Kündigungsfrist von neun Monaten. Für die tatsächliche Beendigung und Rückzahlung sind die maßgeblichen Satzungs- und Beteiligungsbedingungen entscheidend."),
+      p("Eine vollständige Rückzahlung des eingesetzten Kapitals ist nicht garantiert."),
+      p("Gerade für Menschen mit zukünftigen finanziellen Verpflichtungen ist es deshalb wichtig, diese Unterschiede vor einer Anlageentscheidung genau zu verstehen."),
+    ],
+  },
+  {
+    id: "sechs-fragen",
+    heading: "Sechs Fragen, die Sie vor einer Immobilieninvestition klären sollten",
+    blocks: [
+      {
+        kind: "points",
+        items: [
+          {
+            title: "Welches Kapital steht tatsächlich zur Verfügung?",
+            text: "Berücksichtigen Sie notwendige Rücklagen, laufende Verpflichtungen und mögliche größere Ausgaben in den kommenden Jahren.",
+          },
+          {
+            title: "Wie lange können Sie auf das Geld verzichten?",
+            text: "Eine Investition sollte zum persönlichen Zeithorizont passen. Mindestlaufzeiten und Kündigungsfristen müssen dabei gemeinsam betrachtet werden.",
+          },
+          {
+            title: "Möchten Sie selbst Eigentümer werden?",
+            text: "Der direkte Wohnungskauf und eine Beteiligung über Genossenschaftsanteile unterscheiden sich rechtlich, wirtschaftlich und organisatorisch erheblich.",
+          },
+          {
+            title: "Wie viel Zeit möchten Sie investieren?",
+            text: "Mieterkommunikation, Instandhaltung und Verwaltung können Aufwand verursachen, auch wenn einzelne Aufgaben ausgelagert werden.",
+          },
+          {
+            title: "Welche wirtschaftlichen Risiken können Sie tragen?",
+            text: "Immobilienwerte und Erträge können schwanken. Bei unternehmerischen Beteiligungen ist auch ein teilweiser oder vollständiger Kapitalverlust möglich.",
+          },
+          {
+            title: "Verstehen Sie das Geschäftsmodell und die Bedingungen?",
+            text: "Prüfen Sie die Verwendung des Kapitals, die Beteiligungsrechte, die wirtschaftliche Strategie sowie alle Laufzeit-, Kündigungs- und Rückzahlungsregelungen.",
+          },
+        ],
+      },
     ],
   },
   {
     id: "fazit",
-    heading: "Fazit: Lebensplanung gibt den zeitlichen Rahmen vor",
-    paragraphs: [
-      "Eine Immobilieninvestition sollte sich in die persönliche Vermögensplanung einfügen. Dazu gehören berufliche Vorhaben ebenso wie gewünschte Freiräume, verfügbare Reserven und die Bereitschaft, wirtschaftliche Risiken zu tragen.",
-      "Ein kürzerer Anlagehorizont ist dabei weder grundsätzlich vorteilhaft noch nachteilig. Entscheidend ist, welche Bindung tatsächlich entsteht und ob sie zu den eigenen Plänen passt.",
+    heading: "Fazit: Die passende Immobilieninvestition beginnt mit den richtigen Fragen",
+    blocks: [
+      p("Ob eine Eigentumswohnung, eine Immobilienbeteiligung oder eine andere Anlageform infrage kommt, hängt nicht allein vom verfügbaren Kapital ab."),
+      p("Ebenso wichtig sind die persönlichen Ziele, der gewünschte Zeitaufwand, die finanzielle Flexibilität und die Bereitschaft, wirtschaftliche Risiken zu übernehmen."),
+      p("Wer diese Faktoren berücksichtigt, kann verschiedene Möglichkeiten besser miteinander vergleichen."),
+      { kind: "highlight", text: "Denn eine Immobilieninvestition sollte sich in die Lebensplanung einfügen und nicht umgekehrt." },
     ],
   },
 ];
 
-export const pullQuote = "Ein kürzerer Anlagehorizont bedeutet noch keine jederzeitige Verfügbarkeit.";
+// Call to action placed at the end of the "praxis" section.
+export const modelCta = {
+  heading: "Mehr über das Beteiligungsmodell erfahren",
+  text: "Wie funktioniert die Immobilienstrategie? Welche Beteiligungsbedingungen gelten? Und welche Chancen und Risiken sollten Anleger kennen?",
+  note: "Das kostenlose Infopaket der Hanseatischen Invest eG erklärt das Modell und seine Rahmenbedingungen.",
+  button: "Beteiligungsmodell und Konditionen ansehen",
+};
 
-export const closingQuestion =
-  "Passt der Zeithorizont meiner Investition zu dem meiner persönlichen Ziele?";
+// Closing box after the Fazit.
+export const closingCta = {
+  heading: "Immobilienbeteiligung näher kennenlernen",
+  paragraphs: [
+    "Sie interessieren sich für Immobilien, möchten aber nicht unbedingt selbst Eigentümer und Vermieter werden?",
+    "Die Hanseatische Invest eG bietet die Möglichkeit, sich über Genossenschaftsanteile an einer professionell organisierten Immobilienstrategie zu beteiligen.",
+    "Im kostenlosen Infopaket erfahren Sie mehr über die Beteiligungsmöglichkeiten, die Immobilienstrategie, die geltenden Konditionen sowie die Chancen und Risiken.",
+  ],
+  button: "Kostenloses Infopaket anfordern",
+};
 
-// Questions drawn from the article, shown as a checklist before the Fazit.
-export const checklist = [
-  "Wann benötige ich das Kapital voraussichtlich wieder?",
-  "Brauche ich es zu einem festen Termin, oder kann sein Einsatz zeitlich offenbleiben?",
-  "Welche Mindestlaufzeit und welche Kündigungsfristen gelten?",
-  "Unter welchen Bedingungen wird das Kapital zurückgezahlt?",
-  "Welche Reserven bleiben mir unabhängig von dieser Anlage verfügbar?",
-  "Welche wirtschaftlichen Risiken bin ich bereit zu tragen?",
-];
+export const riskNotice =
+  "Der Erwerb von Genossenschaftsanteilen ist eine unternehmerische Beteiligung mit Verlustrisiken bis hin zum vollständigen Verlust des eingesetzten Kapitals. Angestrebte Erträge und Rückzahlungen sind nicht garantiert. Maßgeblich sind die geltende Satzung und die vollständigen Beteiligungsunterlagen.";
