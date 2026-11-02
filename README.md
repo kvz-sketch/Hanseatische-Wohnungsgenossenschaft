@@ -61,11 +61,14 @@ the Satzung / Beitrittsunterlagen before the campaign goes live. Ad copy:
 The advertorial article that ads can link to first lives at
 `/hansea-invest/ratgeber/` (`src/hansea-invest/article/`).
 
-Live, both pages are hosted on Vercel (project `hansea-ratgeber`) under
-`https://ratgeber.hanseainvest.de/` (article) and `/infopaket/` (landing page).
-The Vercel project builds this repo and copies only these two pages into its
-output; the build command and `VITE_LANDING_URL=/infopaket/` are set in the
-Vercel project settings. Its buttons lead to
+Live, both pages run on the Hanseatische Invest eG Hostinger account as the
+subdomain `ratgeber.hanseainvest.de` (folder `public_html/ratgeber`, next to the
+untouched WordPress site): the article at `/`, the landing page at
+`/infopaket/`. Build them with `VITE_LANDING_URL=/infopaket/` from the two
+`hansea-invest` entries only, then upload `index.html` (article),
+`infopaket/index.html` (landing page), `assets/` and `favicon.svg`. An
+`.htaccess` in that folder redirects `hanseainvest.de/ratgeber/` to the
+subdomain. Its buttons lead to
 the landing page's form and carry the visitor's `tblci`/UTM parameters along.
 
 Leads go straight into HubSpot via the HubSpot form embedded in the hero card.
