@@ -39,7 +39,7 @@
       "recommendations": 2,
       "metaResults": 32,
       "metaCostPerResult": 159.04,
-      "perspectiveLeads": 42,
+      "perspectiveLeads": 43,
       "perspectiveFunnel": "Hamburg-Bergedorf Off-Market Landing Page",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
       "perspectiveFunnelId": "6a7ed6e71f79146cdd7611b7",
@@ -114,7 +114,7 @@
           "spend": 1755.28,
           "reach": 16144,
           "impressions": 39021,
-          "perspectiveLeads": 12,
+          "perspectiveLeads": 13,
           "leadDates": [
             "2026-09-29",
             "2026-10-02",
@@ -127,7 +127,8 @@
             "2026-10-20",
             "2026-10-21",
             "2026-10-25",
-            "2026-10-25"
+            "2026-10-25",
+            "2026-11-02"
           ]
         },
         {
@@ -208,7 +209,7 @@
           ]
         }
       ],
-      "note": "Meta meldet 32 Website-Leads bei 159,04 € je Lead. Perspective bestätigt 42 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 12, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 11, 280926_Bergedorf_Ad9: 1). 8 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 2. November 2026.",
+      "note": "Meta meldet 32 Website-Leads bei 159,04 € je Lead. Perspective bestätigt 43 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 13, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 11, 280926_Bergedorf_Ad9: 1). 8 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 2. November 2026. Anzeigenvergleich: Ad6 kostet 59,95 € je echtem Lead, Ad3 128,82 €, Ad4 135,02 €, bekommt aber nur 13 % der Ausgaben (Ad3 und Ad4 zusammen 77 %). Ad6 bringt auch das meiste Eigenkapital: 7 von 11 Kontakten geben über 10.000 € an, bei Ad3 6 von 17 (8 unter 2.000 €), bei Ad4 4 von 13. Von den 7 Leads der letzten 7 Tage kamen 4 über Ad6. Ad1, Ad2, Ad7 und Ad8 haben zusammen 119,24 € ohne Lead ausgegeben.",
       "incomplete": false,
       "leadStatusSource": "HubSpot, 29.10.2026 · 35 Deals (ohne 2 Test-Deals)"
     },
@@ -619,7 +620,7 @@
           "name": "261026_Hansea Grow_Bild_01",
           "metaAdId": "120251181375210344",
           "image": "261026_Hansea_Grow_Bild_01",
-              "metaResults": 18,
+          "metaResults": 18,
           "metaCostPerResult": 27.88,
           "spend": 501.85,
           "reach": 6563,
@@ -630,7 +631,7 @@
           "name": "261026_Hansea Grow_Bild_02",
           "metaAdId": "120251181387710344",
           "image": "261026_Hansea_Grow_Bild_02",
-              "metaResults": 1,
+          "metaResults": 1,
           "metaCostPerResult": 45.08,
           "spend": 45.08,
           "reach": 746,
@@ -641,7 +642,7 @@
           "name": "261026_Hansea Grow_Bild_03",
           "metaAdId": "120251181401730344",
           "image": "261026_Hansea_Grow_Bild_03",
-              "metaResults": null,
+          "metaResults": null,
           "metaCostPerResult": null,
           "spend": 2.13,
           "reach": 35,
@@ -652,7 +653,7 @@
           "name": "261026_Hansea Grow_Bild_04",
           "metaAdId": "120251181434960344",
           "image": "261026_Hansea_Grow_Bild_04",
-              "metaResults": null,
+          "metaResults": null,
           "metaCostPerResult": null,
           "spend": 4.32,
           "reach": 42,
