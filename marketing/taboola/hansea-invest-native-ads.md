@@ -1,7 +1,7 @@
 # Hanseatische Invest eG: Taboola Native Ads (Runde 1)
 
 Thema: investierende Mitgliedschaft in der Hanseatischen Invest eG (Hamburg), Anteile
-zu je 10.000 €, **vorgesehene Verzinsung 7 % p. a.** (laut Geschäftsordnung, nicht
+zu je 10.000 €, **vorgesehene Rendite 7 % p. a.** (laut Geschäftsordnung, nicht
 garantiert), Auszahlung alle drei Monate.
 Zielgruppe: 45 bis 70 Jahre, DACH (Fokus DE), Sparer mit 5.000 bis 50.000 € auf Tagesgeld /
 Sparbuch, Interesse an Rente, Inflation, Immobilien.
@@ -27,13 +27,13 @@ HubSpot-Formular), mit Tracking-Parametern
 
 ## Winkel 1: Rendite (Kontrolle, nah am bestehenden Ad)
 
-**1A** (54 / 127)
-**Titel:** 7 % Zinsen p. a. vorgesehen: mit echten Wohnimmobilien
+**1A** (55 / 128)
+**Titel:** 7 % Rendite p. a. vorgesehen: mit echten Wohnimmobilien
 **Text:** Genossenschaftsanteile einer Hamburger Genossenschaft für Rente, Vermögensaufbau
-und Inflationsschutz. Zinsen nicht garantiert.
+und Inflationsschutz. Rendite nicht garantiert.
 
-**1B** (53 / 107)
-**Titel:** Hamburger Genossenschaft: 7 % Zinsen p. a. vorgesehen
+**1B** (54 / 107)
+**Titel:** Hamburger Genossenschaft: 7 % Rendite p. a. vorgesehen
 **Text:** Mit Anteilen zu je 10.000 € Mitglied werden und an echten Wohnimmobilien
 beteiligt sein. Jetzt informieren.
 
@@ -44,31 +44,31 @@ beteiligt sein können. Alle Fakten im Überblick.
 
 ## Winkel 2: Tagesgeld-Vergleich / Zinsfrust
 
-**2A** (60 / 112)
+**2A** (60 / 109)
 **Titel:** Tagesgeld sinkt wieder: Diese Alternative kennen viele nicht
-**Text:** Hamburger Genossenschaft mit vorgesehener Verzinsung von 7 % p. a. Wie das
-Modell funktioniert, einfach erklärt.
+**Text:** Hamburger Genossenschaft mit vorgesehener Rendite von 7 % p. a. Wie das Modell
+funktioniert, einfach erklärt.
 
-**2B** (51 / 98)
+**2B** (51 / 99)
 **Titel:** Sparbuch, Tagesgeld oder Immobilien-Genossenschaft?
 **Text:** Ein Vergleich, den viele Sparer über 50 noch nicht gemacht haben. Vorgesehen
-sind 7 % Zinsen p. a.
+sind 7 % Rendite p. a.
 
-**2C** (57 / 110)
+**2C** (57 / 107)
 **Titel:** Warum Sparer jetzt auf Immobilien-Genossenschaften setzen
-**Text:** Sachwert statt Sparbuch: Genossenschaftsanteile mit vorgesehener Verzinsung von
-7 % p. a. Jetzt Infos sichern.
+**Text:** Sachwert statt Sparbuch: Genossenschaftsanteile mit vorgesehener Rendite von 7 %
+p. a. Jetzt Infos sichern.
 
 ## Winkel 3: Rente / Altersvorsorge
 
-**3A** (51 / 119)
+**3A** (51 / 116)
 **Titel:** Rentenlücke? Wie echte Wohnimmobilien helfen können
 **Text:** Genossenschaftsanteile als Baustein für die Altersvorsorge, mit vorgesehener
-Verzinsung von 7 % p. a. Kostenlose Infos.
+Rendite von 7 % p. a. Kostenlose Infos.
 
-**3B** (54 / 113)
+**3B** (54 / 114)
 **Titel:** Ab 50: Dieser Baustein fehlt in vielen Altersvorsorgen
-**Text:** Beteiligung an Wohnimmobilien über eine Hamburger Genossenschaft. 7 % Zinsen p.
+**Text:** Beteiligung an Wohnimmobilien über eine Hamburger Genossenschaft. 7 % Rendite p.
 a. vorgesehen. Jetzt informieren.
 
 **3C** (54 / 93)
@@ -83,10 +83,10 @@ sich eignen.
 **Text:** Wohnraum in A-Städten ist gefragt. So sind Sparer über eine Genossenschaft an
 echten Wohnhäusern beteiligt.
 
-**4B** (40 / 107)
+**4B** (40 / 104)
 **Titel:** Echte Wohnhäuser statt Zahlen auf Papier
-**Text:** Genossenschaftsanteile mit vorgesehener Verzinsung von 7 % p. a. Erfahren Sie,
-wie das Modell funktioniert.
+**Text:** Genossenschaftsanteile mit vorgesehener Rendite von 7 % p. a. Erfahren Sie, wie
+das Modell funktioniert.
 
 ## Winkel 5: Neugier / Ratgeber (Advertorial-Stil)
 
@@ -100,22 +100,22 @@ Laufzeit im Überblick.
 **Text:** Ein seit Raiffeisen bewährtes Prinzip, jetzt als Geldanlage in Wohnimmobilien.
 Einfach erklärt.
 
-**5C** (44 / 109)
+**5C** (44 / 106)
 **Titel:** 5 Dinge, die Sie vor dem Kauf wissen sollten
-**Text:** Genossenschaftsanteile mit vorgesehener Verzinsung von 7 % p. a.: Laufzeit,
+**Text:** Genossenschaftsanteile mit vorgesehener Rendite von 7 % p. a.: Laufzeit,
 Kündigung, Risiken. Der Ratgeber.
 
 ## Winkel 6: Regional (Geo-Targeting Norddeutschland)
 
-**6A** (50 / 105)
+**6A** (50 / 102)
 **Titel:** Aus Hamburg: Genossenschaft für Immobilien-Anleger
-**Text:** Mitglied der Hanseatischen Invest eG werden, mit vorgesehener Verzinsung von 7 %
-p. a. Jetzt informieren.
+**Text:** Mitglied der Hanseatischen Invest eG werden, mit vorgesehener Rendite von 7 % p.
+a. Jetzt informieren.
 
-**6B** (52 / 99)
+**6B** (52 / 100)
 **Titel:** Norddeutsche Sparer entdecken eine hanseatische Idee
-**Text:** Gemeinschaftlich in Wohnimmobilien investieren. Vorgesehen sind 7 % Zinsen p. a.
-Jetzt informieren.
+**Text:** Gemeinschaftlich in Wohnimmobilien investieren. Vorgesehen sind 7 % Rendite p.
+a. Jetzt informieren.
 
 ---
 
@@ -137,8 +137,9 @@ pro Variante die schwächsten 50 % abschalten. Branding-Text als eigener A/B-Tes
 
 Alle Ads folgen den Konditionen auf hanseainvest.de (Stand November 2026).
 
-- **„7 % p. a.“ immer als vorgesehene Verzinsung.** Laut § 10 der Allgemeinen
-  Geschäftsordnung sind 7 % Zinsen pro Jahr vorgesehen, aber nicht garantiert.
+- **„7 % p. a.“ immer als vorgesehene Rendite.** Laut § 10 der Allgemeinen
+  Geschäftsordnung sind 7 % pro Jahr vorgesehen (dort als „Zinsen“ bezeichnet),
+  aber nicht garantiert. In Ads und auf den Seiten heißt es einheitlich „Rendite“.
   Deshalb „vorgesehen“ dazuschreiben und nie „sicher“, „garantiert“ oder „bis zu“.
 - **Keine Mitbestimmung versprechen.** Investierende Mitglieder haben kein
   Stimmrecht in der Mitgliederversammlung.
