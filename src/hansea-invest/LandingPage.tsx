@@ -85,18 +85,18 @@ function Hero() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="font-serif-display mt-4 text-[36px] leading-[1.08] text-white sm:text-[48px] lg:text-[56px]">
-              Bis zu <span className="text-gold">7 % p. a.</span> mit Hamburger Wohnimmobilien
+              <span className="text-gold">7 % p. a.*</span> mit echten Wohnimmobilien
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-5 max-w-[520px] text-[16px] leading-relaxed text-fog sm:text-[17px]">
-              Werden Sie Mitglied der {offer.issuer} und beteiligen Sie sich an echten Mietwohnungen in Hamburg, als
-              Baustein für Rente, Vermögensaufbau und Schutz vor Inflation.
+              Werden Sie investierendes Mitglied der Hamburger {offer.issuer}: gemeinsam mit anderen Mitgliedern in
+              Wohnimmobilien investieren, ohne Kredit und ohne Vermieten.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <ul className="mt-6 flex flex-col gap-2.5 text-[15px] text-white">
-              {["Ziel-Dividende bis zu 7 % p. a.", "Beteiligung ab 10.000 €", "Quartalsweise Ausschüttung"].map(
+              {["7 % p. a. vorgesehene Verzinsung*", "Ein Anteil: 10.000 €, auch mehrere möglich", "Auszahlung alle drei Monate"].map(
                 (item) => (
                   <li key={item} className="flex items-center gap-3">
                     <Check />
@@ -108,7 +108,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={300}>
             <p className="mt-7 max-w-[520px] text-[11.5px] leading-relaxed text-fog/60">
-              Die Ziel-Dividende ist nicht garantiert. Ein Verlust des eingesetzten Kapitals ist möglich.
+              * Vorgesehene Verzinsung laut Geschäftsordnung, nicht garantiert. Ein Totalverlust des eingesetzten Kapitals ist möglich.
             </p>
           </Reveal>
         </div>
@@ -156,8 +156,8 @@ function HowItWorks() {
       <div className="mx-auto max-w-[1200px]">
         <SectionHeading
           eyebrow="So funktioniert's"
-          title="In drei Schritten an Hamburger Wohnungen beteiligt"
-          intro="Kein eigener Wohnungskauf, keine Mieterbetreuung, kein Notartermin. Die Genossenschaft übernimmt Ankauf, Sanierung und Verwaltung."
+          title="In drei Schritten an echten Wohnimmobilien beteiligt"
+          intro="Kein eigener Wohnungskauf, keine Mieterbetreuung, kein Notartermin. Ankauf, Modernisierung, Vermietung und Verkauf übernehmen die Genossenschaft und die Gerlach Immobilien Gruppe."
         />
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
           {steps.map((s, i) => (
@@ -184,8 +184,8 @@ function CalculatorSection() {
         <div>
           <SectionHeading
             eyebrow="Beispielrechnung"
-            title="Was Ihr Geld in Hamburger Wohnungen erwirtschaften kann"
-            intro="Bewegen Sie den Regler und sehen Sie, welche Ausschüttung sich bei der Ziel-Dividende von 7 % p. a. ergeben würde."
+            title="Was Ihre Anteile an Zinsen bringen würden"
+            intro="Bewegen Sie den Regler und sehen Sie, welche Zinsen sich bei der vorgesehenen Verzinsung von 7 % p. a. ergeben würden."
           />
           <Reveal delay={120} className="mt-7">
             <Button variant="primary" size="lg" href={`#${FORM_ID}`}>
@@ -402,6 +402,7 @@ function Footer() {
       <div className="mx-auto max-w-[1200px]">
         <img src={logoWhite} alt={offer.issuer} className="h-16 w-auto" />
         <p className="mt-5 max-w-[900px] text-[12px] leading-relaxed text-fog/80">{legal.riskNotice}</p>
+        <p className="mt-3 max-w-[900px] text-[12px] leading-relaxed text-fog/60">{legal.notes}</p>
         <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-6 text-[12px] text-fog/70 sm:flex-row sm:items-center sm:justify-between">
           <span>
             Anzeige · {offer.issuer} · {contact.address}

@@ -1,65 +1,66 @@
-// Copy for the Hanseatische Invest eG Taboola landing page (/hansea-invest/).
+// Copy for the Hanseatische Invest eG Taboola landing page
+// (ratgeber.hanseainvest.de/infopaket/).
 //
-// Product facts (min. amount, target dividend, payout rhythm, minimum term) are
-// the ones already stated on the GIG homepage (src/data/content.ts). Everything
-// marked "VERIFY" must be checked against the Satzung / Beitrittsunterlagen of
-// Hanseatische Invest eG before the campaign goes live.
+// Product terms follow hanseainvest.de (Satzung and Allgemeine Geschäftsordnung
+// as summarised there, Nov 2026): investing membership under § 8 Abs. 2 GenG,
+// shares of 10.000 €, 7 % interest p.a. planned (§ 10 AGO, not guaranteed),
+// paid quarterly, 12-month term renewing yearly, notice 9 months before the end.
 
 export const offer = {
   issuer: "Hanseatische Invest eG",
-  targetDividend: 7, // % p.a., target, not guaranteed; set by the Generalversammlung
-  minAmount: 10_000, // €, VERIFY
-  payout: "quartalsweise", // VERIFY
-  minTermYears: 1, // VERIFY
+  plannedInterest: 7, // % p.a., planned per § 10 AGO, not guaranteed
+  shareAmount: 10_000, // € per share; several shares possible
+  termMonths: 12, // renews by one year unless cancelled 9 months before the end
+  noticeMonths: 9,
 };
 
 export const contact = {
   phone: "+49 40 22862372-0",
   phoneHref: "tel:+4940228623720",
-  email: "info@gerlachgroup.de",
+  email: "mitgliederservice@hanseainvest.de",
   address: "Langenhorner Chaussee 155, 22415 Hamburg",
 };
 
 export const facts = [
-  { value: `bis ${offer.targetDividend} %`, label: "Ziel-Dividende p. a." },
-  { value: "ab 10.000 €", label: "Beteiligung" },
-  { value: "Quartalsweise", label: "Ausschüttung" },
-  { value: `${offer.minTermYears} Jahr`, label: "Mindestlaufzeit" },
+  { value: `${offer.plannedInterest} % p. a.*`, label: "Vorgesehene Verzinsung" },
+  { value: "10.000 €", label: "Je Anteil" },
+  { value: "Alle 3 Monate", label: "Auszahlung" },
+  { value: "12 Monate", label: "Laufzeit" },
 ];
 
 export const steps = [
   {
     title: "Mitglied werden",
     description:
-      "Sie zeichnen Genossenschaftsanteile der Hanseatische Invest eG und werden Mitglied mit Stimmrecht in der Generalversammlung.",
+      "Sie übernehmen einen oder mehrere Anteile zu je 10.000 € und werden investierendes Mitglied der Hanseatischen Invest eG.",
   },
   {
-    title: "Kapital arbeitet in Hamburg",
+    title: "Kapital arbeitet in echten Häusern",
     description:
-      "Die Genossenschaft investiert in Wohnimmobilien in Hamburg und Norddeutschland, die saniert, vermietet und langfristig gehalten werden.",
+      "Gemeinsam mit der Gerlach Immobilien Gruppe werden Mehrfamilienhäuser gekauft, modernisiert, vermietet und die Wohnungen einzeln verkauft.",
   },
   {
-    title: "An Mieteinnahmen teilhaben",
+    title: "Zinsen erhalten",
     description:
-      "Aus dem Überschuss beschließt die Generalversammlung eine Dividende. Ziel sind bis zu 7 % p. a., ausgezahlt quartalsweise.",
+      "Vorgesehen sind 7 % Zinsen pro Jahr, ausgezahlt alle drei Monate, erstmals nach dem ersten vollen Quartal. Die Verzinsung ist nicht garantiert.",
   },
 ];
 
 export const reasons = [
   {
-    title: "Sachwert statt Zahlen auf Papier",
+    title: "Sachwert statt Finanzprodukt",
     description:
-      "Hinter Ihren Anteilen stehen echte Mietwohnungen statt Aktienkursen oder komplizierter Finanzprodukte.",
+      "Die Wertschöpfung entsteht durch operative Arbeit an echten Wohnhäusern: kaufen, modernisieren, vermieten, einzeln verkaufen.",
   },
   {
-    title: "Wohnraum ist gefragt",
+    title: "Gefragte Lagen, breit gestreut",
     description:
-      "In Hamburg und seinem Umland ist bezahlbarer Wohnraum knapp. Gut gepflegte Bestandswohnungen sind langfristig gesucht.",
+      "Investiert wird in deutschen A-Städten und Wachstumsregionen. Das Kapital verteilt sich auf mehrere Projekte an verschiedenen Standorten.",
   },
   {
-    title: "Das Genossenschaftsprinzip",
+    title: "Geprüft und ohne Nachschuss",
     description:
-      "Eine eG gehört ihren Mitgliedern. Jedes Mitglied hat eine Stimme, unabhängig davon, wie viele Anteile es hält.",
+      "Eine eingetragene Genossenschaft wird von einem unabhängigen Prüfungsverband geprüft. Eine Nachschusspflicht besteht nicht.",
   },
 ];
 
@@ -84,40 +85,47 @@ export const ceo = {
 };
 
 export const opportunities = [
-  `Ziel-Dividende von bis zu ${offer.targetDividend} % p. a.`,
-  "Quartalsweise Ausschüttung",
-  "Beteiligung an realen Wohnimmobilien in Hamburg",
-  "Mitbestimmung als Genossenschaftsmitglied",
+  `Vorgesehene Verzinsung von ${offer.plannedInterest} % p. a.`,
+  "Auszahlung alle drei Monate",
+  "Beteiligung an echten Wohnimmobilien, ohne Kredit und ohne Vermieten",
+  "Keine Nachschusspflicht, die Steuer wird direkt abgeführt",
 ];
 
-// VERIFY: align with the official Risikohinweise in the Beitrittsunterlagen.
 export const risks = [
-  "Die Dividende ist nicht garantiert. Sie hängt vom wirtschaftlichen Ergebnis ab und wird jährlich von der Generalversammlung beschlossen.",
-  "Genossenschaftsanteile sind nicht börsennotiert. Eine Rückzahlung ist nur nach Kündigung unter Einhaltung der satzungsgemäßen Fristen möglich.",
-  "Leerstand, Instandhaltungskosten oder sinkende Immobilienwerte können das Ergebnis belasten.",
-  "Im ungünstigsten Fall ist ein Verlust des eingesetzten Kapitals bis hin zum Totalverlust möglich.",
+  "Die vorgesehenen Zinsen sind nicht garantiert. Sie können niedriger ausfallen oder entfallen.",
+  "Bei Kündigung wird Ihr Guthaben aus der Bilanz ermittelt (§ 73 Abs. 2 GenG) und kann unter Ihrer Einzahlung liegen.",
+  "Der Geschäftsanteil ist keine Bankeinlage, nicht durch ein gesetzliches Entschädigungssystem geschützt und nicht täglich verfügbar.",
+  "Es besteht ein Totalverlustrisiko des eingesetzten Kapitals.",
 ];
 
 export const faq = [
   {
-    q: "Was genau erwerbe ich?",
-    a: "Sie erwerben Genossenschaftsanteile der Hanseatische Invest eG und werden damit Mitglied der Genossenschaft. Die Genossenschaft hält und bewirtschaftet Wohnimmobilien in Hamburg und Norddeutschland.",
+    q: "Woran beteilige ich mich genau?",
+    a: "An der Genossenschaft selbst. Sie übernehmen einen oder mehrere Anteile zu je 10.000 € und werden damit Mitglied der Hanseatischen Invest eG. Eine eigene Wohnung gehört Ihnen nicht; um Mieter und Reparaturen kümmert sich die Genossenschaft.",
   },
   {
-    q: "Ab welchem Betrag kann ich mich beteiligen?",
-    a: "Eine Beteiligung ist ab 10.000 € möglich. Die genauen Konditionen erhalten Sie mit dem kostenlosen Infopaket.",
+    q: "Was bedeutet „investierendes Mitglied“?",
+    a: "Sie stellen Geld zur Verfügung und erhalten dafür Zinsen. Sie arbeiten nicht im Betrieb mit und haben kein Stimmrecht in der Mitgliederversammlung.",
   },
   {
-    q: "Wie kommen die bis zu 7 % zustande?",
-    a: "Die Dividende wird aus den Überschüssen der Genossenschaft, vor allem aus Mieteinnahmen, gezahlt und jedes Jahr von der Generalversammlung beschlossen. 7 % p. a. sind das Ziel, keine feste Zusage.",
+    q: "Wie hoch sind die Zinsen und wann werden sie gezahlt?",
+    a: "Vorgesehen sind 7 % pro Jahr laut § 10 der Allgemeinen Geschäftsordnung, ausgezahlt alle drei Monate, erstmals nach dem ersten vollen Quartal Ihrer Mitgliedschaft. Die Verzinsung ist nicht garantiert.",
   },
   {
-    q: "Wann und wie oft wird ausgezahlt?",
-    a: "Die Ausschüttung erfolgt quartalsweise. Die Mindestlaufzeit beträgt ein Jahr.",
+    q: "Wie lange bin ich gebunden?",
+    a: "Zunächst zwölf Monate. Kündigen Sie nicht spätestens neun Monate vor Ablauf, läuft Ihr Anteil ein weiteres Jahr.",
   },
   {
-    q: "Wie komme ich wieder an mein Geld?",
-    a: "Sie können Ihre Mitgliedschaft bzw. Ihre Anteile kündigen. Die Mindestlaufzeit beträgt 12 Monate, die Kündigungsfrist neun Monate. Die Auszahlung des Auseinandersetzungsguthabens erfolgt nach den Bedingungen der Satzung. Details stehen im Infopaket.",
+    q: "Was passiert, wenn ich kündige?",
+    a: "Nach Ablauf der Laufzeit bekommen Sie Ihren Anteil ausgezahlt. Der Betrag ergibt sich aus dem Jahresabschluss und kann unter Ihrer Einzahlung liegen.",
+  },
+  {
+    q: "Kann ich später zur Kasse gebeten werden?",
+    a: "Nein. Mehr als Ihren Anteil zahlen Sie nie ein. Eine Nachschusspflicht besteht nicht; das ist in der Satzung festgeschrieben.",
+  },
+  {
+    q: "Muss ich die Zinsen versteuern?",
+    a: "Ja, so wie Zinsen auf einem Konto. Die Genossenschaft führt die Steuer direkt ab; ein Freistellungsauftrag ist möglich.",
   },
   {
     q: "Ist das Infopaket wirklich kostenlos und unverbindlich?",
@@ -140,8 +148,10 @@ export const hubspot = {
 };
 
 export const legal = {
-  imprint: "https://gerlachgroup.de/impressum/",
-  privacy: "https://gerlachgroup.de/datenschutzerklarung/",
+  imprint: "https://hanseainvest.de/impressum/",
+  privacy: "https://hanseainvest.de/datenschutz/",
   riskNotice:
-    "Risikohinweis: Der Erwerb von Genossenschaftsanteilen ist mit Risiken verbunden und kann zum teilweisen oder vollständigen Verlust des eingesetzten Kapitals führen. Die angegebene Ziel-Dividende von bis zu 7 % p. a. ist keine Garantie; frühere oder geplante Ausschüttungen sind kein verlässlicher Indikator für künftige Ergebnisse. Maßgeblich sind ausschließlich die Satzung und die Beitrittsunterlagen der Hanseatische Invest eG.",
+    "Risikohinweis: Genossenschaftsanteile sind eine unternehmerische Beteiligung und nicht garantiert. Es besteht Totalverlustrisiko des eingesetzten Kapitals. Keine Nachschusspflicht. Die vorgesehenen Zinsen können niedriger ausfallen oder entfallen. Bei Kündigung wird Ihr Guthaben nach § 73 Absatz 2 GenG aus der Bilanz ermittelt und kann unter Ihrer Einzahlung liegen. Der Geschäftsanteil ist keine Bankeinlage, nicht durch ein gesetzliches Entschädigungssystem geschützt und nicht täglich verfügbar.",
+  notes:
+    "Angeboten wird die investierende Mitgliedschaft nach § 8 Absatz 2 GenG, nicht die Beteiligung an einem einzelnen Objekt. Diese Seite dient der Information und ersetzt keine Anlage-, Rechts- oder Steuerberatung. Maßgeblich sind Satzung, Allgemeine Geschäftsordnung und Beitrittsunterlagen. Geschäftsanteile an eingetragenen Genossenschaften sind nach § 2 Absatz 1 Nummer 1 VermAnlG von der Prospektpflicht ausgenommen, ein Verkaufsprospekt liegt nicht vor. * Vorgesehene Verzinsung laut Geschäftsordnung, keine Zusage.",
 };

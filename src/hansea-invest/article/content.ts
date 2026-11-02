@@ -1,6 +1,7 @@
 // Advertorial article for the Hanseatische Invest eG Taboola campaign
 // (ratgeber.hanseainvest.de). Text as supplied by the client; dashes were
-// replaced with commas per the client's style, nothing else was reworded.
+// replaced with commas per the client's style, and the locations and term
+// details were aligned with the terms on hanseainvest.de.
 
 export const article = {
   kicker: "Ratgeber Vermögensplanung",
@@ -98,7 +99,7 @@ export const sections: Section[] = [
       p("Ein Beispiel für ein solches Modell ist die Hanseatische Invest eG aus Hamburg."),
       p("Über Genossenschaftsanteile können sich Anleger an einer gemeinschaftlichen Immobilienstrategie beteiligen, ohne selbst eine Wohnung kaufen, finanzieren oder verwalten zu müssen."),
       p("Die Immobilienprojekte werden gemeinsam mit der Gerlach Immobilien Gruppe umgesetzt."),
-      p("Im Mittelpunkt stehen Wohnimmobilien in Hamburg und Norddeutschland. Diese werden angekauft, wirtschaftlich und baulich optimiert, vermietet und gegebenenfalls wieder veräußert."),
+      p("Im Mittelpunkt stehen Mehrfamilienhäuser in deutschen A-Städten und Wachstumsregionen. Sie werden angekauft, modernisiert, vermietet und die Wohnungen anschließend einzeln verkauft."),
       p("Das Ziel ist es, durch die Entwicklung und Bewirtschaftung der Immobilien wirtschaftliche Überschüsse zu erwirtschaften."),
       p("Mit dem Erwerb von Genossenschaftsanteilen entsteht jedoch kein direktes Eigentum an einer bestimmten Immobilie. Mitglieder beteiligen sich unternehmerisch an der Genossenschaft und tragen die damit verbundenen Risiken."),
     ],
@@ -111,7 +112,7 @@ export const sections: Section[] = [
       p("Die erste Zeitspanne betrifft das Immobilienprojekt selbst: Ein Objekt wird angekauft, entwickelt, vermietet oder verkauft."),
       p("Die zweite betrifft den Anleger und sein eingesetztes Kapital."),
       p("Auch wenn ein Immobilienprojekt erfolgreich abgeschlossen und eine Immobilie verkauft wurde, bedeutet das nicht automatisch, dass Genossenschaftsmitglieder ihre Anteile unmittelbar zurückgeben oder eine Rückzahlung verlangen können."),
-      p("Bei der Hanseatischen Invest eG beträgt die veröffentlichte Mindestlaufzeit 12 Monate. Zusätzlich gilt eine Kündigungsfrist von neun Monaten. Für die tatsächliche Beendigung und Rückzahlung sind die maßgeblichen Satzungs- und Beteiligungsbedingungen entscheidend."),
+      p("Bei der Hanseatischen Invest eG beträgt die Laufzeit zunächst 12 Monate. Wer nicht spätestens neun Monate vor Ablauf kündigt, bleibt ein weiteres Jahr beteiligt. Nach einer Kündigung wird das Guthaben aus dem Jahresabschluss ermittelt und kann unter der Einzahlung liegen. Maßgeblich sind die Satzung und die Beteiligungsbedingungen."),
       p("Eine vollständige Rückzahlung des eingesetzten Kapitals ist nicht garantiert."),
       p("Gerade für Menschen mit zukünftigen finanziellen Verpflichtungen ist es deshalb wichtig, diese Unterschiede vor einer Anlageentscheidung genau zu verstehen."),
     ],

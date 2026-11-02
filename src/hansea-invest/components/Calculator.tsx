@@ -3,36 +3,36 @@ import { offer } from "../content";
 
 const euro = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
-const MAX = 100_000;
-const STEP = 1_000;
+const MAX_SHARES = 10;
 
 export function Calculator() {
-  const [amount, setAmount] = useState(25_000);
-  const yearly = (amount * offer.targetDividend) / 100;
-  const pct = ((amount - offer.minAmount) / (MAX - offer.minAmount)) * 100;
+  const [shares, setShares] = useState(3);
+  const amount = shares * offer.shareAmount;
+  const yearly = (amount * offer.plannedInterest) / 100;
+  const pct = ((shares - 1) / (MAX_SHARES - 1)) * 100;
 
   return (
     <div className="rounded-lg border border-line bg-white p-6 shadow-[0_16px_40px_rgba(20,26,70,0.08)] sm:p-8">
       <div className="flex items-baseline justify-between gap-4">
         <label htmlFor="calc-amount" className="subheading text-[12px] uppercase tracking-[0.12em] text-ink">
-          Ihr Betrag
+          {shares} {shares === 1 ? "Anteil" : "Anteile"}
         </label>
         <span className="subheading text-[26px] text-navy sm:text-[30px]">{euro.format(amount)}</span>
       </div>
       <input
         id="calc-amount"
         type="range"
-        min={offer.minAmount}
-        max={MAX}
-        step={STEP}
-        value={amount}
-        onChange={(e) => setAmount(Number(e.target.value))}
+        min={1}
+        max={MAX_SHARES}
+        step={1}
+        value={shares}
+        onChange={(e) => setShares(Number(e.target.value))}
         className="mt-4 h-2 w-full cursor-pointer appearance-none rounded-full accent-[#c6a248]"
         style={{ background: `linear-gradient(90deg, #ddb851 ${pct}%, #e7e8ec ${pct}%)` }}
       />
       <div className="mt-1.5 flex justify-between text-[11.5px] text-muted">
-        <span>{euro.format(offer.minAmount)}</span>
-        <span>{euro.format(MAX)}</span>
+        <span>1 Anteil · {euro.format(offer.shareAmount)}</span>
+        <span>{MAX_SHARES} Anteile</span>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
@@ -46,8 +46,8 @@ export function Calculator() {
         </div>
       </div>
       <p className="mt-4 text-[11.5px] leading-relaxed text-muted">
-        Beispielrechnung bei einer Ziel-Dividende von {offer.targetDividend} % p. a., vor Steuern. Die tatsächliche
-        Dividende wird jährlich von der Generalversammlung beschlossen und kann niedriger ausfallen oder entfallen.
+        Beispielrechnung bei der vorgesehenen Verzinsung von {offer.plannedInterest} % p. a. laut Geschäftsordnung, vor
+        Steuern. Die Zinsen sind nicht garantiert und können niedriger ausfallen oder entfallen.
       </p>
     </div>
   );

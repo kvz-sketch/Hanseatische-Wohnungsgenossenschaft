@@ -1,7 +1,8 @@
 # Hanseatische Invest eG: Taboola Native Ads (Runde 1)
 
-Thema: Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft, Ziel-Dividende
-**bis zu 7 % p. a.**
+Thema: investierende Mitgliedschaft in der Hanseatischen Invest eG (Hamburg), Anteile
+zu je 10.000 €, **vorgesehene Verzinsung 7 % p. a.** (laut Geschäftsordnung, nicht
+garantiert), Auszahlung alle drei Monate.
 Zielgruppe: 45 bis 70 Jahre, DACH (Fokus DE), Sparer mit 5.000 bis 50.000 € auf Tagesgeld /
 Sparbuch, Interesse an Rente, Inflation, Immobilien.
 
@@ -26,95 +27,95 @@ HubSpot-Formular), mit Tracking-Parametern
 
 ## Winkel 1: Rendite (Kontrolle, nah am bestehenden Ad)
 
-**1A** (45 / 110)
-**Titel:** Bis zu 7 % p. a. mit Hamburger Wohnimmobilien
-**Text:** Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft für
-Rente, Vermögensaufbau und Inflationsschutz.
+**1A** (54 / 127)
+**Titel:** 7 % Zinsen p. a. vorgesehen: mit echten Wohnimmobilien
+**Text:** Genossenschaftsanteile einer Hamburger Genossenschaft für Rente, Vermögensaufbau
+und Inflationsschutz. Zinsen nicht garantiert.
 
-**1B** (51 / 116)
-**Titel:** Hamburger Genossenschaft: bis zu 7 % Ziel-Dividende
-**Text:** Schon ab kleinen Beträgen Mitglied werden und an echten Wohnimmobilien in
-Hamburg beteiligt sein. Jetzt informieren.
+**1B** (53 / 107)
+**Titel:** Hamburger Genossenschaft: 7 % Zinsen p. a. vorgesehen
+**Text:** Mit Anteilen zu je 10.000 € Mitglied werden und an echten Wohnimmobilien
+beteiligt sein. Jetzt informieren.
 
-**1C** (49 / 114)
-**Titel:** Bis zu 7 % p. a. mit Wohnungen statt Aktienkursen
-**Text:** Wie Sparer mit Genossenschaftsanteilen an Hamburger Mietwohnungen
+**1C** (54 / 125)
+**Titel:** 7 % p. a. vorgesehen, mit Wohnungen statt Aktienkursen
+**Text:** Wie Sparer mit Genossenschaftsanteilen an modernisierten Mehrfamilienhäusern
 beteiligt sein können. Alle Fakten im Überblick.
 
 ## Winkel 2: Tagesgeld-Vergleich / Zinsfrust
 
-**2A** (60 / 111)
+**2A** (60 / 112)
 **Titel:** Tagesgeld sinkt wieder: Diese Alternative kennen viele nicht
-**Text:** Hamburger Wohnungsgenossenschaft mit Ziel-Dividende bis 7 % p. a. Wie das
+**Text:** Hamburger Genossenschaft mit vorgesehener Verzinsung von 7 % p. a. Wie das
 Modell funktioniert, einfach erklärt.
 
-**2B** (50 / 97)
-**Titel:** Sparbuch, Tagesgeld oder Hamburger Wohnimmobilien?
-**Text:** Ein Vergleich, den viele Sparer über 50 noch nicht gemacht haben.
-Ziel-Dividende bis zu 7 % p. a.
+**2B** (51 / 98)
+**Titel:** Sparbuch, Tagesgeld oder Immobilien-Genossenschaft?
+**Text:** Ein Vergleich, den viele Sparer über 50 noch nicht gemacht haben. Vorgesehen
+sind 7 % Zinsen p. a.
 
-**2C** (56 / 104)
-**Titel:** Warum Hamburger Sparer jetzt auf Genossenschaften setzen
-**Text:** Sachwert statt Sparbuch: Genossenschaftsanteile mit Ziel-Dividende bis zu
+**2C** (57 / 110)
+**Titel:** Warum Sparer jetzt auf Immobilien-Genossenschaften setzen
+**Text:** Sachwert statt Sparbuch: Genossenschaftsanteile mit vorgesehener Verzinsung von
 7 % p. a. Jetzt Infos sichern.
 
 ## Winkel 3: Rente / Altersvorsorge
 
-**3A** (50 / 112)
-**Titel:** Rentenlücke? Wie Hamburger Wohnungen helfen können
-**Text:** Genossenschaftsanteile als Baustein für die Altersvorsorge mit
-Ziel-Dividende bis zu 7 % p. a. Kostenlose Infos.
+**3A** (51 / 119)
+**Titel:** Rentenlücke? Wie echte Wohnimmobilien helfen können
+**Text:** Genossenschaftsanteile als Baustein für die Altersvorsorge, mit vorgesehener
+Verzinsung von 7 % p. a. Kostenlose Infos.
 
-**3B** (54 / 120)
+**3B** (54 / 113)
 **Titel:** Ab 50: Dieser Baustein fehlt in vielen Altersvorsorgen
-**Text:** Beteiligung an Hamburger Wohnimmobilien über eine Genossenschaft. Bis zu
-7 % p. a. Ziel-Dividende. Jetzt Ratgeber lesen.
+**Text:** Beteiligung an Wohnimmobilien über eine Hamburger Genossenschaft. 7 % Zinsen p.
+a. vorgesehen. Jetzt informieren.
 
-**3C** (44 / 93)
-**Titel:** Rente aufbessern mit Hamburger Mietwohnungen
-**Text:** Wie Genossenschaftsanteile funktionieren, was sie bringen können und
-für wen sie sich eignen.
+**3C** (54 / 93)
+**Titel:** Rente aufbessern mit Wohnimmobilien, ohne zu vermieten
+**Text:** Wie Genossenschaftsanteile funktionieren, was sie bringen können und für wen sie
+sich eignen.
 
 ## Winkel 4: Sachwert / Inflation
 
-**4A** (46 / 99)
+**4A** (46 / 107)
 **Titel:** Inflation frisst Erspartes: Sachwerte im Fokus
-**Text:** Wohnraum in Hamburg ist knapp und gefragt. So sind Sparer über eine
-Genossenschaft daran beteiligt.
+**Text:** Wohnraum in A-Städten ist gefragt. So sind Sparer über eine Genossenschaft an
+echten Wohnhäusern beteiligt.
 
-**4B** (50 / 101)
-**Titel:** Echte Wohnungen in Hamburg statt Zahlen auf Papier
-**Text:** Genossenschaftsanteile mit Ziel-Dividende bis zu 7 % p. a. Erfahren
-Sie, wie das Modell funktioniert.
+**4B** (40 / 107)
+**Titel:** Echte Wohnhäuser statt Zahlen auf Papier
+**Text:** Genossenschaftsanteile mit vorgesehener Verzinsung von 7 % p. a. Erfahren Sie,
+wie das Modell funktioniert.
 
 ## Winkel 5: Neugier / Ratgeber (Advertorial-Stil)
 
-**5A** (53 / 103)
+**5A** (53 / 98)
 **Titel:** Hamburger Genossenschaft: Das steckt hinter 7 % p. a.
-**Text:** Was Sparer über Genossenschaftsanteile wissen sollten: Chancen, Risiken
-und Mindestanlage im Überblick.
+**Text:** Was Sparer über Genossenschaftsanteile wissen sollten: Chancen, Risiken und
+Laufzeit im Überblick.
 
-**5B** (47 / 103)
+**5B** (47 / 95)
 **Titel:** Genossenschaftsanteile: Was ist das eigentlich?
-**Text:** Seit über 100 Jahren in Hamburg verbreitet und jetzt auch als Geldanlage
-neu entdeckt. Einfach erklärt.
+**Text:** Ein seit Raiffeisen bewährtes Prinzip, jetzt als Geldanlage in Wohnimmobilien.
+Einfach erklärt.
 
-**5C** (44 / 94)
+**5C** (44 / 109)
 **Titel:** 5 Dinge, die Sie vor dem Kauf wissen sollten
-**Text:** Genossenschaftsanteile an Hamburger Wohnimmobilien: Ziel-Dividende bis
-7 % p. a. Der Ratgeber.
+**Text:** Genossenschaftsanteile mit vorgesehener Verzinsung von 7 % p. a.: Laufzeit,
+Kündigung, Risiken. Der Ratgeber.
 
-## Winkel 6: Regional / Hamburg-Stolz (Geo-Targeting Norddeutschland)
+## Winkel 6: Regional (Geo-Targeting Norddeutschland)
 
-**6A** (50 / 94)
-**Titel:** Für Hamburger: Am eigenen Wohnungsmarkt beteiligen
-**Text:** Mitglied in einer Hamburger Wohnungsgenossenschaft werden, mit
-Ziel-Dividende bis zu 7 % p. a.
+**6A** (50 / 105)
+**Titel:** Aus Hamburg: Genossenschaft für Immobilien-Anleger
+**Text:** Mitglied der Hanseatischen Invest eG werden, mit vorgesehener Verzinsung von 7 %
+p. a. Jetzt informieren.
 
 **6B** (52 / 99)
 **Titel:** Norddeutsche Sparer entdecken eine hanseatische Idee
-**Text:** Gemeinschaftlich in Hamburger Wohnraum investieren. Ziel-Dividende bis
-7 % p. a. Jetzt informieren.
+**Text:** Gemeinschaftlich in Wohnimmobilien investieren. Vorgesehen sind 7 % Zinsen p. a.
+Jetzt informieren.
 
 ---
 
@@ -134,19 +135,21 @@ pro Variante die schwächsten 50 % abschalten. Branding-Text als eigener A/B-Tes
 
 ## Compliance: vor dem Livegang prüfen lassen
 
-- **„Bis zu 7 %“ ist eine Ziel-Dividende, keine Zinszusage.** Die Dividende einer
-  Genossenschaft beschließt die Generalversammlung; deshalb in allen Ads
-  „Ziel-Dividende“ bzw. „bis zu“ und nie „Zinsen“, „sicher“ oder „garantiert“.
-  Der Wert muss auf der Landingpage belegt sein (Historie / Satzung / Prospekt).
-- **Risikohinweis:** Je nach rechtlicher Einordnung des Angebots (Ausnahme für
-  Genossenschaften nach § 2 VermAnlG ja/nein, provisionsbasierter Vertrieb) kann
-  der Warnhinweis nach § 12 VermAnlG in der Werbung Pflicht sein. Bitte juristisch
-  klären, bevor die Ads laufen. Das betrifft ggf. auch den Beschreibungstext.
+Alle Ads folgen den Konditionen auf hanseainvest.de (Stand November 2026).
+
+- **„7 % p. a.“ immer als vorgesehene Verzinsung.** Laut § 10 der Allgemeinen
+  Geschäftsordnung sind 7 % Zinsen pro Jahr vorgesehen, aber nicht garantiert.
+  Deshalb „vorgesehen“ dazuschreiben und nie „sicher“, „garantiert“ oder „bis zu“.
+- **Keine Mitbestimmung versprechen.** Investierende Mitglieder haben kein
+  Stimmrecht in der Mitgliederversammlung.
+- **Keine Region versprechen, die nicht stimmt.** Die Genossenschaft sitzt in
+  Hamburg, investiert aber in deutschen A-Städten und Wachstumsregionen. Also
+  „Hamburger Genossenschaft“, nicht „Hamburger Wohnimmobilien“.
+- **Prospektpflicht:** Laut hanseainvest.de sind die Geschäftsanteile nach § 2
+  Abs. 1 Nr. 1 VermAnlG von der Prospektpflicht ausgenommen. Ob dennoch ein
+  Warnhinweis in den Ads nötig ist, bitte juristisch bestätigen lassen.
 - **Taboola-Richtlinien Finanzen:** keine garantierten Renditen, keine
   Dringlichkeits-Tricks („nur heute“), keine Promi-Bezüge, Landingpage muss
   Anbieter, Impressum und Risiken klar zeigen.
 - **Advertorial-Domain (z. B. ratgeber-sparen.com):** Seite muss als „Anzeige“
   gekennzeichnet sein und den Anbieter (Hanseatische Invest eG) eindeutig nennen.
-- Zahlen wie „seit über 100 Jahren“ (5B) nur verwenden, wenn sie für die
-  konkrete Genossenschaft stimmen, sonst auf allgemeines Genossenschaftsmodell
-  umformulieren.

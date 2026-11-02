@@ -230,16 +230,16 @@ function TwoTimeframes() {
 
         <div className="subheading mt-6 text-[13px] text-navy">Bindung des angelegten Kapitals</div>
         <div className="mt-2 flex w-full gap-[3px]">
-          <div className="w-[38%] rounded-[2px] bg-gold px-1 py-2 text-center text-[10.5px] font-semibold leading-tight text-navy sm:text-[12px]">
-            Mindest&shy;laufzeit 12 Monate
-          </div>
-          <div className="w-[30%] rounded-[2px] bg-gold/70 px-1 py-2 text-center text-[10.5px] font-semibold leading-tight text-navy sm:text-[12px]">
-            Kündigungs&shy;frist 9 Monate
+          <div className="w-[70%] rounded-[2px] bg-gold px-1 py-2 text-center text-[10.5px] font-semibold leading-tight text-navy sm:text-[12px]">
+            Laufzeit 12 Monate
           </div>
           <div className="flex-1 rounded-[2px] border border-dashed border-gold-deep px-1 py-2 text-center text-[10.5px] font-semibold leading-tight text-navy sm:text-[12px]">
-            Rück&shy;zahlung nach Satzung
+            Aus&shy;zahlung nach Jahres&shy;abschluss
           </div>
         </div>
+        <p className="mt-2 text-[11.5px] leading-snug text-muted">
+          Kündigung spätestens 9 Monate vor Ablauf, sonst verlängert sich die Laufzeit um ein Jahr.
+        </p>
 
         {/* Marker: the property is sold while the capital is still bound */}
         <div className="pointer-events-none absolute top-[22px] bottom-0 left-[72%] w-0 border-l-2 border-koralle" aria-hidden="true" />

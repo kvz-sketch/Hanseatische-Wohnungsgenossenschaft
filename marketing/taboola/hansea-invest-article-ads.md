@@ -157,7 +157,7 @@ erfahren“, falls nicht verfügbar), Ziel-URL des Artikels mit Tracking-Paramet
 ## Compliance
 
 - Diese Ads nennen keine Rendite und keine Laufzeit. Sobald Zahlen ergänzt
-  werden, gelten die Hinweise aus Runde 1 (Ziel-Dividende, Risikohinweis).
+  werden, gelten die Hinweise aus Runde 1 (vorgesehene Verzinsung, Risikohinweis).
 - D2 und A2 werben mit Aufklärung über Laufzeiten. Der Artikel und die
   Landingpage müssen die konkreten Bedingungen der Hanseatische Invest eG dann
   auch tatsächlich nennen (Infopaket).

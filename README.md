@@ -55,7 +55,7 @@ Taboola campaign page for the Hanseatische Invest eG, built as a second Vite
 entry (`hansea-invest/index.html` → `src/hansea-invest/`). It is deployed with
 the homepage and served at `/hansea-invest/`. Copy and product facts live in
 `src/hansea-invest/content.ts`; values marked `VERIFY` must be checked against
-the Satzung / Beitrittsunterlagen before the campaign goes live. Ad copy:
+the terms on hanseainvest.de (Satzung / Geschäftsordnung). Ad copy:
 `marketing/taboola/hansea-invest-native-ads.md`.
 
 The advertorial article that ads can link to first lives at
