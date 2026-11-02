@@ -3,7 +3,7 @@
 //
 // Product terms follow hanseainvest.de (Satzung and Allgemeine Geschäftsordnung
 // as summarised there, Nov 2026): investing membership under § 8 Abs. 2 GenG,
-// shares of 10.000 €, 7 % interest p.a. planned (§ 10 AGO, not guaranteed),
+// shares of 10.000 €, 7 % return p.a. planned (§ 10 AGO, not guaranteed),
 // paid quarterly, 12-month term renewing yearly, notice 9 months before the end.
 
 export const offer = {
@@ -22,7 +22,7 @@ export const contact = {
 };
 
 export const facts = [
-  { value: `${offer.plannedInterest} % p. a.*`, label: "Vorgesehene Verzinsung" },
+  { value: `${offer.plannedInterest} % p. a.*`, label: "Vorgesehene Rendite" },
   { value: "10.000 €", label: "Je Anteil" },
   { value: "Alle 3 Monate", label: "Auszahlung" },
   { value: "12 Monate", label: "Laufzeit" },
@@ -40,9 +40,9 @@ export const steps = [
       "Gemeinsam mit der Gerlach Immobilien Gruppe werden Mehrfamilienhäuser gekauft, modernisiert, vermietet und die Wohnungen einzeln verkauft.",
   },
   {
-    title: "Zinsen erhalten",
+    title: "Rendite erhalten",
     description:
-      "Vorgesehen sind 7 % Zinsen pro Jahr, ausgezahlt alle drei Monate, erstmals nach dem ersten vollen Quartal. Die Verzinsung ist nicht garantiert.",
+      "Vorgesehen sind 7 % Rendite pro Jahr, ausgezahlt alle drei Monate, erstmals nach dem ersten vollen Quartal. Die Rendite ist nicht garantiert.",
   },
 ];
 
@@ -85,14 +85,14 @@ export const ceo = {
 };
 
 export const opportunities = [
-  `Vorgesehene Verzinsung von ${offer.plannedInterest} % p. a.`,
+  `Vorgesehene Rendite von ${offer.plannedInterest} % p. a.`,
   "Auszahlung alle drei Monate",
   "Beteiligung an echten Wohnimmobilien, ohne Kredit und ohne Vermieten",
   "Keine Nachschusspflicht, die Steuer wird direkt abgeführt",
 ];
 
 export const risks = [
-  "Die vorgesehenen Zinsen sind nicht garantiert. Sie können niedriger ausfallen oder entfallen.",
+  "Die vorgesehene Rendite ist nicht garantiert. Sie kann niedriger ausfallen oder entfallen.",
   "Bei Kündigung wird Ihr Guthaben aus der Bilanz ermittelt (§ 73 Abs. 2 GenG) und kann unter Ihrer Einzahlung liegen.",
   "Der Geschäftsanteil ist keine Bankeinlage, nicht durch ein gesetzliches Entschädigungssystem geschützt und nicht täglich verfügbar.",
   "Es besteht ein Totalverlustrisiko des eingesetzten Kapitals.",
@@ -105,11 +105,11 @@ export const faq = [
   },
   {
     q: "Was bedeutet „investierendes Mitglied“?",
-    a: "Sie stellen Geld zur Verfügung und erhalten dafür Zinsen. Sie arbeiten nicht im Betrieb mit und haben kein Stimmrecht in der Mitgliederversammlung.",
+    a: "Sie stellen Geld zur Verfügung und erhalten dafür eine Rendite. Sie arbeiten nicht im Betrieb mit und haben kein Stimmrecht in der Mitgliederversammlung.",
   },
   {
-    q: "Wie hoch sind die Zinsen und wann werden sie gezahlt?",
-    a: "Vorgesehen sind 7 % pro Jahr laut § 10 der Allgemeinen Geschäftsordnung, ausgezahlt alle drei Monate, erstmals nach dem ersten vollen Quartal Ihrer Mitgliedschaft. Die Verzinsung ist nicht garantiert.",
+    q: "Wie hoch ist die Rendite und wann wird sie gezahlt?",
+    a: "Vorgesehen sind 7 % pro Jahr laut § 10 der Allgemeinen Geschäftsordnung, ausgezahlt alle drei Monate, erstmals nach dem ersten vollen Quartal Ihrer Mitgliedschaft. Die Rendite ist nicht garantiert.",
   },
   {
     q: "Wie lange bin ich gebunden?",
@@ -124,8 +124,8 @@ export const faq = [
     a: "Nein. Mehr als Ihren Anteil zahlen Sie nie ein. Eine Nachschusspflicht besteht nicht; das ist in der Satzung festgeschrieben.",
   },
   {
-    q: "Muss ich die Zinsen versteuern?",
-    a: "Ja, so wie Zinsen auf einem Konto. Die Genossenschaft führt die Steuer direkt ab; ein Freistellungsauftrag ist möglich.",
+    q: "Muss ich die Rendite versteuern?",
+    a: "Ja, so wie Kapitalerträge auf einem Konto. Die Genossenschaft führt die Steuer direkt ab; ein Freistellungsauftrag ist möglich.",
   },
   {
     q: "Ist das Infopaket wirklich kostenlos und unverbindlich?",
@@ -151,7 +151,7 @@ export const legal = {
   imprint: "https://hanseainvest.de/impressum/",
   privacy: "https://hanseainvest.de/datenschutz/",
   riskNotice:
-    "Risikohinweis: Genossenschaftsanteile sind eine unternehmerische Beteiligung und nicht garantiert. Es besteht Totalverlustrisiko des eingesetzten Kapitals. Keine Nachschusspflicht. Die vorgesehenen Zinsen können niedriger ausfallen oder entfallen. Bei Kündigung wird Ihr Guthaben nach § 73 Absatz 2 GenG aus der Bilanz ermittelt und kann unter Ihrer Einzahlung liegen. Der Geschäftsanteil ist keine Bankeinlage, nicht durch ein gesetzliches Entschädigungssystem geschützt und nicht täglich verfügbar.",
+    "Risikohinweis: Genossenschaftsanteile sind eine unternehmerische Beteiligung und nicht garantiert. Es besteht Totalverlustrisiko des eingesetzten Kapitals. Keine Nachschusspflicht. Die vorgesehene Rendite kann niedriger ausfallen oder entfallen. Bei Kündigung wird Ihr Guthaben nach § 73 Absatz 2 GenG aus der Bilanz ermittelt und kann unter Ihrer Einzahlung liegen. Der Geschäftsanteil ist keine Bankeinlage, nicht durch ein gesetzliches Entschädigungssystem geschützt und nicht täglich verfügbar.",
   notes:
-    "Angeboten wird die investierende Mitgliedschaft nach § 8 Absatz 2 GenG, nicht die Beteiligung an einem einzelnen Objekt. Diese Seite dient der Information und ersetzt keine Anlage-, Rechts- oder Steuerberatung. Maßgeblich sind Satzung, Allgemeine Geschäftsordnung und Beitrittsunterlagen. Geschäftsanteile an eingetragenen Genossenschaften sind nach § 2 Absatz 1 Nummer 1 VermAnlG von der Prospektpflicht ausgenommen, ein Verkaufsprospekt liegt nicht vor. * Vorgesehene Verzinsung laut Geschäftsordnung, keine Zusage.",
+    "Angeboten wird die investierende Mitgliedschaft nach § 8 Absatz 2 GenG, nicht die Beteiligung an einem einzelnen Objekt. Diese Seite dient der Information und ersetzt keine Anlage-, Rechts- oder Steuerberatung. Maßgeblich sind Satzung, Allgemeine Geschäftsordnung und Beitrittsunterlagen. Geschäftsanteile an eingetragenen Genossenschaften sind nach § 2 Absatz 1 Nummer 1 VermAnlG von der Prospektpflicht ausgenommen, ein Verkaufsprospekt liegt nicht vor. * Vorgesehene Rendite laut Geschäftsordnung, keine Zusage.",
 };

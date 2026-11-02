@@ -46,8 +46,8 @@ export function Calculator() {
         </div>
       </div>
       <p className="mt-4 text-[11.5px] leading-relaxed text-muted">
-        Beispielrechnung bei der vorgesehenen Verzinsung von {offer.plannedInterest} % p. a. laut Geschäftsordnung, vor
-        Steuern. Die Zinsen sind nicht garantiert und können niedriger ausfallen oder entfallen.
+        Beispielrechnung bei der vorgesehenen Rendite von {offer.plannedInterest} % p. a. laut Geschäftsordnung, vor
+        Steuern. Die Rendite ist nicht garantiert und kann niedriger ausfallen oder entfallen.
       </p>
     </div>
   );

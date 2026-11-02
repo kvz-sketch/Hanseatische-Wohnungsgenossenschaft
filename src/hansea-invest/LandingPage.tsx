@@ -96,7 +96,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={240}>
             <ul className="mt-6 flex flex-col gap-2.5 text-[15px] text-white">
-              {["7 % p. a. vorgesehene Verzinsung*", "Ein Anteil: 10.000 €, auch mehrere möglich", "Auszahlung alle drei Monate"].map(
+              {["7 % p. a. vorgesehene Rendite*", "Ein Anteil: 10.000 €, auch mehrere möglich", "Auszahlung alle drei Monate"].map(
                 (item) => (
                   <li key={item} className="flex items-center gap-3">
                     <Check />
@@ -108,7 +108,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={300}>
             <p className="mt-7 max-w-[520px] text-[11.5px] leading-relaxed text-fog/60">
-              * Vorgesehene Verzinsung laut Geschäftsordnung, nicht garantiert. Ein Totalverlust des eingesetzten Kapitals ist möglich.
+              * Vorgesehene Rendite laut Geschäftsordnung, nicht garantiert. Ein Totalverlust des eingesetzten Kapitals ist möglich.
             </p>
           </Reveal>
         </div>
@@ -184,8 +184,8 @@ function CalculatorSection() {
         <div>
           <SectionHeading
             eyebrow="Beispielrechnung"
-            title="Was Ihre Anteile an Zinsen bringen würden"
-            intro="Bewegen Sie den Regler und sehen Sie, welche Zinsen sich bei der vorgesehenen Verzinsung von 7 % p. a. ergeben würden."
+            title="Was Ihre Anteile an Rendite bringen würden"
+            intro="Bewegen Sie den Regler und sehen Sie, welche Ausschüttung sich bei der vorgesehenen Rendite von 7 % p. a. ergeben würde."
           />
           <Reveal delay={120} className="mt-7">
             <Button variant="primary" size="lg" href={`#${FORM_ID}`}>
