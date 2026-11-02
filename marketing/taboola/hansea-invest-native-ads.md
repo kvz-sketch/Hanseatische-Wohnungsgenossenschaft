@@ -1,4 +1,4 @@
-# Hansea Invest: Taboola Native Ads (Runde 1)
+# Hanseatische Invest eG: Taboola Native Ads (Runde 1)
 
 Thema: Genossenschaftsanteile einer Hamburger Wohnungsgenossenschaft, Ziel-Dividende
 **bis zu 7 % p. a.**
@@ -18,7 +18,7 @@ HubSpot-Formular), mit Tracking-Parametern
 - Bild: 1200 × 674 px (16:9), kein Text im Bild über ~20 % der Fläche, keine
   Vorher/Nachher-, Geldbündel- oder „Gewinner“-Motive
 
-**Branding-Text (A/B):** `Hansea Invest` · `Ratgeber Sparen`
+**Branding-Text (A/B):** `Hanseatische Invest eG` · `Ratgeber Sparen`
 
 > Zeichenzahlen in Klammern: Titel / Beschreibung.
 
@@ -146,7 +146,7 @@ pro Variante die schwächsten 50 % abschalten. Branding-Text als eigener A/B-Tes
   Dringlichkeits-Tricks („nur heute“), keine Promi-Bezüge, Landingpage muss
   Anbieter, Impressum und Risiken klar zeigen.
 - **Advertorial-Domain (z. B. ratgeber-sparen.com):** Seite muss als „Anzeige“
-  gekennzeichnet sein und den Anbieter (Hansea Invest) eindeutig nennen.
+  gekennzeichnet sein und den Anbieter (Hanseatische Invest eG) eindeutig nennen.
 - Zahlen wie „seit über 100 Jahren“ (5B) nur verwenden, wenn sie für die
   konkrete Genossenschaft stimmen, sonst auf allgemeines Genossenschaftsmodell
   umformulieren.

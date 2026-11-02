@@ -1,4 +1,4 @@
-# Hansea Invest: Taboola Native Ads für den Ratgeber-Artikel (Runde 2)
+# Hanseatische Invest eG: Taboola Native Ads für den Ratgeber-Artikel (Runde 2)
 
 Ziel-URL: `https://ratgeber.hanseainvest.de/` (Artikel „Immobilieninvestitionen müssen zur
 Lebensplanung passen“), von dort weiter zum Infopaket auf
@@ -17,7 +17,7 @@ weitere eigene Wohnung.
 **Specs** wie Runde 1: Titel max. 60 Zeichen, Beschreibung max. 150 Zeichen,
 Branding-Text max. 25 Zeichen, Bild 1200 × 674 px.
 
-**Branding-Text:** `Hansea Invest`
+**Branding-Text:** `Hanseatische Invest eG`
 
 **Upload-Bogen:** `hansea-invest-article-ads.csv` (Semikolon-getrennt, UTF-8)
 enthält alle 14 Anzeigen mit Titel, Beschreibung, Branding, Button
@@ -141,7 +141,7 @@ z. B. der Ärztinnen-Titel nicht mit dem Bild des Paares ausgespielt wird:
 | 6 | E1, E2 | `e-checkliste` |
 
 In jedem Durchgang: Format Standard, Titel und Beschreibungen aus dem
-Upload-Bogen, Branding-Text `Hansea Invest`, CTA „Weiterlesen“ (bzw. „Mehr
+Upload-Bogen, Branding-Text `Hanseatische Invest eG`, CTA „Weiterlesen“ (bzw. „Mehr
 erfahren“, falls nicht verfügbar), Ziel-URL des Artikels mit Tracking-Parametern.
 
 ## Testsetup

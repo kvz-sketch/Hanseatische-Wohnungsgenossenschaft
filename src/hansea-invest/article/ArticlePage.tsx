@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState, type ReactNode } from "react";
 import { Button } from "../../components/ui/Button";
-import { HanseaMark } from "../components/HanseaMark";
+import logoNavy from "../assets/logo-hanseatische-invest-navy.png";
+import logoWhite from "../assets/logo-hanseatische-invest-white.png";
 import { legal, offer } from "../content";
 import { article, checklist, closingQuestion, pullQuote, sections } from "./content";
 
@@ -32,12 +33,9 @@ export function ArticlePage() {
         <span className="subheading uppercase text-gold">Anzeige</span> · Ein Beitrag der {offer.issuer}
       </div>
       <div className="border-b border-line px-5">
-        <div className="mx-auto flex max-w-[720px] items-center justify-between py-3.5">
+        <div className="mx-auto flex max-w-[720px] items-center justify-between gap-4 py-2.5">
           <span className="subheading text-[11px] uppercase tracking-[0.18em] text-gold-deep">{article.kicker}</span>
-          <span className="flex items-center gap-2 text-[13px] font-bold text-navy">
-            <HanseaMark size={20} />
-            Hansea Invest
-          </span>
+          <img src={logoNavy} alt={offer.issuer} className="h-11 w-auto sm:h-12" />
         </div>
       </div>
 
@@ -80,10 +78,7 @@ export function ArticlePage() {
 
       <footer className="bg-navy-deep px-5 py-10 text-fog">
         <div className="mx-auto max-w-[720px]">
-          <div className="flex items-center gap-2.5">
-            <HanseaMark size={22} color="#ffffff" />
-            <span className="font-serif-display text-[15px] text-white">Hansea Invest</span>
-          </div>
+          <img src={logoWhite} alt={offer.issuer} className="h-14 w-auto" />
           <p className="mt-4 text-[12px] leading-relaxed text-fog/80">{riskNotice}</p>
           <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5 text-[12px] text-fog/70 sm:flex-row sm:justify-between">
             <span>Anzeige · {offer.issuer}</span>

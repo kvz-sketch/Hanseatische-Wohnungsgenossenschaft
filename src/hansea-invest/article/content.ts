@@ -1,4 +1,4 @@
-// Advertorial article for the Hansea Invest Taboola campaign
+// Advertorial article for the Hanseatische Invest eG Taboola campaign
 // (/hansea-invest/ratgeber/). Text as supplied by the client; only the
 // editorial extras (pull quote, diagram labels, checklist) are derived from it.
 

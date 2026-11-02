@@ -41,7 +41,7 @@ export function PreviewForm() {
       </div>
       <label className="flex items-start gap-2.5 text-[12px] leading-relaxed text-muted">
         <input id="pf-consent" type="checkbox" required className="mt-0.5 h-4 w-4 flex-none accent-[#141a46]" />
-        <span>Ich möchte Informationen zu Hansea Invest per E-Mail und ggf. Telefon erhalten.</span>
+        <span>Ich möchte Informationen zur Hanseatische Invest eG per E-Mail und ggf. Telefon erhalten.</span>
       </label>
       <ButtonEl variant="gold" size="lg" type="submit" block>
         Infopaket kostenlos anfordern

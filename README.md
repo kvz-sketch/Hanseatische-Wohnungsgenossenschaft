@@ -49,7 +49,7 @@ One-time setup:
 
 Until `FTP_SERVER` is set, the workflow only builds and skips the upload.
 
-## Hansea Invest landing page (`/hansea-invest/`)
+## Hanseatische Invest eG landing page (`/hansea-invest/`)
 
 Taboola campaign page for the Hanseatische Invest eG, built as a second Vite
 entry (`hansea-invest/index.html` → `src/hansea-invest/`). It is deployed with

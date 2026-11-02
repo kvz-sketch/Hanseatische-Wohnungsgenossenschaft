@@ -1,4 +1,4 @@
-// Copy for the Hansea Invest Taboola landing page (/hansea-invest/).
+// Copy for the Hanseatische Invest eG Taboola landing page (/hansea-invest/).
 //
 // Product facts (min. amount, target dividend, payout rhythm, minimum term) are
 // the ones already stated on the GIG homepage (src/data/content.ts). Everything
@@ -7,7 +7,6 @@
 
 export const offer = {
   issuer: "Hanseatische Invest eG",
-  brand: "Hansea Invest",
   targetDividend: 7, // % p.a., target, not guaranteed; set by the Generalversammlung
   minAmount: 10_000, // €, VERIFY
   payout: "quartalsweise", // VERIFY
@@ -65,7 +64,7 @@ export const reasons = [
 ];
 
 export const group = {
-  heading: "Hinter Hansea Invest steht die Gerlach Immobilien Gruppe",
+  heading: "Hinter der Hanseatische Invest eG steht die Gerlach Immobilien Gruppe",
   paragraph:
     "Die Gerlach Immobilien Gruppe aus Hamburg erwirbt und entwickelt Mehrfamilienhäuser in Norddeutschland und begleitet sie vom Ankauf über die Sanierung bis zur Vermietung und Verwaltung. Über die Hanseatische Invest eG können sich auch Privatanleger an diesem Bestand beteiligen.",
   points: [

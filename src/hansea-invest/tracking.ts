@@ -1,4 +1,4 @@
-// Taboola conversion tracking for the Hansea Invest page.
+// Taboola conversion tracking for the Hanseatische Invest eG pages.
 //
 // VITE_TABOOLA_ACCOUNT_ID  Taboola advertiser account id. The Taboola pixel
 //                          itself is loaded by the consent tool / tag manager

@@ -3,7 +3,8 @@ import { Button } from "../components/ui/Button";
 import { Reveal } from "../components/Reveal";
 import { team } from "../data/content";
 import { Calculator } from "./components/Calculator";
-import { HanseaMark } from "./components/HanseaMark";
+import logoNavy from "./assets/logo-hanseatische-invest-navy.png";
+import logoWhite from "./assets/logo-hanseatische-invest-white.png";
 import { LeadForm } from "./components/LeadForm";
 import {
   contact,
@@ -54,10 +55,9 @@ function AdLabel() {
 function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-navy/8 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-11">
-        <a href="#top" className="flex items-center gap-2.5">
-          <HanseaMark size={28} />
-          <span className="font-serif-display text-[18px] leading-none text-navy">Hansea Invest</span>
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-5 py-2.5 sm:px-8 lg:px-11">
+        <a href="#top" className="block">
+          <img src={logoNavy} alt={offer.issuer} className="h-12 w-auto sm:h-14" />
         </a>
         <div className="flex items-center gap-5">
           <a href={contact.phoneHref} className="hidden text-[13px] font-semibold text-navy hover:text-gold-deep md:block">
@@ -74,12 +74,8 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-navy-light via-navy to-navy-deep">
-      <div
-        className="pointer-events-none absolute -top-32 right-[-10%] h-[420px] w-[420px] rounded-full bg-gold/15 blur-[110px]"
-        aria-hidden="true"
-      />
-      <div className="relative mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 md:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:px-11 lg:py-20">
+    <section className="bg-navy">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 md:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:px-11 lg:py-20">
         <div>
           <Reveal>
             <span className="subheading text-[11px] uppercase tracking-[0.22em] text-gold">
@@ -88,7 +84,7 @@ function Hero() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="font-serif-display mt-4 text-[36px] leading-[1.08] text-white sm:text-[48px] lg:text-[56px]">
-              Bis zu <span className="text-shimmer">7 % p. a.</span> mit Hamburger Wohnimmobilien
+              Bis zu <span className="text-gold">7 % p. a.</span> mit Hamburger Wohnimmobilien
             </h1>
           </Reveal>
           <Reveal delay={160}>
@@ -346,7 +342,7 @@ function Faq() {
 
 function FinalCta() {
   return (
-    <section className="bg-gradient-to-br from-navy-light via-navy to-navy-deep px-5 py-16 text-center sm:px-8 md:py-20 lg:px-11">
+    <section className="bg-navy px-5 py-16 text-center sm:px-8 md:py-20 lg:px-11">
       <Reveal className="mx-auto max-w-[640px]">
         <h2 className="font-serif-display text-[28px] leading-tight text-white sm:text-[36px]">
           Jetzt kostenlos und unverbindlich informieren
@@ -371,10 +367,7 @@ function Footer() {
   return (
     <footer className="bg-navy-deep px-5 py-10 text-fog sm:px-8 lg:px-11">
       <div className="mx-auto max-w-[1200px]">
-        <div className="flex items-center gap-2.5">
-          <HanseaMark size={24} color="#ffffff" />
-          <span className="font-serif-display text-[16px] text-white">Hansea Invest</span>
-        </div>
+        <img src={logoWhite} alt={offer.issuer} className="h-16 w-auto" />
         <p className="mt-5 max-w-[900px] text-[12px] leading-relaxed text-fog/80">{legal.riskNotice}</p>
         <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-6 text-[12px] text-fog/70 sm:flex-row sm:items-center sm:justify-between">
           <span>
