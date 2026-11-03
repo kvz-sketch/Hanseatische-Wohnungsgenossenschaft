@@ -348,6 +348,7 @@ dialog::backdrop{background:rgba(20,20,20,.5)}
   <div class="tools">
     <div class="range" data-view="plan"><span>Von</span><input type="date" id="rStart"><span>bis</span><input type="date" id="rEnd"></div>
     <button class="btn" id="addWeek" data-view="plan">Woche anhängen</button>
+    <button class="btn" id="replan" data-view="plan" title="Alle noch nicht veröffentlichten Posts ab morgen lückenlos auf die Wochentags-Slots verteilen">Ab morgen neu einplanen</button>
     <label class="toggle" data-view="plan"><input type="checkbox" id="tGuides" checked>Hilfslinien</label>
     <button class="btn" id="lockBtn" type="button">Bearbeiten freischalten</button>
     <span class="savestate" id="saveState"></span>
@@ -828,6 +829,36 @@ dlg.addEventListener('click',e=>{
 
 /* ---------- toolbar ---------- */
 $('#tGuides').onchange=e=>document.body.classList.toggle('guides',e.target.checked);
+/* Re-plan: every post not yet published goes, in its current order, onto the next free weekday
+   slot of its type (Mo/Mi Feed-Post, Di/Do Video, Fr Karussell) from tomorrow on, never earlier
+   than its current date, so teasers stay ahead of their main post. Published posts keep their
+   date and block their slot. Video assignments follow the post (linked by id). */
+function replanMoves(){
+  const t=pk(kd(new Date()));t.setDate(t.getDate()+1);const from=kd(t);
+  const done=Object.values(S.posts).filter(p=>p.status==='veroeffentlicht');
+  const blocked=new Set(done.map(p=>p.date));
+  const open=Object.values(S.posts).filter(p=>p.status!=='veroeffentlicht').sort((a,b)=>a.date.localeCompare(b.date)||(a.created||0)-(b.created||0));
+  const next={},moves=[];
+  for(const p of open){
+    const ty=PLAN[1]===p.type||PLAN[2]===p.type||PLAN[5]===p.type?p.type:'feed';
+    let k0=[from,p.date].sort().pop();if(next[ty]&&next[ty]>=k0){const n=pk(next[ty]);n.setDate(n.getDate()+1);k0=kd(n)}
+    const d=pk(k0);
+    for(let g=0;g<800;g++,d.setDate(d.getDate()+1)){const k=kd(d);if(PLAN[d.getDay()]===ty&&!blocked.has(k))break}
+    const k=kd(d);next[ty]=k;moves.push({p,to:k});
+  }
+  return moves;
+}
+$('#replan').onclick=()=>{
+  if(S.readOnly){toast('Nur Leserechte. Oben „Bearbeiten freischalten“.');return}
+  const moves=replanMoves(),changed=moves.filter(m=>m.p.date!==m.to);
+  if(!changed.length){toast('Der Plan ist schon lückenlos ab morgen eingeplant.');return}
+  const lines=moves.map(m=>`${fmt(m.p.date)} → ${fmt(m.to)}  ${TYPES[m.p.type]||m.p.type}: ${(m.p.title||'Ohne Titel').slice(0,40)}`);
+  if(!confirm(`${changed.length} von ${moves.length} offenen Posts werden verschoben (veröffentlichte bleiben):\n\n${lines.join('\n')}\n\nJetzt so einplanen?`))return;
+  changed.forEach(m=>{const q=clone(m.p);q.date=m.to;S.posts[q.id]=q});
+  changed.forEach(m=>{const q=S.posts[m.p.id];q.updatedAt=Date.now();persist('posts',q.id,strip(q))});
+  const last=moves.reduce((a,m)=>m.to>a?m.to:a,S.config.end);if(last>S.config.end){S.config.end=last;saveConfig()}
+  renderAll();toast(`${changed.length} Posts neu eingeplant, ab ${fmt(moves.map(m=>m.to).sort()[0])}.`);
+};
 $('#addWeek').onclick=()=>{let k=S.config.end;for(let i=0;i<5;i++)k=nextWd(k);S.config.end=k;saveConfig()};
 $('#rStart').onchange=e=>{const v=e.target.value;if(!v)return;if(v>S.config.end){toast('Start liegt nach dem Ende.');e.target.value=S.config.start;return}S.config.start=v;saveConfig()};
 $('#rEnd').onchange=e=>{const v=e.target.value;if(!v)return;if(v<S.config.start){toast('Ende liegt vor dem Start.');e.target.value=S.config.end;return}S.config.end=v;saveConfig()};
