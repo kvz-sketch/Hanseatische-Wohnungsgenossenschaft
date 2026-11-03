@@ -26,10 +26,12 @@
 // its seed.json and files are imported once, then the folder is removed.
 //
 // One-off data changes: api/redaktionsplan-migrate.json
-//   { "name": "...", "changes": [ { "col", "id", "expect": {field: value}, "patch": {field: value} } ] }
+//   { "name": "...", "files": {"<id>": {"name": "..."}}, "changes": [ { "col", "id", "expect": {field: value}, "patch": {field: value} } ] }
 // is applied once on the next request and then deleted. A change is only applied
 // when the document still has the expected values, so later edits are never
 // overwritten. Every applied change is logged; the name is recorded so it never runs twice.
+// A change { "col", "id", "create": {...} } adds a document only if that id is free;
+// its images are uploaded alongside in api/redaktionsplan-migrate-files/<id>.
 
 declare(strict_types=1);
 
@@ -257,21 +259,47 @@ function importSeed(): void
 function applyMigration(): void
 {
     $file = __DIR__ . '/redaktionsplan-migrate.json';
+    $filesSrc = __DIR__ . '/redaktionsplan-migrate-files';
     if (!is_file($file)) return;
     $m = json_decode((string) @file_get_contents($file), true);
     @unlink($file);
-    if (!is_array($m) || !is_string($m['name'] ?? null) || !is_array($m['changes'] ?? null)) return;
+    if (!is_array($m) || !is_string($m['name'] ?? null) || !is_array($m['changes'] ?? null)) { if (is_dir($filesSrc)) rrmdir($filesSrc); return; }
     $pdo = db();
     $key = 'migration:' . cut($m['name'], 80);
     $done = $pdo->prepare('SELECT v FROM meta WHERE k = ?');
     $done->execute([$key]);
-    if ($done->fetchColumn() !== false) return;
+    if ($done->fetchColumn() !== false) { if (is_dir($filesSrc)) rrmdir($filesSrc); return; }
     $pdo->beginTransaction();
     $get = $pdo->prepare('SELECT data FROM docs WHERE col = ? AND id = ?');
     $put = $pdo->prepare('UPDATE docs SET data = ?, updated_at = ? WHERE col = ? AND id = ?');
+    $ins = $pdo->prepare('INSERT INTO docs (col, id, data, updated_at) VALUES (?, ?, ?, ?)');
     $applied = 0;
     $skipped = 0;
+    // Uploaded files that new docs refer to: {"<32 hex id>": {mime, name}}, read from
+    // api/redaktionsplan-migrate-files/<id> and moved into the private files folder.
+    $fins = $pdo->prepare('INSERT OR IGNORE INTO files (id, mime, name, size, created_at) VALUES (?, ?, ?, ?, ?)');
+    foreach ((is_array($m['files'] ?? null) ? $m['files'] : []) as $fid => $meta) {
+        $src = $filesSrc . '/' . $fid;
+        if (!is_string($fid) || !preg_match('/^[0-9a-f]{32}$/', $fid) || !is_file($src)) continue;
+        $mime = (new finfo(FILEINFO_MIME_TYPE))->file($src) ?: '';
+        if (!isset(MIME_EXT[$mime])) continue;
+        $dst = filesDir() . '/' . $fid;
+        if (!@copy($src, $dst)) continue;
+        @chmod($dst, 0600);
+        $fins->execute([$fid, $mime, cut((string) ($meta['name'] ?? $fid), 200), (int) filesize($dst), now()]);
+    }
+    if (is_dir($filesSrc)) rrmdir($filesSrc);
     foreach ($m['changes'] as $c) {
+        // {col, id, create: {...}} adds a doc only if that id does not exist yet.
+        if (is_array($c) && is_array($c['create'] ?? null) && in_array($c['col'] ?? null, COLLECTIONS, true)
+            && is_string($c['id'] ?? null) && preg_match('/^[A-Za-z0-9_-]{1,80}$/', $c['id'])) {
+            $get->execute([$c['col'], $c['id']]);
+            if ($get->fetchColumn() !== false) { $skipped++; continue; }
+            $ins->execute([$c['col'], $c['id'], json_encode($c['create'], JSON_UNESCAPED_UNICODE), now()]);
+            logWrite('migrate', $c['col'], $c['id'], null, $c['create']);
+            $applied++;
+            continue;
+        }
         if (!is_array($c) || !in_array($c['col'] ?? null, COLLECTIONS, true) || !is_string($c['id'] ?? null)
             || !is_array($c['expect'] ?? null) || !is_array($c['patch'] ?? null)) { $skipped++; continue; }
         $get->execute([$c['col'], $c['id']]);
