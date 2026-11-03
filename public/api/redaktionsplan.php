@@ -24,6 +24,12 @@
 //
 // First run: if api/redaktionsplan-seed/ exists and the database is empty,
 // its seed.json and files are imported once, then the folder is removed.
+//
+// One-off data changes: api/redaktionsplan-migrate.json
+//   { "name": "...", "changes": [ { "col", "id", "expect": {field: value}, "patch": {field: value} } ] }
+// is applied once on the next request and then deleted. A change is only applied
+// when the document still has the expected values, so later edits are never
+// overwritten. Every applied change is logged; the name is recorded so it never runs twice.
 
 declare(strict_types=1);
 
@@ -248,6 +254,42 @@ function importSeed(): void
     rrmdir($seedDir);
 }
 
+function applyMigration(): void
+{
+    $file = __DIR__ . '/redaktionsplan-migrate.json';
+    if (!is_file($file)) return;
+    $m = json_decode((string) @file_get_contents($file), true);
+    @unlink($file);
+    if (!is_array($m) || !is_string($m['name'] ?? null) || !is_array($m['changes'] ?? null)) return;
+    $pdo = db();
+    $key = 'migration:' . cut($m['name'], 80);
+    $done = $pdo->prepare('SELECT v FROM meta WHERE k = ?');
+    $done->execute([$key]);
+    if ($done->fetchColumn() !== false) return;
+    $pdo->beginTransaction();
+    $get = $pdo->prepare('SELECT data FROM docs WHERE col = ? AND id = ?');
+    $put = $pdo->prepare('UPDATE docs SET data = ?, updated_at = ? WHERE col = ? AND id = ?');
+    $applied = 0;
+    $skipped = 0;
+    foreach ($m['changes'] as $c) {
+        if (!is_array($c) || !in_array($c['col'] ?? null, COLLECTIONS, true) || !is_string($c['id'] ?? null)
+            || !is_array($c['expect'] ?? null) || !is_array($c['patch'] ?? null)) { $skipped++; continue; }
+        $get->execute([$c['col'], $c['id']]);
+        $raw = $get->fetchColumn();
+        $doc = $raw === false ? null : json_decode($raw, true);
+        $ok = is_array($doc);
+        foreach ($c['expect'] as $f => $v) if (!$ok || ($doc[$f] ?? null) !== $v) $ok = false;
+        if (!$ok) { $skipped++; continue; }
+        $new = array_merge($doc, $c['patch']);
+        $put->execute([json_encode($new, JSON_UNESCAPED_UNICODE), now(), $c['col'], $c['id']]);
+        logWrite('migrate', $c['col'], $c['id'], $doc, $new);
+        $applied++;
+    }
+    $pdo->prepare('INSERT OR REPLACE INTO meta (k, v) VALUES (?, ?)')->execute([$key, json_encode(['at' => now(), 'applied' => $applied, 'skipped' => $skipped])]);
+    if ($applied) $pdo->exec("UPDATE meta SET v = CAST(v AS INTEGER) + 1 WHERE k = 'rev'");
+    $pdo->commit();
+}
+
 function listAll(): array
 {
     $docs = array_fill_keys(COLLECTIONS, []);
@@ -295,6 +337,7 @@ function serveFile(string $id): void
 
 try {
     importSeed();
+    applyMigration();
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
     if ($method === 'GET') {
