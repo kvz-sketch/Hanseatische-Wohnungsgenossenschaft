@@ -27,7 +27,6 @@ type Ad = PlannerAd & { n: { spend: number | null; impressions: number | null; c
 
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
-const fmtDate = (iso: string) => iso.split("-").reverse().join(".");
 
 /** "1.234,56" or "1234.56" → 1234.56; empty → null. */
 function num(v?: string): number | null {
@@ -45,6 +44,15 @@ function isoWeek(iso: string) {
   t.setUTCDate(t.getUTCDate() + 4 - day);
   const start = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
   return Math.ceil(((t.getTime() - start.getTime()) / 864e5 + 1) / 7);
+}
+
+/** "26.10.–30.10." for the Monday–Friday of the week containing the date. */
+function weekRange(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const mon = new Date(y, m - 1, d - ((new Date(y, m - 1, d).getDay() + 6) % 7));
+  const fri = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 4);
+  const f = (x: Date) => `${String(x.getDate()).padStart(2, "0")}.${String(x.getMonth() + 1).padStart(2, "0")}.`;
+  return `${f(mon)}–${f(fri)}`;
 }
 
 const today = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Berlin" });
@@ -116,7 +124,7 @@ function AdCard({ ad }: { ad: Ad }) {
       )}
       <div className="mt-2.5 flex items-center justify-between gap-2">
         <span className="text-[10px] font-bold uppercase tracking-[0.06em] text-[#0a66c2]">KW {isoWeek(ad.date)}</span>
-        <span className="text-[10.5px] text-muted">seit {fmtDate(ad.date)}</span>
+        <span className="text-[10.5px] text-muted">{weekRange(ad.date)}</span>
       </div>
       <div className="mt-1 text-[12.5px] font-bold leading-snug text-navy">{ad.title || "Ohne Titel"}</div>
       {ad.text && <p className="mt-1 line-clamp-4 whitespace-pre-line text-[11.5px] leading-relaxed text-muted">{ad.text}</p>}
@@ -173,7 +181,7 @@ export function ThoughtLeaderSection() {
           </a>
         </div>
         <p className="mt-2 max-w-[820px] text-[12.5px] leading-relaxed text-muted">
-          Wöchentliche Thought Leader Ads aus dem Redaktionsplan, sobald ihr Ausspielungsdatum erreicht ist. Die Ergebnisse
+          Thought Leader Ads aus dem Redaktionsplan, eine pro Kalenderwoche, sobald ihre Woche begonnen hat. Die Ergebnisse
           werden aus dem LinkedIn Campaign Manager im Redaktionsplan nachgetragen. Nicht in den Kennzahlen oben enthalten.
           {upcoming > 0 && ` ${upcoming} weitere ${upcoming === 1 ? "ist" : "sind"} bereits geplant.`}
         </p>
