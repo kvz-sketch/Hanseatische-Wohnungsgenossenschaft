@@ -92,7 +92,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 <p style="margin: 0; font-size: 18px; font-weight: 300; color: #D5D7E3; max-width: 520px">Ausgewählte Mehrfamilienhäuser in gefragten Lagen, geprüft, modernisiert und mit durchdachtem Vermietungskonzept. Wähle ein Objekt und öffne das digitale Exposé.</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
-<a href="https://bo8vh.share.hsforms.com/22ILAFKhLQpWofLTxay5LZQ" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px; background: #DDB851; color: #141A46; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.04em">Termin beantragen</a>
+<a href="#kontakt" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px; background: #DDB851; color: #141A46; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.04em">Termin beantragen</a>
 <a href="#weg" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px; border: 1px solid #FFFFFF; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.04em">So funktioniert es</a>
 </div>
 </div>

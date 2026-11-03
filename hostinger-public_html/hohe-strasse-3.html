@@ -38,7 +38,7 @@ Exposé · Kapitalanlage nahe Stade
 <h1 style="margin: 0; font-weight: 500; font-size: clamp(44px, 5.5vw, 76px); line-height: 1.05; letter-spacing: -0.03em">Hohe Straße 3</h1>
 <p style="margin: 0; font-size: 18px; font-weight: 300; color: #D5D7E3; max-width: 460px">Mehrfamilienhaus aus dem Jahr 1971 in Drochtersen bei Stade, mit robuster Rotklinkerfassade. Renovierte Wohnungen mit möbliertem Vermietungskonzept.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
-<a href="https://bo8vh.share.hsforms.com/22ILAFKhLQpWofLTxay5LZQ" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px; background: #DDB851; color: #141A46; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.04em">Termin beantragen</a>
+<a href="#kontakt" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px; background: #DDB851; color: #141A46; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.04em">Termin beantragen</a>
 <a href="pdf/hohe-strasse-3.pdf" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px; border: 1px solid #FFFFFF; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.04em">Exposé als PDF</a>
 </div>
 </div>
@@ -271,27 +271,6 @@ Exposé · Kapitalanlage nahe Stade
 </div>
 </section>
 
-<!-- Anfrage -->
-<section id="anfrage" style="background: #F5F5F5; padding: 120px 0">
-<div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; flex-wrap: wrap; gap: 80px">
-<div style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 20px; min-width: 0">
-<div style="display: flex; align-items: center; gap: 14px; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase">Besichtigung &amp; Exposé</div>
-<h2 style="margin: 0; font-weight: 500; font-size: 44px; line-height: 1.12; letter-spacing: -0.02em">Termin beantragen.</h2>
-<p style="margin: 0; font-size: 16px; color: #3A3F63">Hinterlasse Deine Kontaktdaten. Wir melden uns innerhalb von 24 Stunden und senden Dir das vollständige Exposé.</p>
-</div>
-<div style="flex: 1 1 480px; display: flex; flex-direction: column; gap: 20px; min-width: 0">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px">
-<label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500">Vorname<input type="text" style="height: 48px; border: 1px solid #C9CBD8; background: #FFFFFF; padding: 0 14px; font: inherit; font-size: 15px; color: #141A46"></label>
-<label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500">Nachname<input type="text" style="height: 48px; border: 1px solid #C9CBD8; background: #FFFFFF; padding: 0 14px; font: inherit; font-size: 15px; color: #141A46"></label>
-<label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500">Mailadresse<input type="email" style="height: 48px; border: 1px solid #C9CBD8; background: #FFFFFF; padding: 0 14px; font: inherit; font-size: 15px; color: #141A46"></label>
-<label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500">Telefon<input type="tel" style="height: 48px; border: 1px solid #C9CBD8; background: #FFFFFF; padding: 0 14px; font: inherit; font-size: 15px; color: #141A46"></label>
-</div>
-<button type="button" id="anfrageBtn" style="align-self: flex-start; min-height: 52px; padding: 0 36px; border: 0; background: #141A46; color: #FFFFFF; font: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer">Termin anfragen</button>
-<p style="margin: 0; font-size: 12px; color: #5A5F80">Mit dem Absenden stimmst Du der Verarbeitung Deiner Daten gemäß <a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener" style="color: #5A5F80">Datenschutzerklärung</a> zu.</p>
-</div>
-</div>
-</section>
-
 <!-- Footer -->
 <footer style="background: #141A46; color: #D5D7E3; padding: 64px 0 48px">
 <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; flex-direction: column; gap: 40px">
@@ -347,15 +326,6 @@ Exposé · Kapitalanlage nahe Stade
     else if (e.key === 'ArrowRight') nextLb();
   });
 })();
-</script>
-<script>
-document.getElementById('anfrageBtn').addEventListener('click', function(){
-  var f = document.querySelectorAll('#anfrage input');
-  var lines = [];
-  f.forEach(function(inp){ var l = inp.closest('label'); lines.push(l.firstChild.textContent.trim() + ': ' + inp.value); });
-  var body = 'Terminanfrage für: ' + "Exposé Hohe Straße 3, Drochtersen" + '\n\n' + lines.join('\n');
-  location.href = 'mailto:verkauf@gerlachgroup.de?subject=' + encodeURIComponent('Terminanfrage ' + "Exposé Hohe Straße 3, Drochtersen") + '&body=' + encodeURIComponent(body);
-});
 </script>
 </body>
 </html>
