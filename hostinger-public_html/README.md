@@ -1,7 +1,7 @@
 # Hostinger sites (public_html)
 
 Exact copy of what runs in `public_html` of the Hostinger website
-`darkseagreen-pelican-527830.hostingersite.com` (account u873563229).
+`hanseainvest-de-735810.hostingersite.com` (formerly darkseagreen-pelican-527830.hostingersite.com) (account u873563229).
 All addresses below are parked on that one website; `.htaccess` routes each
 host to its folder.
 
