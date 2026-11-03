@@ -150,7 +150,7 @@ function AdCard({ ad }: { ad: Ad }) {
           </div>
         ) : (
           <div className="border-t border-line pt-2.5 text-[11px] text-muted">
-            Ergebnisse noch nicht eingetragen. Im Redaktionsplan unter LinkedIn nachtragen.
+            Ergebnisse noch nicht eingetragen. Im Redaktionsplan unter „Thought Leader Ads“ nachtragen.
           </div>
         )}
       </div>
@@ -174,7 +174,7 @@ export function ThoughtLeaderSection() {
         <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
           <h2 className="font-serif-display text-[26px] text-navy sm:text-[30px]">Thought Leader Ads</h2>
           <a
-            href="/tools/redaktionsplan/#linkedin"
+            href="/tools/redaktionsplan/#tla"
             className="rounded-[2px] bg-navy/[0.06] px-3 py-1.5 text-[12px] font-bold text-navy hover:text-koralle"
           >
             Im Redaktionsplan öffnen ↗
@@ -190,7 +190,7 @@ export function ThoughtLeaderSection() {
           <p className="mt-6 text-[12.5px] text-muted">Der Redaktionsplan ist gerade nicht erreichbar.</p>
         ) : live.length === 0 ? (
           <div className="mt-6 rounded-md border border-dashed border-navy/15 bg-white p-6 text-[12.5px] text-muted">
-            Noch keine Thought Leader Ad ausgespielt. Im Redaktionsplan unter LinkedIn „Thought Leader Ad anlegen“ wählen; die
+            Noch keine Thought Leader Ad ausgespielt. Im Redaktionsplan unter „Thought Leader Ads“ den Wochen-Slot füllen; die
             Anzeige erscheint hier ab ihrem Datum.
           </div>
         ) : (

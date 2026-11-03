@@ -359,6 +359,7 @@ dialog::backdrop{background:rgba(20,20,20,.5)}
   <a href="#videoplan" data-tab="videoplan"><svg class="ti ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg>Videoplan</a>
   <a href="#thumbnails" data-tab="thumbnails"><svg class="ti ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg>Thumbnails<span class="n" id="nThumbs"></span></a>
   <a href="#linkedin" data-tab="linkedin"><svg class="ti li" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="3" fill="currentColor"/><path d="M7.2 10v7M7.2 7.1v.1M11 17v-7M11 13.2c0-1.9 1.2-3.2 2.8-3.2 1.7 0 2.7 1.1 2.7 3.1V17" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>LinkedIn<span class="n" id="nLi"></span></a>
+  <a href="#tla" data-tab="tla"><svg class="ti li" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="3" fill="currentColor"/><path d="M7.2 10v7M7.2 7.1v.1M11 17v-7M11 13.2c0-1.9 1.2-3.2 2.8-3.2 1.7 0 2.7 1.1 2.7 3.1V17" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Thought Leader Ads<span class="n" id="nTla"></span></a>
 </nav>
 
 <div class="meta" data-view="plan" style="padding-top:16px">
@@ -412,10 +413,18 @@ dialog::backdrop{background:rgba(20,20,20,.5)}
 
 <main class="llayout" data-view="linkedin" hidden>
   <div class="sec-head">
-    <div><h2>LinkedIn</h2><span class="note">1080 × 1080 px, Einzelbild oder Karussell, Text ca. 200 Zeichen. Posts montags und mittwochs. Thought Leader Ads: eine pro Kalenderwoche, mit Link zum Lead-Magnet</span></div>
-    <div class="st-tools"><label>Datum <input type="date" id="liDate"></label><button class="btn" id="addTla">Thought Leader Ad anlegen</button><button class="btn primary" id="addLi">LinkedIn-Post anlegen</button></div>
+    <div><h2>LinkedIn</h2><span class="note">1080 × 1080 px, Einzelbild oder Karussell, Text ca. 200 Zeichen. Posts montags und mittwochs</span></div>
+    <div class="st-tools"><label>Datum <input type="date" id="liDate"></label><button class="btn primary" id="addLi">LinkedIn-Post anlegen</button></div>
   </div>
   <div id="liGrid"></div>
+</main>
+
+<main class="llayout" data-view="tla" hidden>
+  <div class="sec-head">
+    <div><h2>Thought Leader Ads</h2><span class="note">Eine Anzeige pro Kalenderwoche: Anzeigentext, Link zum Lead-Magnet, Motiv 1080 × 1080 px. Ergebnisse nach der Ausspielung eintragen; sie erscheinen im Performance Marketing Report</span></div>
+    <div class="st-tools"><label>Woche <input type="date" id="tlaDate"></label><button class="btn primary" id="addTla">Thought Leader Ad anlegen</button></div>
+  </div>
+  <div id="tlaGrid"></div>
 </main>
 
 <dialog id="dlg" aria-label="Post bearbeiten"></dialog>
@@ -602,7 +611,7 @@ function renderStories(){
 <div class="date-label"><i class="dot st-${s.status}" title="${STATUS[s.status]}"></i>${fmt(s.date)}</div>
 <div class="tile has-media" tabindex="0" role="button" aria-label="Story ${esc(longDate(s.date))}, ${STATUS[s.status]}">${s.image?`<img src="${src(s.image)}" alt="" draggable="false">`:''}</div></div>`).join('');
 }
-function renderAll(){renderGrid();renderMeta();setSave();refreshModal();if(S.view==='thumbnails')renderThumbs(true);if(S.view==='videoplan')renderVideoplan();if(S.view==='linkedin')renderLinkedIn()}
+function renderAll(){renderGrid();renderMeta();setSave();refreshModal();if(S.view==='thumbnails')renderThumbs(true);if(S.view==='videoplan')renderVideoplan();if(S.view==='linkedin'||S.view==='tla')renderLinkedIn()}
 
 /* ---------- drag to move ---------- */
 let pd=null,ghost=null,lastTarget=null;
@@ -824,20 +833,20 @@ $('#rStart').onchange=e=>{const v=e.target.value;if(!v)return;if(v>S.config.end)
 $('#rEnd').onchange=e=>{const v=e.target.value;if(!v)return;if(v<S.config.start){toast('Ende liegt vor dem Start.');e.target.value=S.config.end;return}S.config.end=v;saveConfig()};
 
 /* ---------- views ---------- */
-const VIEWS=['plan','videoplan','thumbnails','linkedin'];
+const VIEWS=['plan','videoplan','thumbnails','linkedin','tla'];
 function showView(v){
   if(!VIEWS.includes(v))v='plan';S.view=v;
   document.querySelectorAll('[data-view]').forEach(el=>{el.hidden=el.dataset.view!==v});
   document.querySelectorAll('.tabs a').forEach(a=>a.setAttribute('aria-current',a.dataset.tab===v?'page':'false'));
   if(v==='thumbnails')renderThumbs(false);
-  if(v==='linkedin')renderLinkedIn();
+  if(v==='linkedin'||v==='tla')renderLinkedIn();
   if(v==='videoplan')renderVideoplan();
 }
 window.addEventListener('hashchange',()=>showView(location.hash.slice(1)));
 function renderTabCounts(){
   const vs=Object.values(S.videos),done=vs.filter(v=>v.status==='fertig').length;
   $('#nThumbs').textContent=vs.length?`${done}/${vs.length}`:'';
-  const n=Object.keys(S.linkedin).length;$('#nLi').textContent=n?String(n):'';
+  const li=Object.values(S.linkedin),t=li.filter(x=>x.format==='tla').length,n=li.length-t;$('#nLi').textContent=n?String(n):'';$('#nTla').textContent=t?String(t):'';
 }
 
 /* ---------- thumbnail renderer ---------- */
@@ -1187,16 +1196,18 @@ ved.addEventListener('click',e=>{
 /* ---------- linkedin tab ---------- */
 const LIF={einzel:'Einzelbild',karussell:'Karussell',tla:'Thought Leader Ad'};
 const kw=k=>{const d=pk(k),t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-y)/864e5+1)/7)};
-const ldlg=$('#ldlg'),liGrid=$('#liGrid');
+const ldlg=$('#ldlg'),liGrid=$('#liGrid'),tlaGrid=$('#tlaGrid');
 function liSorted(){return Object.values(S.linkedin).sort((a,b)=>b.date.localeCompare(a.date)||(b.created||0)-(a.created||0))}
 function renderLinkedIn(){
   renderTabCounts();
   if(!$('#liDate').value){let k=kd(new Date());if(!isWkKey(k))k=nextWd(k);$('#liDate').value=k}
-  if(S.view!=='linkedin')return;
-  const list=[...liSorted(),...tlaSlots()].sort((a,b)=>b.date.localeCompare(a.date));
-  if(!list.length){liGrid.className='';liGrid.innerHTML='<div class="empty"><b>Noch keine LinkedIn-Posts</b>Datum wählen und „LinkedIn-Post anlegen“. Format 1080 × 1080 px, Text ca. 200 Zeichen.</div>';return}
-  liGrid.className='grid li-grid';
-  liGrid.innerHTML=list.map(l=>{if(l.slot==='tla')return `<div class="cell" data-slot="${l.date}" data-kind="tla"><div class="date-label">KW ${kw(l.date)} · ${wkRange(l.date)}</div>
+  if(!$('#tlaDate').value)$('#tlaDate').value=monday(kd(new Date()));
+  if(S.view!=='linkedin'&&S.view!=='tla')return;
+  const tla=S.view==='tla',g=tla?tlaGrid:liGrid;
+  const list=[...liSorted().filter(x=>(x.format==='tla')===tla),...tlaSlots().filter(x=>(x.slot==='tla')===tla)].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!list.length){g.className='';g.innerHTML='<div class="empty"><b>Noch keine LinkedIn-Posts</b>Datum wählen und „LinkedIn-Post anlegen“. Format 1080 × 1080 px, Text ca. 200 Zeichen.</div>';return}
+  g.className='grid li-grid';
+  g.innerHTML=list.map(l=>{if(l.slot==='tla')return `<div class="cell" data-slot="${l.date}" data-kind="tla"><div class="date-label">KW ${kw(l.date)} · ${wkRange(l.date)}</div>
 <div class="tile sq tla-slot" tabindex="0" role="button" aria-label="${esc(`Thought Leader Ad KW ${kw(l.date)}: Inhalt hinzufügen`)}"><div class="hint"><b>Thought Leader Ad · KW ${kw(l.date)}</b><span>+ Inhalt hinzufügen</span></div></div></div>`;
     if(l.slot==='post')return `<div class="cell" data-slot="${l.date}" data-kind="post"><div class="date-label">${WD[pk(l.date).getDay()]}, ${fmt(l.date)}</div>
 <div class="tile sq post-slot" tabindex="0" role="button" aria-label="${esc(`LinkedIn-Post ${longDate(l.date)}: Inhalt hinzufügen`)}"><div class="hint"><b>LinkedIn-Post</b><span>+ Inhalt hinzufügen</span></div></div></div>`;
@@ -1243,9 +1254,11 @@ function createTla(date,ask){
   const l={id:uid('l'),date,status:'planung',format:'tla',title:'',text:'',leadMagnet:'',spend:'',impressions:'',clicks:'',leads:'',notes:'',media:[],created:Date.now()};
   saveLi(l);openLi(l.id);
 }
-$('#addTla').onclick=()=>createTla($('#liDate').value,true);
+$('#addTla').onclick=()=>createTla($('#tlaDate').value,true);
+[liGrid,tlaGrid].forEach(liGrid=>{
 liGrid.addEventListener('click',e=>{const sl=e.target.closest('[data-slot]');if(sl){sl.dataset.kind==='tla'?createTla(sl.dataset.slot,false):createPost(sl.dataset.slot);return}const c=e.target.closest('[data-li]');if(c)openLi(c.dataset.li)});
 liGrid.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const sl=e.target.closest('[data-slot]');if(sl){e.preventDefault();sl.dataset.kind==='tla'?createTla(sl.dataset.slot,false):createPost(sl.dataset.slot);return}const c=e.target.closest('[data-li]');if(c){e.preventDefault();openLi(c.dataset.li)}});
+});
 function openLi(id){S.lsel=id;S.lslide=0;renderLinkedIn();renderLiModal(true);if(!ldlg.open)ldlg.showModal()}
 function liPreview(l){
   const m=l.media||[],car=l.format==='karussell',i=Math.min(S.lslide||0,Math.max(0,m.length-1)),a=m[i];S.lslide=i;
@@ -1262,7 +1275,7 @@ function renderLiModal(full){
   ldlg.innerHTML=`<div class="m-wrap"><div class="m-preview">${liPreview(l)}</div><div class="m-side">
 <div class="m-head"><div><div class="m-date">${l.format==='tla'?`Kalenderwoche ${kw(l.date)} · ${wkRange(l.date)}${pk(l.date).getFullYear()}`:esc(longDate(l.date))}</div><div class="m-sub">LinkedIn, ${LIF[l.format]}</div></div><button class="x" data-lact="close" aria-label="Schließen">×</button></div>
 <div class="f">Status ${statusSeg(l.status)}</div>
-<div class="row2"><label class="f">Format<select data-lf="format">${Object.keys(LIF).map(k=>`<option value="${k}" ${l.format===k?'selected':''}>${LIF[k]}</option>`).join('')}</select></label><label class="f">${l.format==='tla'?'Woche (beliebiger Tag der KW)':'Datum'}<input type="date" data-lf="date" value="${l.date}"></label></div>
+<div class="row2">${l.format==='tla'?'':`<label class="f">Format<select data-lf="format">${['einzel','karussell'].map(k=>`<option value="${k}" ${l.format===k?'selected':''}>${LIF[k]}</option>`).join('')}</select></label>`}<label class="f">${l.format==='tla'?'Woche (beliebiger Tag der KW)':'Datum'}<input type="date" data-lf="date" value="${l.date}"></label></div>
 <label class="f">Arbeitstitel<input data-lf="title" value="${esc(l.title)}" placeholder="z. B. Restnutzungsdauer: 2 % oder 4 %?"></label>
 ${l.format==='tla'?`<label class="f">Anzeigentext<textarea data-lf="text" rows="8" placeholder="Text der Thought Leader Ad, wie er im Beitrag erscheint">${esc(l.text)}</textarea><span class="count" id="liCount"></span></label>
 <label class="f">Link zum Lead-Magnet<input type="url" data-lf="leadMagnet" value="${esc(l.leadMagnet||'')}" placeholder="https://…"></label>
