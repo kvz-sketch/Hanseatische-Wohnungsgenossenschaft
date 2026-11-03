@@ -17,7 +17,7 @@ import {
 // month view (overview) and week view (hourly slots to block shoot times).
 // Clicking a free day/slot creates an entry there; clicking an entry opens it.
 // The Cutter's availability is shown per day; in "Verfügbarkeit" mode a click
-// on a day cycles it (verfügbar → Schnitt-Tag → nicht eingetragen) instead.
+// on a day cycles it (verfügbar → Schnitt-Tag → Urlaub → nicht eingetragen) instead.
 
 export const RANGE_START = new Date(2026, 9, 1);
 export const RANGE_END = new Date(2026, 11, 31);
@@ -416,7 +416,7 @@ export function Calendar({
       </div>
       {markOn && (
         <div className="rounded-md border border-[#1f8a5a]/30 bg-[#1f8a5a]/[0.07] px-4 py-2.5 text-[12.5px] text-[#1f6a46]">
-          <b>Verfügbarkeit eintragen:</b> Tag anklicken = Cutter verfügbar, nochmal = Schnitt-Tag (kein Dreh), nochmal = Eintrag entfernen. Mit „Fertig“ zurück zum normalen Kalender.
+          <b>Verfügbarkeit eintragen:</b> Tag anklicken = Cutter verfügbar, nochmal = Schnitt-Tag (kein Dreh), nochmal = Urlaub, nochmal = Eintrag entfernen. Mit „Fertig“ zurück zum normalen Kalender.
         </div>
       )}
       {view === "month" ? (

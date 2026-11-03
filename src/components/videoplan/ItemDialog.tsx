@@ -220,6 +220,14 @@ export function ItemDialog({
               if (!date) return null;
               const last = allDay && endDate > date ? endDate : date;
               const marked = availability.filter((a) => a.day >= date && a.day <= last);
+              const away = marked.filter((a) => a.status === "urlaub");
+              if (away.length > 0) {
+                return (
+                  <p className="mt-3 rounded-md border border-koralle/40 bg-koralle/[0.08] px-3 py-2 text-[12px] font-semibold text-[#b8402f]">
+                    ⚠ {away.length === 1 ? "Der Cutter ist an diesem Tag" : `Der Cutter ist an ${away.length} dieser Tage`} im Urlaub: kein Dreh und kein Schnitt.
+                  </p>
+                );
+              }
               const editing = marked.filter((a) => a.status === "schnitt");
               if (editing.length > 0) {
                 return (

@@ -15,7 +15,8 @@
 //                       {action:"unlock"}                (checks the edit password)
 //                       {action:"availability", day, status, note, author}
 //                            Cutter availability for one day: "verfuegbar", "schnitt"
-//                            (editing day, no shoot possible) or "" to clear it.
+//                            (editing day, no shoot possible), "urlaub" (on leave)
+//                            or "" to clear it.
 //   GET  videoplan.php?health=1              → storage diagnostics
 //
 // Viewing and feedback are open to every visitor. create / update / delete
@@ -40,7 +41,7 @@ header('X-Content-Type-Options: nosniff');
 const STATUSES = ['ungeplant', 'geplant', 'schnitt', 'freigabe', 'freigegeben'];
 const CATEGORIES = ['shoot', 'schnitt', 'meeting', 'creative', 'sonstiges'];
 const PRIORITIES = ['', 'hoch', 'mittel', 'niedrig'];
-const AVAILABILITY = ['verfuegbar', 'schnitt'];
+const AVAILABILITY = ['verfuegbar', 'schnitt', 'urlaub'];
 const BRIEF_FIELDS = [
     'projekt', 'ziel', 'botschaft', 'zielgruppe', 'location', 'ansprechpartner', 'crew',
     'talent', 'shotlist', 'equipment', 'formate', 'deadline', 'notizen',

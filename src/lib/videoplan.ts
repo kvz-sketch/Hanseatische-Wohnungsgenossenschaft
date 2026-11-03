@@ -7,7 +7,7 @@ export type Status = "ungeplant" | "geplant" | "schnitt" | "freigabe" | "freigeg
 export type Category = "shoot" | "schnitt" | "meeting" | "creative" | "sonstiges";
 export type Priority = "" | "hoch" | "mittel" | "niedrig";
 /** Cutter availability for a day: available for shoots, or blocked for editing (no shoot). */
-export type AvailabilityStatus = "verfuegbar" | "schnitt";
+export type AvailabilityStatus = "verfuegbar" | "schnitt" | "urlaub";
 export type Availability = { day: string; status: AvailabilityStatus; note: string };
 
 export const BRIEF_FIELDS = [
@@ -86,11 +86,18 @@ export const AVAILABILITY_META: Record<AvailabilityStatus, { label: string; shor
     cell: "bg-[repeating-linear-gradient(135deg,rgba(20,26,70,0.05)_0_6px,transparent_6px_12px)]",
     pill: "bg-navy text-white",
   },
+  urlaub: {
+    label: "Urlaub",
+    short: "Urlaub",
+    hint: "Cutter im Urlaub, kein Dreh und kein Schnitt",
+    cell: "bg-[repeating-linear-gradient(135deg,rgba(249,119,104,0.12)_0_6px,transparent_6px_12px)]",
+    pill: "bg-koralle text-white",
+  },
 };
 
-/** Click order when marking days: verfügbar → Schnitt-Tag → nicht eingetragen. */
+/** Click order when marking days: verfügbar → Schnitt-Tag → Urlaub → nicht eingetragen. */
 export const nextAvailability = (s: AvailabilityStatus | undefined): AvailabilityStatus | "" =>
-  s === undefined ? "verfuegbar" : s === "verfuegbar" ? "schnitt" : "";
+  s === undefined ? "verfuegbar" : s === "verfuegbar" ? "schnitt" : s === "schnitt" ? "urlaub" : "";
 
 export const CATEGORY_META: Record<Category, { label: string; bg: string; border: string; text: string }> = {
   shoot: { label: "Shoot", bg: "bg-koralle/15", border: "border-koralle", text: "text-[#b8402f]" },
