@@ -23,6 +23,14 @@ RewriteRule ^(.*)$ /120-wohnungen/$1 [L]
 RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
 RewriteRule ^120-wohnungen/(.*)$ https://120wohnungen.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
 
+# Test site: test.* is served from the /test/ folder
+RewriteCond %{HTTP_HOST} ^test\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/test/
+RewriteRule ^(.*)$ /test/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^test/(.*)$ https://test.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
 # Forgive links with junk pasted after ".html" (e.g. "seite.htmlgedorf" -> "seite.html")
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([a-z0-9-]+\.html).+$ /$1 [R=301,L]
