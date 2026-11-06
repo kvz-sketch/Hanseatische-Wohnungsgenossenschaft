@@ -67,6 +67,10 @@ add_filter( 'authenticate', function ( $user, $username ) {
 		|| (int) get_transient( hansea_login_account_key( $username ) ) >= HANSEA_LOGIN_MAX_ACCOUNT ) {
 		return new WP_Error( 'hansea_locked', 'Zu viele fehlgeschlagene Anmeldeversuche. Bitte warten Sie 15 Minuten und versuchen Sie es dann erneut.' );
 	}
+	// Same answer for an unknown account and a wrong password, so logins can't be probed
+	if ( is_wp_error( $user ) && array_intersect( $user->get_error_codes(), array( 'invalid_username', 'invalid_email', 'incorrect_password' ) ) ) {
+		return new WP_Error( 'hansea_login_failed', '<strong>Fehler:</strong> E-Mail-Adresse, Benutzername oder Passwort ist nicht korrekt.' );
+	}
 	return $user;
 }, 99, 2 );
 
