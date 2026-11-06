@@ -23,6 +23,7 @@
       if(j.unchanged)return;
       if(inflight>0&&!force)return;
       state={rev:j.rev,docs:j.docs||{}};loaded=true;window.RP_EDITING_CONFIGURED=!!j.editingConfigured;
+      Object.keys(state.docs).forEach(c=>{const o=state.docs[c];if(o&&!Array.isArray(o))Object.keys(o).forEach(id=>remember(c,id,o[id]))});
       subs.forEach(s=>{try{s()}catch(e){console.error(e)}});
     }catch(e){console.warn('Redaktionsplan: Laden fehlgeschlagen',e)}
   }
@@ -31,21 +32,92 @@
     try{
       const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','X-Edit-Password':pw()},body:JSON.stringify(body)});
       const j=await r.json().catch(()=>({}));
+      if(r.status===409&&j.error==='conflict')throw {code:'conflict',current:j.current,ver:j.ver};
       if(!r.ok)throw {code:r.status===403||r.status===503?'invalid_argument':r.status===429?'unavailable':'error_'+r.status,message:j.error||''};
       return j;
     }finally{inflight--}
+  }
+
+  /* Gleichzeitiges Bearbeiten: jedes Dokument trägt _v (Version beim Laden). Der Server
+     lehnt ein Speichern ab, wenn inzwischen jemand anderes gespeichert hat; dann werden
+     die Änderungen feldweise zusammengeführt und nur echte Überschneidungen abgefragt. */
+  const hist={},own={};
+  function remember(col,id,d){
+    if(!d||typeof d._v!=='number')return;const k=col+'/'+id,h=hist[k]||(hist[k]={});
+    h[d._v]=clone(d);const vs=Object.keys(h).map(Number).sort((a,b)=>a-b);while(vs.length>12)delete h[vs.shift()];
+  }
+  const same=(a,b)=>JSON.stringify(a===undefined?null:a)===JSON.stringify(b===undefined?null:b);
+  const LABEL={title:'Titel',caption:'Caption',notes:'Notizen',date:'Datum',status:'Status',type:'Format',media:'Bilder',thumb:'Thumbnail',video:'Video',
+    text:'Text',leadMagnet:'Lead-Magnet',format:'Format',image:'Bild',design:'Gestaltung',bg:'Hintergrund',postId:'verknüpfter Post',nr:'Nummer',
+    spend:'Ausgaben',impressions:'Impressionen',clicks:'Klicks',leads:'Leads',start:'Planstart',end:'Planende'};
+  const SKIP=['updatedAt','created','_v'];
+  function merge(base,mine,theirs){
+    const out={},clash=[];
+    new Set([...Object.keys(mine),...Object.keys(theirs)]).forEach(f=>{
+      if(f==='_v')return;
+      if(SKIP.includes(f)){out[f]=mine[f]!==undefined?mine[f]:theirs[f];return}
+      const m=mine[f],t=theirs[f],b=base?base[f]:undefined;
+      if(same(m,t)||same(t,b))out[f]=m;
+      else if(base&&same(m,b))out[f]=t;
+      else{out[f]=m;clash.push(f)}
+    });
+    Object.keys(out).forEach(f=>{if(out[f]===undefined)delete out[f]});
+    return {out,clash};
+  }
+  function docName(col,d){
+    const t=(d&&(d.title||d.text||''))||'';const dt=d&&d.date?new Date(d.date+'T12:00').toLocaleDateString('de-DE'):'';
+    return [{posts:'Post',stories:'Story',videos:'Video',linkedin:'LinkedIn-Beitrag',config:'Planzeitraum'}[col]||'Eintrag',dt,t?'„'+t.slice(0,50)+'“':''].filter(Boolean).join(' ');
+  }
+  async function setDoc(col,id,data){
+    const k=col+'/'+id,orig=typeof data._v==='number'?data._v:null;
+    let mine=clone(data);delete mine._v;
+    let base=orig;const seq=own[k];
+    if(base!==null&&seq&&seq.includes(base)){
+      base=seq[seq.length-1];
+      // Started from an older copy than our own last save (e.g. a save queued before a merge):
+      // keep what our last save brought in for every field this edit did not touch.
+      const h=hist[k]||{},bo=h[orig],tl=h[base];
+      if(base!==orig&&bo&&tl){const st=({_v,...r})=>r;mine=merge(st(bo),mine,st(tl)).out}
+    }
+    for(let round=0;round<4;round++){
+      try{
+        const j=await post({action:'set',col,id,data:base===null?mine:{...mine,_v:base}});
+        const v=j.ver;own[k]=(own[k]&&own[k][own[k].length-1]===base)?[...own[k],v]:[...new Set([orig,base,v].filter(x=>x!==null))];
+        const saved={...mine,_v:v};remember(col,id,saved);applyLocal(col,id,saved,j);
+        if(round>0)setTimeout(()=>load(true),30);
+        return j;
+      }catch(e){
+        if(!e||e.code!=='conflict')throw e;
+        if(e.current===null){
+          if(!confirm(docName(col,mine)+' wurde inzwischen von jemand anderem gelöscht.\n\nOK = mit deinen Änderungen wiederherstellen\nAbbrechen = gelöscht lassen')){setTimeout(()=>load(true),30);return {}}
+          base=null;continue;
+        }
+        const theirs=e.current,b=(hist[k]||{})[base];remember(col,id,{...theirs,_v:e.ver});
+        const {out,clash}=merge(b?(({_v,...r})=>r)(b):null,mine,theirs);
+        if(clash.length){
+          const keepMine=confirm(docName(col,theirs)+' wurde gerade von jemand anderem geändert.\n\nBeide habt ihr geändert: '+clash.map(f=>LABEL[f]||f).join(', ')+
+            '.\n\nOK = deine Fassung dieser Felder speichern\nAbbrechen = die andere Fassung behalten\n\nAlle übrigen Änderungen von euch beiden bleiben erhalten.');
+          if(!keepMine)clash.forEach(f=>{if(theirs[f]===undefined)delete out[f];else out[f]=theirs[f]});
+        }
+        const {updatedAt:_a,...o1}=out,{updatedAt:_b,...t1}=theirs;
+        if(same(o1,t1)){const cur={...theirs,_v:e.ver};applyLocal(col,id,cur,null);setTimeout(()=>load(true),30);return {}}
+        mine=out;base=e.ver;
+      }
+    }
+    throw {code:'error_conflict'};
   }
   function applyLocal(col,id,data,j){
     const c=state.docs[col]&&!Array.isArray(state.docs[col])?state.docs[col]:(state.docs[col]={});
     if(data===null)delete c[id];else c[id]=clone(data);
     if(j&&typeof j.rev==='number'){if(j.rev===state.rev+1)state.rev=j.rev;else setTimeout(()=>load(true),50)}
+    if(!j)subs.forEach(s=>{try{s()}catch(e){console.error(e)}});
   }
   const colSnap=name=>{const o=state.docs[name]||{};return {docs:Object.keys(o).map(id=>({id,data:()=>clone(o[id])}))}};
   const db={
     collection:name=>({
       onSnapshot(cb){const s=()=>cb(colSnap(name));subs.push(s);if(loaded)s();return ()=>{const i=subs.indexOf(s);if(i>=0)subs.splice(i,1)}},
       doc:id=>({
-        set:data=>post({action:'set',col:name,id,data}).then(j=>applyLocal(name,id,data,j)),
+        set:data=>setDoc(name,id,data),
         delete:()=>post({action:'delete',col:name,id}).then(j=>applyLocal(name,id,null,j))
       })
     }),
@@ -80,8 +152,10 @@
   }
   const user={can:async()=>checkUnlock()};
   const first=load(true);
-  setInterval(()=>{if(document.visibilityState==='visible')load(false)},6000);
+  setInterval(()=>{if(document.visibilityState==='visible')load(false)},4000);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')load(false)});
+  window.addEventListener('focus',()=>load(false));
+  window.RP_REFRESH=()=>load(false);
   window.claude={use:async name=>{
     await first;
     if(name==='db')return db;
@@ -690,11 +764,12 @@ function pick(accept,multiple,cb){fileIn.value='';fileIn.accept=accept;fileIn.mu
 
 /* ---------- modal ---------- */
 function openCell(date){
+  window.RP_REFRESH&&window.RP_REFRESH();
   S.selected=date;const p=byDate()[date];
   S.modal=p?{kind:'post',id:p.id,slide:0}:{kind:'post',id:null,draft:newPost(date),slide:0};
   renderGrid();renderModal(true);if(!dlg.open)dlg.showModal();
 }
-function openStory(id){S.modal={kind:'story',id};renderStories();renderModal(true);if(!dlg.open)dlg.showModal()}
+function openStory(id){window.RP_REFRESH&&window.RP_REFRESH();S.modal={kind:'story',id};renderStories();renderModal(true);if(!dlg.open)dlg.showModal()}
 function mPost(){const m=S.modal;if(!m||m.kind!=='post')return null;return m.id?S.posts[m.id]||null:m.draft}
 dlg.addEventListener('close',()=>{flushFields();const wasStory=S.modal&&S.modal.kind==='story';S.modal=null;if(wasStory)renderStories()});
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
@@ -1290,7 +1365,7 @@ $('#addTla').onclick=()=>createTla($('#tlaDate').value,true);
 liGrid.addEventListener('click',e=>{const sl=e.target.closest('[data-slot]');if(sl){sl.dataset.kind==='tla'?createTla(sl.dataset.slot,false):createPost(sl.dataset.slot);return}const c=e.target.closest('[data-li]');if(c)openLi(c.dataset.li)});
 liGrid.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const sl=e.target.closest('[data-slot]');if(sl){e.preventDefault();sl.dataset.kind==='tla'?createTla(sl.dataset.slot,false):createPost(sl.dataset.slot);return}const c=e.target.closest('[data-li]');if(c){e.preventDefault();openLi(c.dataset.li)}});
 });
-function openLi(id){S.lsel=id;S.lslide=0;renderLinkedIn();renderLiModal(true);if(!ldlg.open)ldlg.showModal()}
+function openLi(id){window.RP_REFRESH&&window.RP_REFRESH();S.lsel=id;S.lslide=0;renderLinkedIn();renderLiModal(true);if(!ldlg.open)ldlg.showModal()}
 function liPreview(l){
   const m=l.media||[],car=l.format==='karussell',i=Math.min(S.lslide||0,Math.max(0,m.length-1)),a=m[i];S.lslide=i;
   return `<div class="frame r11" data-ldrop="1">${a?`<img src="${src(a)}" alt="">`:`<div class="drop" data-lact="up"><b>${car?'Slides hochladen':'Bild hochladen'}</b>1080 × 1080 px</div>`}<div class="zone sq100"><span>Safe Zone 100 px</span></div></div>

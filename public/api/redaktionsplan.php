@@ -119,6 +119,10 @@ function db(): PDO
     $pdo->exec('CREATE TABLE IF NOT EXISTS writes (ip_hash TEXT NOT NULL, at INTEGER NOT NULL)');
     $pdo->exec('CREATE TABLE IF NOT EXISTS auth_failures (ip_hash TEXT NOT NULL, at INTEGER NOT NULL)');
     $pdo->exec("INSERT OR IGNORE INTO meta (k, v) VALUES ('rev', '0')");
+    // Per-document version (the global rev of its last write), for conflict checks.
+    $hasVer = false;
+    foreach ($pdo->query('PRAGMA table_info(docs)')->fetchAll() as $c) if ($c['name'] === 'ver') $hasVer = true;
+    if (!$hasVer) $pdo->exec('ALTER TABLE docs ADD COLUMN ver INTEGER NOT NULL DEFAULT 0');
     return $pdo;
 }
 
@@ -271,8 +275,9 @@ function applyMigration(): void
     if ($done->fetchColumn() !== false) { if (is_dir($filesSrc)) rrmdir($filesSrc); return; }
     $pdo->beginTransaction();
     $get = $pdo->prepare('SELECT data FROM docs WHERE col = ? AND id = ?');
-    $put = $pdo->prepare('UPDATE docs SET data = ?, updated_at = ? WHERE col = ? AND id = ?');
-    $ins = $pdo->prepare('INSERT INTO docs (col, id, data, updated_at) VALUES (?, ?, ?, ?)');
+    $nextRev = rev() + 1;
+    $put = $pdo->prepare("UPDATE docs SET data = ?, updated_at = ?, ver = $nextRev WHERE col = ? AND id = ?");
+    $ins = $pdo->prepare("INSERT INTO docs (col, id, data, updated_at, ver) VALUES (?, ?, ?, ?, $nextRev)");
     $applied = 0;
     $skipped = 0;
     // Uploaded files that new docs refer to: {"<32 hex id>": {mime, name}}, read from
@@ -321,8 +326,10 @@ function applyMigration(): void
 function listAll(): array
 {
     $docs = array_fill_keys(COLLECTIONS, []);
-    foreach (db()->query('SELECT col, id, data FROM docs')->fetchAll() as $r) {
-        $docs[$r['col']][$r['id']] = json_decode($r['data'], true);
+    foreach (db()->query('SELECT col, id, data, ver FROM docs')->fetchAll() as $r) {
+        $d = json_decode($r['data'], true);
+        if (is_array($d)) $d['_v'] = (int) $r['ver'];
+        $docs[$r['col']][$r['id']] = $d;
     }
     foreach ($docs as $k => $v) if (!$v) $docs[$k] = new stdClass();
     return $docs;
@@ -416,19 +423,32 @@ try {
         $col = validCol($body['col'] ?? null);
         $id = validId($body['id'] ?? null);
         if (!is_array($body['data'] ?? null)) fail(400, 'Ungültige Daten.');
-        $json = json_encode($body['data'], JSON_UNESCAPED_UNICODE);
+        $data = $body['data'];
+        // _v = version of this document the editor started from. If someone else has
+        // saved it since, refuse with 409 and the current version so the planner can
+        // merge instead of silently overwriting. Saves without _v (new documents,
+        // old cached pages) are written as before.
+        $base = isset($data['_v']) && is_int($data['_v']) ? $data['_v'] : null;
+        unset($data['_v']);
+        $json = json_encode($data, JSON_UNESCAPED_UNICODE);
         if (strlen($json) > MAX_DOC_BYTES) fail(413, 'Eintrag ist zu groß.');
-        $st = $pdo->prepare('SELECT data FROM docs WHERE col = ? AND id = ?');
+        $pdo->exec('BEGIN IMMEDIATE'); // read + write as one step, so two saves can't both pass the check
+        $st = $pdo->prepare('SELECT data, ver FROM docs WHERE col = ? AND id = ?');
         $st->execute([$col, $id]);
-        $before = $st->fetchColumn();
-        $pdo->beginTransaction();
-        $pdo->prepare('INSERT INTO docs (col, id, data, updated_at) VALUES (?, ?, ?, ?)
-            ON CONFLICT(col, id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at')
-            ->execute([$col, $id, $json, now()]);
-        logWrite('set', $col, $id, $before === false ? null : $before, $json);
+        $cur = $st->fetch();
+        if ($base !== null && ($cur === false ? $base > 0 : (int) $cur['ver'] !== $base)) {
+            $pdo->exec('ROLLBACK');
+            $current = $cur === false ? null : json_decode($cur['data'], true);
+            http_response_code(409);
+            out(['error' => 'conflict', 'current' => $current, 'ver' => $cur === false ? null : (int) $cur['ver']]);
+        }
         $r = bumpRev();
-        $pdo->commit();
-        out(['ok' => true, 'rev' => $r]);
+        $pdo->prepare('INSERT INTO docs (col, id, data, updated_at, ver) VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(col, id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at, ver = excluded.ver')
+            ->execute([$col, $id, $json, now(), $r]);
+        logWrite('set', $col, $id, $cur === false ? null : $cur['data'], $json);
+        $pdo->exec('COMMIT');
+        out(['ok' => true, 'rev' => $r, 'ver' => $r]);
     } elseif ($action === 'delete') {
         $col = validCol($body['col'] ?? null);
         $id = validId($body['id'] ?? null);
