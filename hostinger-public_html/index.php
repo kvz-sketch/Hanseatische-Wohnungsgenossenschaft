@@ -1,16 +1,87 @@
 <?php
+header_remove('X-Powered-By');
+
+// Session cookie: not readable by JavaScript, HTTPS only, not sent on cross-site requests.
+const SESSION_LIFETIME = 12 * 3600;
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+ini_set('session.use_strict_mode', '1');
 session_start();
+
 $hash = '$2y$10$6Mn4c0FarNT1fyevYxr0..UOcCLZmiAEAxxGnPd6Q37w1/tmuqefm';
+
+// Login is valid for 12 hours, then the password is asked again.
+if (!empty($_SESSION['hswg_ok']) && time() - ($_SESSION['hswg_since'] ?? 0) > SESSION_LIFETIME) {
+    $_SESSION = [];
+    session_regenerate_id(true);
+}
+
+// Failed attempts per IP, kept outside the web root. 10 failures within 15 minutes
+// block that IP until the window has passed.
+const MAX_FAILURES = 10;
+const FAILURE_WINDOW = 15 * 60;
+
+function attempts_open() {
+    $file = dirname(__DIR__) . '/hswg-login-attempts.json';
+    if (!is_writable(dirname($file)) && !is_writable($file)) {
+        $file = sys_get_temp_dir() . '/hswg-login-attempts.json';
+    }
+    $fp = @fopen($file, 'c+');
+    if (!$fp) {
+        return [null, []];
+    }
+    flock($fp, LOCK_EX);
+    $data = json_decode(stream_get_contents($fp) ?: '[]', true) ?: [];
+    $now = time();
+    foreach ($data as $key => $times) {
+        $data[$key] = array_values(array_filter($times, fn($t) => $now - $t < FAILURE_WINDOW));
+        if (!$data[$key]) {
+            unset($data[$key]);
+        }
+    }
+    return [$fp, $data];
+}
+
+function attempts_close($fp, $data) {
+    if (!$fp) {
+        return;
+    }
+    ftruncate($fp, 0);
+    rewind($fp);
+    fwrite($fp, json_encode($data));
+    flock($fp, LOCK_UN);
+    fclose($fp);
+}
+
+$client = hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '');
 $error = false;
+$blocked = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (password_verify($_POST['passwort'] ?? '', $hash)) {
+    [$fp, $attempts] = attempts_open();
+    if (count($attempts[$client] ?? []) >= MAX_FAILURES) {
+        $blocked = true;
+        attempts_close($fp, $attempts);
+        http_response_code(429);
+        header('Retry-After: ' . FAILURE_WINDOW);
+    } elseif (password_verify($_POST['passwort'] ?? '', $hash)) {
+        unset($attempts[$client]);
+        attempts_close($fp, $attempts);
         session_regenerate_id(true);
         $_SESSION['hswg_ok'] = true;
+        $_SESSION['hswg_since'] = time();
         header('Location: ./', true, 303);
         exit;
+    } else {
+        $attempts[$client][] = time();
+        attempts_close($fp, $attempts);
+        $error = true;
+        usleep(500000);
     }
-    $error = true;
-    usleep(500000);
 }
 if (empty($_SESSION['hswg_ok'])) {
     header('Cache-Control: no-store');
@@ -45,7 +116,7 @@ button:hover{background:#2A3270}
 <label for="pw" style="position:absolute;left:-9999px">Passwort</label>
 <input id="pw" type="password" name="passwort" placeholder="Passwort" autocomplete="current-password" required autofocus>
 <button type="submit">Weiter</button>
-<?php if ($error): ?><p class="err" role="alert">Das Passwort ist leider nicht korrekt.</p><?php endif; ?>
+<?php if ($blocked): ?><p class="err" role="alert">Zu viele Fehlversuche. Bitte versuchen Sie es in 15 Minuten erneut.</p><?php elseif ($error): ?><p class="err" role="alert">Das Passwort ist leider nicht korrekt.</p><?php endif; ?>
 </form>
 </body>
 </html>
