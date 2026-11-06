@@ -5,7 +5,9 @@
  * Credentials are entered under Einstellungen → DocuSign in wp-admin, or set
  * as constants in wp-config.php (constants win, e.g.
  * define( 'HANSEA_DOCUSIGN_PRIVATE_KEY', '-----BEGIN RSA PRIVATE KEY-----…' );).
- * They are never part of the theme or the repository.
+ * They are never part of the theme or the repository. Entered in wp-admin,
+ * the private key and HMAC secret are stored encrypted; wp-config.php
+ * constants are preferred.
  *
  * See docs/DOCUSIGN.md in the repository for the setup steps.
  */
@@ -29,6 +31,9 @@ function hansea_docusign_setting( $key ) {
 		return trim( (string) constant( $constant ) );
 	}
 	$value = trim( (string) get_option( 'hansea_docusign_' . $key, '' ) );
+	if ( 0 === strpos( $value, 'v1:' ) ) {
+		$value = hansea_unseal( $value ); // secret fields are stored encrypted
+	}
 	return ( 'environment' === $key && 'production' !== $value ) ? 'demo' : $value;
 }
 
@@ -231,7 +236,8 @@ add_action( 'admin_post_hansea_docusign_save', function () {
 		if ( $secret && '' === $value && empty( $_POST[ $field . '_clear' ] ) ) {
 			continue;
 		}
-		update_option( $field, $value, false );
+		// Private key and HMAC secret are stored encrypted with the CRM key (inc/crm.php)
+		update_option( $field, $secret && '' !== $value ? hansea_seal( $value ) : $value, false );
 	}
 	delete_transient( hansea_docusign_cache_key( 'token' ) );
 	delete_transient( hansea_docusign_cache_key( 'account' ) );

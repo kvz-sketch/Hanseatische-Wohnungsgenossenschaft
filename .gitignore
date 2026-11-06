@@ -24,3 +24,16 @@ dist-ssr
 *.sln
 *.sw?
 wordpress/hansea-invest/dist
+
+# Secrets and server-only files: never commit
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+wp-config.php
+hansea-crm-key.php
+hansea-crm-files/
+*.sql
+*.xlsx

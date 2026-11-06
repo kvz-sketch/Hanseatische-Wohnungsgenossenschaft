@@ -37,15 +37,27 @@ export type Member = {
   portfolio?: Portfolio | null
   /** May open the Mitgliederliste (staff). */
   crm?: boolean
+  /** Administrator: may correct approval fields in the Mitgliederliste. */
+  admin?: boolean
+  /** Staff only: two-factor login (inc/twofactor.php); must be enabled before the Mitgliederliste opens. */
+  twoFactor?: { enabled: boolean } | null
 }
 
 const SESSION_KEY = 'hs-demo-session'
 
 /** Sample account of the demo and preview builds (shown on their login page). */
-export const DEMO_LOGIN = { email: 'demo@hanseainvest.de', password: 'vorschau2026' }
+// Not part of the WordPress build: there the condition is constant and the values are dropped.
+export const DEMO_LOGIN = IS_WORDPRESS ? { email: '', password: '' } : { email: 'demo@hanseainvest.de', password: 'vorschau2026' }
 const demoMember: Member = { firstName: 'Maria', lastName: 'Muster', email: DEMO_LOGIN.email, createdAt: '2026-04-01T09:00:00Z' }
 
-export class AuthError extends Error {}
+export class AuthError extends Error {
+  /** "hansea_2fa_required" / "hansea_2fa_invalid": staff must enter the code from their authenticator app. */
+  code: string
+  constructor(message: string, code = '') {
+    super(message)
+    this.code = code
+  }
+}
 
 // localStorage can be missing or blocked (private mode, sandboxed previews);
 // fall back to memory so the flow still works for the current visit.
@@ -79,13 +91,13 @@ export const MIN_PASSWORD_LENGTH = 8
 /** Where "Passwort vergessen?" leads, or null when resets go through the member service. */
 export const passwordResetUrl = () => (IS_WORDPRESS ? wp().lostPasswordUrl : null)
 
-export async function login(emailInput: string, password: string) {
+export async function login(emailInput: string, password: string, code = '') {
   if (IS_WORDPRESS) {
     try {
-      const { member } = await wpPost<{ member: Member }>('login', { email: emailInput.trim(), password })
+      const { member } = await wpPost<{ member: Member }>('login', { email: emailInput.trim(), password, code })
       return member
     } catch (err) {
-      throw err instanceof WordPressError ? new AuthError(err.message) : err
+      throw err instanceof WordPressError ? new AuthError(err.message, err.code) : err
     }
   }
   if (emailInput.trim().toLowerCase() !== DEMO_LOGIN.email || password !== DEMO_LOGIN.password) {

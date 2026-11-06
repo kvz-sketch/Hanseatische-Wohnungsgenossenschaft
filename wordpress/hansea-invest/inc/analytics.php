@@ -12,7 +12,8 @@
  * requested only after "Akzeptieren"; Consent Mode starts with everything
  * denied, and advertising storage stays denied. Any link to
  * #cookie-einstellungen (footer "Cookie-Einstellungen") reopens the banner.
- * Logged-in editors are not tracked.
+ * Logged-in editors are not tracked, and the login, password, members' area
+ * and Mitgliederliste pages never load it.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,6 +63,10 @@ add_action( 'admin_menu', function () {
 add_action( 'wp_footer', function () {
 	$id = hansea_ga_id();
 	if ( '' === $id || ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) ) {
+		return;
+	}
+	// No statistics on login, password, members' area and Mitgliederliste (personal data; nothing to measure there).
+	if ( in_array( hansea_current_view(), array( 'login', 'passwort', 'mitglieder', 'mitgliederliste' ), true ) ) {
 		return;
 	}
 	$cookie_url = home_url( '/cookie-richtlinie/' );

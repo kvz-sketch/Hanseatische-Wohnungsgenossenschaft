@@ -14,16 +14,24 @@ function LoginForm({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [forgot, setForgot] = useState(false)
+  // Staff with two-factor login: the code field appears after the password was correct
+  const [code, setCode] = useState('')
+  const [needCode, setNeedCode] = useState(false)
   const resetUrl = passwordResetUrl()
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     if (!email.trim() || !password) return setError('Bitte geben Sie E-Mail-Adresse und Passwort ein.')
+    if (needCode && !code.trim()) return setError('Bitte geben Sie den Code aus Ihrer Authenticator-App ein.')
     setBusy(true)
     try {
-      await login(email, password)
+      await login(email, password, code.trim())
       onDone()
     } catch (err) {
+      if (err instanceof AuthError && err.code.startsWith('hansea_2fa_')) {
+        setNeedCode(true)
+        setCode('')
+      }
       setError(err instanceof AuthError ? err.message : 'Die Anmeldung hat nicht geklappt. Bitte versuchen Sie es erneut.')
       setBusy(false)
     }
@@ -40,6 +48,18 @@ function LoginForm({ onDone }: { onDone: () => void }) {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {needCode && (
+        <Field
+          id="login-code"
+          label="Code aus der Authenticator-App"
+          type="text"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          autoFocus
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        />
+      )}
       {error && (
         <p role="alert" className="m-0 rounded-control bg-coral-100 px-4 py-3 text-[14px] text-coral-600">
           {error}

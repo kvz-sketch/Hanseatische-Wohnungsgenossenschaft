@@ -146,6 +146,46 @@ function hansea_crm_key() {
 	return $key = false;
 }
 
+/** Encrypts a string with the CRM key ("v1:" + base64(nonce + box)); '' without a key. */
+function hansea_seal( $plain ) {
+	$key = hansea_crm_key();
+	if ( ! $key ) {
+		return '';
+	}
+	$nonce = random_bytes( SODIUM_CRYPTO_SECRETBOX_NONCEBYTES );
+	return 'v1:' . base64_encode( $nonce . sodium_crypto_secretbox( (string) $plain, $nonce, $key ) );
+}
+
+/** Decrypts hansea_seal() output; '' when it can't. */
+function hansea_unseal( $sealed ) {
+	$key = hansea_crm_key();
+	if ( ! $key || 0 !== strpos( (string) $sealed, 'v1:' ) ) {
+		return '';
+	}
+	$raw = (string) base64_decode( substr( $sealed, 3 ) );
+	if ( ! hansea_sealed_length_ok( $raw ) ) {
+		return '';
+	}
+	$plain = sodium_crypto_secretbox_open( substr( $raw, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), substr( $raw, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), $key );
+	return false === $plain ? '' : $plain;
+}
+
+/** Long enough to hold nonce and authentication tag (shorter data is damaged; sodium would throw). */
+function hansea_sealed_length_ok( $raw ) {
+	return is_string( $raw ) && strlen( $raw ) >= SODIUM_CRYPTO_SECRETBOX_NONCEBYTES + SODIUM_CRYPTO_SECRETBOX_MACBYTES;
+}
+
+/** Binary file content encrypted with the CRM key (nonce + box), and back. */
+function hansea_seal_file( $data ) {
+	$nonce = random_bytes( SODIUM_CRYPTO_SECRETBOX_NONCEBYTES );
+	return $nonce . sodium_crypto_secretbox( $data, $nonce, hansea_crm_key() );
+}
+
+function hansea_unseal_file( $raw ) {
+	$key = hansea_crm_key();
+	return hansea_sealed_length_ok( $raw ) && $key ? sodium_crypto_secretbox_open( substr( $raw, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), substr( $raw, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), $key ) : false;
+}
+
 function hansea_crm_encrypt( array $values ) {
 	$key = hansea_crm_key();
 	if ( ! $key ) {
@@ -163,8 +203,8 @@ function hansea_crm_secrets( $post_id ) {
 	if ( '' === $stored || ! $key || 0 !== strpos( $stored, 'v1:' ) ) {
 		return $empty;
 	}
-	$raw   = base64_decode( substr( $stored, 3 ) );
-	$plain = sodium_crypto_secretbox_open( substr( $raw, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), substr( $raw, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), $key );
+	$raw   = (string) base64_decode( substr( $stored, 3 ) );
+	$plain = hansea_sealed_length_ok( $raw ) ? sodium_crypto_secretbox_open( substr( $raw, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), substr( $raw, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), $key ) : false;
 	$data  = false === $plain ? null : json_decode( $plain, true );
 	return is_array( $data ) ? array_merge( $empty, array_intersect_key( $data, $empty ) ) : $empty;
 }
@@ -205,7 +245,7 @@ function hansea_crm_number( $value ) {
 function hansea_crm_sanitize( array $in ) {
 	$out = array();
 	foreach ( HANSEA_CRM_TEXT as $field ) {
-		$out[ $field ] = sanitize_text_field( (string) ( $in[ $field ] ?? '' ) );
+		$out[ $field ] = mb_substr( sanitize_text_field( (string) ( $in[ $field ] ?? '' ) ), 0, 200 );
 	}
 	$out['email'] = sanitize_email( $out['email'] );
 	foreach ( HANSEA_CRM_DATES as $field ) {
@@ -215,7 +255,7 @@ function hansea_crm_sanitize( array $in ) {
 		$value         = (string) ( $in[ $field ] ?? '' );
 		$out[ $field ] = in_array( $value, $choices, true ) ? $value : $choices[0];
 	}
-	$out['bemerkungen'] = sanitize_textarea_field( (string) ( $in['bemerkungen'] ?? '' ) );
+	$out['bemerkungen'] = mb_substr( sanitize_textarea_field( (string) ( $in['bemerkungen'] ?? '' ) ), 0, 5000 );
 	$out['freistellung'] = hansea_crm_number( $in['freistellung'] ?? null );
 	$nr        = isset( $in['nr'] ) && '' !== $in['nr'] && null !== $in['nr'] ? absint( $in['nr'] ) : 0;
 	$out['nr'] = $nr > 0 ? $nr : null;
@@ -236,7 +276,7 @@ function hansea_crm_sanitize( array $in ) {
 				} elseif ( 'ar' === $type ) {
 					$clean[ $column ] = in_array( $value, HANSEA_CRM_CHOICES['zulassung_status'], true ) ? $value : '';
 				} else {
-					$clean[ $column ] = sanitize_text_field( (string) $value );
+					$clean[ $column ] = mb_substr( sanitize_text_field( (string) $value ), 0, 200 );
 				}
 			}
 			if ( array_filter( $clean, function ( $v ) { return null !== $v && '' !== $v; } ) ) {
@@ -432,8 +472,15 @@ function hansea_crm_open_portal( $post_id ) {
  * REST API: /wp-json/hansea/v1/crm/…
  * ------------------------------------------------------------------------ */
 
+/** CRM API access: the capability, and two-factor login set up (inc/twofactor.php). */
 function hansea_crm_can() {
-	return current_user_can( HANSEA_CRM_CAP );
+	if ( ! current_user_can( HANSEA_CRM_CAP ) ) {
+		return false;
+	}
+	if ( hansea_2fa_missing() ) {
+		return new WP_Error( 'hansea_2fa_setup', 'Bitte richten Sie zuerst die Zwei-Faktor-Anmeldung ein (Reiter „Sicherheit“).', array( 'status' => 403 ) );
+	}
+	return true;
 }
 
 /** The member post for a request, or a 404 error. */
@@ -491,7 +538,15 @@ function hansea_crm_rest_create( WP_REST_Request $request ) {
 	if ( '' === trim( ( $record['nachname'] ?? '' ) . ( $record['firma'] ?? '' ) ) ) {
 		return hansea_error( 'hansea_crm_name', 'Bitte mindestens Nachname oder Firma angeben.', 422 );
 	}
-	$record = array_merge( $record, array( 'status' => 'antrag', 'zulassung_status' => 'offen', 'nr' => null ) );
+	$record = array_merge( $record, array( 'status' => 'antrag', 'zulassung_status' => 'offen', 'zulassung_ar' => '', 'zulassung_datum' => '', 'nr' => null, 'aus_ar_status' => '', 'aus_ar' => '' ) );
+	foreach ( array( 'zeichnungen', 'kuendigungen' ) as $list ) {
+		foreach ( (array) ( $record[ $list ] ?? array() ) as $i => $row ) {
+			$record[ $list ][ $i ] = array_merge( (array) $row, array( 'ar' => '', 'ar_status' => '' ) ); // decided by the Aufsichtsrat only
+		}
+	}
+	if ( '' !== trim( (string) ( $record['email'] ?? '' ) ) && ! is_email( trim( (string) $record['email'] ) ) ) {
+		return hansea_error( 'hansea_crm_email', 'Bitte eine gültige E-Mail-Adresse eingeben.', 422 );
+	}
 	$post_id = hansea_crm_save( $record, 0, (array) $request->get_param( 'secrets' ) );
 	if ( is_wp_error( $post_id ) ) {
 		return $post_id;
@@ -508,6 +563,15 @@ function hansea_crm_rest_update( WP_REST_Request $request ) {
 	}
 	$before = hansea_crm_record( $post->ID );
 	$after  = hansea_crm_sanitize( (array) $request->get_param( 'record' ) );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		$after = hansea_crm_protect( $before, $after );
+		if ( is_wp_error( $after ) ) {
+			return $after;
+		}
+	}
+	if ( '' !== $after['email'] && ! is_email( $after['email'] ) ) {
+		return hansea_error( 'hansea_crm_email', 'Bitte eine gültige E-Mail-Adresse eingeben.', 422 );
+	}
 	if ( null !== $after['nr'] && $after['nr'] !== $before['nr'] ) {
 		foreach ( get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1, 'fields' => 'ids', 'exclude' => array( $post->ID ) ) ) as $other ) {
 			if ( hansea_crm_record( $other )['nr'] === $after['nr'] ) {
@@ -543,6 +607,40 @@ function hansea_crm_rest_update( WP_REST_Request $request ) {
 	}
 	hansea_crm_log( $post->ID, 'Geändert', implode( ', ', $changed ) );
 	return rest_ensure_response( hansea_crm_detail( $post->ID ) );
+}
+
+/**
+ * Fields only a Beschluss of the Aufsichtsrat (or an administrator) changes:
+ * admission, number, Ausscheiden and the approval of each row. Other staff
+ * keep the stored values; a row the Aufsichtsrat has decided on can't be
+ * removed or swapped (rows are matched by position).
+ *
+ * @return array|WP_Error
+ */
+function hansea_crm_protect( array $before, array $after ) {
+	foreach ( array( 'status', 'nr', 'zulassung_status', 'zulassung_ar', 'zulassung_datum', 'aus_ar_status', 'aus_ar' ) as $field ) {
+		$after[ $field ] = $before[ $field ];
+	}
+	$identity = array( 'zeichnungen' => array( 'anteile', 'zugelassen' ), 'kuendigungen' => array( 'anteile', 'zum' ) );
+	foreach ( $identity as $list => $keys ) {
+		foreach ( $after[ $list ] as $i => $row ) {
+			$was                        = $before[ $list ][ $i ] ?? null;
+			$after[ $list ][ $i ]['ar']        = $was ? $was['ar'] : '';
+			$after[ $list ][ $i ]['ar_status'] = $was ? $was['ar_status'] : '';
+		}
+		foreach ( $before[ $list ] as $i => $was ) {
+			if ( '' === $was['ar_status'] ) {
+				continue;
+			}
+			$now = $after[ $list ][ $i ] ?? null;
+			foreach ( $keys as $key ) {
+				if ( ! $now || $now[ $key ] !== $was[ $key ] ) {
+					return hansea_error( 'hansea_crm_protected', 'Zeilen, über die der Aufsichtsrat entschieden hat oder die ihm vorliegen, können nur Administratoren löschen oder bei Anteilen und Datum ändern.', 403 );
+				}
+			}
+		}
+	}
+	return $after;
 }
 
 function hansea_crm_rest_reveal( WP_REST_Request $request ) {
@@ -739,9 +837,8 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 	if ( ! $key || ! $dir ) {
 		return hansea_error( 'hansea_crm_upload', 'Der Speicherort für Dokumente ist nicht verfügbar.', 500 );
 	}
-	$id    = bin2hex( random_bytes( 16 ) );
-	$nonce = random_bytes( SODIUM_CRYPTO_SECRETBOX_NONCEBYTES );
-	if ( false === file_put_contents( $dir . '/' . $id . '.bin', $nonce . sodium_crypto_secretbox( $data, $nonce, $key ) ) ) {
+	$id = bin2hex( random_bytes( 16 ) );
+	if ( false === file_put_contents( $dir . '/' . $id . '.bin', hansea_seal_file( $data ) ) ) {
 		return hansea_error( 'hansea_crm_upload', 'Das Dokument konnte nicht gespeichert werden.', 500 );
 	}
 	$name = sanitize_file_name( (string) $file['name'] ) ?: 'Dokument.pdf';
@@ -770,8 +867,7 @@ function hansea_crm_rest_document_get( WP_REST_Request $request ) {
 		}
 	}
 	$raw = $doc ? @file_get_contents( hansea_crm_files_dir() . '/' . $doc['id'] . '.bin' ) : false;
-	$key = hansea_crm_key();
-	$pdf = $raw && $key ? sodium_crypto_secretbox_open( substr( $raw, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), substr( $raw, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ), $key ) : false;
+	$pdf = hansea_unseal_file( $raw );
 	if ( false === $pdf ) {
 		return hansea_error( 'hansea_crm_missing', 'Dokument nicht gefunden.', 404 );
 	}
@@ -958,7 +1054,7 @@ function hansea_crm_rest_beschluss_vote( WP_REST_Request $request ) {
 	if ( ! isset( $b['voters'][ $me ] ) || isset( $b['votes'][ $me ] ) ) {
 		return hansea_error( 'hansea_crm_vote', isset( $b['votes'][ $me ] ) ? 'Sie haben schon abgestimmt.' : 'Sie gehören nicht zu den Abstimmenden dieses Beschlusses.', 409 );
 	}
-	$note              = sanitize_textarea_field( (string) $request->get_param( 'note' ) );
+	$note              = mb_substr( sanitize_textarea_field( (string) $request->get_param( 'note' ) ), 0, 1000 );
 	$b['votes'][ $me ] = array( 'vote' => $vote, 'time' => gmdate( 'c' ), 'note' => $note );
 	hansea_crm_log( $post->ID, 'Aufsichtsrat: ' . ( 'zugestimmt' === $vote ? 'Zustimmung' : 'Ablehnung' ), $b['title'] . ( $note ? ' – ' . $note : '' ) );
 

@@ -91,7 +91,6 @@ add_shortcode( 'hansea_kontakt', function () {
 			e.preventDefault();
 			var data = {};
 			new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
-			if (data.website) return; // bots fill the hidden field
 			var bad = [];
 			if (!data.firstName) bad.push('firstName');
 			if (!data.lastName) bad.push('lastName');
@@ -107,7 +106,7 @@ add_shortcode( 'hansea_kontakt', function () {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				credentials: 'same-origin',
-				body: JSON.stringify({ type: 'contact', firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone, source: data.source, page: location.pathname })
+				body: JSON.stringify({ type: 'contact', firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone, source: data.source, page: location.pathname, website: data.website, token: <?php echo wp_json_encode( hansea_lead_token() ); ?> })
 			}).then(function (res) {
 				if (!res.ok) throw new Error(res.status);
 				form.innerHTML = '<div class="hs-form__done" role="status"><strong>Vielen Dank für Ihre Anfrage.</strong>Wir melden uns zeitnah bei Ihnen.</div>';

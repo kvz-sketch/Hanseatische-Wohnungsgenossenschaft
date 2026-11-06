@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent, type ReactNode } from 'react'
-import { ANTEIL_EUR, emptyRecord, type MemberRecord, type Secrets, type SecretsInput } from './api'
+import { ANTEIL_EUR, emptyRecord, type Kuendigung, type MemberRecord, type Zeichnung, type Secrets, type SecretsInput } from './api'
 import { AR_NAMES, STATUS, inputClass, labelClass } from './format'
+import { currentMember } from '../auth/auth'
 import { Button, ErrorNote } from './ui'
 
 type ColType = 'text' | 'date' | 'number' | 'ar'
@@ -30,6 +31,8 @@ export function MemberForm({
   const [secrets, setSecrets] = useState<Secrets>(revealed ?? { iban: '', steuer_id: '', kirchensteuer: '' })
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  // Approval fields: decided by the Aufsichtsrat; only administrators correct them (inc/crm.php, hansea_crm_protect)
+  const admin = !!currentMember()?.admin
   const [doc, setDoc] = useState<File | null>(null)
   const [pdf, setPdf] = useState<{ found: string[]; note: string } | null>(null)
   const [fromPdf, setFromPdf] = useState<Set<string>>(new Set())
@@ -155,7 +158,12 @@ export function MemberForm({
             <option value="o">ordentlich</option>
           </select>
         </Field>
-        {mode === 'edit' && (
+        {mode === 'edit' && !admin && (
+          <p className="m-0 self-end text-xs text-muted sm:col-span-3">
+            Status, Mitgliedsnummer, Zulassung und Zustimmungen ändert ein Beschluss des Aufsichtsrats (Korrekturen: Administratoren).
+          </p>
+        )}
+        {mode === 'edit' && admin && (
           <>
             {text('nr', 'Mitgliedsnummer', { type: 'number' })}
             <Field label="Status">
@@ -172,9 +180,9 @@ export function MemberForm({
               </select>
             </Field>
             {text('zulassung_ar', 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
-            {text('kuendbar_zu', 'Kündigung möglich zu', { type: 'date' })}
           </>
         )}
+        {mode === 'edit' && text('kuendbar_zu', 'Kündigung möglich zu', { type: 'date' })}
         {text('empfehler', 'Empfehler')}
       </Section>
 
@@ -187,8 +195,7 @@ export function MemberForm({
           { key: 'betrag', label: 'Betrag €', type: 'number', width: '120px' },
           { key: 'zahlung', label: 'Zahlungseingang', type: 'date' },
           { key: 'zugelassen', label: 'Zugelassen am', type: 'date' },
-          { key: 'ar', label: 'Aufsichtsrat', type: 'text' },
-          { key: 'ar_status', label: 'Zustimmung', type: 'ar' },
+          ...arColumns<Zeichnung>(admin),
           { key: 'zins_ende', label: 'Erstes Ende Verzinsung', type: 'date' },
           { key: 'zins_zahlung', label: 'Erste Zinszahlung bis', type: 'date' },
         ]}
@@ -210,8 +217,7 @@ export function MemberForm({
           { key: 'datum', label: 'Kündigung eingegangen', type: 'date' },
           { key: 'zum', label: 'Gekündigt zum', type: 'date' },
           { key: 'betrag', label: 'Betrag €', type: 'number', width: '120px' },
-          { key: 'ar', label: 'Aufsichtsrat', type: 'text' },
-          { key: 'ar_status', label: 'Zustimmung', type: 'ar' },
+          ...arColumns<Kuendigung>(admin),
         ]}
         blank={() => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const })}
         onChange={(rows) => set('kuendigungen', rows)}
@@ -246,15 +252,19 @@ export function MemberForm({
         <Section title="Ausscheiden">
           {text('aus_eintragung', 'Tag der Eintragung', { type: 'date' })}
           {text('aus_datum', 'Tag des Ausscheidens', { type: 'date' })}
-          <Field label="Zustimmung Aufsichtsrat">
-            <select className={inputClass} value={r.aus_ar_status} onChange={(e) => set('aus_ar_status', e.target.value as MemberRecord['aus_ar_status'])}>
-              <option value="">–</option>
-              <option value="offen">offen</option>
-              <option value="zugestimmt">zugestimmt</option>
-              <option value="abgelehnt">abgelehnt</option>
-            </select>
-          </Field>
-          {text('aus_ar', 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
+          {admin && (
+            <>
+              <Field label="Zustimmung Aufsichtsrat">
+                <select className={inputClass} value={r.aus_ar_status} onChange={(e) => set('aus_ar_status', e.target.value as MemberRecord['aus_ar_status'])}>
+                  <option value="">–</option>
+                  <option value="offen">offen</option>
+                  <option value="zugestimmt">zugestimmt</option>
+                  <option value="abgelehnt">abgelehnt</option>
+                </select>
+              </Field>
+              {text('aus_ar', 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
+            </>
+          )}
           {text('aus_grund', 'Grund', { className: 'sm:col-span-2' })}
         </Section>
       )}
@@ -302,6 +312,16 @@ export function MemberForm({
       </div>
     </form>
   )
+}
+
+/** Aufsichtsrat columns of a row table, shown to administrators only. */
+function arColumns<R extends Record<string, unknown>>(admin: boolean): Col<R>[] {
+  return admin
+    ? ([
+        { key: 'ar', label: 'Aufsichtsrat', type: 'text' },
+        { key: 'ar_status', label: 'Zustimmung', type: 'ar' },
+      ] as Col<R>[])
+    : []
 }
 
 const blankZeichnung = () => ({ zugelassen: '', anteile: 1, ar: '', ar_status: '' as const, zahlung: '', betrag: ANTEIL_EUR, zins_ende: '', zins_zahlung: '' })

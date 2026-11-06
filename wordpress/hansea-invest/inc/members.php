@@ -14,6 +14,8 @@ function hansea_member_payload( WP_User $user ) {
 		'createdAt' => mysql_to_rfc3339( $user->user_registered ),
 		'portfolio' => hansea_crm_portfolio( $user ), // inc/crm.php; null until linked to the Mitgliederliste
 		'crm'       => user_can( $user, 'hansea_crm' ), // may open the Mitgliederliste
+		'admin'     => user_can( $user, 'manage_options' ), // may correct approval fields in the Mitgliederliste
+		'twoFactor' => hansea_2fa_required( $user ) ? array( 'enabled' => hansea_2fa_enabled( $user->ID ) ) : null, // staff only (inc/twofactor.php)
 	);
 }
 

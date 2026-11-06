@@ -52,12 +52,21 @@ function hansea_rest_login( WP_REST_Request $request ) {
 	if ( ! $user ) {
 		return $fail;
 	}
+	$GLOBALS['hansea_2fa_code'] = sanitize_text_field( (string) $request->get_param( 'code' ) ); // staff (inc/twofactor.php)
 	$signed_in = wp_signon( array(
 		'user_login'    => $user->user_login,
 		'user_password' => $password,
-		'remember'      => true,
+		'remember'      => true, // staff sessions are capped at 12 hours (inc/security.php)
 	), is_ssl() );
 	if ( is_wp_error( $signed_in ) ) {
+		switch ( $signed_in->get_error_code() ) {
+			case 'hansea_locked':
+				return hansea_error( 'hansea_throttled', $signed_in->get_error_message(), 429 );
+			case 'hansea_2fa_required':
+			case 'hansea_2fa_invalid':
+				// Only reached after the correct password
+				return hansea_error( $signed_in->get_error_code(), $signed_in->get_error_message(), 401 );
+		}
 		return $fail;
 	}
 

@@ -3,19 +3,20 @@ import { currentMember, logout } from '../auth/auth'
 import { Logo } from '../components/ui'
 import { api, type MemberSummary } from '../crm/api'
 import { BeschlussInbox } from '../crm/Beschluesse'
+import Sicherheit from '../crm/Sicherheit'
 import MemberPage from '../crm/MemberPage'
 import { MemberForm } from '../crm/MemberForm'
 import { PORTAL, STATUS, date, eur, go, kuendigungLabel, num } from '../crm/format'
 import { Badge, Button, ErrorNote } from '../crm/ui'
 
 /** Views by URL hash: #/ (list), #/antraege, #/bonus, #/neu, #/mitglied/12. */
-type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' } | { view: 'member'; id: number }
+type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' | 'sicherheit' } | { view: 'member'; id: number }
 
 function parseHash(): Route {
   const h = location.hash.replace(/^#\/?/, '')
   const m = /^mitglied\/(\d+)/.exec(h)
   if (m) return { view: 'member', id: Number(m[1]) }
-  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse') return { view: h }
+  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse' || h === 'sicherheit') return { view: h }
   return { view: 'list' }
 }
 
@@ -33,15 +34,19 @@ export default function Mitgliederliste() {
     return () => removeEventListener('hashchange', onHash)
   }, [])
 
+  const user = currentMember()
+  // Staff without two-factor login see only the setup until it is done (the API refuses meanwhile)
+  const mustSetup2fa = !!user?.twoFactor && !user.twoFactor.enabled
+
   const [pending, setPending] = useState(0)
   const reload = useCallback(() => {
+    if (mustSetup2fa) return
     api.list().then(setMembers, (e: Error) => setError(e.message))
     // Decisions waiting for the logged-in Aufsichtsrat member (0 for other staff)
     api.inbox().then((i) => setPending(i.items.filter((b) => b.canVote).length), () => setPending(0))
-  }, [])
+  }, [mustSetup2fa])
   useEffect(reload, [reload])
 
-  const user = currentMember()
   const antraege = members?.filter((m) => m.status === 'antrag').length ?? 0
 
   return (
@@ -61,6 +66,7 @@ export default function Mitgliederliste() {
               Beschlüsse{pending > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-px text-[11px] font-bold text-ink">{pending}</span>}
             </Tab>
             <Tab href="#/bonus" active={route.view === 'bonus'}>Zeichnungsbonus</Tab>
+            {user?.twoFactor && <Tab href="#/sicherheit" active={route.view === 'sicherheit' || mustSetup2fa}>Sicherheit</Tab>}
           </nav>
           <div className="ml-auto flex items-center gap-4 text-sm">
             {user && <span className="hidden text-muted md:inline">{user.firstName} {user.lastName}</span>}
@@ -80,7 +86,9 @@ export default function Mitgliederliste() {
 
       <main className="mx-auto max-w-[1240px] px-5 py-8">
         {error && <ErrorNote>{error}</ErrorNote>}
-        {route.view === 'member' ? (
+        {mustSetup2fa || route.view === 'sicherheit' ? (
+          <Sicherheit enabled={!!user?.twoFactor?.enabled} required={mustSetup2fa} />
+        ) : route.view === 'member' ? (
           <MemberPage key={route.id} id={route.id} onChange={reload} />
         ) : route.view === 'beschluesse' ? (
           <BeschlussInbox onChange={reload} />

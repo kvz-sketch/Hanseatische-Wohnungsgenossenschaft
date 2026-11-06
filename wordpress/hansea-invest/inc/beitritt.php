@@ -5,8 +5,8 @@
  * The member fills in the form in the dashboard; the theme generates the
  * declaration with their data, creates a DocuSign envelope and sends the
  * member to DocuSign's signing page (embedded signing, they come back to
- * /mitglieder/). The signed PDF is fetched from DocuSign, stored outside the
- * public uploads and shown in the portal and in wp-admin.
+ * /mitglieder/). The signed PDF is fetched from DocuSign, stored encrypted
+ * outside the web root and shown in the portal and in wp-admin.
  *
  * Without DocuSign credentials the declaration is stored and emailed to the
  * team as "eingegangen" so the flow can be used before the account exists.
@@ -124,10 +124,22 @@ function hansea_private_dir() {
 	return $dir;
 }
 
-function hansea_beitritt_pdf_path( $post_id ) {
-	$file = get_post_meta( $post_id, '_hansea_pdf', true );
-	$path = $file ? hansea_private_dir() . '/' . basename( $file ) : '';
-	return $path && is_readable( $path ) ? $path : '';
+/**
+ * The signed PDF of a declaration, or ''. New files are encrypted (.bin) in
+ * the CRM document folder outside the web root; older ones (.pdf) were
+ * stored plain in uploads/hansea-private.
+ */
+function hansea_beitritt_pdf( $post_id ) {
+	$file = basename( (string) get_post_meta( $post_id, '_hansea_pdf', true ) );
+	if ( '' === $file ) {
+		return '';
+	}
+	if ( '.bin' === substr( $file, -4 ) ) {
+		$pdf = hansea_unseal_file( @file_get_contents( hansea_crm_files_dir() . '/' . $file ) );
+		return false === $pdf ? '' : $pdf;
+	}
+	$path = hansea_private_dir() . '/' . $file;
+	return is_readable( $path ) ? (string) file_get_contents( $path ) : '';
 }
 
 function hansea_euro( $amount ) {
@@ -223,8 +235,10 @@ function hansea_beitritt_sync( $post ) {
 		if ( is_wp_error( $pdf ) ) {
 			return $pdf; // retried on the next sync or webhook
 		}
-		$file = 'beitritt-' . $post->ID . '-' . wp_generate_password( 20, false, false ) . '.pdf';
-		file_put_contents( hansea_private_dir() . '/' . $file, $pdf );
+		$file = 'beitritt-' . $post->ID . '-' . wp_generate_password( 20, false, false ) . '.bin';
+		if ( false === file_put_contents( hansea_crm_files_dir() . '/' . $file, hansea_seal_file( $pdf ) ) ) {
+			return new WP_Error( 'hansea_store', 'Das unterschriebene Dokument konnte nicht gespeichert werden.' ); // retried on the next sync
+		}
 		update_post_meta( $post->ID, '_hansea_pdf', $file );
 		update_post_meta( $post->ID, '_hansea_signed_at', gmdate( 'Y-m-d H:i:s', strtotime( $envelope['completedDateTime'] ?? 'now' ) ) );
 	}
@@ -411,20 +425,20 @@ function hansea_rest_beitritt_sync() {
 
 function hansea_rest_beitritt_document() {
 	$post = hansea_beitritt_for_user( get_current_user_id() );
-	$path = $post ? hansea_beitritt_pdf_path( $post->ID ) : '';
-	if ( ! $path ) {
+	$pdf  = $post ? hansea_beitritt_pdf( $post->ID ) : '';
+	if ( '' === $pdf ) {
 		return hansea_error( 'hansea_not_found', 'Dokument nicht gefunden.', 404 );
 	}
-	hansea_send_pdf( $path, 'Beitrittserklaerung-Hanseatische-Invest.pdf' );
+	hansea_send_pdf( $pdf, 'Beitrittserklaerung-Hanseatische-Invest.pdf' );
 }
 
-function hansea_send_pdf( $path, $filename ) {
+function hansea_send_pdf( $pdf, $filename ) {
 	nocache_headers();
 	header( 'Content-Type: application/pdf' );
 	header( 'Content-Disposition: inline; filename="' . $filename . '"' );
-	header( 'Content-Length: ' . filesize( $path ) );
+	header( 'Content-Length: ' . strlen( $pdf ) );
 	header( 'X-Content-Type-Options: nosniff' );
-	readfile( $path );
+	echo $pdf; // phpcs:ignore WordPress.Security.EscapeOutput -- binary PDF
 	exit;
 }
 
@@ -499,7 +513,7 @@ function hansea_beitritt_details_box( $post ) {
 		echo '<tr><th style="width:160px">' . esc_html( $label ) . '</th><td>' . esc_html( $value ) . '</td></tr>';
 	}
 	echo '</tbody></table>';
-	if ( hansea_beitritt_pdf_path( $post->ID ) ) {
+	if ( get_post_meta( $post->ID, '_hansea_pdf', true ) ) {
 		$url = wp_nonce_url( admin_url( 'admin-post.php?action=hansea_beitritt_pdf&post=' . $post->ID ), 'hansea_beitritt_pdf_' . $post->ID );
 		echo '<p><a class="button button-primary" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">Unterschriebenes PDF öffnen</a></p>';
 	}
@@ -511,9 +525,9 @@ add_action( 'admin_post_hansea_beitritt_pdf', function () {
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		wp_die( 'Keine Berechtigung.' );
 	}
-	$path = hansea_beitritt_pdf_path( $post_id );
-	if ( ! $path ) {
+	$pdf = hansea_beitritt_pdf( $post_id );
+	if ( '' === $pdf ) {
 		wp_die( 'Dokument nicht gefunden.' );
 	}
-	hansea_send_pdf( $path, 'Beitrittserklaerung-' . $post_id . '.pdf' );
+	hansea_send_pdf( $pdf, 'Beitrittserklaerung-' . $post_id . '.pdf' );
 } );

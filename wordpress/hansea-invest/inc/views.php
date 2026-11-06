@@ -142,6 +142,7 @@ function hansea_app_config() {
 		'member'          => is_user_logged_in() ? hansea_member_payload( wp_get_current_user() ) : null,
 		'lostPasswordUrl' => wp_lostpassword_url( home_url( '/login/' ) ),
 		'beitritt'        => hansea_beitritt_config(),
+		'leadToken'       => hansea_lead_token(), // signed time stamp for the lead forms (inc/leads.php)
 	);
 }
 

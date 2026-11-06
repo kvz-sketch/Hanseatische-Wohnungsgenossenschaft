@@ -14,6 +14,8 @@ type WordPressConfig = {
   lostPasswordUrl: string
   /** Membership declaration (members only). */
   beitritt: BeitrittConfig | null
+  /** Signed time stamp for the lead forms (inc/leads.php). */
+  leadToken: string
 }
 
 declare global {
@@ -40,14 +42,17 @@ export async function wpPost<T>(route: string, body: unknown): Promise<T> {
     body: JSON.stringify(body),
   })
   const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new WordPressError(data?.message ?? 'Das hat nicht geklappt. Bitte versuchen Sie es erneut.', res.status)
+  if (!res.ok) throw new WordPressError(data?.message ?? 'Das hat nicht geklappt. Bitte versuchen Sie es erneut.', res.status, data?.code)
   return data as T
 }
 
 export class WordPressError extends Error {
   status: number
-  constructor(message: string, status: number) {
+  /** The server's error code, e.g. "hansea_2fa_required". */
+  code: string
+  constructor(message: string, status: number, code = '') {
     super(message)
     this.status = status
+    this.code = code
   }
 }
