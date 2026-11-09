@@ -64,6 +64,12 @@ export function disqualificationRate(s: LeadStatus) {
   };
 }
 
+export type ChangeLogEntry = {
+  /** YYYY-MM-DD */
+  date: string;
+  sections: { title: string; items: string[] }[];
+};
+
 export type Campaign = {
   id: string;
   name: string;
@@ -92,6 +98,8 @@ export type Campaign = {
   ads: AdStat[];
   incomplete?: boolean;
   note?: string;
+  /** Hand-kept log of changes made to the campaign, newest first. */
+  changeLog?: ChangeLogEntry[];
   /** Leads counted in perspectiveLeads that aren't tied to one specific ad (dates only, no personal data). */
   unattributedLeadDates?: string[];
   /**

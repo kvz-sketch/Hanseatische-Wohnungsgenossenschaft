@@ -217,7 +217,24 @@
       ],
       "note": "Meta meldet 38 Website-Leads bei 162,87 € je Lead. Perspective bestätigt 49 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 16, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 14, 280926_Bergedorf_Ad9: 1). 10 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 9. November 2026. Anzeigenvergleich: Ad6 kostet 73,61 € je echtem Lead, Ad4 127,87 €, Ad3 151,06 €; Ad6 bekommt aber nur 17 % der Ausgaben (Ad3 und Ad4 zusammen 74 %). Ad1, Ad2, Ad7 und Ad8 haben zusammen 167,46 € ohne Lead ausgegeben. Lead-Status laut HubSpot (Stand 9.11.2026, Endstand nach dem Pausieren, 47 Deals ohne 2 Test-Deals): 5 neue, noch unbearbeitete Leads, 1 Nicht erreicht, 3 Wiedervorlage, 1 in der Bedarfsanalyse, 37 Disqualifiziert (34 im Setting, 3 im Closing). Die Kampagne wurde am 9. November 2026 wegen hoher Kosten je Lead und fehlender qualifizierter Leads pausiert.",
       "incomplete": false,
-      "leadStatusSource": "HubSpot, 09.11.2026 · 47 Deals (ohne 2 Test-Deals)"
+      "leadStatusSource": "HubSpot, 09.11.2026 · 47 Deals (ohne 2 Test-Deals)",
+      "changeLog": [
+        {
+          "date": "2026-11-09",
+          "sections": [
+            {
+              "title": "Kampagne pausiert",
+              "items": [
+                "Kosten: 6.207 € Gesamtausgaben für 49 echte Leads (127 € pro Lead). Die Kosten pro Lead sind Woche für Woche gestiegen: 103 € → 136 € → 145 € → 205 € → 235 €.",
+                "Ermüdung: Die Klickrate fiel von 5–8 % in den ersten Wochen auf ca. 2 %, die Anzeigen liefen seit dem 29.09. unverändert.",
+                "Qualität: Von 47 Deals in HubSpot sind 37 disqualifiziert (79 %). Die 3 Deals, die es ins Closing geschafft hatten, wurden dort ebenfalls disqualifiziert; nur 1 Deal ist noch in der Bedarfsanalyse.",
+                "Ergebnis: rund 6.200 € für bisher keinen qualifizierten Abschluss. Das Budget wird in die Full-Service-Kampagne gesteckt, die Leads für ca. 21 € liefert.",
+                "Offen: 5 neue, noch nicht kontaktierte Leads sowie 3 Wiedervorlagen werden noch abtelefoniert."
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "fullservice",
@@ -422,7 +439,7 @@
       },
       "status": "active",
       "objective": "Leads (Formular)",
-      "dailyBudget": 150,
+      "dailyBudget": 200,
       "spend": 7128.75,
       "reach": 50177,
       "impressions": 64864,
@@ -570,7 +587,47 @@
         "wiedervorlage": 3,
         "closing": 2
       },
-      "leadStatusSource": "HubSpot, 09.11.2026 · 301 Deals"
+      "leadStatusSource": "HubSpot, 09.11.2026 · 301 Deals",
+      "changeLog": [
+        {
+          "date": "2026-11-09",
+          "sections": [
+            {
+              "title": "Targeting (Video-Anzeigengruppe)",
+              "items": [
+                "Nur deutschsprachige Nutzer: vorher waren alle Sprachen möglich, das ergab viele Leads ohne Deutschkenntnisse.",
+                "Nur Personen mit Wohnsitz in Deutschland: vorher wurden auch Reisende erreicht („kürzlich in Deutschland“).",
+                "Audience Network ausgeschlossen: Werbung in Fremd-Apps liefert häufig versehentliche Klicks und falsche Kontaktdaten."
+              ]
+            },
+            {
+              "title": "Anzeigen und Budget",
+              "items": [
+                "Statische Anzeigengruppe pausiert: hatte insgesamt nur 92 € ausgegeben, also kaum Wirkung.",
+                "Neuer Test „Kai&Tanem 1“ in eigener Anzeigengruppe: günstigste Anzeige (15,35 € pro Lead), bekam bisher aber nur ca. 9 % des Budgets.",
+                "Kampagnenbudget von 150 € auf 200 € pro Tag erhöht: die Haupt-Anzeigengruppe ist auf 150 € pro Tag begrenzt, damit ca. 50 € in den Test fließen.",
+                "Auswertung am 16.11.: Wenn Kai&Tanem 1 gleich gute Leads günstiger bringt, bekommt die Anzeige mehr Budget."
+              ]
+            },
+            {
+              "title": "Leadformular (neue Version)",
+              "items": [
+                "Formulartyp „Höhere Kaufabsicht“: Nutzer prüfen und bestätigen ihre Daten, das senkt falsche Nummern und versehentliche Anfragen.",
+                "Neue Fragen zu Eigenkapital und Netto-Haushaltseinkommen: das sind die eigentlichen Ausschlusskriterien, so wird schon im Formular vorqualifiziert.",
+                "Antwortoptionen bereinigt („Ich informiere mich erst“ zur Zeitfrage verschoben).",
+                "Terminbuchungs-Link auf der Danke-Seite: motivierte Leads buchen ihr Erstgespräch selbst, das hilft gegen „nicht erreicht“."
+              ]
+            },
+            {
+              "title": "Feedback an Meta",
+              "items": [
+                "Lead-Status im Meta Leads Center gepflegt: Meta sieht so, welche Leads qualifiziert waren und welche nicht.",
+                "Domain diefamiliengenossenschaft.de im Meta-Datensatz freigegeben (Allowlist)."
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "hansea-grow",

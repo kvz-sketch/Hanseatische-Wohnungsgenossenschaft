@@ -6,6 +6,7 @@ import { AdCard } from "./AdCard";
 const fmtEur = (v: number) => v.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 const fmtNum = (v: number) => v.toLocaleString("de-DE");
 const fmtPct = (v: number) => `${Math.round(v * 100)} %`;
+const fmtDate = (ymd: string) => ymd.split("-").reverse().join(".");
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
@@ -152,6 +153,12 @@ export function CampaignRow({
           <span>{campaign.delivery}</span>
           <span>·</span>
           <span>{campaign.recommendations} Empfehlungen</span>
+          {campaign.changeLog?.[0] && (
+            <>
+              <span>·</span>
+              <span className="font-bold text-navy">Zuletzt optimiert am {fmtDate(campaign.changeLog[0].date)}</span>
+            </>
+          )}
         </div>
         </button>
       </div>
@@ -162,6 +169,26 @@ export function CampaignRow({
             <p className="mb-4 rounded-[3px] bg-[#fdf3da] px-3 py-2 text-[11.5px] leading-relaxed text-[#8a6a1f]">
               {campaign.note}
             </p>
+          )}
+          {campaign.changeLog && campaign.changeLog.length > 0 && (
+            <div className="mb-4 rounded-[3px] border border-navy/10 bg-white px-4 py-3">
+              <div className="text-[10px] font-bold uppercase tracking-[0.1em] text-fog">Änderungsprotokoll</div>
+              {campaign.changeLog.map((entry) => (
+                <div key={entry.date} className="mt-2.5">
+                  <div className="text-[12px] font-bold text-navy">{fmtDate(entry.date)}</div>
+                  {entry.sections.map((sec) => (
+                    <div key={sec.title} className="mt-1.5">
+                      <div className="text-[11px] font-bold text-navy/80">{sec.title}</div>
+                      <ul className="mt-0.5 list-disc space-y-0.5 pl-4 text-[11.5px] leading-relaxed text-muted">
+                        {sec.items.map((it) => (
+                          <li key={it}>{it}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           )}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {campaign.ads.map((ad) => (
