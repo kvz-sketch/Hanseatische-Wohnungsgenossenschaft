@@ -452,7 +452,7 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 9.11.2026, 301 Deals aus „Meta forms (051026_HSWG_Full Service)“, doppelt eingefügte Einträge nicht mitgezählt): 50 neue, noch unbearbeitete Leads, 12 Nicht erreicht (2×/3×: 1/11), 3 Wiedervorlage, 2 im Closing (1 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 234 Disqualifiziert (232 im Setting, 2 im Closing). Gründe im Setting: 88 zu oft nicht erreicht, 40 keine oder falsche Nummer, 104 sonstige. Meta-Zahlen oben Stand 9. November 2026.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 9.11.2026, 301 Deals aus „Meta forms (051026_HSWG_Full Service)“, doppelt eingefügte Einträge nicht mitgezählt): 50 neue, noch unbearbeitete Leads, 12 Nicht erreicht (2×/3×: 1/11), 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 234 Disqualifiziert (232 im Setting, 2 im Closing). Gründe im Setting: 88 zu oft nicht erreicht, 40 keine oder falsche Nummer, 104 sonstige. Meta-Zahlen oben Stand 9. November 2026.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -585,7 +585,7 @@
         "nichtErreicht": 12,
         "disqualifiziert": 234,
         "wiedervorlage": 3,
-        "closing": 2
+        "closing": 3
       },
       "leadStatusSource": "HubSpot, 09.11.2026 · 301 Deals",
       "changeLog": [

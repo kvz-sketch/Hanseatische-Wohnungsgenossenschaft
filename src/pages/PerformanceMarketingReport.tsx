@@ -34,7 +34,12 @@ function groupByFunnel(items: Campaign[]): FunnelGroup[] {
     }
     group.campaigns.push(c);
   }
-  return groups;
+  // Active campaigns first (inside each funnel), funnels with an active campaign before
+  // fully paused ones. Stable sort, so the JSON order still decides within each half.
+  const isActive = (c: Campaign) => c.status === "active";
+  for (const g of groups) g.campaigns.sort((a, b) => Number(isActive(b)) - Number(isActive(a)));
+  const hasActive = (g: FunnelGroup) => g.campaigns.some(isActive);
+  return groups.sort((a, b) => Number(hasActive(b)) - Number(hasActive(a)));
 }
 
 export function PerformanceMarketingReport() {
