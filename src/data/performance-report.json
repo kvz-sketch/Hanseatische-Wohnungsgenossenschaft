@@ -739,8 +739,8 @@
       "metaResults": 0,
       "metaCostPerResult": null,
       "perspectiveLeads": 0,
-      "perspectiveFunnel": "Hansea Invest Infopaket (Taboola, ratgeber.hanseainvest.de)",
-      "perspectiveFunnelUrl": "https://ratgeber.hanseainvest.de/infopaket/",
+      "perspectiveFunnel": "Hansea Invest Ratgeber (Taboola, ratgeber.hanseainvest.de)",
+      "perspectiveFunnelUrl": "https://ratgeber.hanseainvest.de/",
       "leadSource": "meta-form",
       "unattributedLeadsCount": 0,
       "incomplete": false,
@@ -786,7 +786,7 @@
           "perspectiveLeads": 0
         }
       ],
-      "note": "Neue Taboola-Kampagne (Native Ads auf Nachrichten- und Ratgeberseiten), gestartet am 9. November 2026 mit 180 € Tagesbudget (Mindestbudget bei Taboola). Landingpage und Formular: ratgeber.hanseainvest.de/infopaket (Hanseatische Invest eG, 7 % p. a. mit echten Wohnimmobilien). Nicht in Meta oder Perspective: Ausgaben und Leads werden aus dem Taboola-Konto von Hand nachgetragen.",
+      "note": "Neue Taboola-Kampagne (Native Ads auf Nachrichten- und Ratgeberseiten), gestartet am 9. November 2026 mit 180 € Tagesbudget (Mindestbudget bei Taboola). Landingpage: ratgeber.hanseainvest.de, Formular (Infopaket anfordern): ratgeber.hanseainvest.de/infopaket (Hanseatische Invest eG, 7 % p. a. mit echten Wohnimmobilien). Nicht in Meta oder Perspective: Ausgaben und Leads werden aus dem Taboola-Konto von Hand nachgetragen.",
       "changeLog": [
         {
           "date": "2026-11-09",
@@ -796,7 +796,7 @@
               "items": [
                 "Start mit 180 € pro Tag (Mindestbudget bei Taboola).",
                 "4 Bildanzeigen (Kaffee & Schlüssel, Senior am Laptop, Praxis mit Klemmbrett, Paar am Laptop).",
-                "Landingpage und Formular: ratgeber.hanseainvest.de/infopaket."
+                "Landingpage: ratgeber.hanseainvest.de, Formular: ratgeber.hanseainvest.de/infopaket."
               ]
             }
           ]
