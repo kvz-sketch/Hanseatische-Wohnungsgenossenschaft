@@ -6,7 +6,8 @@
  * their own description (inc/views.php); the members' area stays noindex.
  *
  * Old addresses of the previous Wix site that Google still knows redirect
- * permanently to their new pages.
+ * permanently to their new pages. /beitritt forwards to the DocuSign
+ * membership form, as it did on Wix.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,6 +24,13 @@ const HANSEA_OLD_URLS = array(
 	'/privacy-policy'   => '/impressum/',
 	'/privacy-policy-1' => '/datenschutz/',
 );
+
+/**
+ * DocuSign PowerForm for joining (Beitrittserklärung). /beitritt forwards here
+ * with a temporary (302) redirect so the target can change without browsers
+ * caching the old one.
+ */
+const HANSEA_BEITRITT_URL = 'https://eu.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=98760c51-3aeb-4de0-a015-1efe95dcf875&env=eu&acct=c6682570-a52d-4503-ab48-9453e2669601&v=2';
 
 /** Key into HANSEA_SEO_DESCRIPTIONS for the current request, or null. */
 function hansea_seo_page() {
@@ -82,12 +90,18 @@ add_action( 'wp_head', function () {
 	}
 }, 2 );
 
-// Old Wix addresses: permanent redirect instead of "not found".
+// Old Wix addresses: /beitritt to DocuSign (302), the rest permanently (301)
+// instead of "not found".
 add_action( 'template_redirect', function () {
+	$path = untrailingslashit( (string) wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ) );
+	if ( '/beitritt' === $path ) {
+		// External host, so wp_redirect: wp_safe_redirect only allows our own domain.
+		wp_redirect( HANSEA_BEITRITT_URL, 302, 'Hansea Invest' );
+		exit;
+	}
 	if ( ! is_404() ) {
 		return;
 	}
-	$path = untrailingslashit( (string) wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ) );
 	if ( isset( HANSEA_OLD_URLS[ $path ] ) ) {
 		wp_safe_redirect( home_url( HANSEA_OLD_URLS[ $path ] ), 301 );
 		exit;
