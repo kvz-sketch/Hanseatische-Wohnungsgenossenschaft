@@ -82,12 +82,12 @@ export function CampaignRow({
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
           <Stat label="Ziel" value={campaign.objective} />
           <Stat
-            label="Meta-Ergebnisse"
+            label={campaign.platform === "taboola" ? "Taboola-Ergebnisse" : "Meta-Ergebnisse"}
             value={isFiltered ? "n. v." : String(campaign.metaResults)}
             sub={!isFiltered && campaign.metaCostPerResult != null ? `${fmtEur(campaign.metaCostPerResult)} / Ergebnis` : undefined}
           />
           <Stat
-            label={campaign.leadSource === "meta-form" ? "Formular-Leads (Meta)" : "Perspective-Leads"}
+            label={campaign.platform === "taboola" ? "Leads (Taboola)" : campaign.leadSource === "meta-form" ? "Formular-Leads (Meta)" : "Perspective-Leads"}
             value={campaign.leadSource === "meta-form" && isFiltered ? "n. v." : String(periodLeads)}
           />
           <Stat label="CPL" value={recalculatedCpl != null ? fmtEur(recalculatedCpl) : "n. v."} />
@@ -156,7 +156,7 @@ export function CampaignRow({
           {campaign.changeLog?.[0] && (
             <>
               <span>·</span>
-              <span className="font-bold text-navy">Zuletzt optimiert am {fmtDate(campaign.changeLog[0].date)}</span>
+              <span className="font-bold text-navy">Letzte Änderung am {fmtDate(campaign.changeLog[0].date)}</span>
             </>
           )}
         </div>

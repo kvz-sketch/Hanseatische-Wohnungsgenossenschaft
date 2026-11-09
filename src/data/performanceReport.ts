@@ -90,8 +90,10 @@ export type Campaign = {
   perspectiveFunnelUrl: string;
   /** Perspective funnel whose contacts are counted as this campaign's leads. */
   perspectiveFunnelId?: string;
-  /** "meta-form": leads come from Meta's own lead form, so there is no Perspective count. */
+  /** "meta-form": leads are the ad platform's own result count (Meta lead form, or Taboola conversions), so there is no Perspective count. */
   leadSource?: "meta-form";
+  /** Ad platform when it isn't Meta. Such rows have no `meta` mapping and are updated by hand. */
+  platform?: "taboola";
   leadStatus?: LeadStatus;
   /** Where/when the lead status counts come from, e.g. "HubSpot, 18.10.2026". */
   leadStatusSource?: string;
