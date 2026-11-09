@@ -55,7 +55,7 @@ export const brands: Brand[] = [
     category: "Digitaler Einstieg",
     name: "Hansea Grow",
     description: PLACEHOLDER_COPY,
-    href: "#kontakt",
+    href: "https://www.hanseagrow.de/",
     accent: "koralle",
   },
   {

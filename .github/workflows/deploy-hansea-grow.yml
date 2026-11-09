@@ -1,0 +1,78 @@
+# Builds the Hansea Grow site (sites/hansea-grow → dist-grow/) and uploads it
+# over FTPS (lftp) to the hosting account behind hanseagrow.de.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   GROW_FTP_SERVER      FTP host of the Hansea Grow hosting account
+#   GROW_FTP_USERNAME    FTP user
+#   GROW_FTP_PASSWORD    password of that FTP user
+# Optional:
+#   GROW_FTP_SERVER_DIR  target folder on the server, ending in "/" (default: /httpdocs/)
+#
+# Until GROW_FTP_SERVER is set, the workflow only builds and skips the upload.
+
+name: Deploy Hansea Grow
+
+on:
+  push:
+    branches:
+      - claude/gerlach-gig-website-recreation-szelo7
+    paths:
+      - "sites/hansea-grow/**"
+      - "src/index.css"
+      - "src/components/**"
+      - "vite.grow.config.ts"
+      - "package*.json"
+      - ".github/workflows/deploy-hansea-grow.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hansea-grow
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.GROW_FTP_SERVER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build:grow
+
+      - name: Install lftp
+        if: env.FTP_SERVER != ''
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      # Assets go up before the HTML pages so a live page never points at
+      # missing files; stale hashed assets are pruned only afterwards.
+      - name: Upload
+        if: env.FTP_SERVER != ''
+        env:
+          FTP_USERNAME: ${{ secrets.GROW_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.GROW_FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.GROW_FTP_SERVER_DIR || '/httpdocs/' }}
+        run: |
+          lftp <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          set net:timeout 30
+          set cmd:fail-exit true
+          open --env-password -u "$FTP_USERNAME" "ftp://$FTP_SERVER"
+          mirror --reverse --no-perms --verbose dist-grow/assets "${FTP_SERVER_DIR}assets"
+          mirror --reverse --no-perms --verbose --exclude ^assets/ dist-grow "$FTP_SERVER_DIR"
+          mirror --reverse --no-perms --verbose --delete dist-grow/assets "${FTP_SERVER_DIR}assets"
+          bye
+          EOF
+
+      - name: Upload skipped
+        if: env.FTP_SERVER == ''
+        run: echo "::notice::GROW_FTP_SERVER secret is not set — built the site but skipped the upload."

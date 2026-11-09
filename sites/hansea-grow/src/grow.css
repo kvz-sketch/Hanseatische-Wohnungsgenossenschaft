@@ -1,0 +1,5 @@
+/* Hansea Grow reuses the GIG design system (tokens, type, motion) as-is. */
+@import "../../../src/index.css";
+
+@source "../";
+@source "../../../src/components";
