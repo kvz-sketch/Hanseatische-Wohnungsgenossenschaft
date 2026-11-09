@@ -44,11 +44,11 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
       "perspectiveFunnelId": "6a7ed6e71f79146cdd7611b7",
       "leadStatus": {
-        "neu": 0,
-        "nichtErreicht": 5,
-        "disqualifiziert": 33,
+        "neu": 5,
+        "nichtErreicht": 1,
+        "disqualifiziert": 37,
         "wiedervorlage": 3,
-        "closing": 3
+        "closing": 1
       },
       "ads": [
         {
@@ -215,9 +215,9 @@
           ]
         }
       ],
-      "note": "Meta meldet 38 Website-Leads bei 162,87 € je Lead. Perspective bestätigt 49 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 16, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 14, 280926_Bergedorf_Ad9: 1). 10 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 9. November 2026. Anzeigenvergleich: Ad6 kostet 73,61 € je echtem Lead, Ad4 127,87 €, Ad3 151,06 €; Ad6 bekommt aber nur 17 % der Ausgaben (Ad3 und Ad4 zusammen 74 %). Ad1, Ad2, Ad7 und Ad8 haben zusammen 167,46 € ohne Lead ausgegeben. Lead-Status laut HubSpot (Stand 4.11.2026, 44 Deals): keine neuen, unbearbeiteten Leads, 5 Nicht erreicht, 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 33 Disqualifiziert (31 im Setting, 2 im Closing).",
+      "note": "Meta meldet 38 Website-Leads bei 162,87 € je Lead. Perspective bestätigt 49 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 16, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 14, 280926_Bergedorf_Ad9: 1). 10 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 9. November 2026. Anzeigenvergleich: Ad6 kostet 73,61 € je echtem Lead, Ad4 127,87 €, Ad3 151,06 €; Ad6 bekommt aber nur 17 % der Ausgaben (Ad3 und Ad4 zusammen 74 %). Ad1, Ad2, Ad7 und Ad8 haben zusammen 167,46 € ohne Lead ausgegeben. Lead-Status laut HubSpot (Stand 9.11.2026, Endstand nach dem Pausieren, 47 Deals ohne 2 Test-Deals): 5 neue, noch unbearbeitete Leads, 1 Nicht erreicht, 3 Wiedervorlage, 1 in der Bedarfsanalyse, 37 Disqualifiziert (34 im Setting, 3 im Closing). Die Kampagne wurde am 9. November 2026 wegen hoher Kosten je Lead und fehlender qualifizierter Leads pausiert.",
       "incomplete": false,
-      "leadStatusSource": "HubSpot, 04.11.2026 · 44 Deals"
+      "leadStatusSource": "HubSpot, 09.11.2026 · 47 Deals (ohne 2 Test-Deals)"
     },
     {
       "id": "fullservice",
