@@ -1,7 +1,7 @@
 {
-  "asOf": "4. November 2026",
-  "updatedAt": "2026-11-04",
-  "note": "Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto GIGxHansea (Stand 4. November 2026). Lead-Zahlen aus Perspective ersetzen die von Meta gemeldeten Website-Leads: echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.",
+  "asOf": "9. November 2026",
+  "updatedAt": "2026-11-09",
+  "note": "Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto GIGxHansea (Stand 9. November 2026). Lead-Zahlen aus Perspective ersetzen die von Meta gemeldeten Website-Leads: echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.",
   "metaAdAccount": {
     "id": "1606528074401845",
     "name": "GIGxHansea"
@@ -32,14 +32,14 @@
       "status": "active",
       "objective": "Website Leads",
       "dailyBudget": 150,
-      "spend": 5439.96,
-      "reach": 41656,
-      "impressions": 110344,
+      "spend": 6188.89,
+      "reach": 44841,
+      "impressions": 121314,
       "delivery": "seit 29. Sep 2026",
       "recommendations": 2,
-      "metaResults": 35,
-      "metaCostPerResult": 155.43,
-      "perspectiveLeads": 46,
+      "metaResults": 38,
+      "metaCostPerResult": 162.87,
+      "perspectiveLeads": 49,
       "perspectiveFunnel": "Hamburg-Bergedorf Off-Market Landing Page",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
       "perspectiveFunnelId": "6a7ed6e71f79146cdd7611b7",
@@ -69,9 +69,9 @@
           "image": "280926_Bergedorf_Ad2",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 53.1,
-          "reach": 1122,
-          "impressions": 1832
+          "spend": 69.15,
+          "reach": 1193,
+          "impressions": 2016
         },
         {
           "id": "ad3",
@@ -79,10 +79,10 @@
           "metaAdId": "120250588102310344",
           "image": "280926_Bergedorf_Ad3",
           "metaResults": 15,
-          "metaCostPerResult": 154.65,
-          "spend": 2319.74,
-          "reach": 16592,
-          "impressions": 36136,
+          "metaCostPerResult": 171.2,
+          "spend": 2568.04,
+          "reach": 17173,
+          "impressions": 38163,
           "perspectiveLeads": 17,
           "leadDates": [
             "2026-10-05",
@@ -109,12 +109,12 @@
           "name": "280926_Bergedorf_Ad4",
           "metaAdId": "120250588111710344",
           "image": "280926_Bergedorf_Ad4",
-          "metaResults": 11,
-          "metaCostPerResult": 169.54,
-          "spend": 1864.99,
-          "reach": 16827,
-          "impressions": 41378,
-          "perspectiveLeads": 14,
+          "metaResults": 13,
+          "metaCostPerResult": 157.38,
+          "spend": 2045.89,
+          "reach": 18078,
+          "impressions": 45670,
+          "perspectiveLeads": 16,
           "leadDates": [
             "2026-09-29",
             "2026-10-02",
@@ -129,7 +129,9 @@
             "2026-10-25",
             "2026-10-25",
             "2026-11-02",
-            "2026-11-02"
+            "2026-11-02",
+            "2026-11-06",
+            "2026-11-07"
           ]
         },
         {
@@ -138,10 +140,10 @@
           "metaAdId": "120250588121750344",
           "image": "280926_Bergedorf_Ad5",
           "metaResults": 1,
-          "metaCostPerResult": 267.08,
-          "spend": 267.08,
-          "reach": 2709,
-          "impressions": 5392,
+          "metaCostPerResult": 272.43,
+          "spend": 272.43,
+          "reach": 2721,
+          "impressions": 5448,
           "perspectiveLeads": 1,
           "leadDates": [
             "2026-09-29"
@@ -152,12 +154,12 @@
           "name": "280926_Bergedorf_Ad6",
           "metaAdId": "120250588134270344",
           "image": "280926_Bergedorf_Ad6",
-          "metaResults": 8,
-          "metaCostPerResult": 95.15,
-          "spend": 761.19,
-          "reach": 6597,
-          "impressions": 13599,
-          "perspectiveLeads": 13,
+          "metaResults": 9,
+          "metaCostPerResult": 114.5,
+          "spend": 1030.48,
+          "reach": 8433,
+          "impressions": 17818,
+          "perspectiveLeads": 14,
           "leadDates": [
             "2026-10-07",
             "2026-10-15",
@@ -171,7 +173,8 @@
             "2026-10-29",
             "2026-11-01",
             "2026-11-02",
-            "2026-11-04"
+            "2026-11-04",
+            "2026-11-08"
           ]
         },
         {
@@ -181,9 +184,9 @@
           "image": "280926_Bergedorf_Ad7",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 32.03,
-          "reach": 1998,
-          "impressions": 4396
+          "spend": 57.79,
+          "reach": 2066,
+          "impressions": 4550
         },
         {
           "id": "ad8",
@@ -192,9 +195,9 @@
           "image": "280926_Bergedorf_Ad8",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 23.98,
+          "spend": 23.99,
           "reach": 573,
-          "impressions": 1038
+          "impressions": 1039
         },
         {
           "id": "ad9",
@@ -203,16 +206,16 @@
           "image": "280926_Bergedorf_Ad9",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 101.32,
-          "reach": 2639,
-          "impressions": 4585,
+          "spend": 104.59,
+          "reach": 2657,
+          "impressions": 4622,
           "perspectiveLeads": 1,
           "leadDates": [
             "2026-09-30"
           ]
         }
       ],
-      "note": "Meta meldet 35 Website-Leads bei 155,43 € je Lead. Perspective bestätigt 46 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 14, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 13, 280926_Bergedorf_Ad9: 1). 8 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 4. November 2026. Anzeigenvergleich: Ad6 kostet 58,55 € je echtem Lead, Ad4 133,21 €, Ad3 136,46 €; Ad6 bekommt aber nur 14 % der Ausgaben (Ad3 und Ad4 zusammen 77 %). Ad1, Ad2, Ad7 und Ad8 haben zusammen 125,64 € ohne Lead ausgegeben. Lead-Status laut HubSpot (Stand 4.11.2026, 44 Deals): keine neuen, unbearbeiteten Leads, 5 Nicht erreicht, 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 33 Disqualifiziert (31 im Setting, 2 im Closing).",
+      "note": "Meta meldet 38 Website-Leads bei 162,87 € je Lead. Perspective bestätigt 49 echte Kontakte (280926_Bergedorf_Ad3: 17, 280926_Bergedorf_Ad4: 16, 280926_Bergedorf_Ad5: 1, 280926_Bergedorf_Ad6: 14, 280926_Bergedorf_Ad9: 1). 10 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 9. November 2026. Anzeigenvergleich: Ad6 kostet 73,61 € je echtem Lead, Ad4 127,87 €, Ad3 151,06 €; Ad6 bekommt aber nur 17 % der Ausgaben (Ad3 und Ad4 zusammen 74 %). Ad1, Ad2, Ad7 und Ad8 haben zusammen 167,46 € ohne Lead ausgegeben. Lead-Status laut HubSpot (Stand 4.11.2026, 44 Deals): keine neuen, unbearbeiteten Leads, 5 Nicht erreicht, 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 33 Disqualifiziert (31 im Setting, 2 im Closing).",
       "incomplete": false,
       "leadStatusSource": "HubSpot, 04.11.2026 · 44 Deals"
     },
@@ -238,7 +241,7 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "perspectiveFunnelId": "6a7ee16e1f79146cdd766f9c",
       "incomplete": false,
-      "note": "Meta meldet 14 Website-Leads bei 186,63 € je Lead. Perspective bestätigt 22 echte Kontakte (051026_HSWG_FullService_2: 3, 051026_HSWG_FullService_4: 1, 051026_HSWG_FullService_5: 10, 051026_HSWG_FullService_6: 1, 081026_Kai & Tanem Video 3: 7). 2 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 4. November 2026.",
+      "note": "Meta meldet 14 Website-Leads bei 186,63 € je Lead. Perspective bestätigt 22 echte Kontakte (051026_HSWG_FullService_2: 3, 051026_HSWG_FullService_4: 1, 051026_HSWG_FullService_5: 10, 051026_HSWG_FullService_6: 1, 081026_Kai & Tanem Video 3: 7). 2 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 9. November 2026.",
       "ads": [
         {
           "id": "ad1",
@@ -419,20 +422,20 @@
       },
       "status": "active",
       "objective": "Leads (Formular)",
-      "dailyBudget": 300,
-      "spend": 6235.86,
-      "reach": 46195,
-      "impressions": 59003,
+      "dailyBudget": 150,
+      "spend": 7128.75,
+      "reach": 50177,
+      "impressions": 64864,
       "delivery": "seit 9. Okt 2026",
       "recommendations": 0,
-      "metaResults": 269,
-      "metaCostPerResult": 23.18,
+      "metaResults": 320,
+      "metaCostPerResult": 22.28,
       "perspectiveLeads": 0,
       "perspectiveFunnel": "Full-Service-Modell: Meta Lead-Formular (kein Perspective-Funnel)",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 4.11.2026, 269 Deals aus „Meta forms (051026_HSWG_Full Service)“): 1 neuer, noch unbearbeiteter Lead, 49 Nicht erreicht (1×/2×/3×/4×: 1/17/16/15), 2 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 214 Disqualifiziert (212 im Setting, 2 im Closing). Meta-Zahlen oben Stand 4. November 2026.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 4.11.2026, 269 Deals aus „Meta forms (051026_HSWG_Full Service)“): 1 neuer, noch unbearbeiteter Lead, 49 Nicht erreicht (1×/2×/3×/4×: 1/17/16/15), 2 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 214 Disqualifiziert (212 im Setting, 2 im Closing). Meta-Zahlen oben Stand 9. November 2026 (320 Lead-Formular-Leads); der HubSpot-Status bezieht sich auf den Stand vom 4.11.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -484,10 +487,10 @@
           "metaAdId": "120250799876420344",
           "image": "051026_HSWG_FullService_5",
           "metaResults": 5,
-          "metaCostPerResult": 13.87,
-          "spend": 69.33,
-          "reach": 1533,
-          "impressions": 2254
+          "metaCostPerResult": 13.88,
+          "spend": 69.38,
+          "reach": 1535,
+          "impressions": 2255
         },
         {
           "id": "lf-ad6",
@@ -528,11 +531,11 @@
           "metaAdId": "120250799876540344",
           "image": "081026_Kai_Tanem_Video_1",
           "videoUrl": "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing",
-          "metaResults": 52,
-          "metaCostPerResult": 20.39,
-          "spend": 1060.36,
-          "reach": 5962,
-          "impressions": 6218
+          "metaResults": 61,
+          "metaCostPerResult": 19.12,
+          "spend": 1166.17,
+          "reach": 6459,
+          "impressions": 6763
         },
         {
           "id": "lf-ad10",
@@ -541,10 +544,10 @@
           "image": "081026_Kai_Tanem_Video_2",
           "videoUrl": "https://drive.google.com/file/d/1lviaOcHK10y3lPFMsaa1yXS9QDJHmsB8/view?usp=sharing",
           "metaResults": 36,
-          "metaCostPerResult": 18.92,
-          "spend": 681.08,
-          "reach": 5216,
-          "impressions": 5338
+          "metaCostPerResult": 19.48,
+          "spend": 701.4,
+          "reach": 5409,
+          "impressions": 5565
         },
         {
           "id": "lf-ad11",
@@ -552,14 +555,14 @@
           "metaAdId": "120250799876470344",
           "image": "081026_Kai_Tanem_Video_3",
           "videoUrl": "https://drive.google.com/file/d/1IJKysKs-8y_ZJuzxiHDP_WE6Svh7Wb6D/view?usp=sharing",
-          "metaResults": 175,
-          "metaCostPerResult": 25.15,
-          "spend": 4402.02,
-          "reach": 34852,
-          "impressions": 44680
+          "metaResults": 217,
+          "metaCostPerResult": 23.82,
+          "spend": 5168.73,
+          "reach": 38439,
+          "impressions": 49768
         }
       ],
-      "unattributedLeadsCount": 269,
+      "unattributedLeadsCount": 320,
       "leadStatus": {
         "neu": 1,
         "nichtErreicht": 49,
@@ -579,20 +582,20 @@
       "status": "active",
       "objective": "Leads (Formular)",
       "dailyBudget": 100,
-      "spend": 853.96,
-      "reach": 10554,
-      "impressions": 17246,
+      "spend": 1317.98,
+      "reach": 13561,
+      "impressions": 25664,
       "delivery": "seit 26. Okt 2026",
       "recommendations": 0,
-      "metaResults": 30,
-      "metaCostPerResult": 28.47,
+      "metaResults": 44,
+      "metaCostPerResult": 29.95,
       "perspectiveLeads": 0,
       "perspectiveFunnel": "Hansea Grow: Meta Lead-Formular (kein Perspective-Funnel)",
       "perspectiveFunnelUrl": "",
       "leadSource": "meta-form",
       "incomplete": false,
-      "unattributedLeadsCount": 30,
-      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 21 Leads bei 644,48 € Ausgaben, 30,69 € je Lead (Stand 2. November 2026). Seit dem 29.10. laufen auch die vier Bild-Anzeigen; Bild_01 bringt mit 18 Leads bei 501,85 € den Großteil, die Videos (Dane, Julia) zusammen 2 Leads bei 91,10 €.",
+      "unattributedLeadsCount": 44,
+      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 44 Leads bei 1.317,98 € Ausgaben, 29,95 € je Lead (Stand 9. November 2026). Bild_01 bringt mit 41 Leads bei 1.173,00 € (28,61 € je Lead) fast alle Leads; Bild_02 hat 1 Lead bei 45,82 €, Bild_03 und Bild_04 liefern kaum aus. Die Videos (Dane, Julia) haben zusammen 2 Leads bei 91,44 €.",
       "ads": [
         {
           "id": "grow-dane",
@@ -623,11 +626,11 @@
           "name": "261026_Hansea Grow_Bild_01",
           "metaAdId": "120251181375210344",
           "image": "261026_Hansea_Grow_Bild_01",
-          "metaResults": 27,
-          "metaCostPerResult": 26.27,
-          "spend": 709.38,
-          "reach": 8544,
-          "impressions": 14203
+          "metaResults": 41,
+          "metaCostPerResult": 28.61,
+          "spend": 1173,
+          "reach": 11586,
+          "impressions": 22590
         },
         {
           "id": "grow-bild-02",
@@ -635,10 +638,10 @@
           "metaAdId": "120251181387710344",
           "image": "261026_Hansea_Grow_Bild_02",
           "metaResults": 1,
-          "metaCostPerResult": 45.48,
-          "spend": 45.48,
-          "reach": 760,
-          "impressions": 1019
+          "metaCostPerResult": 45.82,
+          "spend": 45.82,
+          "reach": 773,
+          "impressions": 1043
         },
         {
           "id": "grow-bild-03",
@@ -647,9 +650,9 @@
           "image": "261026_Hansea_Grow_Bild_03",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 2.91,
-          "reach": 42,
-          "impressions": 44
+          "spend": 2.94,
+          "reach": 46,
+          "impressions": 48
         },
         {
           "id": "grow-bild-04",
@@ -658,9 +661,9 @@
           "image": "261026_Hansea_Grow_Bild_04",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 4.75,
-          "reach": 51,
-          "impressions": 61
+          "spend": 4.78,
+          "reach": 53,
+          "impressions": 64
         }
       ]
     },
@@ -733,7 +736,7 @@
           "impressions": 376
         }
       ],
-      "note": "Meta meldet 2 Website-Leads bei 198,46 € je Lead. Perspective bestätigt 2 echte Kontakte (250926_Hansea Invest_Videos: 2). Stand 4. November 2026.",
+      "note": "Meta meldet 2 Website-Leads bei 198,46 € je Lead. Perspective bestätigt 2 echte Kontakte (250926_Hansea Invest_Videos: 2). Stand 9. November 2026.",
       "incomplete": false
     },
     {
@@ -762,7 +765,7 @@
         "nichtErreicht": 2,
         "disqualifiziert": 4
       },
-      "note": "Meta meldet 10 Website-Leads bei 232,40 € je Lead. Perspective bestätigt 12 echte Kontakte (02-HI_Immobilienbeteiligung: 11, 06-HI_Selbstvermieter: 1). Stand 4. November 2026.",
+      "note": "Meta meldet 10 Website-Leads bei 232,40 € je Lead. Perspective bestätigt 12 echte Kontakte (02-HI_Immobilienbeteiligung: 11, 06-HI_Selbstvermieter: 1). Stand 9. November 2026.",
       "ads": [
         {
           "id": "ad01",
@@ -907,7 +910,7 @@
       "perspectiveFunnelUrl": "https://hanseainvest.perspectivefunnel.com/invest/",
       "perspectiveFunnelId": "6aa3f81427403cc889d11b07",
       "incomplete": false,
-      "note": "Meta meldet keine Website-Leads. Perspective bestätigt 2 echte Kontakte (02-HI_Immobilienbeteiligung_qualified Lead: 2). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 4. November 2026.",
+      "note": "Meta meldet keine Website-Leads. Perspective bestätigt 2 echte Kontakte (02-HI_Immobilienbeteiligung_qualified Lead: 2). 1 doppelte Anfrage(n) derselben Person nicht mitgezählt. Stand 9. November 2026.",
       "ads": [
         {
           "id": "q-ad01",
@@ -1087,7 +1090,7 @@
           ]
         }
       ],
-      "note": "Meta meldet 11 Website-Leads bei 246,40 € je Lead. Perspective bestätigt 15 echte Kontakte (240926_HI_Hohenfelde_Ad1: 13, 240926_HI_Hohenfelde_Ad2: 2). Stand 4. November 2026.",
+      "note": "Meta meldet 11 Website-Leads bei 246,40 € je Lead. Perspective bestätigt 15 echte Kontakte (240926_HI_Hohenfelde_Ad1: 13, 240926_HI_Hohenfelde_Ad2: 2). Stand 9. November 2026.",
       "incomplete": false
     }
   ]
