@@ -17,3 +17,15 @@ USt-IdNr. (the eG has none) and no phone number, by decision.
 The scripts are served with a 7-day cache, so the patched builds have new file
 names (`article-20261112.js`, `landing-nophone-20261112.js`) and the two
 `index.html` files point to them. The other assets on the server are unchanged.
+
+## Second rejection: Taboola saw an empty page
+
+Taboola's checker reads the raw HTML without running JavaScript ("No page
+capture available"), and the raw HTML of these pages was an empty
+`<div id="root">`. Now:
+
+- both `index.html` files carry the Impressum details as plain HTML inside
+  `#root`; React replaces it on load, so visitors see the normal page;
+- `impressum/index.html` is a static Impressum on the same domain, and the
+  footer links point to it (`shared-20261112.js` is the shared bundle with
+  `imprint: "/impressum/"`).
