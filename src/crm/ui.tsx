@@ -36,9 +36,9 @@ export function Notice({ children, onClose }: { children: ReactNode; onClose: ()
   )
 }
 
-export function Card({ title, aside, children }: { title: string; aside?: ReactNode; children: ReactNode }) {
+export function Card({ title, aside, id, children }: { title: string; aside?: ReactNode; id?: string; children: ReactNode }) {
   return (
-    <section className="min-w-0 rounded-card border border-line-soft bg-white">
+    <section id={id} className="min-w-0 scroll-mt-4 rounded-card border border-line-soft bg-white">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line-soft px-5 py-3.5">
         <h2 className="m-0 text-[15px] font-semibold">{title}</h2>
         {aside && <div className="sm:ml-auto">{aside}</div>}

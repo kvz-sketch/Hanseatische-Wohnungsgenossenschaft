@@ -14,6 +14,9 @@ import { IS_WORDPRESS, WordPressError, wp, wpPost } from '../backend'
 /** The member's own figures from the Mitgliederliste (inc/crm.php → hansea_crm_portfolio). */
 export type Portfolio = {
   nr: number | null
+  /** Investierendes or ordentliches Mitglied (ordentliche Mitglieder earn no interest). */
+  art: 'i' | 'o'
+  /** Eintrittsdatum (or the day of the Zulassung while none is entered). */
   since: string
   anteile: number
   einlage: number
@@ -26,6 +29,8 @@ export type Portfolio = {
   zinszahlungen: { datum: string; zeitraum: string; betrag: number | null; steuer: number | null }[]
   /** Cancellations not yet paid out. */
   kuendigungen: { anteile: number | null; zum: string }[]
+  /** Every PDF attached to the member in the Mitgliederliste (download: memberDocumentUrl). */
+  documents: { id: string; name: string; time: string }[]
 }
 
 export type Member = {

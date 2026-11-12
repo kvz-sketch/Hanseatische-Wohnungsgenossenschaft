@@ -10,6 +10,10 @@ type Col<R> = { key: keyof R & string; label: string; type: ColType; width?: str
 /**
  * Form for a new Antrag (mode "neu") or for editing a member. Secret fields
  * stay empty unless they were revealed; left empty they keep the stored value.
+ *
+ * The signed Beitrittserklärung is read only for a new Antrag: it fills the
+ * form once and is attached to the member. Later changes are made by hand
+ * here, so a PDF never overwrites what the team has corrected since.
  */
 export function MemberForm({
   mode,
@@ -34,11 +38,11 @@ export function MemberForm({
   // Approval fields: decided by the Aufsichtsrat; only administrators correct them (inc/crm.php, hansea_crm_protect)
   const admin = !!currentMember()?.admin
   const [doc, setDoc] = useState<File | null>(null)
-  const [pdf, setPdf] = useState<{ found: string[]; note: string } | null>(null)
+  const [pdf, setPdf] = useState<{ found: string[]; note?: string } | null>(null)
   const [fromPdf, setFromPdf] = useState<Set<string>>(new Set())
   const hl = (key: string) => (fromPdf.has(key) ? 'border-gold bg-cream' : '')
 
-  /** Reads a dropped Beitrittserklärung and fills the form with what it finds. */
+  /** Reads a dropped Beitrittserklärung (new Antrag only) and fills the form with what it finds. */
   async function readPdf(file: File) {
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
       setError('Bitte eine PDF-Datei ablegen.')
@@ -50,17 +54,10 @@ export function MemberForm({
       const { pdfLines, parseBeitritt } = await import('./pdfImport')
       const res = parseBeitritt(await pdfLines(file))
       const keys = new Set<string>()
-      let note = ''
       setR((prev) => {
         const next = { ...prev }
         for (const [k, v] of Object.entries(res.record) as [keyof MemberRecord, never][]) {
-          if (k === 'zeichnungen') {
-            const units = res.record.zeichnungen?.[0]?.anteile
-            if (mode === 'neu' || prev.zeichnungen.length === 0) {
-              next.zeichnungen = res.record.zeichnungen!
-              keys.add('zeichnungen')
-            } else if (units) note = `Laut PDF ${units} Anteil${units === 1 ? '' : 'e'}: bei weiteren Anteilen bitte unten eine Zeile hinzufügen.`
-          } else if (k === 'bemerkungen') {
+          if (k === 'bemerkungen') {
             if (!prev.bemerkungen.includes(String(v))) next.bemerkungen = [prev.bemerkungen, v].filter(Boolean).join('\n')
           } else {
             next[k] = v
@@ -72,7 +69,7 @@ export function MemberForm({
       setSecrets((prev) => ({ ...prev, ...res.secrets }))
       Object.keys(res.secrets).forEach((k) => keys.add(k))
       setFromPdf(keys)
-      setPdf({ found: res.found, note })
+      setPdf({ found: res.found, note: res.record.art ? '' : 'Die Überschrift nennt keine Art der Mitgliedschaft: bitte unter „Mitgliedschaft“ prüfen (Standard: investierend).' })
     } catch {
       setPdf({ found: [], note: 'Der Text des PDFs konnte nicht gelesen werden (z. B. ein eingescanntes Bild). Es wird trotzdem angehängt; bitte die Felder von Hand ausfüllen.' })
     }
@@ -118,19 +115,23 @@ export function MemberForm({
     <form onSubmit={submit} className="grid gap-5">
       <datalist id="ar-names">{AR_NAMES.map((n) => <option key={n} value={n} />)}</datalist>
 
-      <DropZone file={doc} onFile={readPdf} onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()) }}>
-        {pdf && (
-          <div className="mt-3 text-sm text-ink-2">
-            {pdf.found.length > 0 && (
-              <p className="m-0">
-                <strong>Übernommen:</strong> {pdf.found.join(', ')}. Die Felder sind gelb markiert, bitte prüfen.
+      {mode === 'neu' && (
+        <DropZone file={doc} onFile={readPdf} onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()) }}>
+          {pdf && (
+            <div className="mt-3 text-sm text-ink-2">
+              {pdf.found.length > 0 && (
+                <p className="m-0">
+                  <strong>Übernommen:</strong> {pdf.found.join(', ')}. Die Felder sind gelb markiert, bitte prüfen.
+                </p>
+              )}
+              {pdf.note && <p className="mb-0 mt-1">{pdf.note}</p>}
+              <p className="mb-0 mt-1 text-xs text-muted">
+                Das PDF wird beim Anlegen verschlüsselt unter „Dokumente“ abgelegt und ist auch im Mitgliederbereich des Mitglieds sichtbar.
               </p>
-            )}
-            {pdf.note && <p className="mb-0 mt-1">{pdf.note}</p>}
-            <p className="mb-0 mt-1 text-xs text-muted">Das PDF wird beim Speichern verschlüsselt an das Profil angehängt.</p>
-          </div>
-        )}
-      </DropZone>
+            </div>
+          )}
+        </DropZone>
+      )}
 
       <Section title="Person und Kontakt">
         <Field label="Anrede">
@@ -151,16 +152,29 @@ export function MemberForm({
         {text('email', 'E-Mail (wird der Portal-Login)', { type: 'email', className: 'sm:col-span-2' })}
       </Section>
 
-      <Section title="Mitgliedschaft">
-        <Field label="Art">
-          <select className={inputClass} value={r.art} onChange={(e) => set('art', e.target.value as MemberRecord['art'])}>
-            <option value="i">investierend</option>
-            <option value="o">ordentlich</option>
+      <Section
+        title="Mitgliedschaft"
+        hint="Ordentliche Mitglieder erhalten keine Zinsen; über sie entscheidet der Vorstand statt des Aufsichtsrats."
+      >
+        <Field label="Art der Mitgliedschaft">
+          <select className={`${inputClass} ${hl('art')}`} value={r.art} onChange={(e) => set('art', e.target.value as MemberRecord['art'])}>
+            <option value="i">Investierendes Mitglied</option>
+            <option value="o">Ordentliches Mitglied</option>
           </select>
         </Field>
+        <Field label="Eintrittsdatum">
+          <input
+            type="date"
+            className={`${inputClass} ${hl('eintritt')}`}
+            value={r.eintritt}
+            onChange={(e) => set('eintritt', e.target.value)}
+            aria-describedby="eintritt-hint"
+          />
+          <span id="eintritt-hint" className="mt-1 block text-xs text-muted">Leer: Tag der Zulassung</span>
+        </Field>
         {mode === 'edit' && !admin && (
-          <p className="m-0 self-end text-xs text-muted sm:col-span-3">
-            Status, Mitgliedsnummer, Zulassung und Zustimmungen ändert ein Beschluss des Aufsichtsrats (Korrekturen: Administratoren).
+          <p className="m-0 self-end text-xs text-muted sm:col-span-2">
+            Status, Mitgliedsnummer, Zulassung und Zustimmungen ändert ein Beschluss von Aufsichtsrat bzw. Vorstand (Korrekturen: Administratoren).
           </p>
         )}
         {mode === 'edit' && admin && (
@@ -172,14 +186,14 @@ export function MemberForm({
               </select>
             </Field>
             {text('zulassung_datum', 'Tag der Zulassung', { type: 'date' })}
-            <Field label="Zustimmung Aufsichtsrat">
+            <Field label={`Zustimmung ${r.art === 'o' ? 'Vorstand' : 'Aufsichtsrat'}`}>
               <select className={inputClass} value={r.zulassung_status} onChange={(e) => set('zulassung_status', e.target.value as MemberRecord['zulassung_status'])}>
                 <option value="offen">offen</option>
                 <option value="zugestimmt">zugestimmt</option>
                 <option value="abgelehnt">abgelehnt</option>
               </select>
             </Field>
-            {text('zulassung_ar', 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
+            {text('zulassung_ar', r.art === 'o' ? 'Zustimmender Vorstand' : 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
           </>
         )}
         {mode === 'edit' && text('kuendbar_zu', 'Kündigung möglich zu', { type: 'date' })}
@@ -188,7 +202,7 @@ export function MemberForm({
 
       <Rows
         title="Anteile und Zahlungen"
-        hint={`Ein Anteil = ${ANTEIL_EUR.toLocaleString('de-DE')} €. Der Betrag wird beim Eintragen der Anteile vorgeschlagen.`}
+        hint={`Ein Anteil = ${ANTEIL_EUR.toLocaleString('de-DE')} €. Der Betrag wird beim Eintragen der Anteile vorgeschlagen. Wird bei einem zugelassenen Mitglied ein Zahlungseingang neu eingetragen, erhält es beim Speichern automatisch die Bestätigung Zahlungseingang per E-Mail${r.art === 'o' ? '' : '; leere Zinsdaten werden dabei ergänzt'}.`}
         rows={r.zeichnungen}
         cols={[
           { key: 'anteile', label: 'Anteile', type: 'number', width: '90px' },
@@ -196,8 +210,13 @@ export function MemberForm({
           { key: 'zahlung', label: 'Zahlungseingang', type: 'date' },
           { key: 'zugelassen', label: 'Zugelassen am', type: 'date' },
           ...arColumns<Zeichnung>(admin),
-          { key: 'zins_ende', label: 'Erstes Ende Verzinsung', type: 'date' },
-          { key: 'zins_zahlung', label: 'Erste Zinszahlung bis', type: 'date' },
+          // Ordentliche Mitglieder earn no interest
+          ...(r.art === 'o'
+            ? []
+            : ([
+                { key: 'zins_ende', label: 'Erstes Ende Verzinsung', type: 'date' },
+                { key: 'zins_zahlung', label: 'Erste Zinszahlung bis', type: 'date' },
+              ] as Col<Zeichnung>[])),
         ]}
         blank={blankZeichnung}
         onChange={(rows) => set('zeichnungen', rows)}
@@ -211,6 +230,7 @@ export function MemberForm({
 
       <Rows
         title="Kündigungen"
+        hint={`Jede Kündigung braucht die Zustimmung ${r.art === 'o' ? 'des Vorstands' : 'aller drei Mitglieder des Aufsichtsrats'}. Wird eine genehmigte Kündigung geändert, muss sie neu vorgelegt werden. Das Kündigungsschreiben wird nach dem Speichern auf der Mitgliedsseite hochgeladen.`}
         rows={r.kuendigungen}
         cols={[
           { key: 'anteile', label: 'Anteile', type: 'number', width: '90px' },
@@ -219,7 +239,7 @@ export function MemberForm({
           { key: 'betrag', label: 'Betrag €', type: 'number', width: '120px' },
           ...arColumns<Kuendigung>(admin),
         ]}
-        blank={() => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const })}
+        blank={() => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const, schreiben: '' })}
         onChange={(rows) => set('kuendigungen', rows)}
         derive={(row, key, prev) =>
           key === 'anteile' && (prev.betrag === null || prev.betrag === (prev.anteile ?? 0) * ANTEIL_EUR)
@@ -284,7 +304,7 @@ export function MemberForm({
         addLabel="Bonus hinzufügen"
       />
 
-      <Rows
+      {(r.art === 'i' || r.zinszahlungen.length > 0) && <Rows
         title="Zinszahlungen"
         hint="Ausgezahlte Zinsen. Der Zeitraum ist das Ende der Zinsperiode, z. B. 31.12.2026 für das vierte Quartal."
         rows={r.zinszahlungen}
@@ -297,7 +317,7 @@ export function MemberForm({
         blank={() => ({ datum: '', zeitraum: '', betrag: null, steuer: null })}
         onChange={(rows) => set('zinszahlungen', rows)}
         addLabel="Zinszahlung hinzufügen"
-      />
+      />}
 
       <Section title="Bemerkungen">
         <Field label="Bemerkungen" className="sm:col-span-full">

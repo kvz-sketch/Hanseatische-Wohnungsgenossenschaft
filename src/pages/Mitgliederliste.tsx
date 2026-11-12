@@ -1,22 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { currentMember, logout } from '../auth/auth'
 import { Logo } from '../components/ui'
-import { api, type MemberSummary } from '../crm/api'
+import { api, type LogItem, type MemberSummary } from '../crm/api'
 import { BeschlussInbox } from '../crm/Beschluesse'
 import Sicherheit from '../crm/Sicherheit'
 import MemberPage from '../crm/MemberPage'
 import { MemberForm } from '../crm/MemberForm'
-import { PORTAL, STATUS, date, eur, go, kuendigungLabel, num } from '../crm/format'
+import { PORTAL, STATUS, date, dateTime, eur, go, kuendigungLabel, num } from '../crm/format'
 import { Badge, Button, ErrorNote } from '../crm/ui'
 
-/** Views by URL hash: #/ (list), #/antraege, #/bonus, #/neu, #/mitglied/12. */
-type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' | 'sicherheit' } | { view: 'member'; id: number }
+/** Views by URL hash: #/ (list), #/antraege, #/bonus, #/neu, #/verlauf, #/mitglied/12. */
+type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' | 'sicherheit' | 'verlauf' } | { view: 'member'; id: number }
 
 function parseHash(): Route {
   const h = location.hash.replace(/^#\/?/, '')
   const m = /^mitglied\/(\d+)/.exec(h)
   if (m) return { view: 'member', id: Number(m[1]) }
-  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse' || h === 'sicherheit') return { view: h }
+  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse' || h === 'sicherheit' || h === 'verlauf') return { view: h }
   return { view: 'list' }
 }
 
@@ -66,6 +66,7 @@ export default function Mitgliederliste() {
               Beschlüsse{pending > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-px text-[11px] font-bold text-ink">{pending}</span>}
             </Tab>
             <Tab href="#/bonus" active={route.view === 'bonus'}>Zeichnungsbonus</Tab>
+            <Tab href="#/verlauf" active={route.view === 'verlauf'}>Verlauf</Tab>
             {user?.twoFactor && <Tab href="#/sicherheit" active={route.view === 'sicherheit' || mustSetup2fa}>Sicherheit</Tab>}
           </nav>
           <div className="ml-auto flex items-center gap-4 text-sm">
@@ -94,6 +95,8 @@ export default function Mitgliederliste() {
           <BeschlussInbox onChange={reload} />
         ) : route.view === 'neu' ? (
           <NewAntrag onCreated={reload} />
+        ) : route.view === 'verlauf' ? (
+          <LogView />
         ) : !members ? (
           !error && <p className="text-muted">Lade Mitglieder …</p>
         ) : route.view === 'bonus' ? (
@@ -120,10 +123,11 @@ function Tab({ href, active, children }: { href: string; active: boolean; childr
 
 /* ------------------------------------------------------------------------ */
 
-type Filter = 'alle' | 'zugelassen' | 'gekuendigt' | 'ausgeschieden' | 'abgelehnt'
+type Filter = 'alle' | 'zugelassen' | 'ordentlich' | 'gekuendigt' | 'ausgeschieden' | 'abgelehnt'
 const FILTERS: [Filter, string][] = [
   ['alle', 'Alle'],
   ['zugelassen', 'Zugelassen'],
+  ['ordentlich', 'Ordentliche'],
   ['gekuendigt', 'Mit Kündigung'],
   ['ausgeschieden', 'Ausgeschieden'],
   ['abgelehnt', 'Abgelehnt'],
@@ -137,7 +141,7 @@ function MemberList({ members, antraege }: { members: MemberSummary[]; antraege:
     const q = query.trim().toLowerCase()
     return members
       .filter((m) => (antraege ? m.status === 'antrag' : m.status !== 'antrag'))
-      .filter((m) => antraege || filter === 'alle' || (filter === 'gekuendigt' ? m.gekuendigt > 0 : m.status === filter))
+      .filter((m) => antraege || filter === 'alle' || (filter === 'gekuendigt' ? m.gekuendigt > 0 : filter === 'ordentlich' ? m.art === 'o' : m.status === filter))
       .filter((m) => !q || [m.name, m.firma, m.ort, m.email, m.empfehler, String(m.nr ?? '')].some((v) => v.toLowerCase().includes(q)))
       .sort((a, b) => (a.nr ?? 1e9) - (b.nr ?? 1e9) || a.name.localeCompare(b.name, 'de'))
   }, [members, query, filter, antraege])
@@ -203,7 +207,7 @@ function MemberList({ members, antraege }: { members: MemberSummary[]; antraege:
               <th className="px-4 py-3 font-medium">Name</th>
               <th className="px-4 py-3 font-medium">Ort</th>
               <th className="px-4 py-3 font-medium">Status</th>
-              <th className="px-4 py-3 font-medium">{antraege ? 'Empfehler' : 'Zulassung'}</th>
+              <th className="px-4 py-3 font-medium">{antraege ? 'Empfehler' : 'Eintrittsdatum'}</th>
               <th className="px-4 py-3 text-right font-medium">Anteile</th>
               <th className="px-4 py-3 text-right font-medium">Kapital</th>
               <th className="px-4 py-3 font-medium">Portal</th>
@@ -225,10 +229,11 @@ function MemberList({ members, antraege }: { members: MemberSummary[]; antraege:
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-1">
                       <Badge className={STATUS[m.status].className}>{STATUS[m.status].label}</Badge>
+                      {m.art === 'o' && <Badge className="bg-navy-050 text-ink">Ordentlich</Badge>}
                       {k && <Badge className="bg-coral-100 text-coral-600">{k}</Badge>}
                     </div>
                   </td>
-                  <td className="px-4 py-3 tabular-nums">{antraege ? m.empfehler || '–' : date(m.zulassung_datum)}</td>
+                  <td className="px-4 py-3 tabular-nums">{antraege ? m.empfehler || '–' : date(m.eintritt)}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{num(m.anteile)}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{m.kapital ? eur(m.kapital) : '–'}</td>
                   <td className="px-4 py-3 text-muted">{m.status === 'zugelassen' ? PORTAL[m.portal] : '–'}</td>
@@ -297,6 +302,17 @@ function BonusList({ members }: { members: MemberSummary[] }) {
 }
 
 function NewAntrag({ onCreated }: { onCreated: () => void }) {
+  const [warning, setWarning] = useState<{ id: number; message: string } | null>(null)
+  if (warning) {
+    // The Antrag exists; only attaching the PDF failed. Don't let the form create it a second time.
+    return (
+      <>
+        <h1 className="mb-6 mt-2 font-display text-[40px] font-normal leading-tight">Antrag angelegt</h1>
+        <ErrorNote>Die Beitrittserklärung konnte nicht angehängt werden: {warning.message} Bitte auf der Mitgliedsseite unter „Dokumente“ erneut hochladen.</ErrorNote>
+        <Button onClick={() => go(`#/mitglied/${warning.id}`)}>Zum Antrag</Button>
+      </>
+    )
+  }
   return (
     <>
       <a href="#/antraege" className="text-sm no-underline">← Anträge</a>
@@ -306,11 +322,90 @@ function NewAntrag({ onCreated }: { onCreated: () => void }) {
         onCancel={() => go('#/antraege')}
         onSave={async (record, secrets, document) => {
           const created = await api.create(record, secrets)
-          if (document) await api.upload(created.id, document)
           onCreated()
+          if (document) {
+            try {
+              await api.upload(created.id, document, { kind: 'beitritt' })
+            } catch (e) {
+              setWarning({ id: created.id, message: (e as Error).message })
+              return
+            }
+          }
           go(`#/mitglied/${created.id}`)
         }}
       />
+    </>
+  )
+}
+
+/** Everything that happened, across all members, newest first. */
+function LogView() {
+  const [items, setItems] = useState<LogItem[] | null>(null)
+  const [error, setError] = useState('')
+  const [query, setQuery] = useState('')
+  const [onlySent, setOnlySent] = useState(false)
+  useEffect(() => {
+    api.log().then(setItems, (e: Error) => setError(e.message))
+  }, [])
+  const rows = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return (items ?? [])
+      .filter((l) => !onlySent || l.sent)
+      .filter((l) => !q || [l.name, l.user, l.action, l.detail].some((v) => v.toLowerCase().includes(q)))
+  }, [items, query, onlySent])
+  return (
+    <>
+      <h1 className="m-0 mb-2 font-display text-[40px] font-normal leading-tight">Verlauf</h1>
+      <p className="mb-6 mt-0 max-w-[700px] text-muted">Alles, was in der Mitgliederliste passiert ist: wer, wann, bei welchem Mitglied. Neueste zuerst.</p>
+      {error && <ErrorNote>{error}</ErrorNote>}
+      <div className="mb-3 flex flex-wrap items-center gap-3">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Suchen: Mitglied, Person, Aktion"
+          aria-label="Verlauf durchsuchen"
+          className="h-10 w-full max-w-[380px] rounded-control border border-line bg-white px-3 text-sm"
+        />
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={onlySent} onChange={(e) => setOnlySent(e.target.checked)} />
+          Nur an Mitglieder Gesendetes
+        </label>
+        {items && <span className="ml-auto text-sm text-muted">{rows.length} Einträge</span>}
+      </div>
+      {!items ? (
+        !error && <p className="text-muted">Lade …</p>
+      ) : (
+        <div className="overflow-x-auto rounded-card border border-line-soft bg-white">
+          <table className="w-full min-w-[860px] border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-line-soft text-left text-xs text-muted">
+                <th className="px-4 py-3 font-medium">Wann</th>
+                <th className="px-4 py-3 font-medium">Mitglied</th>
+                <th className="px-4 py-3 font-medium">Wer</th>
+                <th className="px-4 py-3 font-medium">Was</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((l, i) => (
+                <tr key={i} className="border-b border-line-soft align-top last:border-0">
+                  <td className="whitespace-nowrap px-4 py-2.5 tabular-nums text-muted">{dateTime(l.time)}</td>
+                  <td className="px-4 py-2.5"><a href={`#/mitglied/${l.member}`} className="font-semibold no-underline">{l.name}</a></td>
+                  <td className="px-4 py-2.5">{l.user}</td>
+                  <td className="px-4 py-2.5">
+                    <span className="font-medium">{l.action}</span>
+                    {l.sent && <Badge className="ml-2 bg-gold-100 text-gold-700">an Mitglied</Badge>}
+                    {l.detail && <span className="block text-muted">{l.detail}</span>}
+                  </td>
+                </tr>
+              ))}
+              {rows.length === 0 && (
+                <tr><td colSpan={4} className="px-4 py-10 text-center text-muted">Keine Einträge.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </>
   )
 }

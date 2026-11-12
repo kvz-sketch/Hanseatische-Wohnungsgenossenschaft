@@ -24,28 +24,51 @@ function greeting() {
   return h < 11 ? 'Guten Morgen' : h < 18 ? 'Guten Tag' : 'Guten Abend'
 }
 
-function kpisFor(p: Portfolio | null | undefined) {
+type Kpi = { label: string; value: string; note: string; accent?: boolean }
+
+/** Shares cancelled but not yet paid out, with the date(s) they end; 0 without a Kündigung. */
+function cancelledKpi(kuendigungen: Portfolio['kuendigungen']): Kpi {
+  const total = kuendigungen.reduce((s, k) => s + (k.anteile ?? 0), 0)
+  if (total <= 0) return { label: 'Ihre gekündigten Anteile', value: '0', note: 'Keine Kündigung' }
+  const byDate = new Map<string, number>()
+  for (const k of kuendigungen) byDate.set(k.zum, (byDate.get(k.zum) ?? 0) + (k.anteile ?? 0))
+  const dates = [...byDate].sort(([a], [b]) => (a || '9').localeCompare(b || '9'))
+  const note =
+    dates.length === 1
+      ? dates[0][0] ? `zum ${isoDate(dates[0][0])}` : 'Termin folgt'
+      : dates.map(([zum, n]) => `${n.toLocaleString('de-DE')} ${zum ? `zum ${isoDate(zum)}` : '(Termin folgt)'}`).join(' · ')
+  return { label: 'Ihre gekündigten Anteile', value: total.toLocaleString('de-DE'), note }
+}
+
+function kpisFor(p: Portfolio | null | undefined): Kpi[] {
   if (!p) {
     const quarterly = (SAMPLE.invested * 0.07) / 4
     return [
       { label: 'Ihre Einlage', value: euro(SAMPLE.invested), note: `${anteile(SAMPLE.units)} à ${euro(SHARE_PRICE)}` },
       { label: 'Bisher ausgeschüttet', value: euro(quarterly * 2, 2), note: 'Q2 und Q3 2026' },
       { label: 'Nächste Ausschüttung', value: euro(quarterly, 2), note: `am ${nextPayout.date} (Ziel)`, accent: true },
+      cancelledKpi([]),
     ]
   }
   const units = anteile(Number(p.anteile.toFixed(2)))
+  const einlage: Kpi = {
+    label: 'Ihre Einlage',
+    value: euro(p.einlage),
+    note: p.einlage > 0 ? `${units}${p.nr ? ` · Mitglied Nr. ${p.nr}` : ''}` : `${units} · Einzahlung noch nicht verbucht`,
+  }
+  // Ordentliche Mitglieder earn no interest
+  if (p.art === 'o') {
+    return [einlage, { label: 'Ihre Mitgliedschaft', value: 'Ordentlich', note: 'Ordentliches Mitglied, Anteile ohne Verzinsung' }, cancelledKpi(p.kuendigungen)]
+  }
   return [
-    {
-      label: 'Ihre Einlage',
-      value: euro(p.einlage),
-      note: p.einlage > 0 ? `${units}${p.nr ? ` · Mitglied Nr. ${p.nr}` : ''}` : `${units} · Einzahlung noch nicht verbucht`,
-    },
+    einlage,
     p.zinszahlungen.length > 0
       ? { label: 'Bisher ausgezahlt', value: euro(p.ausgezahlt, 2), note: `Zinsen brutto · Ziel ${euro(p.zinsenJahr)} im Jahr (7 % p.a.)` }
       : { label: 'Zinsen im Jahr', value: euro(p.zinsenJahr, 2), note: '7 % p.a. Zielverzinsung, nicht garantiert' },
     p.next
       ? { label: 'Nächste Zinszahlung', value: euro(p.next.amount, 2), note: `bis ${isoDate(p.next.date)} (Ziel)`, accent: true }
       : { label: 'Nächste Zinszahlung', value: '–', note: 'Sobald Ihre Einzahlung verbucht ist', accent: true },
+    cancelledKpi(p.kuendigungen),
   ]
 }
 
@@ -65,11 +88,11 @@ function Welcome({ member }: { member: Member }) {
         </h1>
         <p className="m-0 mt-3 max-w-[720px] text-[17px] text-lighter-dark">
           {p
-            ? `Ihre Anteile${p.since ? ` seit ${isoDate(p.since)}` : ''} und wo Ihr Geld gerade arbeitet.`
+            ? `${p.since ? `Mitglied${p.nr ? ` Nr. ${p.nr}` : ''} seit ${isoDate(p.since)} (Eintrittsdatum). ` : ''}Hier sehen Sie Ihre Anteile und wo Ihr Geld gerade arbeitet.`
             : 'Hier sehen Sie, wo Ihr Geld gerade arbeitet. Ihre tatsächlichen Anteile erscheinen hier, sobald sie Ihrem Konto zugeordnet sind.'}
         </p>
 
-        <dl className="m-0 mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <dl className={`m-0 mt-8 grid grid-cols-1 gap-3 ${kpis.length === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3'}`}>
           {kpis.map((k) => (
             <div key={k.label} className="rounded-card border border-white/15 bg-white/5 p-5">
               <dt className="text-[13px] text-light-dark">{k.label}</dt>
@@ -174,11 +197,11 @@ export default function Dashboard() {
       <main>
         <Welcome member={member} />
         {/* Beitrittserklärung (components/Beitritt.tsx) is hidden for now; add <Beitritt /> back here to show it */}
-        <ShareTracker next={member.portfolio === undefined ? undefined : member.portfolio?.next ?? null} />
+        <ShareTracker next={member.portfolio === undefined ? undefined : member.portfolio?.next ?? null} interest={member.portfolio?.art !== 'o'} />
         <ProjectList />
         <TrackRecord />
         <MemberEvents />
-        <MemberDocuments />
+        <MemberDocuments documents={member.portfolio?.documents} />
         <Service />
       </main>
       <Footer />

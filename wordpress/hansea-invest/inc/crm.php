@@ -17,6 +17,10 @@
  * the portal account and sends the welcome email (inc/welcome.php).
  * Approved members who have no account get one through
  * "Portal-Zugang einrichten".
+ *
+ * Two kinds of members (field art): investierend ('i', the default) and
+ * ordentlich ('o'). Ordentliche Mitglieder earn no interest, and decisions
+ * about them need the Vorstand (role "Vorstand") instead of the Aufsichtsrat.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,8 +31,15 @@ const HANSEA_CRM_CAP  = 'hansea_crm';
 const HANSEA_AR_CAP = 'hansea_ar';
 /** Votes a Beschluss needs: every member of the Aufsichtsrat, and at least this many. */
 const HANSEA_AR_SIZE = 3;
+/** Vorstand (role "Vorstand"): decides on ordentliche Mitglieder instead of the Aufsichtsrat. */
+const HANSEA_VORSTAND_CAP = 'hansea_vorstand';
 /** Target interest on paid-in capital, p.a. (not guaranteed). */
 const HANSEA_CRM_ZINS = 0.07;
+/** Account for the members' payments (sent in the confirmation email when a member is admitted). */
+const HANSEA_PAY_HOLDER = 'Hanseatische Invest eG';
+const HANSEA_PAY_IBAN   = 'DE83241510051210544001';
+const HANSEA_PAY_BIC    = 'NOLADE21STS';
+const HANSEA_PAY_BANK   = 'Sparkasse Stade-Altes Land';
 
 /** Text fields of a member record. */
 const HANSEA_CRM_TEXT = array(
@@ -36,7 +47,7 @@ const HANSEA_CRM_TEXT = array(
 	'zulassung_ar', 'bundesland', 'kontoinhaber', 'empfehler', 'aus_grund', 'aus_ar',
 );
 /** Date fields (Y-m-d). */
-const HANSEA_CRM_DATES = array( 'geburtstag', 'zulassung_datum', 'kuendbar_zu', 'aus_eintragung', 'aus_datum' );
+const HANSEA_CRM_DATES = array( 'geburtstag', 'eintritt', 'zulassung_datum', 'kuendbar_zu', 'aus_eintragung', 'aus_datum' );
 /** Fields with a fixed set of values; the first one is the default. */
 const HANSEA_CRM_CHOICES = array(
 	'status'           => array( 'antrag', 'zugelassen', 'abgelehnt', 'ausgeschieden' ),
@@ -47,7 +58,8 @@ const HANSEA_CRM_CHOICES = array(
 /** Rows of the list fields: field => type ('text', 'date', 'number', 'ar'). */
 const HANSEA_CRM_LISTS = array(
 	'zeichnungen'  => array( 'zugelassen' => 'date', 'anteile' => 'number', 'ar' => 'text', 'ar_status' => 'ar', 'zahlung' => 'date', 'betrag' => 'number', 'zins_ende' => 'date', 'zins_zahlung' => 'date' ),
-	'kuendigungen' => array( 'datum' => 'date', 'anteile' => 'number', 'zum' => 'date', 'betrag' => 'number', 'ar' => 'text', 'ar_status' => 'ar' ),
+	// schreiben: ID of the uploaded Kündigungsschreiben (a document of the member), needed before it goes to the Aufsichtsrat.
+	'kuendigungen' => array( 'datum' => 'date', 'anteile' => 'number', 'zum' => 'date', 'betrag' => 'number', 'ar' => 'text', 'ar_status' => 'ar', 'schreiben' => 'text' ),
 	'bonus'        => array( 'projekt' => 'text', 'anteile' => 'number', 'betrag' => 'number', 'auszahlung' => 'date' ),
 	// Interest paid out: date, end of the interest period, gross amount, tax withheld.
 	'zinszahlungen' => array( 'datum' => 'date', 'zeitraum' => 'date', 'betrag' => 'number', 'steuer' => 'number' ),
@@ -72,14 +84,15 @@ add_action( 'init', function () {
 	) );
 
 	// Roles and capabilities, once per version.
-	if ( get_option( 'hansea_crm_roles' ) !== '2' ) {
+	if ( get_option( 'hansea_crm_roles' ) !== '3' ) {
 		add_role( 'mitgliederverwaltung', 'Mitgliederverwaltung', array( 'read' => true, HANSEA_CRM_CAP => true ) );
 		add_role( 'aufsichtsrat', 'Aufsichtsrat', array( 'read' => true, HANSEA_CRM_CAP => true, HANSEA_AR_CAP => true ) );
+		add_role( 'vorstand', 'Vorstand', array( 'read' => true, HANSEA_CRM_CAP => true, HANSEA_VORSTAND_CAP => true ) );
 		$admin = get_role( 'administrator' );
 		if ( $admin ) {
 			$admin->add_cap( HANSEA_CRM_CAP );
 		}
-		update_option( 'hansea_crm_roles', '2' );
+		update_option( 'hansea_crm_roles', '3' );
 	}
 } );
 
@@ -330,14 +343,23 @@ function hansea_crm_save( array $record, $post_id = 0, ?array $secrets = null ) 
 	return $post_id;
 }
 
-function hansea_crm_log( $post_id, $action, $detail = '' ) {
-	$user = wp_get_current_user();
-	add_post_meta( $post_id, 'hansea_crm_log', array(
+/**
+ * Adds an entry to the member's log. $sent: something went to the member
+ * (an email, or a document put into their members' area); the member page
+ * lists these under "An das Mitglied gesendet".
+ */
+function hansea_crm_log( $post_id, $action, $detail = '', $sent = false ) {
+	$user  = wp_get_current_user();
+	$entry = array(
 		'time'   => gmdate( 'c' ),
 		'user'   => $user->exists() ? ( $user->display_name ?: $user->user_login ) : 'System',
 		'action' => $action,
 		'detail' => $detail,
-	) );
+	);
+	if ( $sent ) {
+		$entry['sent'] = true;
+	}
+	add_post_meta( $post_id, 'hansea_crm_log', $entry );
 }
 
 /** Portal account of a member: none, created, invited (with date). */
@@ -379,6 +401,11 @@ function hansea_crm_totals( array $r ) {
 	);
 }
 
+/** Eintrittsdatum: the field, or the day of the Zulassung while it is empty. */
+function hansea_crm_eintritt( array $r ) {
+	return $r['eintritt'] ?: $r['zulassung_datum'];
+}
+
 /** Short row for the list. */
 function hansea_crm_summary( WP_Post $post ) {
 	$r = hansea_crm_record( $post->ID );
@@ -393,6 +420,7 @@ function hansea_crm_summary( WP_Post $post ) {
 		'status'           => $r['status'],
 		'zulassung_status' => $r['zulassung_status'],
 		'zulassung_datum'  => $r['zulassung_datum'],
+		'eintritt'         => hansea_crm_eintritt( $r ),
 		'empfehler'        => $r['empfehler'],
 		'bonus'            => $r['bonus'],
 		'portal'           => hansea_crm_portal( $post->ID )['status'],
@@ -430,8 +458,147 @@ function hansea_crm_next_nr() {
 }
 
 /**
+ * First interest of a payment received on $zahlung (Y-m-d): interest runs from
+ * the next day; the first period ends with the first full quarter after that
+ * and is paid by the 14th after it (15 January for Q4), as in the Allgemeine
+ * Geschäftsordnung. Returns start, end of the starting quarter (partial: false
+ * when interest starts on a quarter's first day), end of the first period,
+ * its quarter and the latest payment date.
+ */
+function hansea_crm_first_interest( $zahlung ) {
+	$start   = ( new DateTime( $zahlung ) )->modify( '+1 day' );
+	$q       = clone $start;
+	$q->setDate( (int) $q->format( 'Y' ), (int) ceil( $q->format( 'n' ) / 3 ) * 3, 1 )->modify( 'last day of this month' );
+	$partial = ! ( '01' === $start->format( 'd' ) && 1 === (int) $start->format( 'n' ) % 3 );
+	$end     = $partial ? ( clone $q )->modify( 'first day of +3 months' )->modify( 'last day of this month' ) : clone $q;
+	$pay   = ( clone $end )->modify( '12' === $end->format( 'm' ) ? '+15 days' : '+14 days' );
+	return array(
+		'start'        => $start->format( 'Y-m-d' ),
+		'partial'      => $partial,
+		'quartalsende' => $q->format( 'Y-m-d' ),
+		'ende'         => $end->format( 'Y-m-d' ),
+		'quartal'      => sprintf( 'Q%d %s', ceil( $end->format( 'n' ) / 3 ), $end->format( 'Y' ) ),
+		'zahlung'      => $pay->format( 'Y-m-d' ),
+	);
+}
+
+/**
+ * "Bestätigung Zahlungseingang" to an admitted member after the team has
+ * entered the Zahlungseingang of row $i of Anteile und Zahlungen. Wording as
+ * given by the Genossenschaft; no interest paragraphs for ordentliche Mitglieder.
+ */
+function hansea_crm_send_payment_confirmation( $post_id, array $r, $i ) {
+	$z = $r['zeichnungen'][ $i ];
+	if ( 'zugelassen' !== $r['status'] || ! is_email( $r['email'] ) || ! $z['betrag'] ) {
+		return;
+	}
+	$d     = function ( $ymd ) {
+		return $ymd ? mysql2date( 'd.m.Y', $ymd ) : '';
+	};
+	$eur   = number_format( (float) $z['betrag'], (float) $z['betrag'] === round( (float) $z['betrag'] ) ? 0 : 2, ',', '.' ) . ' €';
+	$units = (float) $z['anteile'];
+	$name  = trim( $r['vorname'] . ' ' . $r['nachname'] ) ?: hansea_crm_name( $r );
+	$html  = array(
+		esc_html( 'Hallo ' . $name . ',' ),
+		esc_html( $units > 1
+			? sprintf( 'vielen Dank für Ihren Zahlungseingang der %s Geschäftsanteile von %s.', hansea_crm_units( $units ), $eur )
+			: sprintf( 'vielen Dank für Ihren Zahlungseingang des Geschäftsanteils von %s.', $eur ) ),
+		esc_html( sprintf( 'Der Betrag war am %s auf unserem Konto.', $d( $z['zahlung'] ) ) ),
+	);
+	if ( 'i' === $r['art'] ) {
+		$first  = hansea_crm_first_interest( $z['zahlung'] );
+		$ende   = $z['zins_ende'] ?: $first['ende'];
+		$bis    = $z['zins_zahlung'] ?: $first['zahlung'];
+		$quarter = sprintf( 'Q%d %s', ceil( substr( $ende, 5, 2 ) / 3 ), substr( $ende, 0, 4 ) );
+		$html[] = esc_html( sprintf( 'Die Verzinsung dieses Betrages startet somit ab %s.', $d( $first['start'] ) )
+			. ( $first['partial'] ? sprintf( ' Die ersten anteiligen Zinsen berechnen sich vom %s bis zum %s.', $d( $first['start'] ), $d( $first['quartalsende'] ) ) : '' ) );
+		$html[] = esc_html( sprintf( 'Die erste Zinszahlung findet laut Allgemeiner Geschäftsordnung zum Ende des nächsten vollen Quartals (%s) bis spätestens zum %s statt. Sie erhalten dazu eine Auszahlungsbestätigung sowie gleichzeitig die Jahressteuerbescheinigung.', $quarter, $d( $bis ) ) );
+	}
+	$html[] = 'Für Fragen wenden Sie sich bitte gern an <a href="mailto:mitgliederservice@hanseainvest.de" style="color:#141A46;">mitgliederservice@hanseainvest.de</a>.';
+	$html[] = 'Mit freundlichen Grüßen<br><br>Hanseatische Invest eG';
+	$sent = wp_mail( $r['email'], 'Hanseatische Invest eG – Bestätigung Zahlungseingang', hansea_email_html( array(
+		'eyebrow'   => 'Zahlungseingang',
+		'title'     => 'Bestätigung Ihres Zahlungseingangs',
+		'preheader' => sprintf( 'Ihr Zahlungseingang von %s am %s.', $eur, $d( $z['zahlung'] ) ),
+		'html'      => $html,
+		'button'    => array( 'label' => 'Zum Mitgliederbereich', 'url' => home_url( '/login/' ) ),
+	) ), array( 'Content-Type: text/html; charset=UTF-8' ) );
+	hansea_crm_log( $post_id, $sent ? 'E-Mail: Hanseatische Invest eG – Bestätigung Zahlungseingang' : 'Zahlungsbestätigung nicht gesendet', sprintf( '%s, Eingang am %s, an %s', $eur, $d( $z['zahlung'] ), $r['email'] ) . ( $sent ? '' : ' (E-Mail-Versand fehlgeschlagen)' ), $sent );
+}
+
+/**
+ * Email to a member admitted by the Aufsichtsrat (or Vorstand): confirmation
+ * of the membership with the Mitgliedsnummer, the payment details for the
+ * shares not paid in yet, and the access to the members' area (login and a
+ * set-password link). Wording as given by the Genossenschaft.
+ *
+ * @return array{subject:string, message:string}|WP_Error
+ */
+function hansea_crm_admission_email( WP_User $user, array $r ) {
+	$link = hansea_welcome_link( $user ); // inc/welcome.php
+	if ( is_wp_error( $link ) ) {
+		return $link;
+	}
+	$t     = hansea_crm_totals( $r );
+	$units = hansea_crm_units( $t['anteile'] );
+	$due   = 0;
+	$open  = 0;
+	foreach ( $r['zeichnungen'] as $z ) {
+		if ( '' === $z['zahlung'] ) {
+			$due  += (float) $z['betrag'];
+			$open += (float) $z['anteile'];
+		}
+	}
+	$eur  = function ( $n ) {
+		return number_format( (float) $n, (float) $n === round( (float) $n ) ? 0 : 2, ',', '.' ) . ' €';
+	};
+	$name = trim( $r['vorname'] . ' ' . $r['nachname'] );
+	if ( 'Herr' === $r['anrede'] && $r['nachname'] ) {
+		$hello = 'Sehr geehrter Herr ' . $r['nachname'] . ',';
+	} elseif ( 'Frau' === $r['anrede'] && $r['nachname'] ) {
+		$hello = 'Sehr geehrte Frau ' . $r['nachname'] . ',';
+	} elseif ( $name ) {
+		$hello = 'Guten Tag ' . $name . ',';
+	} else {
+		$hello = 'Sehr geehrte Damen und Herren,';
+	}
+	$html = array(
+		esc_html( $hello ),
+		esc_html( sprintf( 'vielen Dank für die Beitrittserklärung. Wir bestätigen Ihre Aufnahme mit der Mitgliedsnummer %s.', $r['nr'] ) ),
+	);
+	if ( $due > 0 ) {
+		$html[] = esc_html( sprintf( 'Der Betrag über %s %s in Höhe von %s kann nun überwiesen werden auf das Konto der', $units === hansea_crm_units( $open ) ? 'die' : 'die noch offenen', hansea_crm_units( $open ) . ( 1.0 === (float) $open ? ' Geschäftsanteil' : ' Geschäftsanteile' ), $eur( $due ) ) );
+		$html[] = '<strong>' . esc_html( HANSEA_PAY_HOLDER ) . '</strong><br>'
+			. 'IBAN: ' . esc_html( HANSEA_PAY_IBAN ) . '<br>'
+			. 'BIC: ' . esc_html( HANSEA_PAY_BIC ) . '<br>'
+			. 'Bankname: ' . esc_html( HANSEA_PAY_BANK ) . '<br>'
+			. 'Betreff: ' . esc_html( sprintf( '%s, %s', $name ?: hansea_crm_name( $r ), $r['nr'] ) );
+		$html[] = 'Die Überweisung muss aus rechtlichen Gründen von dem Konto des Mitglieds stammen.';
+		$html[] = 'Sobald wir den Zahlungseingang verzeichnen, bestätigen wir wieder per E-Mail binnen 1–3 Werktagen.';
+	} elseif ( $t['kapital'] > 0 ) {
+		$html[] = esc_html( sprintf( 'Ihre Einzahlung für %s %s ist bereits bei uns eingegangen. Vielen Dank.', $units, 1.0 === (float) $t['anteile'] ? 'Geschäftsanteil' : 'Geschäftsanteile' ) );
+	}
+	$html[] = 'Ihre Anteile, Zahlungen und Dokumente sehen Sie jederzeit in Ihrem persönlichen Mitgliederbereich.';
+	$html[] = hansea_welcome_login_html( $user ); // inc/welcome.php
+	$html[] = 'Für Fragen stehen wir Ihnen gerne zur Verfügung.<br><br>Genossenschaftliche Grüße<br>Ihre Hanseatische Invest eG';
+
+	return array(
+		'subject' => 'Hanseatische Invest eG – Bestätigung Mitgliedschaft Nr. ' . $r['nr'],
+		'message' => hansea_email_html( array(
+			'eyebrow'   => 'Mitgliedschaft',
+			'title'     => 'Bestätigung Ihrer Mitgliedschaft',
+			'preheader' => sprintf( 'Ihre Mitgliedsnummer %s, die Zahlungsdaten und Ihr Zugang zum Mitgliederbereich.', $r['nr'] ),
+			'html'      => $html,
+			'button'    => array( 'label' => 'Passwort festlegen und anmelden', 'url' => $link ),
+			'note'      => hansea_welcome_note(),
+		) ),
+	);
+}
+
+/**
  * Creates the member's portal account (or links an existing member account
- * with the same email) and sends the welcome email.
+ * with the same email) and sends the confirmation email: Mitgliedsnummer,
+ * payment details and the access to the members' area.
  *
  * @return string|WP_Error Message for the team.
  */
@@ -460,12 +627,15 @@ function hansea_crm_open_portal( $post_id ) {
 		update_post_meta( $post_id, 'hansea_crm_user', $user->ID );
 		update_user_meta( $user->ID, 'hansea_crm_member', $post_id );
 	}
-	if ( ! hansea_send_welcome( $user ) ) {
-		hansea_crm_log( $post_id, 'Portal-Zugang angelegt', 'Willkommensmail konnte nicht gesendet werden' );
-		return 'Portal-Konto angelegt, aber die Willkommensmail konnte nicht gesendet werden. Bitte erneut versuchen.';
+	$email = hansea_crm_admission_email( $user, $r );
+	$sent  = ! is_wp_error( $email ) && wp_mail( $user->user_email, $email['subject'], $email['message'], array( 'Content-Type: text/html; charset=UTF-8' ) );
+	if ( ! $sent ) {
+		hansea_crm_log( $post_id, 'Portal-Zugang angelegt', 'Bestätigungsmail konnte nicht gesendet werden' );
+		return 'Portal-Konto angelegt, aber die Bestätigungsmail konnte nicht gesendet werden. Bitte erneut versuchen.';
 	}
-	hansea_crm_log( $post_id, 'Portal-Zugang eingerichtet', 'Willkommensmail an ' . $user->user_email );
-	return 'Portal-Zugang eingerichtet. Die Willkommensmail ist an ' . $user->user_email . ' unterwegs.';
+	update_user_meta( $user->ID, 'hansea_welcome_sent', current_time( 'mysql', true ) );
+	hansea_crm_log( $post_id, 'E-Mail: ' . $email['subject'], sprintf( 'An %s: Mitgliedsnummer %s, Zahlungsdaten und Zugang zum Mitgliederbereich', $user->user_email, $r['nr'] ), true );
+	return 'Portal-Zugang eingerichtet. Die Bestätigungsmail mit Mitgliedsnummer, Zahlungsdaten und Zugangsdaten ist an ' . $user->user_email . ' unterwegs.';
 }
 
 /* ---------------------------------------------------------------------------
@@ -501,6 +671,7 @@ add_action( 'rest_api_init', function () {
 		array( $id . '/beschluss/(?P<bid>[a-f0-9]{16})/vote', 'POST', 'hansea_crm_rest_beschluss_vote' ),
 		array( $id . '/beschluss/(?P<bid>[a-f0-9]{16})/cancel', 'POST', 'hansea_crm_rest_beschluss_cancel' ),
 		array( '/crm/beschluesse', 'GET', 'hansea_crm_rest_beschluesse' ),
+		array( '/crm/log', 'GET', 'hansea_crm_rest_log' ),
 		array( $id . '/portal', 'POST', 'hansea_crm_rest_portal' ),
 		array( $id . '/documents', 'POST', 'hansea_crm_rest_document_upload' ),
 		array( $id . '/documents/(?P<doc>[a-f0-9]{32})', 'GET', 'hansea_crm_rest_document_get' ),
@@ -521,6 +692,20 @@ add_filter( 'rest_post_dispatch', function ( $response, $server, $request ) {
 	}
 	return $response;
 }, 10, 3 );
+
+/** Everything that happened, across all members, newest first (tab "Verlauf"). */
+function hansea_crm_rest_log() {
+	$out = array();
+	foreach ( get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1 ) ) as $post ) {
+		foreach ( (array) get_post_meta( $post->ID, 'hansea_crm_log' ) as $entry ) {
+			if ( is_array( $entry ) && isset( $entry['time'] ) ) {
+				$out[] = array_merge( array( 'user' => '', 'action' => '', 'detail' => '' ), $entry, array( 'member' => $post->ID, 'name' => $post->post_title ) );
+			}
+		}
+	}
+	usort( $out, function ( $a, $b ) { return strcmp( $b['time'], $a['time'] ); } );
+	return rest_ensure_response( array_slice( $out, 0, 2000 ) );
+}
 
 function hansea_crm_rest_list() {
 	$posts = get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1 ) );
@@ -572,10 +757,51 @@ function hansea_crm_rest_update( WP_REST_Request $request ) {
 	if ( '' !== $after['email'] && ! is_email( $after['email'] ) ) {
 		return hansea_error( 'hansea_crm_email', 'Bitte eine gültige E-Mail-Adresse eingeben.', 422 );
 	}
+	// The Art decides who votes; an open Beschluss keeps the voters it was put to
+	if ( $after['art'] !== $before['art'] && in_array( 'offen', array_column( hansea_crm_beschluesse( $post->ID ), 'status' ), true ) ) {
+		return hansea_error( 'hansea_crm_open', 'Die Art der Mitgliedschaft lässt sich erst ändern, wenn keine Vorlage mehr offen ist. Bitte die Vorlage zurückziehen oder die Entscheidung abwarten.', 409 );
+	}
 	if ( null !== $after['nr'] && $after['nr'] !== $before['nr'] ) {
 		foreach ( get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1, 'fields' => 'ids', 'exclude' => array( $post->ID ) ) ) as $other ) {
 			if ( hansea_crm_record( $other )['nr'] === $after['nr'] ) {
 				return hansea_error( 'hansea_crm_nr', 'Die Mitgliedsnummer ' . $after['nr'] . ' ist schon vergeben.', 409 );
+			}
+		}
+	}
+
+	// Kündigungsschreiben: only documents of this member
+	$doc_ids = array_column( hansea_crm_documents( $post->ID ), 'id' );
+	foreach ( $after['kuendigungen'] as $i => $row ) {
+		if ( '' !== $row['schreiben'] && ! in_array( $row['schreiben'], $doc_ids, true ) ) {
+			$after['kuendigungen'][ $i ]['schreiben'] = '';
+		}
+	}
+	// Zahlungseingang newly entered: first interest dates (if empty) and, after saving, the confirmation email
+	$paid = array();
+	foreach ( $after['zeichnungen'] as $i => $z ) {
+		$was = $before['zeichnungen'][ $i ] ?? null;
+		if ( '' !== $z['zahlung'] && ( ! $was || '' === $was['zahlung'] ) ) {
+			$paid[] = $i;
+			if ( 'i' === $after['art'] && '' === $z['zins_ende'] && '' === $z['zins_zahlung'] ) {
+				$first = hansea_crm_first_interest( $z['zahlung'] );
+				$after['zeichnungen'][ $i ]['zins_ende']    = $first['ende'];
+				$after['zeichnungen'][ $i ]['zins_zahlung'] = $first['zahlung'];
+			}
+		}
+	}
+	// Any change to an approved Kündigung needs the approval again
+	$reapprove = array();
+	foreach ( $before['kuendigungen'] as $i => $was ) {
+		$now = $after['kuendigungen'][ $i ] ?? null;
+		if ( ! $now || 'zugestimmt' !== $was['ar_status'] ) {
+			continue;
+		}
+		foreach ( array( 'datum', 'anteile', 'zum', 'betrag' ) as $key ) {
+			if ( $now[ $key ] !== $was[ $key ] ) {
+				$after['kuendigungen'][ $i ]['ar_status'] = '';
+				$after['kuendigungen'][ $i ]['ar']        = '';
+				$reapprove[]                              = $i + 1;
+				break;
 			}
 		}
 	}
@@ -605,7 +831,14 @@ function hansea_crm_rest_update( WP_REST_Request $request ) {
 	if ( is_wp_error( $saved ) ) {
 		return $saved;
 	}
-	hansea_crm_log( $post->ID, 'Geändert', implode( ', ', $changed ) );
+	hansea_crm_log( $post->ID, 'Geändert', implode( ', ', array_unique( $changed ) ) );
+	foreach ( $paid as $i ) {
+		hansea_crm_send_payment_confirmation( $post->ID, $after, $i );
+	}
+	if ( $reapprove ) {
+		$who = 'vorstand' === hansea_crm_gremium_for( $after ) ? 'des Vorstands' : 'des Aufsichtsrats';
+		hansea_crm_log( $post->ID, 'Kündigung geändert', sprintf( 'Zeile %s: die Zustimmung %s muss neu eingeholt werden', implode( ', ', $reapprove ), $who ) );
+	}
 	return rest_ensure_response( hansea_crm_detail( $post->ID ) );
 }
 
@@ -633,9 +866,12 @@ function hansea_crm_protect( array $before, array $after ) {
 				continue;
 			}
 			$now = $after[ $list ][ $i ] ?? null;
+			if ( $now && 'kuendigungen' === $list && 'zugestimmt' === $was['ar_status'] ) {
+				continue; // an approved Kündigung may be changed; it then needs a new approval (hansea_crm_rest_update)
+			}
 			foreach ( $keys as $key ) {
 				if ( ! $now || $now[ $key ] !== $was[ $key ] ) {
-					return hansea_error( 'hansea_crm_protected', 'Zeilen, über die der Aufsichtsrat entschieden hat oder die ihm vorliegen, können nur Administratoren löschen oder bei Anteilen und Datum ändern.', 403 );
+					return hansea_error( 'hansea_crm_protected', 'Zeilen, über die Aufsichtsrat oder Vorstand entschieden haben oder die ihnen vorliegen, können nur Administratoren löschen oder bei Anteilen und Datum ändern.', 403 );
 				}
 			}
 		}
@@ -668,7 +904,7 @@ function hansea_crm_rest_portal( WP_REST_Request $request ) {
 /** Field names in the log. */
 function hansea_crm_label( $field ) {
 	$labels = array(
-		'nr' => 'Mitgliedsnummer', 'art' => 'Art', 'status' => 'Status', 'firma' => 'Firma', 'anrede' => 'Anrede',
+		'nr' => 'Mitgliedsnummer', 'art' => 'Art', 'eintritt' => 'Eintrittsdatum', 'status' => 'Status', 'firma' => 'Firma', 'anrede' => 'Anrede',
 		'vorname' => 'Vorname', 'nachname' => 'Nachname', 'strasse' => 'Straße', 'plz' => 'PLZ', 'ort' => 'Ort',
 		'land' => 'Land', 'telefon' => 'Telefon', 'email' => 'E-Mail', 'geburtstag' => 'Geburtstag',
 		'zulassung_datum' => 'Tag der Zulassung', 'zulassung_status' => 'Zustimmung Aufsichtsrat',
@@ -700,14 +936,18 @@ function hansea_crm_days( $from, $to ) {
 
 /**
  * Next interest payment (target, 7 % p.a.), from the payments in the record:
- * a subscription earns pro rata from its payment until its first interest
+ * a subscription earns pro rata from the day after its payment until its first interest
  * end, then a quarter's interest each quarter. Cancelled shares earn until
  * their date. Paid by the 14th after the quarter (15 January for Q4).
- * Quarters that already have a recorded Zinszahlung are skipped.
+ * Quarters that already have a recorded Zinszahlung are skipped. None for
+ * ordentliche Mitglieder.
  *
  * @return array{date:string, amount:float, period:string}|null
  */
 function hansea_crm_next_interest( array $r, $today ) {
+	if ( 'o' === $r['art'] ) {
+		return null; // ordentliche Mitglieder earn no interest
+	}
 	// Start with the previous quarter: its payment can still be ahead.
 	$end = new DateTime( $today );
 	$end->setDate( (int) $end->format( 'Y' ), (int) ceil( $end->format( 'n' ) / 3 ) * 3 - 3, 1 );
@@ -730,8 +970,9 @@ function hansea_crm_next_interest( array $r, $today ) {
 			if ( $first_end > $q ) {
 				continue; // still running, paid in one sum at its end
 			}
+			// Interest runs from the day after the payment (as in the Bestätigung Zahlungseingang)
 			$amount += $first_end === $q
-				? $z['betrag'] * HANSEA_CRM_ZINS * hansea_crm_days( $z['zahlung'], $q ) / 365
+				? $z['betrag'] * HANSEA_CRM_ZINS * ( hansea_crm_days( $z['zahlung'], $q ) - 1 ) / 365
 				: $z['betrag'] * HANSEA_CRM_ZINS / 4;
 		}
 		// Cancelled shares stop earning on their date.
@@ -771,10 +1012,11 @@ function hansea_crm_portfolio( WP_User $user ) {
 	$einlage = max( 0, $t['kapital'] - $paid );
 	return array(
 		'nr'           => $r['nr'],
-		'since'        => $r['zulassung_datum'],
+		'art'          => $r['art'],
+		'since'        => hansea_crm_eintritt( $r ),
 		'anteile'      => $t['aktiv'],
 		'einlage'      => $einlage,
-		'zinsenJahr'   => round( $einlage * HANSEA_CRM_ZINS, 2 ),
+		'zinsenJahr'   => 'o' === $r['art'] ? 0 : round( $einlage * HANSEA_CRM_ZINS, 2 ),
 		'ausgezahlt'   => round( array_sum( array_column( $r['zinszahlungen'], 'betrag' ) ), 2 ),
 		'zinszahlungen' => $r['zinszahlungen'],
 		'next'         => hansea_crm_next_interest( $r, $today ),
@@ -782,12 +1024,16 @@ function hansea_crm_portfolio( WP_User $user ) {
 			return array( 'anteile' => $z['anteile'], 'betrag' => $z['betrag'], 'zahlung' => $z['zahlung'] );
 		}, $r['zeichnungen'] ),
 		'kuendigungen' => $open,
+		'documents'    => array_map( function ( $d ) {
+			return array( 'id' => $d['id'], 'name' => $d['name'], 'time' => $d['time'] );
+		}, hansea_crm_documents( $post_id ) ),
 	);
 }
 
 /* ---------------------------------------------------------------------------
  * Documents (signed Beitrittserklärung etc.): encrypted files outside the
- * web root where possible, listed in the meta hansea_crm_doc.
+ * web root where possible, listed in the meta hansea_crm_doc. Every document
+ * of a member is also listed in their members' area.
  * ------------------------------------------------------------------------ */
 
 const HANSEA_CRM_DOC_MAX = 15 * MB_IN_BYTES;
@@ -810,16 +1056,51 @@ function hansea_crm_documents( $post_id ) {
 	$docs = array();
 	foreach ( (array) get_post_meta( $post_id, 'hansea_crm_doc' ) as $doc ) {
 		if ( is_array( $doc ) && isset( $doc['id'] ) ) {
-			$docs[] = array_intersect_key( $doc, array_flip( array( 'id', 'name', 'size', 'time', 'user' ) ) );
+			$docs[] = array_merge(
+				array( 'kind' => '', 'beschluss' => '' ),
+				array_intersect_key( $doc, array_flip( array( 'id', 'name', 'size', 'time', 'user', 'kind', 'beschluss' ) ) )
+			);
 		}
 	}
 	return $docs;
 }
 
+/**
+ * Uploads a PDF to a member. Optional kind:
+ * - beitritt: the signed Beitrittserklärung (attached when the Antrag is created)
+ * - kuendigung (with ref = row): the filled-in Kündigungsschreiben of that Kündigung
+ * - zustimmung (with beschluss = ID): the approval document of an approved Beschluss,
+ *   made in the browser (src/crm/approvalPdf.ts); one per Beschluss
+ */
 function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 	$post = hansea_crm_post( $request );
 	if ( is_wp_error( $post ) ) {
 		return $post;
+	}
+	$kind = (string) $request->get_param( 'kind' );
+	$kind = in_array( $kind, array( 'beitritt', 'kuendigung', 'zustimmung' ), true ) ? $kind : '';
+	$r    = hansea_crm_record( $post->ID );
+	$ref  = (int) $request->get_param( 'ref' );
+	$bid  = '';
+	if ( 'kuendigung' === $kind ) {
+		if ( ! isset( $r['kuendigungen'][ $ref ] ) ) {
+			return hansea_error( 'hansea_crm_ref', 'Diese Kündigung gibt es nicht (mehr). Bitte neu laden.', 404 );
+		}
+		if ( in_array( $r['kuendigungen'][ $ref ]['ar_status'], array( 'offen', 'zugestimmt' ), true ) ) {
+			return hansea_error( 'hansea_crm_protected', 'Das Kündigungsschreiben einer vorgelegten oder genehmigten Kündigung lässt sich nicht ersetzen.', 409 );
+		}
+	} elseif ( 'zustimmung' === $kind ) {
+		$bid = (string) $request->get_param( 'beschluss' );
+		$b   = null;
+		foreach ( hansea_crm_beschluesse( $post->ID ) as $x ) {
+			$b = $x['id'] === $bid ? $x : $b;
+		}
+		if ( ! $b || 'zugestimmt' !== $b['status'] ) {
+			return hansea_error( 'hansea_crm_ref', 'Zu diesem Beschluss gibt es keine Zustimmung.', 409 );
+		}
+		if ( in_array( $bid, array_column( hansea_crm_documents( $post->ID ), 'beschluss' ), true ) ) {
+			return hansea_error( 'hansea_crm_exists', 'Das Dokument zu dieser Zustimmung liegt schon vor.', 409 );
+		}
 	}
 	$file = $request->get_file_params()['file'] ?? null;
 	if ( ! $file || UPLOAD_ERR_OK !== ( $file['error'] ?? 1 ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
@@ -844,25 +1125,50 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 	$name = sanitize_file_name( (string) $file['name'] ) ?: 'Dokument.pdf';
 	$user = wp_get_current_user();
 	add_post_meta( $post->ID, 'hansea_crm_doc', array(
-		'id'   => $id,
-		'name' => $name,
-		'size' => (int) $file['size'],
-		'time' => gmdate( 'c' ),
-		'user' => $user->display_name ?: $user->user_login,
+		'id'        => $id,
+		'name'      => $name,
+		'size'      => (int) $file['size'],
+		'time'      => gmdate( 'c' ),
+		'user'      => $user->display_name ?: $user->user_login,
+		'kind'      => $kind,
+		'beschluss' => $bid,
 	) );
-	hansea_crm_log( $post->ID, 'Dokument hochgeladen', $name );
+	if ( 'kuendigung' === $kind ) {
+		$r['kuendigungen'][ $ref ]['schreiben'] = $id;
+		hansea_crm_save( $r, $post->ID );
+		hansea_crm_log( $post->ID, 'Kündigungsschreiben hochgeladen', sprintf( '%s (Kündigung Zeile %d, im Mitgliederbereich sichtbar)', $name, $ref + 1 ), true );
+	} else {
+		hansea_crm_log( $post->ID, 'zustimmung' === $kind ? 'Zustimmungsdokument abgelegt' : 'Dokument hochgeladen', $name . ' (im Mitgliederbereich sichtbar)', true );
+	}
 	return rest_ensure_response( hansea_crm_detail( $post->ID ) );
 }
 
 /** Streams a decrypted document to the browser (logged). */
 function hansea_crm_rest_document_get( WP_REST_Request $request ) {
 	$post = hansea_crm_post( $request );
-	if ( is_wp_error( $post ) ) {
-		return $post;
-	}
+	return is_wp_error( $post ) ? $post : hansea_crm_send_document( $post->ID, (string) $request['doc'], 'Dokument geöffnet' );
+}
+
+/**
+ * The member's own documents in the members' area: every PDF attached to
+ * their record in the Mitgliederliste (/wp-json/hansea/v1/member/documents/…).
+ */
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'hansea/v1', '/member/documents/(?P<doc>[a-f0-9]{32})', array(
+		'methods'             => 'GET',
+		'callback'            => function ( WP_REST_Request $request ) {
+			$post_id = hansea_crm_member_of( wp_get_current_user() );
+			return $post_id ? hansea_crm_send_document( $post_id, (string) $request['doc'], 'Dokument im Mitgliederbereich geöffnet' ) : hansea_error( 'hansea_crm_missing', 'Dokument nicht gefunden.', 404 );
+		},
+		'permission_callback' => 'is_user_logged_in',
+	) );
+} );
+
+/** Sends one document of a member as PDF and logs who opened it; a 404 error when it isn't theirs. */
+function hansea_crm_send_document( $post_id, $doc_id, $action ) {
 	$doc = null;
-	foreach ( hansea_crm_documents( $post->ID ) as $d ) {
-		if ( $d['id'] === $request['doc'] ) {
+	foreach ( hansea_crm_documents( $post_id ) as $d ) {
+		if ( $d['id'] === $doc_id ) {
 			$doc = $d;
 		}
 	}
@@ -871,7 +1177,7 @@ function hansea_crm_rest_document_get( WP_REST_Request $request ) {
 	if ( false === $pdf ) {
 		return hansea_error( 'hansea_crm_missing', 'Dokument nicht gefunden.', 404 );
 	}
-	hansea_crm_log( $post->ID, 'Dokument geöffnet', $doc['name'] );
+	hansea_crm_log( $post_id, $action, $doc['name'] );
 	nocache_headers();
 	header( 'Content-Type: application/pdf' );
 	header( 'Content-Disposition: inline; filename="' . str_replace( '"', '', $doc['name'] ) . '"' );
@@ -890,6 +1196,9 @@ function hansea_crm_rest_document_get( WP_REST_Request $request ) {
  * Ausscheiden. Each Aufsichtsrat member votes in their own name. All agree:
  * the decision takes effect (Zulassung: number, status, portal invite if
  * asked). One rejection: rejected. Stored in the meta hansea_crm_beschluesse.
+ *
+ * Decisions about ordentliche Mitglieder go to the Vorstand instead (every
+ * user with the role "Vorstand" votes; gremium "vorstand" on the Beschluss).
  * ------------------------------------------------------------------------ */
 
 const HANSEA_BESCHLUSS_TYPES = array(
@@ -902,6 +1211,29 @@ const HANSEA_BESCHLUSS_TYPES = array(
 /** Users of the Aufsichtsrat (role Aufsichtsrat), sorted by name. */
 function hansea_crm_ar_members() {
 	return get_users( array( 'role' => 'aufsichtsrat', 'orderby' => 'display_name' ) );
+}
+
+/** Users of the Vorstand (role Vorstand), sorted by name. */
+function hansea_crm_vorstand_members() {
+	return get_users( array( 'role' => 'vorstand', 'orderby' => 'display_name' ) );
+}
+
+/** Who decides about a member: 'vorstand' for ordentliche Mitglieder, else 'ar'. */
+function hansea_crm_gremium_for( array $r ) {
+	return 'o' === $r['art'] ? 'vorstand' : 'ar';
+}
+
+/** Gremium of a stored Beschluss (older ones have none: Aufsichtsrat). */
+function hansea_crm_gremium( array $b ) {
+	return 'vorstand' === ( $b['gremium'] ?? '' ) ? 'vorstand' : 'ar';
+}
+
+function hansea_crm_gremium_label( $gremium ) {
+	return 'vorstand' === $gremium ? 'Vorstand' : 'Aufsichtsrat';
+}
+
+function hansea_crm_gremium_cap( $gremium ) {
+	return 'vorstand' === $gremium ? HANSEA_VORSTAND_CAP : HANSEA_AR_CAP;
 }
 
 function hansea_crm_ar_name( WP_User $user ) {
@@ -919,10 +1251,11 @@ function hansea_crm_beschluss_public( array $b ) {
 	$votes = array();
 	foreach ( $b['voters'] as $uid => $name ) {
 		$v       = $b['votes'][ $uid ] ?? null;
-		$votes[] = array( 'name' => $name, 'vote' => $v['vote'] ?? '', 'time' => $v['time'] ?? '', 'note' => $v['note'] ?? '' );
+		$votes[] = array( 'name' => $name, 'fullName' => $b['full'][ $uid ] ?? $name, 'vote' => $v['vote'] ?? '', 'time' => $v['time'] ?? '', 'note' => $v['note'] ?? '' );
 	}
 	return array(
 		'id'      => $b['id'],
+		'gremium' => hansea_crm_gremium( $b ),
 		'type'    => $b['type'],
 		'title'   => $b['title'],
 		'ref'     => $b['ref'],
@@ -932,7 +1265,7 @@ function hansea_crm_beschluss_public( array $b ) {
 		'portal'  => ! empty( $b['portal'] ),
 		'closed'  => $b['closed'] ?? '',
 		'votes'   => $votes,
-		'canVote' => 'offen' === $b['status'] && isset( $b['voters'][ $me ] ) && ! isset( $b['votes'][ $me ] ) && current_user_can( HANSEA_AR_CAP ),
+		'canVote' => 'offen' === $b['status'] && isset( $b['voters'][ $me ] ) && ! isset( $b['votes'][ $me ] ) && current_user_can( hansea_crm_gremium_cap( hansea_crm_gremium( $b ) ) ),
 	);
 }
 
@@ -940,7 +1273,7 @@ function hansea_crm_beschluss_save( $post_id, array $list ) {
 	update_post_meta( $post_id, 'hansea_crm_beschluesse', $list );
 }
 
-/** "Dem Aufsichtsrat vorlegen". */
+/** "Dem Aufsichtsrat vorlegen" (ordentliche Mitglieder: dem Vorstand). */
 function hansea_crm_rest_beschluss_create( WP_REST_Request $request ) {
 	$post = hansea_crm_post( $request );
 	if ( is_wp_error( $post ) ) {
@@ -951,15 +1284,24 @@ function hansea_crm_rest_beschluss_create( WP_REST_Request $request ) {
 	if ( ! isset( HANSEA_BESCHLUSS_TYPES[ $type ] ) ) {
 		return hansea_error( 'hansea_crm_type', 'Unbekannte Art des Beschlusses.', 422 );
 	}
-	$ar = hansea_crm_ar_members();
-	if ( count( $ar ) < HANSEA_AR_SIZE ) {
-		return hansea_error( 'hansea_crm_ar', sprintf( 'Es sind erst %d von %d Aufsichtsratsmitgliedern mit eigenem Zugang angelegt (Rolle „Aufsichtsrat“).', count( $ar ), HANSEA_AR_SIZE ), 409 );
+	$r       = hansea_crm_record( $post->ID );
+	$gremium = hansea_crm_gremium_for( $r );
+	$label   = hansea_crm_gremium_label( $gremium );
+	if ( 'vorstand' === $gremium ) {
+		$ar = hansea_crm_vorstand_members();
+		if ( ! $ar ) {
+			return hansea_error( 'hansea_crm_ar', 'Über ordentliche Mitglieder entscheidet der Vorstand. Es ist noch kein Vorstand mit eigenem Zugang angelegt (Rolle „Vorstand“).', 409 );
+		}
+	} else {
+		$ar = hansea_crm_ar_members();
+		if ( count( $ar ) < HANSEA_AR_SIZE ) {
+			return hansea_error( 'hansea_crm_ar', sprintf( 'Es sind erst %d von %d Aufsichtsratsmitgliedern mit eigenem Zugang angelegt (Rolle „Aufsichtsrat“).', count( $ar ), HANSEA_AR_SIZE ), 409 );
+		}
 	}
-	$r    = hansea_crm_record( $post->ID );
 	$list = hansea_crm_beschluesse( $post->ID );
 	foreach ( $list as $b ) {
 		if ( 'offen' === $b['status'] && $b['type'] === $type && $b['ref'] === $ref ) {
-			return hansea_error( 'hansea_crm_open', 'Dazu liegt dem Aufsichtsrat schon ein offener Beschluss vor.', 409 );
+			return hansea_error( 'hansea_crm_open', 'Dazu liegt schon ein offener Beschluss vor.', 409 );
 		}
 	}
 
@@ -977,7 +1319,10 @@ function hansea_crm_rest_beschluss_create( WP_REST_Request $request ) {
 		if ( ! isset( $r[ $rows ][ $ref ] ) ) {
 			return hansea_error( 'hansea_crm_ref', 'Diese Zeile gibt es nicht (mehr). Bitte neu laden.', 404 );
 		}
-		$row    = $r[ $rows ][ $ref ];
+		$row = $r[ $rows ][ $ref ];
+		if ( 'kuendigung' === $type && ( '' === $row['schreiben'] || ! in_array( $row['schreiben'], array_column( hansea_crm_documents( $post->ID ), 'id' ), true ) ) ) {
+			return hansea_error( 'hansea_crm_schreiben', 'Bitte zuerst das ausgefüllte Kündigungsschreiben zu dieser Kündigung hochladen.', 422 );
+		}
 		$title .= sprintf( ' (%s %s', hansea_crm_units( (float) $row['anteile'] ), 1.0 === (float) $row['anteile'] ? 'Anteil' : 'Anteile' ) . ( 'kuendigung' === $type && $row['zum'] ? ' zum ' . mysql2date( 'd.m.Y', $row['zum'] ) : '' ) . ')';
 		$r[ $rows ][ $ref ]['ar_status'] = 'offen';
 	} else {
@@ -988,54 +1333,59 @@ function hansea_crm_rest_beschluss_create( WP_REST_Request $request ) {
 	}
 
 	$voters = array();
+	$full   = array(); // full names for the approval documents
 	foreach ( $ar as $u ) {
 		$voters[ $u->ID ] = hansea_crm_ar_name( $u );
+		$full[ $u->ID ]   = trim( $u->first_name . ' ' . $u->last_name ) ?: $u->display_name;
 	}
 	$user   = wp_get_current_user();
 	$list[] = array(
 		'id'      => bin2hex( random_bytes( 8 ) ),
+		'gremium' => $gremium,
 		'type'    => $type,
 		'ref'     => $ref,
 		'title'   => $title,
 		'status'  => 'offen',
 		'created' => gmdate( 'c' ),
 		'by'      => $user->display_name ?: $user->user_login,
-		'portal'  => 'zulassung' === $type && false !== $request->get_param( 'portal' ),
+		'portal'  => 'zulassung' === $type, // admitted members always get their access email
 		'voters'  => $voters,
+		'full'    => $full,
 		'votes'   => array(),
 	);
 	hansea_crm_save( $r, $post->ID );
 	hansea_crm_beschluss_save( $post->ID, $list );
-	hansea_crm_log( $post->ID, 'Dem Aufsichtsrat vorgelegt', $title );
-	hansea_crm_notify_ar( $ar, $title, $post->ID );
-	return rest_ensure_response( array( 'member' => hansea_crm_detail( $post->ID ), 'message' => 'Dem Aufsichtsrat vorgelegt. ' . implode( ', ', $voters ) . ' wurden per E-Mail benachrichtigt.' ) );
+	hansea_crm_log( $post->ID, 'Dem ' . $label . ' vorgelegt', $title );
+	hansea_crm_notify_ar( $ar, $title, $post->ID, $gremium );
+	$who = implode( ', ', $voters ) . ( 1 === count( $voters ) ? ' wurde' : ' wurden' );
+	return rest_ensure_response( array( 'member' => hansea_crm_detail( $post->ID ), 'message' => 'Dem ' . $label . ' vorgelegt. ' . $who . ' per E-Mail benachrichtigt.' ) );
 }
 
 function hansea_crm_units( $n ) {
 	return rtrim( rtrim( number_format( (float) $n, 2, ',', '.' ), '0' ), ',' );
 }
 
-/** Short email to the Aufsichtsrat with a link to the decision. */
-function hansea_crm_notify_ar( array $users, $title, $post_id ) {
+/** Short email to the Aufsichtsrat (or Vorstand) with a link to the decision. */
+function hansea_crm_notify_ar( array $users, $title, $post_id, $gremium = 'ar' ) {
 	$link = home_url( '/mitgliederliste/#/mitglied/' . $post_id );
+	$rule = 'vorstand' === $gremium
+		? 'Über ordentliche Mitglieder entscheidet der Vorstand. Bitte melden Sie sich an und stimmen Sie in der Mitgliederliste ab.'
+		: 'Alle Mitglieder des Aufsichtsrats müssen zustimmen. Bitte melden Sie sich an und stimmen Sie in der Mitgliederliste ab.';
 	foreach ( $users as $u ) {
 		wp_mail( $u->user_email, 'Zur Zustimmung: ' . $title, hansea_email_html( array(
-			'eyebrow' => 'Aufsichtsrat',
+			'eyebrow' => hansea_crm_gremium_label( $gremium ),
 			'title'   => 'Ein Beschluss wartet auf Ihre Zustimmung',
-			'html'    => array( esc_html( $title ), 'Alle Mitglieder des Aufsichtsrats müssen zustimmen. Bitte melden Sie sich an und stimmen Sie in der Mitgliederliste ab.' ),
+			'html'    => array( esc_html( $title ), $rule ),
 			'button'  => array( 'label' => 'Zum Beschluss', 'url' => $link ),
 		) ), array( 'Content-Type: text/html; charset=UTF-8' ) );
 	}
 }
 
-/** One Aufsichtsrat member votes. The last agreeing vote applies the decision. */
+/** One Aufsichtsrat (or Vorstand) member votes. The last agreeing vote applies the decision. */
 function hansea_crm_rest_beschluss_vote( WP_REST_Request $request ) {
 	$post = hansea_crm_post( $request );
 	if ( is_wp_error( $post ) ) {
 		return $post;
-	}
-	if ( ! current_user_can( HANSEA_AR_CAP ) ) {
-		return hansea_error( 'hansea_crm_ar', 'Nur Mitglieder des Aufsichtsrats können abstimmen.', 403 );
 	}
 	$vote = (string) $request->get_param( 'vote' );
 	if ( ! in_array( $vote, array( 'zugestimmt', 'abgelehnt' ), true ) ) {
@@ -1047,7 +1397,11 @@ function hansea_crm_rest_beschluss_vote( WP_REST_Request $request ) {
 	if ( false === $i ) {
 		return hansea_error( 'hansea_crm_missing', 'Beschluss nicht gefunden.', 404 );
 	}
-	$b = $list[ $i ];
+	$b       = $list[ $i ];
+	$gremium = hansea_crm_gremium( $b );
+	if ( ! current_user_can( hansea_crm_gremium_cap( $gremium ) ) ) {
+		return hansea_error( 'hansea_crm_ar', 'vorstand' === $gremium ? 'Über diesen Beschluss stimmt der Vorstand ab.' : 'Nur Mitglieder des Aufsichtsrats können abstimmen.', 403 );
+	}
 	if ( 'offen' !== $b['status'] ) {
 		return hansea_error( 'hansea_crm_closed', 'Über diesen Beschluss ist schon entschieden.', 409 );
 	}
@@ -1056,7 +1410,7 @@ function hansea_crm_rest_beschluss_vote( WP_REST_Request $request ) {
 	}
 	$note              = mb_substr( sanitize_textarea_field( (string) $request->get_param( 'note' ) ), 0, 1000 );
 	$b['votes'][ $me ] = array( 'vote' => $vote, 'time' => gmdate( 'c' ), 'note' => $note );
-	hansea_crm_log( $post->ID, 'Aufsichtsrat: ' . ( 'zugestimmt' === $vote ? 'Zustimmung' : 'Ablehnung' ), $b['title'] . ( $note ? ' – ' . $note : '' ) );
+	hansea_crm_log( $post->ID, hansea_crm_gremium_label( $gremium ) . ': ' . ( 'zugestimmt' === $vote ? 'Zustimmung' : 'Ablehnung' ), $b['title'] . ( $note ? ' – ' . $note : '' ) );
 
 	$message = 'zugestimmt' === $vote ? 'Ihre Zustimmung ist gespeichert.' : 'Ihre Ablehnung ist gespeichert.';
 	$agreed  = count( array_filter( $b['votes'], function ( $v ) { return 'zugestimmt' === $v['vote']; } ) );
@@ -1123,13 +1477,14 @@ function hansea_crm_beschluss_apply( $post_id, array $b ) {
 			break;
 	}
 	hansea_crm_save( $r, $post_id );
-	hansea_crm_log( $post_id, $ok ? 'Beschluss gefasst' : 'Beschluss abgelehnt', $b['title'] . ' – Aufsichtsrat: ' . $names );
+	hansea_crm_log( $post_id, $ok ? 'Beschluss gefasst' : 'Beschluss abgelehnt', $b['title'] . ' – ' . hansea_crm_gremium_label( hansea_crm_gremium( $b ) ) . ': ' . $names );
 
+	$agreed = 1 === count( $b['voters'] ) ? 'Zugestimmt' : 'Alle haben zugestimmt';
 	if ( $ok && 'zulassung' === $b['type'] ) {
 		$portal = ! empty( $b['portal'] ) ? hansea_crm_open_portal( $post_id ) : 'Kein Portal-Zugang angelegt.';
-		return 'Alle haben zugestimmt: Mitglied Nr. ' . $r['nr'] . ' ist zugelassen. ' . ( is_wp_error( $portal ) ? $portal->get_error_message() : $portal );
+		return $agreed . ': Mitglied Nr. ' . $r['nr'] . ' ist zugelassen. ' . ( is_wp_error( $portal ) ? $portal->get_error_message() : $portal );
 	}
-	return $ok ? 'Alle haben zugestimmt, der Beschluss ist gefasst.' : 'Der Beschluss ist abgelehnt.';
+	return $ok ? $agreed . ', der Beschluss ist gefasst.' : 'Der Beschluss ist abgelehnt.';
 }
 
 /** Staff withdraw an open Beschluss (e.g. put to the Aufsichtsrat by mistake). */
@@ -1161,7 +1516,7 @@ function hansea_crm_rest_beschluss_cancel( WP_REST_Request $request ) {
 	return rest_ensure_response( array( 'member' => hansea_crm_detail( $post->ID ), 'message' => 'Vorlage zurückgezogen.' ) );
 }
 
-/** Open Beschlüsse of all members (inbox of the Aufsichtsrat). */
+/** Open Beschlüsse of all members (inbox of the Aufsichtsrat and the Vorstand). */
 function hansea_crm_rest_beschluesse() {
 	$out = array();
 	foreach ( get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => 'hansea_crm_beschluesse' ) ) as $id ) {
@@ -1174,7 +1529,8 @@ function hansea_crm_rest_beschluesse() {
 	usort( $out, function ( $a, $b ) { return strcmp( $a['created'], $b['created'] ); } );
 	return rest_ensure_response( array(
 		'items' => $out,
-		'ar'    => array_map( 'hansea_crm_ar_name', hansea_crm_ar_members() ),
-		'size'  => HANSEA_AR_SIZE,
+		'ar'       => array_map( 'hansea_crm_ar_name', hansea_crm_ar_members() ),
+		'size'     => HANSEA_AR_SIZE,
+		'vorstand' => array_map( 'hansea_crm_ar_name', hansea_crm_vorstand_members() ),
 	) );
 }

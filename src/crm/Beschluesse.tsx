@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api, type ActionResult, type Beschluss, type CrmDocument, type Inbox } from './api'
+import { ensureApprovalDocs } from './approvalPdf'
 import { dateTime, inputClass, labelClass } from './format'
 import { Badge, Button, ErrorNote, Notice } from './ui'
 
@@ -30,7 +31,7 @@ export function DocumentLinks({ member, documents }: { member: number; documents
 
 /**
  * One decision: who has voted, the attached documents and, for an
- * Aufsichtsrat member who hasn't voted yet, Zustimmen / Ablehnen.
+ * Aufsichtsrat (or Vorstand) member who hasn't voted yet, Zustimmen / Ablehnen.
  */
 export function BeschlussCard({
   member,
@@ -70,9 +71,9 @@ export function BeschlussCard({
         <Badge className={STATUS[b.status].className}>{STATUS[b.status].label}</Badge>
       </div>
       <p className="mb-3 mt-1 text-xs text-muted">
-        Vorgelegt am {dateTime(b.created)} von {b.by}
+        {b.gremium === 'vorstand' ? 'Vorstand' : 'Aufsichtsrat'} · Vorgelegt am {dateTime(b.created)} von {b.by}
         {b.status === 'offen' ? ` · ${voted} von ${b.votes.length} Stimmen` : b.closed ? ` · entschieden am ${dateTime(b.closed)}` : ''}
-        {b.type === 'zulassung' && b.portal && ' · Portal-Zugang nach Zulassung'}
+        {b.type === 'zulassung' && b.portal && ' · Bestätigung und Portal-Zugang nach Zulassung'}
       </p>
 
       <ul className="m-0 grid list-none gap-1.5 p-0 text-sm sm:grid-cols-3">
@@ -125,7 +126,7 @@ export function BeschlussCard({
   )
 }
 
-/** Inbox of the Aufsichtsrat: every open decision, with documents and the vote buttons. */
+/** Inbox of the Aufsichtsrat and the Vorstand: every open decision, with documents and the vote buttons. */
 export function BeschlussInbox({ onChange }: { onChange: () => void }) {
   const [inbox, setInbox] = useState<Inbox | null>(null)
   const [error, setError] = useState('')
@@ -140,7 +141,9 @@ export function BeschlussInbox({ onChange }: { onChange: () => void }) {
       <h1 className="m-0 mb-2 font-display text-[40px] font-normal leading-tight">Beschlüsse</h1>
       <p className="mb-6 mt-0 max-w-[700px] text-muted">
         Offene Vorlagen an den Aufsichtsrat. Ein Beschluss ist gefasst, wenn alle {inbox?.size ?? 3} Mitglieder zugestimmt haben; eine Ablehnung lehnt ihn ab.
+        Über ordentliche Mitglieder entscheidet der Vorstand{inbox?.vorstand.length ? ` (${inbox.vorstand.join(', ')})` : ''}.
         {inbox && inbox.ar.length < inbox.size && ` Bisher haben ${inbox.ar.length} von ${inbox.size} Aufsichtsratsmitgliedern einen eigenen Zugang.`}
+        {inbox && inbox.vorstand.length === 0 && ' Der Vorstand hat noch keinen eigenen Zugang (Rolle „Vorstand“).'}
       </p>
       {notice && <Notice onClose={() => setNotice('')}>{notice}</Notice>}
       {error && <ErrorNote>{error}</ErrorNote>}
@@ -159,8 +162,11 @@ export function BeschlussInbox({ onChange }: { onChange: () => void }) {
                 documents={b.documents}
                 onDone={(res) => {
                   setNotice(res.message)
-                  load()
-                  onChange()
+                  // Approved: the approval document goes to the member's documents right away
+                  ensureApprovalDocs(b.member, res.member).finally(() => {
+                    load()
+                    onChange()
+                  })
                 }}
               />
             </div>
