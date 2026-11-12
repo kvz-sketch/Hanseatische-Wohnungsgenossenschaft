@@ -30,7 +30,7 @@ export type Portfolio = {
   /** Cancellations not yet paid out. */
   kuendigungen: { anteile: number | null; zum: string }[]
   /** Every PDF attached to the member in the Mitgliederliste (download: memberDocumentUrl). */
-  documents: { id: string; name: string; time: string }[]
+  documents: { id: string; name: string; time: string; /** Set for a DocuSign link without a stored PDF. */ url?: string }[]
 }
 
 export type Member = {

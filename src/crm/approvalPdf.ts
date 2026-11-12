@@ -11,7 +11,7 @@
 // browsers, a reload) never adds a second one.
 
 import type { PDFDocument, PDFFont, PDFPage } from 'pdf-lib'
-import { api, type Beschluss, type CrmDocument, type MemberDetail } from './api'
+import { api, linkOnly, type Beschluss, type CrmDocument, type MemberDetail } from './api'
 import { berlin, fillAcceptance, findAcceptance } from './formFill'
 
 const NAVY = { r: 0.078, g: 0.102, b: 0.275 }
@@ -167,7 +167,8 @@ async function footer(w: Writer, note: string) {
 
 /** The Beitrittserklärung: marked as such when the Antrag was created, else the oldest PDF from before the Beschluss. */
 function beitrittserklaerung(m: MemberDetail, b: Beschluss): CrmDocument | undefined {
-  return m.documents.find((d) => d.kind === 'beitritt') ?? [...m.documents].filter((d) => !d.kind && d.time <= b.created).sort((x, y) => x.time.localeCompare(y.time))[0]
+  const files = m.documents.filter((d) => !linkOnly(d)) // a DocuSign link without the PDF can't be filled in
+  return files.find((d) => d.kind === 'beitritt') ?? files.filter((d) => !d.kind && d.time <= b.created).sort((x, y) => x.time.localeCompare(y.time))[0]
 }
 
 async function admissionPdf(id: number, m: MemberDetail, b: Beschluss): Promise<File> {

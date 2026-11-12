@@ -320,12 +320,12 @@ function NewAntrag({ onCreated }: { onCreated: () => void }) {
       <MemberForm
         mode="neu"
         onCancel={() => go('#/antraege')}
-        onSave={async (record, secrets, document) => {
+        onSave={async (record, secrets, document, link) => {
           const created = await api.create(record, secrets)
           onCreated()
-          if (document) {
+          if (document || link) {
             try {
-              await api.upload(created.id, document, { kind: 'beitritt' })
+              await api.upload(created.id, document, { kind: 'beitritt', url: link || undefined })
             } catch (e) {
               setWarning({ id: created.id, message: (e as Error).message })
               return

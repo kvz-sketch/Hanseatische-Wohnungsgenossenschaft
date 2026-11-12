@@ -852,21 +852,38 @@ function hansea_crm_rest_update( WP_REST_Request $request ) {
 			}
 		}
 	}
-	// Any change to an approved Kündigung needs the approval again
-	$reapprove = array();
-	foreach ( $before['kuendigungen'] as $i => $was ) {
-		$now = $after['kuendigungen'][ $i ] ?? null;
-		if ( ! $now || 'zugestimmt' !== $was['ar_status'] ) {
-			continue;
-		}
-		foreach ( array( 'datum', 'anteile', 'zum', 'betrag' ) as $key ) {
-			if ( $now[ $key ] !== $was[ $key ] ) {
-				$after['kuendigungen'][ $i ]['ar_status'] = '';
-				$after['kuendigungen'][ $i ]['ar']        = '';
-				$reapprove[]                              = $i + 1;
-				break;
+	// A change to the shares or dates of a row the Aufsichtsrat (or Vorstand) has
+	// approved or is deciding on goes to it again: an open Vorlage is withdrawn,
+	// the approval reset, and after saving the row is put to it anew.
+	$watch     = array( 'zeichnungen' => array( 'zeichnung', array( 'anteile', 'betrag' ) ), 'kuendigungen' => array( 'kuendigung', array( 'datum', 'anteile', 'zum', 'betrag' ) ) );
+	$represent = array();
+	foreach ( $watch as $list => list( $type, $keys ) ) {
+		foreach ( $before[ $list ] as $i => $was ) {
+			$now = $after[ $list ][ $i ] ?? null;
+			if ( ! $now || ! in_array( $was['ar_status'], array( 'zugestimmt', 'offen' ), true ) ) {
+				continue;
+			}
+			foreach ( $keys as $key ) {
+				if ( $now[ $key ] !== $was[ $key ] ) {
+					if ( 'offen' === $was['ar_status'] ) {
+						hansea_crm_withdraw( $post->ID, $type, $i, 'Angaben geändert' );
+					}
+					$after[ $list ][ $i ]['ar_status'] = '';
+					$after[ $list ][ $i ]['ar']        = '';
+					if ( 'zeichnungen' === $list ) {
+						$after[ $list ][ $i ]['zugelassen'] = '';
+					}
+					$represent[] = array( $type, $i );
+					break;
+				}
 			}
 		}
+	}
+	// An Antrag whose shares change while its admission is with the Aufsichtsrat: new Vorlage with the new shares
+	if ( 'antrag' === $after['status'] && array_column( $after['zeichnungen'], 'anteile' ) !== array_column( $before['zeichnungen'], 'anteile' )
+		&& hansea_crm_withdraw( $post->ID, 'zulassung', 0, 'Anteile geändert' ) ) {
+		$after['zulassung_status'] = 'offen';
+		$represent[]               = array( 'zulassung', 0 );
 	}
 
 	$sent    = $request->get_param( 'secrets' );
@@ -898,18 +915,25 @@ function hansea_crm_rest_update( WP_REST_Request $request ) {
 	foreach ( $paid as $i ) {
 		hansea_crm_send_payment_confirmation( $post->ID, $after, $i );
 	}
-	if ( $reapprove ) {
-		$who = 'vorstand' === hansea_crm_gremium_for( $after ) ? 'des Vorstands' : 'des Aufsichtsrats';
-		hansea_crm_log( $post->ID, 'Kündigung geändert', sprintf( 'Zeile %s: die Zustimmung %s muss neu eingeholt werden', implode( ', ', $reapprove ), $who ) );
+	$messages = array();
+	foreach ( $represent as list( $type, $i ) ) {
+		$label = 'zeichnung' === $type ? 'Geänderte Anteile' : ( 'kuendigung' === $type ? 'Geänderte Kündigung' : 'Geänderter Antrag' );
+		hansea_crm_log( $post->ID, $label, 'zulassung' === $type ? 'neu vorgelegt' : sprintf( 'Zeile %d: die Zustimmung wird neu eingeholt', $i + 1 ) );
+		$result     = hansea_crm_present( $post->ID, $type, $i );
+		$messages[] = $label . ( 'zulassung' === $type ? '' : ' (Zeile ' . ( $i + 1 ) . ')' ) . ': ' . ( is_wp_error( $result ) ? 'nicht vorgelegt – ' . $result->get_error_message() : $result );
 	}
-	return rest_ensure_response( hansea_crm_detail( $post->ID ) );
+	$detail = hansea_crm_detail( $post->ID );
+	if ( $messages ) {
+		$detail['message'] = implode( ' ', $messages );
+	}
+	return rest_ensure_response( $detail );
 }
 
 /**
  * Fields only a Beschluss of the Aufsichtsrat (or an administrator) changes:
  * admission, number, Ausscheiden and the approval of each row. Other staff
- * keep the stored values; a row the Aufsichtsrat has decided on can't be
- * removed or swapped (rows are matched by position).
+ * keep the stored values; they may change a decided row (it is put to the
+ * Aufsichtsrat again) but not remove it (rows are matched by position).
  *
  * @return array|WP_Error
  */
@@ -917,25 +941,19 @@ function hansea_crm_protect( array $before, array $after ) {
 	foreach ( array( 'status', 'nr', 'zulassung_status', 'zulassung_ar', 'zulassung_datum', 'aus_ar_status', 'aus_ar' ) as $field ) {
 		$after[ $field ] = $before[ $field ];
 	}
-	$identity = array( 'zeichnungen' => array( 'anteile', 'zugelassen' ), 'kuendigungen' => array( 'anteile', 'zum' ) );
-	foreach ( $identity as $list => $keys ) {
+	foreach ( array( 'zeichnungen', 'kuendigungen' ) as $list ) {
 		foreach ( $after[ $list ] as $i => $row ) {
-			$was                        = $before[ $list ][ $i ] ?? null;
+			$was                               = $before[ $list ][ $i ] ?? null;
 			$after[ $list ][ $i ]['ar']        = $was ? $was['ar'] : '';
 			$after[ $list ][ $i ]['ar_status'] = $was ? $was['ar_status'] : '';
+			if ( 'zeichnungen' === $list ) {
+				$after[ $list ][ $i ]['zugelassen'] = $was ? $was['zugelassen'] : ''; // set by the approval
+			}
 		}
+		// Changes are allowed (they go to the Aufsichtsrat again, hansea_crm_rest_update); removing a decided row is not
 		foreach ( $before[ $list ] as $i => $was ) {
-			if ( '' === $was['ar_status'] ) {
-				continue;
-			}
-			$now = $after[ $list ][ $i ] ?? null;
-			if ( $now && 'kuendigungen' === $list && 'zugestimmt' === $was['ar_status'] ) {
-				continue; // an approved Kündigung may be changed; it then needs a new approval (hansea_crm_rest_update)
-			}
-			foreach ( $keys as $key ) {
-				if ( ! $now || $now[ $key ] !== $was[ $key ] ) {
-					return hansea_error( 'hansea_crm_protected', 'Zeilen, über die Aufsichtsrat oder Vorstand entschieden haben oder die ihnen vorliegen, können nur Administratoren löschen oder bei Anteilen und Datum ändern.', 403 );
-				}
+			if ( '' !== $was['ar_status'] && ! isset( $after[ $list ][ $i ] ) ) {
+				return hansea_error( 'hansea_crm_protected', 'Zeilen, über die Aufsichtsrat oder Vorstand entschieden haben oder die ihnen vorliegen, können nur Administratoren löschen.', 403 );
 			}
 		}
 	}
@@ -1088,7 +1106,7 @@ function hansea_crm_portfolio( WP_User $user ) {
 		}, $r['zeichnungen'] ),
 		'kuendigungen' => $open,
 		'documents'    => array_map( function ( $d ) {
-			return array( 'id' => $d['id'], 'name' => $d['name'], 'time' => $d['time'] );
+			return array( 'id' => $d['id'], 'name' => $d['name'], 'time' => $d['time'], 'url' => 0 === (int) $d['size'] ? $d['url'] : '' );
 		}, hansea_crm_documents( $post_id ) ),
 	);
 }
@@ -1120,8 +1138,8 @@ function hansea_crm_documents( $post_id ) {
 	foreach ( (array) get_post_meta( $post_id, 'hansea_crm_doc' ) as $doc ) {
 		if ( is_array( $doc ) && isset( $doc['id'] ) ) {
 			$docs[] = array_merge(
-				array( 'kind' => '', 'beschluss' => '' ),
-				array_intersect_key( $doc, array_flip( array( 'id', 'name', 'size', 'time', 'user', 'kind', 'beschluss' ) ) )
+				array( 'kind' => '', 'beschluss' => '', 'url' => '' ),
+				array_intersect_key( $doc, array_flip( array( 'id', 'name', 'size', 'time', 'user', 'kind', 'beschluss', 'url' ) ) )
 			);
 		}
 	}
@@ -1129,7 +1147,56 @@ function hansea_crm_documents( $post_id ) {
 }
 
 /**
- * Uploads a PDF to a member. Optional kind:
+ * The signed PDF behind a DocuSign link: the envelope ID in the link is
+ * looked up through the DocuSign connection (inc/docusign.php). An error when
+ * the connection isn't set up or the envelope can't be read.
+ *
+ * @return string|WP_Error PDF bytes.
+ */
+function hansea_crm_docusign_pdf( $url ) {
+	if ( ! preg_match( '/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i', $url, $m ) ) {
+		return new WP_Error( 'hansea_crm_docusign', 'Im Link steht keine DocuSign-Umschlag-ID.' );
+	}
+	if ( ! function_exists( 'hansea_docusign_configured' ) || ! hansea_docusign_configured() ) {
+		return new WP_Error( 'hansea_crm_docusign', 'Die DocuSign-Anbindung ist noch nicht eingerichtet (Einstellungen → DocuSign).' );
+	}
+	$pdf = hansea_docusign_request( 'GET', '/envelopes/' . rawurlencode( $m[0] ) . '/documents/combined', null, true );
+	if ( is_wp_error( $pdf ) ) {
+		return $pdf;
+	}
+	return 0 === strpos( (string) $pdf, '%PDF' ) ? (string) $pdf : new WP_Error( 'hansea_crm_docusign', 'DocuSign hat kein PDF geliefert.' );
+}
+
+/** A https link, or ''. */
+function hansea_crm_link( $url ) {
+	$url = esc_url_raw( trim( (string) $url ), array( 'https' ) );
+	return 0 === strpos( $url, 'https://' ) ? $url : '';
+}
+
+/** "PDF aus DocuSign laden" for a new Antrag: the PDF behind a DocuSign link, to read in the browser. */
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'hansea/v1', '/crm/docusign-pdf', array(
+		'methods'             => 'POST',
+		'callback'            => function ( WP_REST_Request $request ) {
+			$url = hansea_crm_link( $request->get_param( 'url' ) );
+			if ( '' === $url ) {
+				return hansea_error( 'hansea_crm_link', 'Bitte einen vollständigen DocuSign-Link (https://…) einfügen.', 422 );
+			}
+			$pdf = hansea_crm_docusign_pdf( $url );
+			if ( is_wp_error( $pdf ) ) {
+				return hansea_error( 'hansea_crm_docusign', $pdf->get_error_message(), 409 );
+			}
+			nocache_headers();
+			return rest_ensure_response( array( 'data' => base64_encode( $pdf ) ) );
+		},
+		'permission_callback' => 'hansea_crm_can',
+	) );
+} );
+
+/**
+ * Uploads a PDF to a member, or adds a DocuSign link (param url instead of
+ * a file): with the DocuSign connection set up, the signed PDF behind the
+ * link is stored; otherwise the link itself. Optional kind:
  * - beitritt: the signed Beitrittserklärung (attached when the Antrag is created)
  * - kuendigung (with ref = row): the filled-in Kündigungsschreiben of that Kündigung
  * - zustimmung (with beschluss = ID): the approval document of an approved Beschluss,
@@ -1169,36 +1236,59 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 		}
 	}
 	$file = $request->get_file_params()['file'] ?? null;
-	if ( ! $file || UPLOAD_ERR_OK !== ( $file['error'] ?? 1 ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
-		return hansea_error( 'hansea_crm_upload', 'Die Datei ist nicht angekommen. Bitte erneut versuchen.', 400 );
+	$url  = hansea_crm_link( $request->get_param( 'url' ) );
+	$note = '';
+	if ( $file ) {
+		if ( UPLOAD_ERR_OK !== ( $file['error'] ?? 1 ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
+			return hansea_error( 'hansea_crm_upload', 'Die Datei ist nicht angekommen. Bitte erneut versuchen.', 400 );
+		}
+		if ( $file['size'] > HANSEA_CRM_DOC_MAX ) {
+			return hansea_error( 'hansea_crm_upload', 'Die Datei ist zu groß (höchstens 15 MB).', 413 );
+		}
+		$data = (string) file_get_contents( $file['tmp_name'] );
+		$name = sanitize_file_name( (string) $file['name'] ) ?: 'Dokument.pdf';
+	} elseif ( '' !== $url ) {
+		if ( 'zustimmung' === $kind ) {
+			return hansea_error( 'hansea_crm_upload', 'Zustimmungsdokumente werden als PDF abgelegt.', 422 );
+		}
+		$data = hansea_crm_docusign_pdf( $url );
+		if ( is_wp_error( $data ) ) {
+			$note = $data->get_error_message();
+			$data = null; // keep the link only
+		}
+		$label = array( 'beitritt' => 'Beitrittserklärung', 'kuendigung' => 'Kündigungsschreiben' )[ $kind ] ?? 'Dokument';
+		$name  = sanitize_file_name( $label . '-DocuSign.pdf' );
+	} else {
+		return hansea_error( 'hansea_crm_upload', 'Bitte eine PDF-Datei oder einen DocuSign-Link angeben.', 400 );
 	}
-	if ( $file['size'] > HANSEA_CRM_DOC_MAX ) {
-		return hansea_error( 'hansea_crm_upload', 'Die Datei ist zu groß (höchstens 15 MB).', 413 );
-	}
-	$data = (string) file_get_contents( $file['tmp_name'] );
-	if ( 0 !== strpos( $data, '%PDF' ) ) {
+	if ( null !== $data && 0 !== strpos( $data, '%PDF' ) ) {
 		return hansea_error( 'hansea_crm_upload', 'Bitte eine PDF-Datei hochladen.', 415 );
 	}
-	$key = hansea_crm_key();
-	$dir = hansea_crm_files_dir();
-	if ( ! $key || ! $dir ) {
-		return hansea_error( 'hansea_crm_upload', 'Der Speicherort für Dokumente ist nicht verfügbar.', 500 );
-	}
 	$id = bin2hex( random_bytes( 16 ) );
-	if ( false === file_put_contents( $dir . '/' . $id . '.bin', hansea_seal_file( $data ) ) ) {
-		return hansea_error( 'hansea_crm_upload', 'Das Dokument konnte nicht gespeichert werden.', 500 );
+	if ( null !== $data ) {
+		$key = hansea_crm_key();
+		$dir = hansea_crm_files_dir();
+		if ( ! $key || ! $dir ) {
+			return hansea_error( 'hansea_crm_upload', 'Der Speicherort für Dokumente ist nicht verfügbar.', 500 );
+		}
+		if ( false === file_put_contents( $dir . '/' . $id . '.bin', hansea_seal_file( $data ) ) ) {
+			return hansea_error( 'hansea_crm_upload', 'Das Dokument konnte nicht gespeichert werden.', 500 );
+		}
 	}
-	$name = sanitize_file_name( (string) $file['name'] ) ?: 'Dokument.pdf';
 	$user = wp_get_current_user();
 	add_post_meta( $post->ID, 'hansea_crm_doc', array(
 		'id'        => $id,
-		'name'      => $name,
-		'size'      => (int) $file['size'],
+		'name'      => null === $data ? preg_replace( '/\.pdf$/i', '', $name ) . ' (Link)' : $name,
+		'size'      => null === $data ? 0 : strlen( $data ),
 		'time'      => gmdate( 'c' ),
 		'user'      => $user->display_name ?: $user->user_login,
 		'kind'      => $kind,
 		'beschluss' => $bid,
+		'url'       => $url,
 	) );
+	if ( null === $data ) {
+		$name .= ' (nur Link: ' . $note . ')';
+	}
 	if ( 'kuendigung' === $kind ) {
 		$r['kuendigungen'][ $ref ]['schreiben'] = $id;
 		hansea_crm_save( $r, $post->ID );
@@ -1210,7 +1300,11 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 	if ( 'zustimmung' === $kind && 'kuendigung' === $b['type'] ) {
 		hansea_crm_send_cancellation_confirmation( $post->ID, $r, $b, $data, $name );
 	}
-	return rest_ensure_response( hansea_crm_detail( $post->ID ) );
+	$detail = hansea_crm_detail( $post->ID );
+	if ( '' !== $note ) {
+		$detail['message'] = 'Der DocuSign-Link ist gespeichert. Das PDF konnte nicht geladen werden: ' . $note;
+	}
+	return rest_ensure_response( $detail );
 }
 
 /** Streams a decrypted document to the browser (logged). */
@@ -1349,8 +1443,22 @@ function hansea_crm_rest_beschluss_create( WP_REST_Request $request ) {
 	if ( is_wp_error( $post ) ) {
 		return $post;
 	}
-	$type = (string) $request->get_param( 'type' );
-	$ref  = (int) $request->get_param( 'ref' );
+	$message = hansea_crm_present( $post->ID, (string) $request->get_param( 'type' ), (int) $request->get_param( 'ref' ) );
+	if ( is_wp_error( $message ) ) {
+		return $message;
+	}
+	return rest_ensure_response( array( 'member' => hansea_crm_detail( $post->ID ), 'message' => $message ) );
+}
+
+/**
+ * Puts a decision to the Aufsichtsrat (ordentliche Mitglieder: the Vorstand)
+ * and emails its members. Used by "Vorlegen" and when an approved row is
+ * changed (hansea_crm_rest_update). Returns a message for the team.
+ *
+ * @return string|WP_Error
+ */
+function hansea_crm_present( $post_id, $type, $ref = 0 ) {
+	$post = get_post( $post_id );
 	if ( ! isset( HANSEA_BESCHLUSS_TYPES[ $type ] ) ) {
 		return hansea_error( 'hansea_crm_type', 'Unbekannte Art des Beschlusses.', 422 );
 	}
@@ -1428,7 +1536,22 @@ function hansea_crm_rest_beschluss_create( WP_REST_Request $request ) {
 	hansea_crm_log( $post->ID, 'Dem ' . $label . ' vorgelegt', $title );
 	hansea_crm_notify_ar( $ar, $title, $post->ID, $gremium );
 	$who = implode( ', ', $voters ) . ( 1 === count( $voters ) ? ' wurde' : ' wurden' );
-	return rest_ensure_response( array( 'member' => hansea_crm_detail( $post->ID ), 'message' => 'Dem ' . $label . ' vorgelegt. ' . $who . ' per E-Mail benachrichtigt.' ) );
+	return 'Dem ' . $label . ' vorgelegt. ' . $who . ' per E-Mail benachrichtigt.';
+}
+
+/** Withdraws the open Beschluss on ($type, $ref), if any; true when one was withdrawn. */
+function hansea_crm_withdraw( $post_id, $type, $ref, $reason ) {
+	$list = hansea_crm_beschluesse( $post_id );
+	foreach ( $list as $i => $b ) {
+		if ( 'offen' === $b['status'] && $b['type'] === $type && (int) $b['ref'] === (int) $ref ) {
+			$list[ $i ]['status'] = 'zurückgezogen';
+			$list[ $i ]['closed'] = gmdate( 'c' );
+			hansea_crm_beschluss_save( $post_id, $list );
+			hansea_crm_log( $post_id, 'Vorlage zurückgezogen', $b['title'] . ' – ' . $reason );
+			return true;
+		}
+	}
+	return false;
 }
 
 function hansea_crm_units( $n ) {

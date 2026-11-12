@@ -60,7 +60,7 @@ export default function MemberDocuments({ documents }: { documents?: Portfolio['
                 {[...own]
                   .sort((a, b) => b.time.localeCompare(a.time))
                   .map((d) => (
-                    <DocCard key={d.id} href={wpUrl(`member/documents/${d.id}`)} kind="Persönlich" heading={title(d.name)} note={`Bereitgestellt am ${date(d.time)}`} download />
+                    <DocCard key={d.id} href={d.url || wpUrl(`member/documents/${d.id}`)} kind={d.url ? 'Persönlich · DocuSign' : 'Persönlich'} heading={title(d.name)} note={`Bereitgestellt am ${date(d.time)}`} download />
                   ))}
               </ul>
             )}

@@ -102,6 +102,8 @@ export type MemberDetail = {
   log: LogEntry[]
   documents: CrmDocument[]
   beschluesse: Beschluss[]
+  /** After saving: what happened besides (e.g. a changed row put to the Aufsichtsrat again). */
+  message?: string
 }
 
 export type ActionResult = { member: MemberDetail; message: string }
@@ -112,8 +114,11 @@ export type ActionResult = { member: MemberDetail; message: string }
  * zustimmung (approval document of the Beschluss `beschluss`), or '' (other).
  */
 export type DocKind = '' | 'beitritt' | 'kuendigung' | 'zustimmung'
-export type CrmDocument = { id: string; name: string; size: number; time: string; user: string; kind: DocKind; beschluss: string }
-export type UploadOptions = { kind?: DocKind; ref?: number; beschluss?: string }
+/** url: the DocuSign link it came from; with size 0 there is no stored PDF, only the link. */
+export type CrmDocument = { id: string; name: string; size: number; time: string; user: string; kind: DocKind; beschluss: string; url: string }
+export type UploadOptions = { kind?: DocKind; ref?: number; beschluss?: string; url?: string }
+/** A DocuSign link without a stored PDF. */
+export const linkOnly = (d: CrmDocument) => d.size === 0 && !!d.url
 
 export type BeschlussType = 'zulassung' | 'zeichnung' | 'kuendigung' | 'ausscheiden'
 export type Vote = { name: string; fullName: string; vote: '' | 'zugestimmt' | 'abgelehnt'; time: string; note: string }
@@ -172,10 +177,16 @@ export const api = IS_WORDPRESS
       cancel: (id: number, bid: string) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/cancel`, {}),
       inbox: () => wpGet<Inbox>('crm/beschluesse'),
       log: () => wpGet<LogItem[]>('crm/log'),
-      upload: async (id: number, file: File, opts: UploadOptions = {}) => {
+      /** The signed PDF behind a DocuSign link (needs the DocuSign connection). */
+      docusignPdf: async (url: string) => {
+        const { data } = await wpPost<{ data: string }>('crm/docusign-pdf', { url })
+        return new File([Uint8Array.from(atob(data), (c) => c.charCodeAt(0))], 'Beitrittserklaerung-DocuSign.pdf', { type: 'application/pdf' })
+      },
+      /** A PDF (file) or a DocuSign link (opts.url, file null). */
+      upload: async (id: number, file: File | null, opts: UploadOptions = {}) => {
         const { restUrl, nonce } = wp()
         const body = new FormData()
-        body.append('file', file)
+        if (file) body.append('file', file)
         for (const [k, v] of Object.entries(opts)) if (v !== undefined) body.append(k, String(v))
         const res = await fetch(`${restUrl}hansea/v1/crm/members/${id}/documents`, { method: 'POST', credentials: 'same-origin', headers: { 'X-WP-Nonce': nonce }, body })
         const data = await res.json().catch(() => ({}))
@@ -197,7 +208,7 @@ function demoApi() {
   })
   // A one-page PDF standing in for uploaded letters in the demo
   const demoPdf = (title: string) => URL.createObjectURL(new Blob([`%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj 3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Contents 4 0 R/Resources<</Font<</F1<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>>>>>>>endobj 4 0 obj<</Length ${title.length + 40}>>stream\nBT /F1 18 Tf 60 760 Td (${title}) Tj ET\nendstream endobj\ntrailer<</Root 1 0 R>>\n%%EOF`], { type: 'application/pdf' }))
-  type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string; docs: (CrmDocument & { url: string })[]; beschluesse: Beschluss[] }
+  type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string; docs: (CrmDocument & { blob: string })[]; beschluesse: Beschluss[] }
   const VOLL: Record<string, string> = { Bartlau: 'Rainer Bartlau', Dobuch: 'Sophia Dobuch', Kogan: 'Vadim Kogan', Gerlach: 'Stephan Gerlach' }
   // Demo: the three Aufsichtsrat members (or the Vorstand) vote one after another from this browser.
   const AR = ['Bartlau', 'Dobuch', 'Kogan']
@@ -232,11 +243,11 @@ function demoApi() {
   const log = (r: Row, action: string, detail = '', sent = false) => { r.log.unshift({ time: new Date().toISOString(), user: 'Vorschau', action, detail, ...(sent ? { sent } : {}) }); r.updated = new Date().toISOString() }
   const detail = (id: number): MemberDetail => {
     const r = row(id)
-    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && r.record.art === 'i' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log], documents: r.docs.map(({ url: _url, ...d }) => d), beschluesse: r.beschluesse.map(publicB) }
+    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && r.record.art === 'i' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log], documents: r.docs.map(({ blob: _blob, ...d }) => d), beschluesse: r.beschluesse.map(publicB) }
   }
   const publicB = (b: Beschluss): Beschluss => ({ ...b, votes: b.votes.map((v) => ({ ...v })), canVote: b.status === 'offen' })
-  const addDoc = (r: Row, name: string, url: string, kind: DocKind = '', beschluss = '') => {
-    const doc = { id: Math.random().toString(16).slice(2).padEnd(32, '0').slice(0, 32), name, size: 0, time: new Date().toISOString(), user: 'Vorschau', kind, beschluss, url }
+  const addDoc = (r: Row, name: string, blob: string, kind: DocKind = '', beschluss = '', link = '', size = 1) => {
+    const doc = { id: Math.random().toString(16).slice(2).padEnd(32, '0').slice(0, 32), name, size, time: new Date().toISOString(), user: 'Vorschau', kind, beschluss, url: link, blob }
     r.docs.push(doc)
     return doc
   }
@@ -272,6 +283,23 @@ function demoApi() {
   }
   // The open Antrag comes with its signed Beitrittserklärung, as if dropped in when it was created
   addDoc(row(4), 'Beitrittserklaerung_Petra_Antrag.pdf', demoPdf('Beitrittserklaerung (Beispiel) - Petra Antrag'), 'beitritt')
+  /** Puts a decision to the Aufsichtsrat or Vorstand (Vorlegen, or a changed approved row). */
+  const present = (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => {
+    const r = row(id)
+    const ref = body.ref ?? 0
+    if (r.beschluesse.some((b) => b.status === 'offen' && b.type === body.type && b.ref === ref)) throw new Error('Dazu liegt schon ein offener Beschluss vor.')
+    if (body.type === 'kuendigung' && !r.record.kuendigungen[ref]?.schreiben) throw new Error('Bitte zuerst das ausgefüllte Kündigungsschreiben zu dieser Kündigung hochladen.')
+    const gremium: Gremium = r.record.art === 'o' ? 'vorstand' : 'ar'
+    const b: Beschluss = { id: Math.random().toString(16).slice(2, 18).padEnd(16, '0'), gremium, type: body.type, ref, title: `${TYPES[body.type]}: ${name(r.record)}`, status: 'offen', created: new Date().toISOString(), by: 'Vorschau', portal: !!body.portal, closed: '', votes: voters(gremium).map((n) => ({ name: n, fullName: VOLL[n] ?? n, vote: '', time: '', note: '' })), canVote: true }
+    r.beschluesse.push(b)
+    if (body.type === 'zulassung') r.record.zulassung_status = 'offen'
+    else if (body.type === 'ausscheiden') r.record.aus_ar_status = 'offen'
+    else (body.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen)[ref].ar_status = 'offen'
+    const label = gremium === 'vorstand' ? 'Vorstand' : 'Aufsichtsrat'
+    log(r, `Dem ${label} vorgelegt`, b.title)
+    return `Dem ${label} vorgelegt. ${voters(gremium).join(', ')} ${voters(gremium).length === 1 ? 'wurde' : 'wurden'} per E-Mail benachrichtigt. (Vorschau: es wird nichts gesendet.)`
+}
+
   const wait = <T,>(fn: () => T) => new Promise<T>((ok, fail) => setTimeout(() => { try { ok(fn()) } catch (e) { fail(e) } }, 150))
 
   return {
@@ -294,36 +322,39 @@ function demoApi() {
       const r = row(id)
       if (record.art !== r.record.art && r.beschluesse.some((b) => b.status === 'offen')) throw new Error('Die Art der Mitgliedschaft lässt sich erst ändern, wenn keine Vorlage mehr offen ist. Bitte die Vorlage zurückziehen oder die Entscheidung abwarten.')
       const next = structuredClone(record)
-      // Any change to an approved Kündigung needs the approval again
-      r.record.kuendigungen.forEach((was, i) => {
-        const now = next.kuendigungen[i]
-        if (now && was.ar_status === 'zugestimmt' && (['datum', 'anteile', 'zum', 'betrag'] as const).some((k) => now[k] !== was[k])) {
-          Object.assign(now, { ar_status: '', ar: '' })
-          log(r, 'Kündigung geändert', `Zeile ${i + 1}: die Zustimmung muss neu eingeholt werden`)
-        }
-      })
+      // A change to shares or dates of an approved (or open) row goes to the Aufsichtsrat again
+      const again: [BeschlussType, number][] = []
+      const watch = (list: 'zeichnungen' | 'kuendigungen', type: BeschlussType, keys: string[]) =>
+        r.record[list].forEach((was, i) => {
+          const now = next[list][i] as Record<string, unknown> | undefined
+          if (!now || (was.ar_status !== 'zugestimmt' && was.ar_status !== 'offen') || !keys.some((k) => now[k] !== (was as Record<string, unknown>)[k])) return
+          const open = r.beschluesse.find((b) => b.status === 'offen' && b.type === type && b.ref === i)
+          if (open) {
+            open.status = 'zurückgezogen'
+            log(r, 'Vorlage zurückgezogen', `${open.title} – Angaben geändert`)
+          }
+          Object.assign(now, { ar_status: '', ar: '' }, list === 'zeichnungen' ? { zugelassen: '' } : {})
+          again.push([type, i])
+        })
+      watch('zeichnungen', 'zeichnung', ['anteile', 'betrag'])
+      watch('kuendigungen', 'kuendigung', ['datum', 'anteile', 'zum', 'betrag'])
       r.record = next
       setSecrets(r, secrets)
       log(r, 'Geändert')
-      return detail(id)
+      const messages = again.map(([type, i]) => {
+        const label = type === 'zeichnung' ? 'Geänderte Anteile' : 'Geänderte Kündigung'
+        log(r, label, `Zeile ${i + 1}: die Zustimmung wird neu eingeholt`)
+        try {
+          return `${label} (Zeile ${i + 1}): ${present(id, { type, ref: i })}`
+        } catch (e) {
+          return `${label} (Zeile ${i + 1}): nicht vorgelegt – ${(e as Error).message}`
+        }
+      })
+      return { ...detail(id), ...(messages.length ? { message: messages.join(' ') } : {}) }
     }),
     reveal: (id: number) => wait(() => { const r = row(id); log(r, 'Bank- und Steuerdaten angezeigt'); return { ...r.secrets } }),
     portal: (id: number) => wait(() => ({ message: openPortal(id), member: detail(id) })),
-    vorlegen: (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => wait(() => {
-      const r = row(id)
-      const ref = body.ref ?? 0
-      if (r.beschluesse.some((b) => b.status === 'offen' && b.type === body.type && b.ref === ref)) throw new Error('Dazu liegt schon ein offener Beschluss vor.')
-      if (body.type === 'kuendigung' && !r.record.kuendigungen[ref]?.schreiben) throw new Error('Bitte zuerst das ausgefüllte Kündigungsschreiben zu dieser Kündigung hochladen.')
-      const gremium: Gremium = r.record.art === 'o' ? 'vorstand' : 'ar'
-      const b: Beschluss = { id: Math.random().toString(16).slice(2, 18).padEnd(16, '0'), gremium, type: body.type, ref, title: `${TYPES[body.type]}: ${name(r.record)}`, status: 'offen', created: new Date().toISOString(), by: 'Vorschau', portal: !!body.portal, closed: '', votes: voters(gremium).map((n) => ({ name: n, fullName: VOLL[n] ?? n, vote: '', time: '', note: '' })), canVote: true }
-      r.beschluesse.push(b)
-      if (body.type === 'zulassung') r.record.zulassung_status = 'offen'
-      else if (body.type === 'ausscheiden') r.record.aus_ar_status = 'offen'
-      else (body.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen)[ref].ar_status = 'offen'
-      const label = gremium === 'vorstand' ? 'Vorstand' : 'Aufsichtsrat'
-      log(r, `Dem ${label} vorgelegt`, b.title)
-      return { member: detail(id), message: `Dem ${label} vorgelegt. ${voters(gremium).join(', ')} ${voters(gremium).length === 1 ? 'wurde' : 'wurden'} per E-Mail benachrichtigt. (Vorschau: es wird nichts gesendet.)` }
-    }),
+    vorlegen: (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => wait(() => ({ message: present(id, body), member: detail(id) })),
     vote: (id: number, bid: string, body: { vote: 'zugestimmt' | 'abgelehnt'; note: string }) => wait(() => {
       const r = row(id)
       const b = r.beschluesse.find((x) => x.id === bid)
@@ -345,25 +376,33 @@ function demoApi() {
       return { member: detail(id), message: 'Vorlage zurückgezogen.' }
     }),
     inbox: () => wait((): Inbox => ({
-      items: [...rows].flatMap(([id, r]) => r.beschluesse.filter((b) => b.status === 'offen').map((b) => ({ ...publicB(b), member: id, name: name(r.record), documents: r.docs.map(({ url: _url, ...d }) => d) }))),
+      items: [...rows].flatMap(([id, r]) => r.beschluesse.filter((b) => b.status === 'offen').map((b) => ({ ...publicB(b), member: id, name: name(r.record), documents: r.docs.map(({ blob: _blob, ...d }) => d) }))),
       ar: AR,
       size: 3,
       vorstand: VORSTAND,
     })),
-    upload: (id: number, file: File, opts: UploadOptions = {}) => wait(() => {
+    docusignPdf: (_url: string) => wait((): File => {
+      throw new Error('Die DocuSign-Anbindung ist noch nicht eingerichtet (Einstellungen → DocuSign). Vorschau: PDF bitte als Datei ablegen.')
+    }),
+    upload: (id: number, file: File | null, opts: UploadOptions = {}) => wait(() => {
       const r = row(id)
       if (opts.kind === 'zustimmung' && r.docs.some((d) => d.beschluss === opts.beschluss)) throw new Error('Das Dokument zu dieser Zustimmung liegt schon vor.')
-      const doc = addDoc(r, file.name, URL.createObjectURL(file), opts.kind ?? '', opts.beschluss ?? '')
+      if (!file && !opts.url?.startsWith('https://')) throw new Error('Bitte einen vollständigen DocuSign-Link (https://…) einfügen.')
+      const label = opts.kind === 'beitritt' ? 'Beitrittserklärung' : opts.kind === 'kuendigung' ? 'Kündigungsschreiben' : 'Dokument'
+      const doc = file
+        ? addDoc(r, file.name, URL.createObjectURL(file), opts.kind ?? '', opts.beschluss ?? '', opts.url ?? '')
+        : addDoc(r, `${label}-DocuSign (Link)`, opts.url!, opts.kind ?? '', '', opts.url!, 0)
       if (opts.kind === 'kuendigung' && r.record.kuendigungen[opts.ref ?? -1]) {
         r.record.kuendigungen[opts.ref!].schreiben = doc.id
-        log(r, 'Kündigungsschreiben hochgeladen', `${file.name} (Kündigung Zeile ${opts.ref! + 1}, im Mitgliederbereich sichtbar)`, true)
-      } else log(r, opts.kind === 'zustimmung' ? 'Zustimmungsdokument abgelegt' : 'Dokument hochgeladen', `${file.name} (im Mitgliederbereich sichtbar)`, true)
+        log(r, 'Kündigungsschreiben hochgeladen', `${doc.name} (Kündigung Zeile ${opts.ref! + 1}, im Mitgliederbereich sichtbar)`, true)
+      } else log(r, opts.kind === 'zustimmung' ? 'Zustimmungsdokument abgelegt' : 'Dokument hochgeladen', `${doc.name} (im Mitgliederbereich sichtbar)`, true)
       const b = r.beschluesse.find((x) => x.id === opts.beschluss)
       const k = b?.type === 'kuendigung' ? r.record.kuendigungen[b.ref] : null
+      if (!file) return { ...detail(id), message: 'Der DocuSign-Link ist gespeichert. Das PDF konnte nicht geladen werden: Die DocuSign-Anbindung ist in der Vorschau nicht eingerichtet.' }
       if (k) log(r, 'E-Mail: Hanseatische Invest eG – Bestätigung Ihrer Kündigung', `${k.anteile} Anteile zum ${k.zum.split('-').reverse().join('.')}, an ${r.record.email}, mit PDF im Anhang`, true)
       return detail(id)
     }),
     log: () => wait((): LogItem[] => [...rows].flatMap(([id, r]) => r.log.map((l) => ({ ...l, member: id, name: name(r.record) }))).sort((a, b) => b.time.localeCompare(a.time))),
-    documentUrl: (id: number, doc: string) => rows.get(id)?.docs.find((d) => d.id === doc)?.url ?? '#',
+    documentUrl: (id: number, doc: string) => rows.get(id)?.docs.find((d) => d.id === doc)?.blob ?? '#',
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { api, ZINS, type BeschlussType, type LogEntry, type MemberDetail, type Secrets, type Zinszahlung } from './api'
+import { api, linkOnly, ZINS, type BeschlussType, type LogEntry, type MemberDetail, type Secrets, type UploadOptions, type Zinszahlung } from './api'
 import { ensureApprovalDocs, missingApprovalDocs } from './approvalPdf'
 import { BeschlussCard, DocumentLinks } from './Beschluesse'
 import { MemberForm } from './MemberForm'
@@ -18,7 +18,10 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [secrets, setSecrets] = useState<Secrets | null>(null)
-  const [editing, setEditing] = useState(false)
+  // false, or the section the form opens at (true: from the top)
+  const [editing, setEditing] = useState<boolean | string>(false)
+  // Open DocuSign-link field: 'doc' (Dokumente) or the row of a Kündigung
+  const [linkFor, setLinkFor] = useState<'doc' | number | null>(null)
   const [presenting, setPresenting] = useState(false)
   const upload = useRef<HTMLInputElement>(null)
   const [busy, setBusy] = useState(false)
@@ -53,18 +56,22 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
     }
   }
 
-  /** Uploads the filled-in Kündigungsschreiben of Kündigung row `ref`. */
-  async function uploadSchreiben(ref: number, f: File) {
+  /** Adds a PDF or a DocuSign link (file null, opts.url) to the member. */
+  async function addDocument(f: File | null, opts: UploadOptions, done: string) {
     setBusy(true)
     setError('')
     try {
-      apply(await api.upload(id, f, { kind: 'kuendigung', ref }), 'Kündigungsschreiben hochgeladen. Die Kündigung kann jetzt vorgelegt werden.')
+      const detail = await api.upload(id, f, opts)
+      apply(detail, detail.message ?? done)
+      setLinkFor(null)
     } catch (err) {
       setError((err as Error).message)
     } finally {
       setBusy(false)
     }
   }
+  const uploadSchreiben = (ref: number, f: File | null, url?: string) =>
+    addDocument(f, { kind: 'kuendigung', ref, url }, 'Kündigungsschreiben hinzugefügt. Die Kündigung kann jetzt vorgelegt werden.')
 
   async function reveal() {
     setError('')
@@ -94,13 +101,14 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           initial={r}
           masked={m.masked}
           revealed={secrets}
+          focus={typeof editing === 'string' ? editing : undefined}
           onCancel={() => setEditing(false)}
-          onSave={async (record, s, document) => {
-            let detail = await api.update(id, record, s)
-            if (document) detail = await api.upload(id, document)
+          onSave={async (record, s) => {
+            const detail = await api.update(id, record, s)
             if (secrets) setSecrets(await api.reveal(id).catch(() => null))
-            apply(detail, 'Gespeichert.')
+            apply(detail, detail.message ? `Gespeichert. ${detail.message}` : 'Gespeichert.')
             setEditing(false)
+            window.scrollTo(0, 0)
           }}
         />
       </>
@@ -119,28 +127,40 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
       <Button key={`${type}${ref}`} variant="quiet" className="h-7 px-2 text-xs" disabled={busy} onClick={() => present(type, ref)}>Vorlegen</Button>
     )
   const sent = m.log.filter(wasSent)
-  const docName = (doc: string) => m.documents.find((d) => d.id === doc)?.name ?? 'Kündigungsschreiben'
-  const schreibenCell = (ref: number, doc: string, status: string) =>
-    doc ? (
-      <a key={`s${ref}`} href={api.documentUrl(id, doc)} target="_blank" rel="noopener" className="text-sm font-semibold">{docName(doc)}</a>
-    ) : status === 'offen' || status === 'zugestimmt' ? (
-      '–'
-    ) : (
-      <label key={`s${ref}`} className="inline-flex h-7 cursor-pointer items-center rounded-control border border-line bg-white px-2 text-xs font-medium hover:border-ink">
-        PDF hochladen
-        <input
-          type="file"
-          accept="application/pdf,.pdf"
-          className="sr-only"
-          disabled={busy}
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            e.target.value = ''
-            if (f) uploadSchreiben(ref, f)
-          }}
-        />
-      </label>
+  const schreibenCell = (ref: number, doc: string, status: string) => {
+    const d = m.documents.find((x) => x.id === doc)
+    if (doc) {
+      return (
+        <a key={`s${ref}`} href={d && linkOnly(d) ? d.url : api.documentUrl(id, doc)} target="_blank" rel="noopener" className="text-sm font-semibold">
+          {d?.name ?? 'Kündigungsschreiben'}
+        </a>
+      )
+    }
+    if (status === 'offen' || status === 'zugestimmt') return '–'
+    if (linkFor === ref) return <LinkField key={`s${ref}`} busy={busy} onSave={(url) => uploadSchreiben(ref, null, url)} onCancel={() => setLinkFor(null)} />
+    return (
+      <span key={`s${ref}`} className="inline-flex flex-wrap gap-1">
+        <label className="inline-flex h-7 cursor-pointer items-center rounded-control border border-line bg-white px-2 text-xs font-medium hover:border-ink">
+          PDF hochladen
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            className="sr-only"
+            disabled={busy}
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              e.target.value = ''
+              if (f) uploadSchreiben(ref, f)
+            }}
+          />
+        </label>
+        <Button variant="quiet" className="h-7 px-2 text-xs" disabled={busy} onClick={() => setLinkFor(ref)}>DocuSign-Link</Button>
+      </span>
     )
+  }
+  const editButton = (section: string, label = 'Bearbeiten') => (
+    <Button variant="quiet" className="h-8" onClick={() => setEditing(section)}>{label}</Button>
+  )
   const beschluesse = [...m.beschluesse].sort((a, b) => Number(b.status === 'offen') - Number(a.status === 'offen') || b.created.localeCompare(a.created))
 
   const zinsRows = r.zeichnungen.map((z, i) =>
@@ -257,7 +277,12 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
       <div className="mt-5 grid gap-5">
         <Card
           title={ordentlich ? 'Anteile und Zahlungen' : 'Anteile, Zahlungen und Zinsen'}
-          aside={<span className="text-sm text-muted">{num(m.totals.aktiv)} von {num(m.totals.anteile)} Anteilen gehalten · {eur(m.totals.kapital)} eingezahlt</span>}
+          aside={
+            <span className="flex flex-wrap items-center gap-3">
+              <span className="text-sm text-muted">{num(m.totals.aktiv)} von {num(m.totals.anteile)} Anteilen gehalten · {eur(m.totals.kapital)} eingezahlt</span>
+              {editButton('anteile')}
+            </span>
+          }
         >
           <Table
             head={[
@@ -282,11 +307,16 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
 
         {(!ordentlich || r.zinszahlungen.length > 0) && <Card
           title="Zinszahlungen"
-          aside={m.next && !payout && r.status === 'zugelassen' ? (
-            <Button variant="quiet" className="h-8" onClick={() => setPayout({ datum: m.next!.date, zeitraum: m.next!.period, betrag: m.next!.amount, steuer: null })}>
-              Fällige Zahlung eintragen
-            </Button>
-          ) : null}
+          aside={
+            <span className="flex flex-wrap gap-2">
+              {m.next && !payout && r.status === 'zugelassen' && (
+                <Button variant="quiet" className="h-8" onClick={() => setPayout({ datum: m.next!.date, zeitraum: m.next!.period, betrag: m.next!.amount, steuer: null })}>
+                  Fällige Zahlung eintragen
+                </Button>
+              )}
+              {editButton('zinsen')}
+            </span>
+          }
         >
           {payout && (
             <form
@@ -339,7 +369,15 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           )}
         </Card>}
 
-        <Card title="Kündigungen">
+        <Card
+          title="Kündigungen"
+          aside={
+            <span className="flex flex-wrap gap-2">
+              {r.kuendigungen.length > 0 && editButton('kuendigungen')}
+              {editButton('kuendigung-neu', 'Kündigung hinzufügen')}
+            </span>
+          }
+        >
           <Table
             head={[{ label: 'Anteile', right: true }, { label: 'Kündigung eingegangen' }, { label: 'Gekündigt zum' }, { label: 'Betrag', right: true }, { label: 'Kündigungsschreiben' }, { label: gremium }, { label: 'Stand' }, { label: '' }]}
             rows={r.kuendigungen.map((c, i) => [num(c.anteile), date(c.datum), date(c.zum), eur(c.betrag), schreibenCell(i, c.schreiben, c.ar_status), AR(c.ar, c.ar_status), c.zum && c.zum <= today() ? 'ausgezahlt / fällig' : 'läuft', presentCell('kuendigung', i, c.ar_status)])}
@@ -347,8 +385,8 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           />
           {r.kuendigungen.length > 0 && (
             <p className="mb-0 mt-3 text-xs text-muted">
-              Vor der Vorlage an den {gremium} das ausgefüllte Kündigungsschreiben hochladen. Nach der Zustimmung liegt die Bestätigung unter „Dokumente“ und geht dem Mitglied per E-Mail zu. Wird eine
-              genehmigte Kündigung geändert, muss sie neu vorgelegt werden.
+              Vor der Vorlage an den {gremium} das ausgefüllte Kündigungsschreiben hinzufügen (PDF oder DocuSign-Link). Nach der Zustimmung liegt die Bestätigung unter „Dokumente“ und geht dem
+              Mitglied per E-Mail zu. Wird eine genehmigte oder vorliegende Kündigung geändert, wird sie beim Speichern automatisch neu vorgelegt.
             </p>
           )}
         </Card>
@@ -420,10 +458,19 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
                   }
                 }}
               />
-              <Button variant="quiet" className="h-8" disabled={busy} onClick={() => upload.current?.click()}>PDF hochladen</Button>
+              <span className="flex flex-wrap gap-2">
+                <Button variant="quiet" className="h-8" disabled={busy} onClick={() => upload.current?.click()}>PDF hochladen</Button>
+                <Button variant="quiet" className="h-8" disabled={busy} onClick={() => setLinkFor('doc')}>DocuSign-Link</Button>
+              </span>
             </>
           }
         >
+          {linkFor === 'doc' && (
+            <div className="mb-4">
+              <LinkField busy={busy} onSave={(url) => addDocument(null, { url }, 'DocuSign-Dokument hinzugefügt.')} onCancel={() => setLinkFor(null)} />
+              <p className="mb-0 mt-1 text-xs text-muted">Mit eingerichteter DocuSign-Anbindung wird das unterschriebene PDF geladen und gespeichert, sonst der Link.</p>
+            </div>
+          )}
           <DocumentLinks member={id} documents={m.documents} />
           <p className="mb-0 mt-3 text-xs text-muted">
             Alle Dokumente sieht das Mitglied auch in seinem Mitgliederbereich. Verschlüsselt gespeichert; das Öffnen wird im Verlauf festgehalten.
@@ -449,6 +496,28 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
         </Card>
       </div>
     </>
+  )
+}
+
+/** Field for a DocuSign link (https). */
+function LinkField({ busy, onSave, onCancel }: { busy: boolean; onSave: (url: string) => void; onCancel: () => void }) {
+  const [url, setUrl] = useState('')
+  const ok = /^https:\/\/\S+$/.test(url.trim())
+  return (
+    <form
+      className="flex flex-wrap items-center gap-2"
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (ok) onSave(url.trim())
+      }}
+    >
+      <label className="min-w-[220px] flex-1">
+        <span className="sr-only">DocuSign-Link</span>
+        <input autoFocus type="url" className={inputClass} placeholder="DocuSign-Link (https://…)" value={url} onChange={(e) => setUrl(e.target.value)} />
+      </label>
+      <Button type="submit" className="h-10" disabled={busy || !ok}>Hinzufügen</Button>
+      <Button variant="quiet" className="h-10" onClick={onCancel}>Abbrechen</Button>
+    </form>
   )
 }
 

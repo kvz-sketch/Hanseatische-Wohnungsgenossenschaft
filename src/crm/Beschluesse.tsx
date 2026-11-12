@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { api, type ActionResult, type Beschluss, type CrmDocument, type Inbox } from './api'
+import { api, linkOnly, type ActionResult, type Beschluss, type CrmDocument, type Inbox } from './api'
 import { ensureApprovalDocs } from './approvalPdf'
 import { dateTime, inputClass, labelClass } from './format'
 import { Badge, Button, ErrorNote, Notice } from './ui'
@@ -18,8 +18,8 @@ export function DocumentLinks({ member, documents }: { member: number; documents
     <ul className="m-0 grid list-none gap-1.5 p-0">
       {documents.map((d) => (
         <li key={d.id}>
-          <a href={api.documentUrl(member, d.id)} target="_blank" rel="noopener" className="inline-flex items-center gap-2 text-sm font-semibold">
-            <span className="rounded bg-navy-050 px-1.5 py-0.5 text-[10px] font-bold text-ink">PDF</span>
+          <a href={linkOnly(d) ? d.url : api.documentUrl(member, d.id)} target="_blank" rel="noopener" className="inline-flex items-center gap-2 text-sm font-semibold">
+            <span className="rounded bg-navy-050 px-1.5 py-0.5 text-[10px] font-bold text-ink">{linkOnly(d) ? 'LINK' : 'PDF'}</span>
             {d.name}
           </a>
           <span className="ml-2 text-xs text-muted">{dateTime(d.time)} · {d.user}</span>

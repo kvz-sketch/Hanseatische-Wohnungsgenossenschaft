@@ -1,5 +1,5 @@
-import { useRef, useState, type FormEvent, type ReactNode } from 'react'
-import { ANTEIL_EUR, emptyRecord, type Kuendigung, type MemberRecord, type Zeichnung, type Secrets, type SecretsInput } from './api'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { ANTEIL_EUR, api, emptyRecord, type Kuendigung, type MemberRecord, type Zeichnung, type Secrets, type SecretsInput } from './api'
 import { AR_NAMES, STATUS, inputClass, labelClass } from './format'
 import { currentMember } from '../auth/auth'
 import { Button, ErrorNote } from './ui'
@@ -20,6 +20,7 @@ export function MemberForm({
   initial,
   masked,
   revealed,
+  focus,
   onSave,
   onCancel,
 }: {
@@ -27,11 +28,22 @@ export function MemberForm({
   initial?: MemberRecord
   masked?: Secrets
   revealed?: Secrets | null
-  /** `document`: a dropped PDF, to attach to the member after saving. */
-  onSave: (record: MemberRecord, secrets: SecretsInput, document: File | null) => Promise<void>
+  /** Section to open the form at ('anteile', 'zinsen', 'kuendigungen'; 'kuendigung-neu' adds an empty Kündigung). */
+  focus?: string
+  /** `document`: a dropped PDF, `link`: a DocuSign link; attached to the new Antrag after saving. */
+  onSave: (record: MemberRecord, secrets: SecretsInput, document: File | null, link: string) => Promise<void>
   onCancel: () => void
 }) {
-  const [r, setR] = useState<MemberRecord>(() => structuredClone(initial ?? { ...emptyRecord(), zeichnungen: [blankZeichnung()] }))
+  const [r, setR] = useState<MemberRecord>(() => {
+    const start = structuredClone(initial ?? { ...emptyRecord(), zeichnungen: [blankZeichnung()] })
+    if (focus === 'kuendigung-neu') start.kuendigungen.push(blankKuendigung())
+    return start
+  })
+  useEffect(() => {
+    const target = focus === 'kuendigung-neu' ? 'kuendigungen' : focus
+    if (target) document.getElementById(`form-${target}`)?.scrollIntoView({ block: 'start' })
+  }, [focus])
+  const [link, setLink] = useState('')
   const [secrets, setSecrets] = useState<Secrets>(revealed ?? { iban: '', steuer_id: '', kirchensteuer: '' })
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -102,7 +114,7 @@ export function MemberForm({
       if (revealed ? secrets[k] !== revealed[k] : secrets[k] !== '') out[k] = secrets[k]
     }
     try {
-      await onSave(r, out, doc)
+      await onSave(r, out, doc, link.trim())
     } catch (err) {
       setError((err as Error).message)
       setBusy(false)
@@ -116,7 +128,21 @@ export function MemberForm({
       <datalist id="ar-names">{AR_NAMES.map((n) => <option key={n} value={n} />)}</datalist>
 
       {mode === 'neu' && (
-        <DropZone file={doc} onFile={readPdf} onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()) }}>
+        <DropZone
+          file={doc}
+          onFile={readPdf}
+          onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()); setLink('') }}
+          link={link}
+          onLink={async (url) => {
+            setLink(url)
+            setError('')
+            try {
+              await readPdf(await api.docusignPdf(url))
+            } catch (e) {
+              setPdf({ found: [], note: `Das PDF konnte nicht aus DocuSign geladen werden: ${(e as Error).message} Der Link wird beim Anlegen trotzdem unter „Dokumente“ gespeichert; bitte die Felder von Hand ausfüllen oder das PDF als Datei ablegen.` })
+            }
+          }}
+        >
           {pdf && (
             <div className="mt-3 text-sm text-ink-2">
               {pdf.found.length > 0 && (
@@ -201,8 +227,9 @@ export function MemberForm({
       </Section>
 
       <Rows
+        id="form-anteile"
         title="Anteile und Zahlungen"
-        hint={`Ein Anteil = ${ANTEIL_EUR.toLocaleString('de-DE')} €. Der Betrag wird beim Eintragen der Anteile vorgeschlagen. Wird bei einem zugelassenen Mitglied ein Zahlungseingang neu eingetragen, erhält es beim Speichern automatisch die Bestätigung Zahlungseingang per E-Mail${r.art === 'o' ? '' : '; leere Zinsdaten werden dabei ergänzt'}.`}
+        hint={`Ein Anteil = ${ANTEIL_EUR.toLocaleString('de-DE')} €. Der Betrag wird beim Eintragen der Anteile vorgeschlagen. Ändern sich die Anteile einer genehmigten Zeile, wird sie beim Speichern automatisch neu vorgelegt. Wird bei einem zugelassenen Mitglied ein Zahlungseingang neu eingetragen, erhält es beim Speichern automatisch die Bestätigung Zahlungseingang per E-Mail${r.art === 'o' ? '' : '; leere Zinsdaten werden dabei ergänzt'}.`}
         rows={r.zeichnungen}
         cols={[
           { key: 'anteile', label: 'Anteile', type: 'number', width: '90px' },
@@ -229,8 +256,9 @@ export function MemberForm({
       />
 
       <Rows
+        id="form-kuendigungen"
         title="Kündigungen"
-        hint={`Jede Kündigung braucht die Zustimmung ${r.art === 'o' ? 'des Vorstands' : 'aller drei Mitglieder des Aufsichtsrats'}. Wird eine genehmigte Kündigung geändert, muss sie neu vorgelegt werden. Das Kündigungsschreiben wird nach dem Speichern auf der Mitgliedsseite hochgeladen.`}
+        hint={`Jede Kündigung braucht die Zustimmung ${r.art === 'o' ? 'des Vorstands' : 'aller drei Mitglieder des Aufsichtsrats'}. Wird eine genehmigte oder vorliegende Kündigung geändert (Datum, Anteile, Betrag), wird sie beim Speichern automatisch neu vorgelegt. Das Kündigungsschreiben (PDF oder DocuSign-Link) wird nach dem Speichern auf der Mitgliedsseite hinzugefügt.`}
         rows={r.kuendigungen}
         cols={[
           { key: 'anteile', label: 'Anteile', type: 'number', width: '90px' },
@@ -239,7 +267,7 @@ export function MemberForm({
           { key: 'betrag', label: 'Betrag €', type: 'number', width: '120px' },
           ...arColumns<Kuendigung>(admin),
         ]}
-        blank={() => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const, schreiben: '' })}
+        blank={blankKuendigung}
         onChange={(rows) => set('kuendigungen', rows)}
         derive={(row, key, prev) =>
           key === 'anteile' && (prev.betrag === null || prev.betrag === (prev.anteile ?? 0) * ANTEIL_EUR)
@@ -305,6 +333,7 @@ export function MemberForm({
       />
 
       {(r.art === 'i' || r.zinszahlungen.length > 0) && <Rows
+        id="form-zinsen"
         title="Zinszahlungen"
         hint="Ausgezahlte Zinsen. Der Zeitraum ist das Ende der Zinsperiode, z. B. 31.12.2026 für das vierte Quartal."
         rows={r.zinszahlungen}
@@ -344,6 +373,8 @@ function arColumns<R extends Record<string, unknown>>(admin: boolean): Col<R>[] 
     : []
 }
 
+const blankKuendigung = () => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const, schreiben: '' })
+
 const blankZeichnung = () => ({ zugelassen: '', anteile: 1, ar: '', ar_status: '' as const, zahlung: '', betrag: ANTEIL_EUR, zins_ende: '', zins_zahlung: '' })
 
 function Section({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
@@ -367,6 +398,7 @@ function Field({ label, className = '', children }: { label: string; className?:
 }
 
 function Rows<R extends Record<string, unknown>>({
+  id,
   title,
   hint,
   rows,
@@ -376,6 +408,7 @@ function Rows<R extends Record<string, unknown>>({
   derive,
   addLabel,
 }: {
+  id?: string
   title: string
   hint?: string
   rows: R[]
@@ -391,7 +424,7 @@ function Rows<R extends Record<string, unknown>>({
     onChange(rows.map((row, n) => (n === i ? (derive ? derive(next, key, rows[i]) : next) : row)))
   }
   return (
-    <fieldset className="m-0 min-w-0 rounded-card border border-line-soft bg-white px-5 pb-5 pt-4">
+    <fieldset id={id} className="m-0 min-w-0 scroll-mt-4 rounded-card border border-line-soft bg-white px-5 pb-5 pt-4">
       <legend className="sr-only">{title}</legend>
       <h2 className="m-0 text-[15px] font-semibold" aria-hidden>{title}</h2>
       {hint && <p className="mb-0 mt-1 text-xs text-muted">{hint}</p>}
@@ -450,10 +483,26 @@ function Rows<R extends Record<string, unknown>>({
   )
 }
 
-/** Drop area (or file picker) for the signed Beitrittserklärung. */
-function DropZone({ file, onFile, onRemove, children }: { file: File | null; onFile: (f: File) => void; onRemove: () => void; children?: ReactNode }) {
+/** Drop area (or file picker, or a DocuSign link) for the signed Beitrittserklärung. */
+function DropZone({
+  file,
+  onFile,
+  onRemove,
+  link,
+  onLink,
+  children,
+}: {
+  file: File | null
+  onFile: (f: File) => void
+  onRemove: () => void
+  link: string
+  onLink: (url: string) => Promise<void>
+  children?: ReactNode
+}) {
   const input = useRef<HTMLInputElement>(null)
   const [over, setOver] = useState(false)
+  const [url, setUrl] = useState('')
+  const [loading, setLoading] = useState(false)
   return (
     <div
       onDragOver={(e) => {
@@ -472,8 +521,8 @@ function DropZone({ file, onFile, onRemove, children }: { file: File | null; onF
       <div className="flex flex-wrap items-center gap-4">
         <span aria-hidden className="grid h-12 w-10 shrink-0 place-items-center rounded bg-navy-050 text-[11px] font-bold text-ink">PDF</span>
         <div className="min-w-0 flex-1">
-          {file ? (
-            <p className="m-0 text-sm font-semibold">{file.name}</p>
+          {file || link ? (
+            <p className="m-0 break-all text-sm font-semibold">{file ? file.name : `DocuSign-Link: ${link}`}</p>
           ) : (
             <>
               <p className="m-0 text-sm font-semibold">Unterschriebene Beitrittserklärung hier ablegen</p>
@@ -482,12 +531,31 @@ function DropZone({ file, onFile, onRemove, children }: { file: File | null; onF
           )}
         </div>
         <input ref={input} type="file" accept="application/pdf,.pdf" className="sr-only" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
-        {file ? (
-          <Button variant="quiet" onClick={onRemove}>Entfernen</Button>
+        {file || link ? (
+          <Button variant="quiet" onClick={() => { setUrl(''); onRemove() }}>Entfernen</Button>
         ) : (
           <Button variant="quiet" onClick={() => input.current?.click()}>PDF auswählen</Button>
         )}
       </div>
+      {!file && !link && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-line-soft pt-3">
+          <label className="min-w-[240px] flex-1">
+            <span className="sr-only">DocuSign-Link</span>
+            <input type="url" className={inputClass} placeholder="oder DocuSign-Link einfügen (https://…)" value={url} onChange={(e) => setUrl(e.target.value)} />
+          </label>
+          <Button
+            variant="quiet"
+            disabled={loading || !/^https:\/\/\S+$/.test(url.trim())}
+            onClick={async () => {
+              setLoading(true)
+              await onLink(url.trim())
+              setLoading(false)
+            }}
+          >
+            {loading ? 'Lädt …' : 'Aus DocuSign laden'}
+          </Button>
+        </div>
+      )}
       {children}
     </div>
   )
