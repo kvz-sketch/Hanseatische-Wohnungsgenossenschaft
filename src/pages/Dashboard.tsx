@@ -3,8 +3,9 @@ import { currentMember, logout, type Member, type Portfolio } from '../auth/auth
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { CallbackForm } from '../components/LeadForms'
+import MemberBook from '../components/MemberBook'
 import MemberDocuments from '../components/MemberDocuments'
-import MemberEvents from '../components/MemberEvents'
+import MemberReferral from '../components/MemberReferral'
 import ProjectList from '../components/ProjectList'
 import ShareTracker from '../components/ShareTracker'
 import TrackRecord from '../components/TrackRecord'
@@ -200,8 +201,10 @@ export default function Dashboard() {
         <ShareTracker next={member.portfolio === undefined ? undefined : member.portfolio?.next ?? null} interest={member.portfolio?.art !== 'o'} />
         <ProjectList />
         <TrackRecord />
-        <MemberEvents />
+        {/* Veranstaltungen (components/MemberEvents.tsx) are hidden while none are planned; add <MemberEvents /> back here to show them */}
         <MemberDocuments documents={member.portfolio?.documents} />
+        <MemberBook />
+        <MemberReferral />
         <Service />
       </main>
       <Footer />

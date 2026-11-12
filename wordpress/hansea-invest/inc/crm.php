@@ -529,6 +529,39 @@ function hansea_crm_send_payment_confirmation( $post_id, array $r, $i ) {
 }
 
 /**
+ * "Neues Dokument in Ihrem Mitgliederbereich": email to a member with a portal
+ * account when the team has added a document. The document itself stays in
+ * the members' area (no attachment).
+ */
+function hansea_crm_notify_document( $post_id, array $r, $name ) {
+	$user = get_userdata( (int) get_post_meta( $post_id, 'hansea_crm_user', true ) );
+	if ( ! $user || ! is_email( $user->user_email ) ) {
+		return; // no portal access yet: nothing to look at
+	}
+	$title = trim( preg_replace( '/[-_]+/', ' ', preg_replace( '/\s*\(.*$|\.pdf$/i', '', $name ) ) );
+	if ( 'Herr' === $r['anrede'] && $r['nachname'] ) {
+		$hello = 'Sehr geehrter Herr ' . $r['nachname'] . ',';
+	} elseif ( 'Frau' === $r['anrede'] && $r['nachname'] ) {
+		$hello = 'Sehr geehrte Frau ' . $r['nachname'] . ',';
+	} else {
+		$hello = 'Guten Tag ' . ( trim( $r['vorname'] . ' ' . $r['nachname'] ) ?: hansea_crm_name( $r ) ) . ',';
+	}
+	$sent = wp_mail( $user->user_email, 'Hanseatische Invest eG – Neues Dokument in Ihrem Mitgliederbereich', hansea_email_html( array(
+		'eyebrow'   => 'Mitgliederbereich',
+		'title'     => 'Ein neues Dokument für Sie',
+		'preheader' => 'In Ihrem Mitgliederbereich liegt ein neues Dokument: ' . $title,
+		'html'      => array(
+			esc_html( $hello ),
+			'in Ihrem Mitgliederbereich liegt ein neues Dokument für Sie bereit: <strong>' . esc_html( $title ) . '</strong>.',
+			'Sie finden es nach der Anmeldung unter „Ihre Dokumente“ und können es dort öffnen und herunterladen.',
+			'Mit freundlichen Grüßen<br><br>Hanseatische Invest eG',
+		),
+		'button'    => array( 'label' => 'Zum Mitgliederbereich', 'url' => home_url( '/mitglieder/#dokumente' ) ),
+	) ), array( 'Content-Type: text/html; charset=UTF-8' ) );
+	hansea_crm_log( $post_id, $sent ? 'E-Mail: Hanseatische Invest eG – Neues Dokument in Ihrem Mitgliederbereich' : 'Hinweis auf neues Dokument nicht gesendet', $title . ', an ' . $user->user_email . ( $sent ? '' : ' (E-Mail-Versand fehlgeschlagen)' ), $sent );
+}
+
+/**
  * "Bestätigung Ihrer Kündigung" to the member once the Aufsichtsrat (or the
  * Vorstand) has approved it, with the confirmation PDF attached (also in the
  * members' area).
@@ -1299,6 +1332,10 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 	// An approved Kündigung: the confirmation also goes to the member by email
 	if ( 'zustimmung' === $kind && 'kuendigung' === $b['type'] ) {
 		hansea_crm_send_cancellation_confirmation( $post->ID, $r, $b, $data, $name );
+	} elseif ( 'beitritt' !== $kind && 'zustimmung' !== $kind ) {
+		// Any other new document: the member hears about it by email (the approval
+		// documents come with their own email: admission confirmation, Kündigung)
+		hansea_crm_notify_document( $post->ID, $r, null === $data ? preg_replace( '/\.pdf$/i', '', $name ) : $name );
 	}
 	$detail = hansea_crm_detail( $post->ID );
 	if ( '' !== $note ) {
@@ -1322,14 +1359,17 @@ add_action( 'rest_api_init', function () {
 		'methods'             => 'GET',
 		'callback'            => function ( WP_REST_Request $request ) {
 			$post_id = hansea_crm_member_of( wp_get_current_user() );
-			return $post_id ? hansea_crm_send_document( $post_id, (string) $request['doc'], 'Dokument im Mitgliederbereich geöffnet' ) : hansea_error( 'hansea_crm_missing', 'Dokument nicht gefunden.', 404 );
+			$download = (bool) $request->get_param( 'download' );
+			return $post_id
+				? hansea_crm_send_document( $post_id, (string) $request['doc'], $download ? 'Dokument im Mitgliederbereich heruntergeladen' : 'Dokument im Mitgliederbereich geöffnet', $download )
+				: hansea_error( 'hansea_crm_missing', 'Dokument nicht gefunden.', 404 );
 		},
 		'permission_callback' => 'is_user_logged_in',
 	) );
 } );
 
-/** Sends one document of a member as PDF and logs who opened it; a 404 error when it isn't theirs. */
-function hansea_crm_send_document( $post_id, $doc_id, $action ) {
+/** Sends one document of a member as PDF (shown, or saved with $download) and logs it; a 404 error when it isn't theirs. */
+function hansea_crm_send_document( $post_id, $doc_id, $action, $download = false ) {
 	$doc = null;
 	foreach ( hansea_crm_documents( $post_id ) as $d ) {
 		if ( $d['id'] === $doc_id ) {
@@ -1344,7 +1384,10 @@ function hansea_crm_send_document( $post_id, $doc_id, $action ) {
 	hansea_crm_log( $post_id, $action, $doc['name'] );
 	nocache_headers();
 	header( 'Content-Type: application/pdf' );
-	header( 'Content-Disposition: inline; filename="' . str_replace( '"', '', $doc['name'] ) . '"' );
+	$file = str_replace( array( '"', "\r", "\n" ), '', $doc['name'] );
+	$file = preg_match( '/\.pdf$/i', $file ) ? $file : $file . '.pdf';
+	$ascii = preg_replace( '/[^A-Za-z0-9._ -]/', '_', remove_accents( $file ) );
+	header( 'Content-Disposition: ' . ( $download ? 'attachment' : 'inline' ) . '; filename="' . $ascii . '"; filename*=UTF-8\'\'' . rawurlencode( $file ) );
 	header( 'Content-Length: ' . strlen( $pdf ) );
 	header( 'X-Content-Type-Options: nosniff' );
 	echo $pdf; // phpcs:ignore WordPress.Security.EscapeOutput -- binary PDF
