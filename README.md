@@ -1,50 +1,107 @@
-# Gerlach Immobilien Gruppe (GIG) — Website
+# Hanseatische Invest eG — Website
 
-Landing page for the GIG group, recreated per the GIG wireframe brief (bolder
-layered hero, full Navy/Gold/Koralle brand palette) with real content sourced
-from [gerlachgroup.de](https://gerlachgroup.de/) and its linked subsidiary
-sites.
+Public landing page (built from the Hansea Invest wireframe brief) plus a
+members' area: the team creates member accounts in wp-admin (Benutzer →
+Mitglied anlegen), members get a branded welcome email to set their password,
+log in, see their dashboard and sign their membership declaration with DocuSign
+(`docs/DOCUSIGN.md`).
 
 ## Stack
 
 - [Vite](https://vite.dev/) + React + TypeScript
-- Tailwind CSS v4 (`@tailwindcss/vite`)
+- Tailwind CSS v4 (`@tailwindcss/vite`), Manrope self-hosted via Fontsource
+
+## Pages
+
+| URL            | Entry                                                   |
+| -------------- | ------------------------------------------------------- |
+| `/`            | `index.html` → `src/pages/Landing.tsx`                  |
+| `/login/`      | `login/index.html` → `src/pages/Login.tsx` (login) |
+| `/mitglieder/` | `mitglieder/index.html` → `src/pages/Dashboard.tsx` (requires login) |
+
+Each page is its own HTML file (Vite multi-page build), so `dist/` runs on
+any static host without rewrite rules.
 
 ## Development
 
 ```bash
 npm install
 npm run dev
+npm run build && npm run preview
 ```
 
-## Build
+### Single-file preview
 
 ```bash
-npm run build
-npm run preview
+npm run build:preview
 ```
+
+Writes `dist-preview/hansea-invest-vorschau.html`: all three pages in one
+self-contained file (images and fonts inlined) that opens without a server.
+The explainer film is left out to keep the file small.
 
 ## Content
 
-All copy, statistics, brand names, testimonials, team, and contact details in
-`src/data/content.ts` are drawn from the public Gerlach Immobilien Gruppe
-website. Update that file to refresh content as the source site changes.
+- Landing page copy: `src/data/landing.ts`
+- Dashboard figures, sample shares and project lists: `src/data/content.ts`
+
+## WordPress theme (live site)
+
+`wordpress/hansea-invest/` is a WordPress theme that serves the same pages:
+`/` (landing), `/login/` (login) and `/mitglieder/` (dashboard,
+redirects to the login when not signed in).
+
+```bash
+npm run build:wordpress   # builds into wordpress/hansea-invest/dist
+```
+
+Then upload the `hansea-invest` folder to `wp-content/themes/` and activate it.
+The theme provides REST endpoints under `/wp-json/hansea/v1/` (`register`,
+`login`, `logout`, `lead`). Members are WordPress users with the subscriber
+role; password reset uses WordPress's own email flow. Lead form submissions
+appear in wp-admin under *Anfragen* and are emailed to the admin address.
+
+## Elementor landing page
+
+The live front page is an Elementor page ("Startseite"), so the team can edit
+texts and images in WordPress. It was seeded from
+`scripts/build-elementor-landing.py`, which writes
+`wordpress/hansea-invest/elementor/landing.json`; the one-time importer
+`wordpress/mu-plugins/hansea-elementor-landing.php` (upload to
+`wp-content/mu-plugins/`, it deletes itself after running) creates the page,
+imports its images, makes it the front page and sets the brand colors and
+fonts in the Elementor kit. Re-running the importer only updates the page while
+nobody has edited it in Elementor.
+
+Supporting pieces in the theme: `elementor/hansea-elementor.css` (self-hosted
+Cormorant Garamond and Inter, sticky header, placeholders), the
+Scroll animations on the Elementor pages (headings reveal line by line, blocks
+rise in, the header hides on scroll down) come from
+`elementor/hansea-motion.js`; they are off for visitors who prefer reduced
+motion and never run in the Elementor editor.
+`[hansea_kontakt]` shortcode (contact form; Elementor's free version has no
+form widget) and `page.php` for other Elementor pages. Login and dashboard stay
+React pages from the theme.
+
+## Authentication
+
+WordPress build: real WordPress accounts (subscriber role), created by the team;
+there is no self-registration (`inc/welcome.php`). Outside the WordPress build,
+`src/auth/auth.ts` accepts one sample account (`DEMO_LOGIN`, shown on the
+preview's login page); it is not a security boundary.
+
+Every member currently sees the same sample portfolio (marked "Beispieldaten").
+
+See `docs/ROADMAP.md` for the full requirements list and status.
+
+## Open items
+
+- Lead forms only reach a backend in the WordPress build.
+- Impressum, Datenschutz, Risikohinweis, Satzung, book shop and press links
+  are placeholders (`href="#"`).
+- Image and logo placeholders (striped boxes) wait for real photos.
 
 ## Deployment (netcup Webhosting)
 
 `.github/workflows/deploy-netcup.yml` builds the site and uploads `dist/` to
-netcup over FTPS (lftp) on every push to the default branch (or manually via
-*Actions → Deploy to netcup → Run workflow*).
-
-One-time setup:
-
-1. In the netcup CCP, open the Webhosting product → WCP (Plesk) →
-   *Websites & Domains → FTP Access* and create an FTP user for the site.
-2. In GitHub, add these repository secrets under
-   *Settings → Secrets and variables → Actions*:
-   - `FTP_SERVER` — FTP host (shown in the WCP, e.g. the domain)
-   - `FTP_USERNAME` / `FTP_PASSWORD` — the FTP user from step 1
-   - `FTP_SERVER_DIR` (optional) — target folder ending in `/`,
-     default `/httpdocs/`
-
-Until `FTP_SERVER` is set, the workflow only builds and skips the upload.
+netcup over FTPS (lftp). See the workflow file for the required secrets.

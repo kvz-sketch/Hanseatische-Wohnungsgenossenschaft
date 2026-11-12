@@ -1,72 +1,95 @@
-import { useEffect, useState } from "react";
-import { GigMark } from "./GigMark";
-import { Button } from "./ui/Button";
-import { nav } from "../data/content";
+import { useState, type ReactNode } from 'react'
+import { href } from '../routes'
+import { ButtonLink, Logo } from './ui'
 
-export function Header() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+type NavItem = { label: string; href: string }
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+/**
+ * Sticky navy header. `aside` sits right of the nav on desktop and below the
+ * links in the mobile menu (e.g. login link, user name, logout).
+ */
+export default function Header({
+  nav,
+  aside,
+  cta,
+  homeHref = href('home'),
+}: {
+  nav: NavItem[]
+  aside?: ReactNode
+  cta?: NavItem
+  homeHref?: string
+}) {
+  const [open, setOpen] = useState(false)
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-white transition-shadow ${
-        scrolled ? "shadow-[0_2px_10px_rgba(20,26,70,0.08)]" : ""
-      } border-b border-navy/8`}
-    >
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-4 sm:px-8 lg:px-11">
-        <a href="#top" className="flex items-center gap-2.5">
-          <GigMark size={26} color="#141A46" />
-          <span className="font-serif-display text-[19px] leading-none text-navy">GIG</span>
+    <header className="sticky top-0 z-40 border-b border-line-soft bg-white/90 text-ink backdrop-blur-md">
+      <div className="container-site flex h-[72px] items-center gap-8 px-5">
+        <a href={homeHref} className="shrink-0 text-ink hover:text-ink" aria-label="Hanseatische Invest eG – Startseite">
+          <Logo className="h-[50px] w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-7 text-[11.5px] font-bold uppercase tracking-[0.06em] text-navy lg:flex">
+        <nav className="hidden flex-1 items-center gap-7 lg:flex" aria-label="Hauptnavigation">
           {nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="group relative py-1 transition-colors hover:text-koralle"
-            >
+            <a key={item.label} href={item.href} className="text-[15px] font-medium text-ink no-underline hover:text-gold-600">
               {item.label}
-              <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-koralle transition-all duration-200 group-hover:w-full" />
             </a>
           ))}
         </nav>
 
-        <div className="hidden lg:block">
-          <Button variant="gold" size="sm" href="#kontakt">
-            Beratung sichern
-          </Button>
+        <div className="ml-auto hidden items-center gap-4 lg:flex">
+          {aside}
+          {cta && (
+            <ButtonLink href={cta.href} className="px-4 py-2.5">
+              {cta.label}
+            </ButtonLink>
+          )}
         </div>
 
         <button
-          aria-label="Menü öffnen"
-          className="text-2xl text-navy lg:hidden"
-          onClick={() => setOpen((v) => !v)}
+          type="button"
+          className="ml-auto inline-flex size-11 cursor-pointer items-center justify-center rounded-control border border-line bg-transparent text-ink lg:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
+          onClick={() => setOpen((o) => !o)}
         >
-          ☰
+          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+          </svg>
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-navy/8 bg-white px-5 py-4 lg:hidden">
-          <nav className="flex flex-col gap-4 text-[13px] font-bold uppercase tracking-[0.04em] text-navy">
+        <nav id="mobile-nav" className="border-t border-line-soft bg-white px-5 pb-6 pt-2 lg:hidden" aria-label="Hauptnavigation">
+          <ul className="m-0 list-none p-0">
             {nav.map((item) => (
-              <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
-                {item.label}
-              </a>
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="block border-b border-line-soft py-3.5 text-base font-medium text-ink no-underline"
+                >
+                  {item.label}
+                </a>
+              </li>
             ))}
-          </nav>
-          <Button variant="primary" size="sm" block href="#kontakt" className="mt-4">
-            Beratung sichern
-          </Button>
-        </div>
+          </ul>
+          {aside && <div className="flex flex-wrap items-center gap-4 py-4">{aside}</div>}
+          {cta && (
+            <ButtonLink href={cta.href} className="w-full">
+              {cta.label}
+            </ButtonLink>
+          )}
+        </nav>
       )}
     </header>
-  );
+  )
+}
+
+export function LoginLink() {
+  return (
+    <a href={href('login')} className="text-[15px] text-ink-2 no-underline hover:text-gold-600">
+      Mitglieder-Login
+    </a>
+  )
 }

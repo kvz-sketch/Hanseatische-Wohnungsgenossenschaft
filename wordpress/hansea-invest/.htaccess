@@ -1,0 +1,3 @@
+# The PDF reader in the Mitgliederliste (pdf.js) loads a .mjs module worker;
+# browsers only run it when it is served as JavaScript.
+AddType text/javascript .mjs

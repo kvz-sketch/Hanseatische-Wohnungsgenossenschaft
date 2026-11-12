@@ -11,10 +11,9 @@
 
 name: Deploy to netcup
 
+# Manual runs only (Actions → Deploy to netcup → Run workflow). The live site
+# is hanseainvest.de on Hostinger; pushes no longer upload to netcup.
 on:
-  push:
-    branches:
-      - claude/gerlach-gig-website-recreation-szelo7
   workflow_dispatch:
 
 concurrency:
