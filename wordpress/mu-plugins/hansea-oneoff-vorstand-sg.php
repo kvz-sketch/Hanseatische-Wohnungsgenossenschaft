@@ -7,8 +7,8 @@
  *   roles (e.g. administrator) stay.
  * - No account yet: one is created with the role Vorstand, and he gets an
  *   email to set his password. Two-factor login is set up at the first login.
- * The outcome is noted in hansea-oneoff-vorstand-result.php next to this file
- * (no output on the web).
+ * The outcome is kept in the option hansea_oneoff_vorstand_sg_result. (Never
+ * write files into mu-plugins: WordPress loads every PHP file there.)
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -63,7 +63,7 @@ add_action( 'init', function () {
 		}
 	}
 
-	@file_put_contents( __DIR__ . '/hansea-oneoff-vorstand-result.php', "<?php exit; // " . gmdate( 'c' ) . ' ' . str_replace( array( "\n", '?>' ), ' ', $note ) . "\n" );
+	update_option( 'hansea_oneoff_vorstand_sg_result', gmdate( 'c' ) . ' ' . $note, false );
 	delete_option( 'hansea_oneoff_vorstand_sg_lock' );
 	@unlink( __FILE__ );
 }, 20 );
