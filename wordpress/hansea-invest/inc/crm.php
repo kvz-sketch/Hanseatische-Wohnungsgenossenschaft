@@ -36,6 +36,8 @@ const HANSEA_VORSTAND_CAP = 'hansea_vorstand';
 /** Target interest on paid-in capital, p.a. (not guaranteed). */
 const HANSEA_CRM_ZINS = 0.07;
 /** Account for the members' payments (sent in the confirmation email when a member is admitted). */
+/** Approval documents and the Kündigung email start with this release (decisions before it get none); same date in src/crm/approvalPdf.ts. */
+const HANSEA_APPROVAL_DOCS_SINCE = '2026-11-12T02:30:00Z';
 const HANSEA_PAY_HOLDER = 'Hanseatische Invest eG';
 const HANSEA_PAY_IBAN   = 'DE83241510051210544001';
 const HANSEA_PAY_BIC    = 'NOLADE21STS';
@@ -1158,6 +1160,9 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 		}
 		if ( ! $b || 'zugestimmt' !== $b['status'] ) {
 			return hansea_error( 'hansea_crm_ref', 'Zu diesem Beschluss gibt es keine Zustimmung.', 409 );
+		}
+		if ( strtotime( $b['closed'] ?? '' ) < strtotime( HANSEA_APPROVAL_DOCS_SINCE ) ) {
+			return hansea_error( 'hansea_crm_ref', 'Für Beschlüsse vor der Einführung der Zustimmungsdokumente wird keines erstellt.', 409 );
 		}
 		if ( in_array( $bid, array_column( hansea_crm_documents( $post->ID ), 'beschluss' ), true ) ) {
 			return hansea_error( 'hansea_crm_exists', 'Das Dokument zu dieser Zustimmung liegt schon vor.', 409 );

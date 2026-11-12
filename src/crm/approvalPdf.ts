@@ -39,10 +39,21 @@ const units = (n: number | null) => `${(n ?? 0).toLocaleString('de-DE')} ${n ===
 const memberName = (m: MemberDetail) => `${m.record.vorname} ${m.record.nachname}`.trim() || m.record.firma || 'Mitglied'
 const gremiumLabel = (b: Beschluss) => (b.gremium === 'vorstand' ? 'Vorstand' : 'Aufsichtsrat')
 
+/**
+ * Approval documents (and the Kündigung email) start with this release:
+ * decisions taken before it get none, so existing members aren't sent
+ * documents for approvals of the past. Same date in inc/crm.php.
+ */
+export const APPROVAL_DOCS_SINCE = '2026-11-12T02:30:00Z'
+
 /** Approved Beschlüsse of the member that still lack their document. */
 export function missingApprovalDocs(m: MemberDetail) {
   return m.beschluesse.filter(
-    (b) => b.status === 'zugestimmt' && (b.type === 'zulassung' || b.type === 'kuendigung') && !m.documents.some((d) => d.beschluss === b.id),
+    (b) =>
+      b.status === 'zugestimmt' &&
+      (b.type === 'zulassung' || b.type === 'kuendigung') &&
+      (!b.closed || new Date(b.closed) >= new Date(APPROVAL_DOCS_SINCE)) &&
+      !m.documents.some((d) => d.beschluss === b.id),
   )
 }
 
