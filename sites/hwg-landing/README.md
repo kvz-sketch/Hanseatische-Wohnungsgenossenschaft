@@ -3,28 +3,34 @@
 The lead-magnet pages of the Hanseatische Wohnungsgenossenschaft run on a
 separate Hostinger site (`hanseainvest-de-735810.hostingersite.com`, served as
 `superreichensteuer.` and `120wohnungen.hanseatische-wohnungsgenossenschaft.de`).
-That site is not part of this repository; only the files added for it are here.
+Only the files below are kept here; they are the live pages with the fixes
+applied, ready to upload.
 
-Deploy:
+## Why Taboola rejected the pages
 
-1. Upload `superreichensteuer/impressum.html` and `120-wohnungen/impressum.html`
-   to the same folders in that site's `public_html`.
-2. In `superreichensteuer/index.html`, `superreichensteuer/leitfaden.html`,
-   `120-wohnungen/index.html` and `120-wohnungen/case-study.html`, replace
+The pages named two different companies as the publisher:
 
-   `<a href="https://gerlachgroup.de/impressum/" target="_blank" rel="noopener">Impressum</a>`
+- footer and Impressum: Gerlach Verwaltungs- und Beteiligungsges.mbH, HRB 153780
+- "Herausgeber" line of the Leitfaden, the Case Study and both PDFs:
+  Gerlach Immobilien GmbH, HRB 153880 (a different company)
 
-   with
+Everything now names one provider: **Gerlach Verwaltungs- und
+Beteiligungsges.mbH, Langenhorner Chaussee 155, 22415 Hamburg, Amtsgericht
+Hamburg HRB 153780, USt-IdNr. DE320623851, Geschäftsführer Stephan Hilmar
+Gerlach.**
 
-   `<a href="impressum.html">Impressum</a>`
+## Upload (replace the existing files in `public_html`)
 
-3. In the footer of all six pages (the four above and both `impressum.html`),
-   after the "Adresse" column in `.footer-cols`, add the provider column
-   Taboola requires (Handelsregister and USt-IdNr. on the landing page itself):
+| File in this folder | Change |
+| --- | --- |
+| `superreichensteuer/impressum.html`, `120-wohnungen/impressum.html` | Full Impressum: provider, brands it operates, managing director, register, USt-IdNr. (§ 27a UStG), contact, § 18 Abs. 2 MStV, Verbraucherstreitbeilegung |
+| `superreichensteuer/leitfaden.html`, `120-wohnungen/case-study.html` | Herausgeber line corrected |
+| `superreichensteuer/assets/Leitfaden-Reichensteuer-2027.pdf`, `120-wohnungen/assets/Case-Study-120-Wohnungen.pdf` | Herausgeber line corrected in the PDF |
+| `superreichensteuer/index.html`, `120-wohnungen/index.html` | Consent text names the legal entity |
 
-   `<div><span class="label">Anbieter</span><span>Gerlach Verwaltungs- und<br>Beteiligungsges.mbH</span><span>HRB 153780 · Amtsgericht Hamburg</span><span>USt-IdNr. DE320623851</span></div>`
+## Still open: § 34c GewO
 
-The text is the Impressum of gerlachgroup.de (Gerlach Verwaltungs- und
-Beteiligungsges.mbH), updated: it cites the DDG instead of the TMG (§ 5,
-§ 7 Abs. 1, §§ 8 bis 10) and no longer links the EU online dispute
-platform, which closed in July 2025.
+If the company holds a § 34c GewO permit, the Impressum must name it and the
+supervisory authority (§ 5 Abs. 1 Nr. 3 DDG). Both `impressum.html` files
+contain the section as an HTML comment: fill in the permit type and authority,
+then remove the `<!--` and `-->` lines.
