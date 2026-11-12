@@ -347,7 +347,7 @@ export default function MemberPage({ id, onChange }: { id: number; onChange: () 
           />
           {r.kuendigungen.length > 0 && (
             <p className="mb-0 mt-3 text-xs text-muted">
-              Vor der Vorlage an den {gremium} das ausgefüllte Kündigungsschreiben hochladen. Nach der Zustimmung liegt die Bestätigung für das Mitglied unter „Dokumente“. Wird eine
+              Vor der Vorlage an den {gremium} das ausgefüllte Kündigungsschreiben hochladen. Nach der Zustimmung liegt die Bestätigung unter „Dokumente“ und geht dem Mitglied per E-Mail zu. Wird eine
               genehmigte Kündigung geändert, muss sie neu vorgelegt werden.
             </p>
           )}

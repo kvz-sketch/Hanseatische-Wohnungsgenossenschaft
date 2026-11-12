@@ -358,6 +358,9 @@ function demoApi() {
         r.record.kuendigungen[opts.ref!].schreiben = doc.id
         log(r, 'Kündigungsschreiben hochgeladen', `${file.name} (Kündigung Zeile ${opts.ref! + 1}, im Mitgliederbereich sichtbar)`, true)
       } else log(r, opts.kind === 'zustimmung' ? 'Zustimmungsdokument abgelegt' : 'Dokument hochgeladen', `${file.name} (im Mitgliederbereich sichtbar)`, true)
+      const b = r.beschluesse.find((x) => x.id === opts.beschluss)
+      const k = b?.type === 'kuendigung' ? r.record.kuendigungen[b.ref] : null
+      if (k) log(r, 'E-Mail: Hanseatische Invest eG – Bestätigung Ihrer Kündigung', `${k.anteile} Anteile zum ${k.zum.split('-').reverse().join('.')}, an ${r.record.email}, mit PDF im Anhang`, true)
       return detail(id)
     }),
     log: () => wait((): LogItem[] => [...rows].flatMap(([id, r]) => r.log.map((l) => ({ ...l, member: id, name: name(r.record) }))).sort((a, b) => b.time.localeCompare(a.time))),

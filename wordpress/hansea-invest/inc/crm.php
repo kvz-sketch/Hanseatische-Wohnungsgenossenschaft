@@ -527,6 +527,67 @@ function hansea_crm_send_payment_confirmation( $post_id, array $r, $i ) {
 }
 
 /**
+ * "Bestätigung Ihrer Kündigung" to the member once the Aufsichtsrat (or the
+ * Vorstand) has approved it, with the confirmation PDF attached (also in the
+ * members' area).
+ */
+function hansea_crm_send_cancellation_confirmation( $post_id, array $r, array $b, $pdf, $filename ) {
+	$k = $r['kuendigungen'][ $b['ref'] ] ?? null;
+	if ( ! $k || ! is_email( $r['email'] ) ) {
+		hansea_crm_log( $post_id, 'Kündigungsbestätigung nicht gesendet', 'Keine gültige E-Mail-Adresse hinterlegt' );
+		return;
+	}
+	$d    = function ( $ymd ) {
+		return $ymd ? mysql2date( 'd.m.Y', $ymd ) : '–';
+	};
+	$eur  = null === $k['betrag'] ? '–' : number_format( (float) $k['betrag'], (float) $k['betrag'] === round( (float) $k['betrag'] ) ? 0 : 2, ',', '.' ) . ' €';
+	$name = trim( $r['vorname'] . ' ' . $r['nachname'] );
+	if ( 'Herr' === $r['anrede'] && $r['nachname'] ) {
+		$hello = 'Sehr geehrter Herr ' . $r['nachname'] . ',';
+	} elseif ( 'Frau' === $r['anrede'] && $r['nachname'] ) {
+		$hello = 'Sehr geehrte Frau ' . $r['nachname'] . ',';
+	} else {
+		$hello = $name ? 'Guten Tag ' . $name . ',' : 'Sehr geehrte Damen und Herren,';
+	}
+	$who  = 'vorstand' === hansea_crm_gremium( $b )
+		? 'der Vorstand hat Ihrer Kündigung zugestimmt.'
+		: sprintf( 'alle %s Mitglieder des Aufsichtsrats haben Ihrer Kündigung zugestimmt.', 3 === count( $b['voters'] ) ? 'drei' : count( $b['voters'] ) );
+	$html = array(
+		esc_html( $hello ),
+		esc_html( $who . ' Hiermit bestätigen wir Ihre Kündigung mit folgenden Angaben:' ),
+		esc_html( sprintf( 'Mitgliedsnummer: %s', $r['nr'] ) ) . '<br>'
+		. esc_html( sprintf( 'Gekündigte Anteile: %s', hansea_crm_units( (float) $k['anteile'] ) ) ) . '<br>'
+		. esc_html( 'Betrag: ' . $eur ) . '<br>'
+		. esc_html( 'Kündigung eingegangen am: ' . $d( $k['datum'] ) ) . '<br>'
+		. esc_html( 'Gekündigt zum: ' . $d( $k['zum'] ) ),
+		'Die Bestätigung mit allen Zustimmungen finden Sie im Anhang und in Ihrem Mitgliederbereich unter „Dokumente“.',
+		'Für Fragen wenden Sie sich bitte gern an <a href="mailto:mitgliederservice@hanseainvest.de" style="color:#141A46;">mitgliederservice@hanseainvest.de</a>.',
+		'Mit freundlichen Grüßen<br><br>Hanseatische Invest eG',
+	);
+	// wp_mail attaches files from disk: a temporary copy, removed right after sending
+	$dir  = trailingslashit( get_temp_dir() ) . 'hansea-' . bin2hex( random_bytes( 8 ) );
+	$file = $dir . '/' . ( sanitize_file_name( $filename ) ?: 'Bestaetigung-Kuendigung.pdf' );
+	$attachments = ( wp_mkdir_p( $dir ) && false !== file_put_contents( $file, $pdf ) ) ? array( $file ) : array();
+	$sent = wp_mail( $r['email'], 'Hanseatische Invest eG – Bestätigung Ihrer Kündigung', hansea_email_html( array(
+		'eyebrow'   => 'Kündigung',
+		'title'     => 'Bestätigung Ihrer Kündigung',
+		'preheader' => sprintf( 'Ihre Kündigung zum %s ist bestätigt.', $d( $k['zum'] ) ),
+		'html'      => $html,
+		'button'    => array( 'label' => 'Zum Mitgliederbereich', 'url' => home_url( '/login/' ) ),
+	) ), array( 'Content-Type: text/html; charset=UTF-8' ), $attachments );
+	if ( $attachments ) {
+		@unlink( $file );
+		@rmdir( $dir );
+	}
+	hansea_crm_log(
+		$post_id,
+		$sent ? 'E-Mail: Hanseatische Invest eG – Bestätigung Ihrer Kündigung' : 'Kündigungsbestätigung nicht gesendet',
+		sprintf( '%s zum %s, an %s', hansea_crm_units( (float) $k['anteile'] ) . ( 1.0 === (float) $k['anteile'] ? ' Anteil' : ' Anteile' ), $d( $k['zum'] ), $r['email'] ) . ( $sent ? ( $attachments ? ', mit PDF im Anhang' : ', ohne Anhang' ) : ' (E-Mail-Versand fehlgeschlagen)' ),
+		$sent
+	);
+}
+
+/**
  * Email to a member admitted by the Aufsichtsrat (or Vorstand): confirmation
  * of the membership with the Mitgliedsnummer, the payment details for the
  * shares not paid in yet, and the access to the members' area (login and a
@@ -1139,6 +1200,10 @@ function hansea_crm_rest_document_upload( WP_REST_Request $request ) {
 		hansea_crm_log( $post->ID, 'Kündigungsschreiben hochgeladen', sprintf( '%s (Kündigung Zeile %d, im Mitgliederbereich sichtbar)', $name, $ref + 1 ), true );
 	} else {
 		hansea_crm_log( $post->ID, 'zustimmung' === $kind ? 'Zustimmungsdokument abgelegt' : 'Dokument hochgeladen', $name . ' (im Mitgliederbereich sichtbar)', true );
+	}
+	// An approved Kündigung: the confirmation also goes to the member by email
+	if ( 'zustimmung' === $kind && 'kuendigung' === $b['type'] ) {
+		hansea_crm_send_cancellation_confirmation( $post->ID, $r, $b, $data, $name );
 	}
 	return rest_ensure_response( hansea_crm_detail( $post->ID ) );
 }
