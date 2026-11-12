@@ -63,7 +63,6 @@ function groups(cols: Column[]) {
 }
 
 const stamp = (created: string) => new Date(created).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Berlin' })
-const fileDate = (created: string) => new Date(created).toISOString().slice(0, 10)
 
 export function download(data: Uint8Array, name: string, type: string) {
   const url = URL.createObjectURL(new Blob([new Uint8Array(data)], { type }))
@@ -80,7 +79,13 @@ export function download(data: Uint8Array, name: string, type: string) {
  * PDF: A3 landscape, header repeated on every page
  * --------------------------------------------------------------------- */
 
-export async function mitgliederlistePdf(rows: ExportRow[], created: string) {
+/** "01.01.2026 – 31.12.2026" and the file name part "2026" (whole calendar year) or "2026-01-01_2026-06-30". */
+export const periodLabel = (von: string, bis: string) => `${d(von)} – ${d(bis)}`
+const periodFile = (von: string, bis: string) => (von.slice(5) === '01-01' && bis.slice(5) === '12-31' && von.slice(0, 4) === bis.slice(0, 4) ? von.slice(0, 4) : `${von}_${bis}`)
+
+export type ExportPeriod = { von: string; bis: string }
+
+export async function mitgliederlistePdf(rows: ExportRow[], created: string, period: ExportPeriod) {
   const lib = await import('pdf-lib')
   const pdf = await lib.PDFDocument.create()
   pdf.setTitle(`Mitgliederliste der ${GENOSSENSCHAFT}`)
@@ -157,7 +162,7 @@ export async function mitgliederlistePdf(rows: ExportRow[], created: string) {
   const header = () => {
     pageNo++
     y = H - M
-    page.drawText(safe(bold, `Mitgliederliste der ${GENOSSENSCHAFT}`), { x: M, y: y - 14, size: 14, font: bold, color: ink })
+    page.drawText(safe(bold, `Mitgliederliste der ${GENOSSENSCHAFT} · Zeitraum ${periodLabel(period.von, period.bis)}`), { x: M, y: y - 14, size: 14, font: bold, color: ink })
     page.drawText(safe(font, `Stand: ${stamp(created)} · Seite ${pageNo}`), { x: W - M - 160, y: y - 12, size: 8, font, color: ink })
     y -= 26
     const g = groups(cols)
@@ -196,7 +201,7 @@ export async function mitgliederlistePdf(rows: ExportRow[], created: string) {
     })
     y -= h
   }
-  download(await pdf.save(), `Mitgliederliste-${fileDate(created)}.pdf`, 'application/pdf')
+  download(await pdf.save(), `Mitgliederliste-${periodFile(period.von, period.bis)}.pdf`, 'application/pdf')
 }
 
 /* ------------------------------------------------------------------------
@@ -210,7 +215,7 @@ const colName = (i: number) => {
   return s
 }
 
-export async function mitgliederlisteXlsx(rows: ExportRow[], created: string) {
+export async function mitgliederlisteXlsx(rows: ExportRow[], created: string, period: ExportPeriod) {
   const { zipSync, strToU8 } = await import('fflate')
   const cols = MITGLIEDERLISTE
   const last = colName(cols.length - 1)
@@ -219,7 +224,7 @@ export async function mitgliederlisteXlsx(rows: ExportRow[], created: string) {
     value === '' ? `<c r="${ref}" s="${style}"/>` : `<c r="${ref}" s="${style}" t="inlineStr"><is><t xml:space="preserve">${esc(value)}</t></is></c>`
   const g = groups(cols)
   const sheetRows: string[] = []
-  sheetRows.push(`<row r="1" ht="24" customHeight="1">${cell('A1', `Mitgliederliste der ${GENOSSENSCHAFT}`, 1)}${cell(colName(cols.length - 3) + '1', `Stand: ${stamp(created)}`, 5)}</row>`)
+  sheetRows.push(`<row r="1" ht="24" customHeight="1">${cell('A1', `Mitgliederliste der ${GENOSSENSCHAFT} · Zeitraum ${periodLabel(period.von, period.bis)}`, 1)}${cell(colName(cols.length - 3) + '1', `Stand: ${stamp(created)}`, 5)}</row>`)
   // Row 2: groups; row 3: labels. Ungrouped columns span rows 2-3.
   sheetRows.push(
     `<row r="2" ht="18" customHeight="1">${cols
@@ -283,5 +288,5 @@ export async function mitgliederlisteXlsx(rows: ExportRow[], created: string) {
     'xl/worksheets/sheet1.xml': strToU8(sheet),
     'xl/styles.xml': strToU8(styles),
   }
-  download(zipSync(files, { level: 6 }), `Mitgliederliste-${fileDate(created)}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+  download(zipSync(files, { level: 6 }), `Mitgliederliste-${periodFile(period.von, period.bis)}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 }

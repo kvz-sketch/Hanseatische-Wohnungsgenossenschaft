@@ -791,23 +791,38 @@ add_filter( 'rest_post_dispatch', function ( $response, $server, $request ) {
 }, 10, 3 );
 
 /**
- * Data of the export "Mitgliederliste" (tab "Export", src/crm/exports.ts):
- * admitted and (with ausgeschiedene=1) former members by Mitgliedsnummer,
- * with IBAN and Steuer-ID decrypted. Every member in it gets a log entry.
+ * Data of the export "Mitgliederliste" (tab "Export", src/crm/exports.ts) for
+ * a period (von, bis; default: this calendar year): everyone who was a member
+ * during it, i.e. admitted by "bis" and not gone before "von", by
+ * Mitgliedsnummer. Further shares and Ausscheiden as of "bis". IBAN and
+ * Steuer-ID decrypted. Every member in it gets a log entry.
  */
 function hansea_crm_rest_export_mitgliederliste( WP_REST_Request $request ) {
-	$former = (bool) $request->get_param( 'ausgeschiedene' );
+	$year = current_time( 'Y' );
+	$von  = hansea_crm_date( $request->get_param( 'von' ) ) ?: $year . '-01-01';
+	$bis  = hansea_crm_date( $request->get_param( 'bis' ) ) ?: $year . '-12-31';
+	if ( $von > $bis ) {
+		return hansea_error( 'hansea_crm_period', 'Das Datum „von“ liegt nach „bis“.', 422 );
+	}
+	$period = mysql2date( 'd.m.Y', $von ) . ' – ' . mysql2date( 'd.m.Y', $bis );
 	$rows   = array();
 	foreach ( get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1 ) ) as $post ) {
 		$r = hansea_crm_record( $post->ID );
-		if ( 'zugelassen' !== $r['status'] && ! ( $former && 'ausgeschieden' === $r['status'] ) ) {
+		if ( ! in_array( $r['status'], array( 'zugelassen', 'ausgeschieden' ), true ) ) {
 			continue;
 		}
+		$gone = $r['aus_datum'] ?: $r['aus_eintragung'];
+		if ( ( $r['zulassung_datum'] && $r['zulassung_datum'] > $bis ) || ( 'ausgeschieden' === $r['status'] && $gone && $gone < $von ) ) {
+			continue; // not a member during the period
+		}
+		$left    = $gone && $gone <= $bis; // Ausscheiden as of the end of the period
 		$secrets = hansea_crm_secrets( $post->ID );
-		// "Weitere Geschäftsanteile": every subscription after the first
+		// "Weitere Geschäftsanteile": every subscription after the first, admitted by the end of the period
 		$weitere = array();
 		foreach ( array_slice( $r['zeichnungen'], 1 ) as $z ) {
-			$weitere[] = array( 'zugelassen' => $z['zugelassen'], 'anteile' => $z['anteile'] );
+			if ( ! $z['zugelassen'] || $z['zugelassen'] <= $bis ) {
+				$weitere[] = array( 'zugelassen' => $z['zugelassen'], 'anteile' => $z['anteile'] );
+			}
 		}
 		$rows[] = array(
 			'nr'             => $r['nr'],
@@ -826,18 +841,18 @@ function hansea_crm_rest_export_mitgliederliste( WP_REST_Request $request ) {
 			'email'          => $r['email'],
 			'anteile'        => $r['zeichnungen'] ? $r['zeichnungen'][0]['anteile'] : null,
 			'weitere'        => $weitere,
-			'aus_eintragung' => $r['aus_eintragung'],
-			'aus_grund'      => $r['aus_grund'],
-			'aus_datum'      => $r['aus_datum'],
+			'aus_eintragung' => $left ? $r['aus_eintragung'] : '',
+			'aus_grund'      => $left ? $r['aus_grund'] : '',
+			'aus_datum'      => $left ? $r['aus_datum'] : '',
 			'art'            => $r['art'],
 			'bemerkungen'    => $r['bemerkungen'],
 		);
-		hansea_crm_log( $post->ID, 'Export: Mitgliederliste', 'mit IBAN und Steuer-ID' );
+		hansea_crm_log( $post->ID, 'Export: Mitgliederliste', 'Zeitraum ' . $period . ', mit IBAN und Steuer-ID' );
 	}
 	usort( $rows, function ( $a, $b ) {
 		return ( $a['nr'] ?? PHP_INT_MAX ) <=> ( $b['nr'] ?? PHP_INT_MAX );
 	} );
-	return rest_ensure_response( array( 'created' => gmdate( 'c' ), 'rows' => $rows ) );
+	return rest_ensure_response( array( 'created' => gmdate( 'c' ), 'von' => $von, 'bis' => $bis, 'rows' => $rows ) );
 }
 
 /** Everything that happened, across all members, newest first (tab "Verlauf"). */

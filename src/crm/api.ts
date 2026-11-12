@@ -93,7 +93,7 @@ export type ExportRow = {
   art: Art
   bemerkungen: string
 }
-export type ExportData = { created: string; rows: ExportRow[] }
+export type ExportData = { created: string; von: string; bis: string; rows: ExportRow[] }
 
 /** A log entry of any member, for the tab "Verlauf". */
 export type LogItem = LogEntry & { member: number; name: string }
@@ -203,7 +203,7 @@ export const api = IS_WORDPRESS
       cancel: (id: number, bid: string) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/cancel`, {}),
       inbox: () => wpGet<Inbox>('crm/beschluesse'),
       log: () => wpGet<LogItem[]>('crm/log'),
-      exportMitgliederliste: (ausgeschiedene: boolean) => wpGet<ExportData>(`crm/export/mitgliederliste${ausgeschiedene ? '?ausgeschiedene=1' : ''}`),
+      exportMitgliederliste: (von: string, bis: string) => wpGet<ExportData>(`crm/export/mitgliederliste?von=${encodeURIComponent(von)}&bis=${encodeURIComponent(bis)}`),
       /** The signed PDF behind a DocuSign link (needs the DocuSign connection). */
       docusignPdf: async (url: string) => {
         const { data } = await wpPost<{ data: string }>('crm/docusign-pdf', { url })
@@ -429,13 +429,23 @@ function demoApi() {
       if (k) log(r, 'E-Mail: Hanseatische Invest eG – Bestätigung Ihrer Kündigung', `${k.anteile} Anteile zum ${k.zum.split('-').reverse().join('.')}, an ${r.record.email}, mit PDF im Anhang`, true)
       return detail(id)
     }),
-    exportMitgliederliste: (ausgeschiedene: boolean) => wait((): ExportData => ({
+    exportMitgliederliste: (von: string, bis: string) => wait((): ExportData => ({
       created: new Date().toISOString(),
+      von,
+      bis,
+      // Members during the period: admitted by "bis", not gone before "von"; shares and Ausscheiden as of "bis"
       rows: [...rows]
-        .filter(([, r]) => r.record.status === 'zugelassen' || (ausgeschiedene && r.record.status === 'ausgeschieden'))
-        .map(([, r]): ExportRow => {
-          log(r, 'Export: Mitgliederliste', 'mit IBAN und Steuer-ID')
+        .filter(([, r]) => {
           const x = r.record
+          const gone = x.aus_datum || x.aus_eintragung
+          return (x.status === 'zugelassen' || x.status === 'ausgeschieden') && !(x.zulassung_datum && x.zulassung_datum > bis) && !(x.status === 'ausgeschieden' && gone && gone < von)
+        })
+        .map(([, r]): ExportRow => {
+          log(r, 'Export: Mitgliederliste', `Zeitraum ${von} – ${bis}, mit IBAN und Steuer-ID`)
+          const x = { ...r.record }
+          const gone = x.aus_datum || x.aus_eintragung
+          if (!(gone && gone <= bis)) Object.assign(x, { aus_eintragung: '', aus_grund: '', aus_datum: '' })
+          x.zeichnungen = [x.zeichnungen[0], ...x.zeichnungen.slice(1).filter((z) => !z.zugelassen || z.zugelassen <= bis)].filter(Boolean)
           return {
             nr: x.nr, zulassung: x.zulassung_datum, firma: x.firma, anrede: x.anrede, vorname: x.vorname, nachname: x.nachname, strasse: x.strasse, plz: x.plz, ort: x.ort,
             geburtstag: x.geburtstag, iban: r.secrets.iban, steuer_id: r.secrets.steuer_id, telefon: x.telefon, email: x.email, anteile: x.zeichnungen[0]?.anteile ?? null,

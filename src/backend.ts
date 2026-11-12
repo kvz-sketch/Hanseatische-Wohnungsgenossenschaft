@@ -29,8 +29,8 @@ export const wp = (): WordPressConfig => {
   return window.HANSEA
 }
 
-/** URL of a GET endpoint, authenticated with the logged-in member's cookie. */
-export const wpUrl = (route: string) => `${wp().restUrl}hansea/v1/${route}?_wpnonce=${wp().nonce}`
+/** URL of a GET endpoint, authenticated with the logged-in member's cookie (the route may carry its own query). */
+export const wpUrl = (route: string) => `${wp().restUrl}hansea/v1/${route}${route.includes('?') ? '&' : '?'}_wpnonce=${wp().nonce}`
 
 /** POST to the theme's REST API; throws with the server's message on failure. */
 export async function wpPost<T>(route: string, body: unknown): Promise<T> {

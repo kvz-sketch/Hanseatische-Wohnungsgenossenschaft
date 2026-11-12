@@ -341,51 +341,81 @@ function NewAntrag({ onCreated }: { onCreated: () => void }) {
   )
 }
 
-/** Tab "Export": the exports in their fixed layouts, as PDF or Excel. */
+/** Tab "Export": the Mitgliederliste for a period (default: this calendar year), as PDF or Excel. */
 function Exports() {
-  const [former, setFormer] = useState(true)
+  const year = new Date().getFullYear()
+  const [von, setVon] = useState(`${year}-01-01`)
+  const [bis, setBis] = useState(`${year}-12-31`)
   const [busy, setBusy] = useState('')
   const [error, setError] = useState('')
+  // The year select shows the year when the period is a whole calendar year
+  const wholeYear = von.slice(0, 4) === bis.slice(0, 4) && von.slice(5) === '01-01' && bis.slice(5) === '12-31' ? von.slice(0, 4) : ''
+  const years = Array.from({ length: year - 2019 }, (_, i) => String(year - i))
   async function run(kind: 'pdf' | 'xlsx') {
+    if (!von || !bis || von > bis) {
+      setError('Bitte einen gültigen Zeitraum wählen („von“ vor „bis“).')
+      return
+    }
     setBusy(kind)
     setError('')
     try {
-      const data = await api.exportMitgliederliste(former)
+      const data = await api.exportMitgliederliste(von, bis)
       const ex = await import('../crm/exports')
-      await (kind === 'pdf' ? ex.mitgliederlistePdf(data.rows, data.created) : ex.mitgliederlisteXlsx(data.rows, data.created))
+      const period = { von: data.von, bis: data.bis }
+      await (kind === 'pdf' ? ex.mitgliederlistePdf(data.rows, data.created, period) : ex.mitgliederlisteXlsx(data.rows, data.created, period))
     } catch (e) {
       setError((e as Error).message)
     } finally {
       setBusy('')
     }
   }
+  const field = 'h-10 rounded-control border border-line bg-white px-3 text-sm'
   return (
     <>
       <h1 className="m-0 mb-2 font-display text-[40px] font-normal leading-tight">Export</h1>
-      <p className="mb-6 mt-0 max-w-[700px] text-muted">Listen im festen Format zum Herunterladen, als PDF oder Excel. Jeder Export wird bei den enthaltenen Mitgliedern im Verlauf festgehalten.</p>
+      <p className="mb-6 mt-0 max-w-[700px] text-muted">Die Mitgliederliste für einen Zeitraum zum Herunterladen, als PDF oder Excel. Jeder Export wird bei den enthaltenen Mitgliedern im Verlauf festgehalten.</p>
       {error && <ErrorNote>{error}</ErrorNote>}
-      <div className="grid gap-4">
-        <section className="rounded-card border border-line-soft bg-white px-5 py-4">
-          <div className="flex flex-wrap items-start gap-4">
-            <div className="min-w-0 flex-1 basis-[320px]">
-              <h2 className="m-0 text-[17px] font-semibold">Mitgliederliste</h2>
-              <p className="mb-0 mt-1 text-sm text-muted">
-                Nr., Tag der Zulassung, Firma, Anrede, Vorname, Name, Anschrift, Geburtsdatum, IBAN, Steuer-ID, Telefon, E-Mail, weitere Geschäftsanteile, Ausscheiden und
-                Bemerkungen (o = ordentlich, i = investierend). PDF im Format A3 quer.
-              </p>
-              <label className="mt-3 flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={former} onChange={(e) => setFormer(e.target.checked)} />
-                Ausgeschiedene Mitglieder einschließen
+      <section className="rounded-card border border-line-soft bg-white px-5 py-4">
+        <div className="flex flex-wrap items-start gap-4">
+          <div className="min-w-0 flex-1 basis-[320px]">
+            <h2 className="m-0 text-[17px] font-semibold">Mitgliederliste</h2>
+            <p className="mb-0 mt-1 text-sm text-muted">
+              Alle, die im Zeitraum Mitglied waren (zugelassen bis zum Ende, nicht vor Beginn ausgeschieden). Weitere Geschäftsanteile und Ausscheiden mit Stand zum Ende des
+              Zeitraums. PDF im Format A3 quer.
+            </p>
+            <div className="mt-4 flex flex-wrap items-end gap-3">
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-muted">Jahr</span>
+                <select
+                  className={field}
+                  value={wholeYear}
+                  onChange={(e) => {
+                    if (!e.target.value) return
+                    setVon(`${e.target.value}-01-01`)
+                    setBis(`${e.target.value}-12-31`)
+                  }}
+                >
+                  {!wholeYear && <option value="">eigener Zeitraum</option>}
+                  {years.map((y) => <option key={y} value={y}>{y}</option>)}
+                </select>
               </label>
-              <p className="mb-0 mt-2 text-xs text-coral-600">Enthält IBAN und Steuer-ID im Klartext: Datei vertraulich behandeln und nicht per unverschlüsselter E-Mail weitergeben.</p>
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-muted">von</span>
+                <input type="date" className={field} value={von} onChange={(e) => setVon(e.target.value)} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-muted">bis</span>
+                <input type="date" className={field} value={bis} onChange={(e) => setBis(e.target.value)} />
+              </label>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Button disabled={!!busy} onClick={() => run('pdf')}>{busy === 'pdf' ? 'Erstellt …' : 'PDF herunterladen'}</Button>
-              <Button variant="secondary" disabled={!!busy} onClick={() => run('xlsx')}>{busy === 'xlsx' ? 'Erstellt …' : 'Excel herunterladen'}</Button>
-            </div>
+            <p className="mb-0 mt-3 text-xs text-coral-600">Enthält IBAN und Steuer-ID im Klartext: Datei vertraulich behandeln und nicht per unverschlüsselter E-Mail weitergeben.</p>
           </div>
-        </section>
-      </div>
+          <div className="flex flex-wrap gap-2">
+            <Button disabled={!!busy} onClick={() => run('pdf')}>{busy === 'pdf' ? 'Erstellt …' : 'PDF herunterladen'}</Button>
+            <Button variant="secondary" disabled={!!busy} onClick={() => run('xlsx')}>{busy === 'xlsx' ? 'Erstellt …' : 'Excel herunterladen'}</Button>
+          </div>
+        </div>
+      </section>
     </>
   )
 }
