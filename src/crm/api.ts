@@ -69,6 +69,32 @@ export type Totals = { anteile: number; kapital: number; gekuendigt: number; akt
 export type Portal = { status: 'keiner' | 'angelegt' | 'eingeladen'; email?: string; invited?: string | null }
 /** sent: something went to the member (an email, or a document in their members' area). */
 export type LogEntry = { time: string; user: string; action: string; detail: string; sent?: boolean }
+/** One member in the export "Mitgliederliste" (inc/crm.php, src/crm/exports.ts). */
+export type ExportRow = {
+  nr: number | null
+  zulassung: string
+  firma: string
+  anrede: string
+  vorname: string
+  nachname: string
+  strasse: string
+  plz: string
+  ort: string
+  geburtstag: string
+  iban: string
+  steuer_id: string
+  telefon: string
+  email: string
+  anteile: number | null
+  weitere: { zugelassen: string; anteile: number | null }[]
+  aus_eintragung: string
+  aus_grund: string
+  aus_datum: string
+  art: Art
+  bemerkungen: string
+}
+export type ExportData = { created: string; rows: ExportRow[] }
+
 /** A log entry of any member, for the tab "Verlauf". */
 export type LogItem = LogEntry & { member: number; name: string }
 
@@ -177,6 +203,7 @@ export const api = IS_WORDPRESS
       cancel: (id: number, bid: string) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/cancel`, {}),
       inbox: () => wpGet<Inbox>('crm/beschluesse'),
       log: () => wpGet<LogItem[]>('crm/log'),
+      exportMitgliederliste: (ausgeschiedene: boolean) => wpGet<ExportData>(`crm/export/mitgliederliste${ausgeschiedene ? '?ausgeschiedene=1' : ''}`),
       /** The signed PDF behind a DocuSign link (needs the DocuSign connection). */
       docusignPdf: async (url: string) => {
         const { data } = await wpPost<{ data: string }>('crm/docusign-pdf', { url })
@@ -402,6 +429,22 @@ function demoApi() {
       if (k) log(r, 'E-Mail: Hanseatische Invest eG – Bestätigung Ihrer Kündigung', `${k.anteile} Anteile zum ${k.zum.split('-').reverse().join('.')}, an ${r.record.email}, mit PDF im Anhang`, true)
       return detail(id)
     }),
+    exportMitgliederliste: (ausgeschiedene: boolean) => wait((): ExportData => ({
+      created: new Date().toISOString(),
+      rows: [...rows]
+        .filter(([, r]) => r.record.status === 'zugelassen' || (ausgeschiedene && r.record.status === 'ausgeschieden'))
+        .map(([, r]): ExportRow => {
+          log(r, 'Export: Mitgliederliste', 'mit IBAN und Steuer-ID')
+          const x = r.record
+          return {
+            nr: x.nr, zulassung: x.zulassung_datum, firma: x.firma, anrede: x.anrede, vorname: x.vorname, nachname: x.nachname, strasse: x.strasse, plz: x.plz, ort: x.ort,
+            geburtstag: x.geburtstag, iban: r.secrets.iban, steuer_id: r.secrets.steuer_id, telefon: x.telefon, email: x.email, anteile: x.zeichnungen[0]?.anteile ?? null,
+            weitere: x.zeichnungen.slice(1).map((z) => ({ zugelassen: z.zugelassen, anteile: z.anteile })),
+            aus_eintragung: x.aus_eintragung, aus_grund: x.aus_grund, aus_datum: x.aus_datum, art: x.art, bemerkungen: x.bemerkungen,
+          }
+        })
+        .sort((a, b) => (a.nr ?? 1e9) - (b.nr ?? 1e9)),
+    })),
     log: () => wait((): LogItem[] => [...rows].flatMap(([id, r]) => r.log.map((l) => ({ ...l, member: id, name: name(r.record) }))).sort((a, b) => b.time.localeCompare(a.time))),
     documentUrl: (id: number, doc: string) => rows.get(id)?.docs.find((d) => d.id === doc)?.blob ?? '#',
   }

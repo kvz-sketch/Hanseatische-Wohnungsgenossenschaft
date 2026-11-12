@@ -768,6 +768,7 @@ add_action( 'rest_api_init', function () {
 		array( $id . '/beschluss/(?P<bid>[a-f0-9]{16})/cancel', 'POST', 'hansea_crm_rest_beschluss_cancel' ),
 		array( '/crm/beschluesse', 'GET', 'hansea_crm_rest_beschluesse' ),
 		array( '/crm/log', 'GET', 'hansea_crm_rest_log' ),
+		array( '/crm/export/mitgliederliste', 'GET', 'hansea_crm_rest_export_mitgliederliste' ),
 		array( $id . '/portal', 'POST', 'hansea_crm_rest_portal' ),
 		array( $id . '/documents', 'POST', 'hansea_crm_rest_document_upload' ),
 		array( $id . '/documents/(?P<doc>[a-f0-9]{32})', 'GET', 'hansea_crm_rest_document_get' ),
@@ -788,6 +789,56 @@ add_filter( 'rest_post_dispatch', function ( $response, $server, $request ) {
 	}
 	return $response;
 }, 10, 3 );
+
+/**
+ * Data of the export "Mitgliederliste" (tab "Export", src/crm/exports.ts):
+ * admitted and (with ausgeschiedene=1) former members by Mitgliedsnummer,
+ * with IBAN and Steuer-ID decrypted. Every member in it gets a log entry.
+ */
+function hansea_crm_rest_export_mitgliederliste( WP_REST_Request $request ) {
+	$former = (bool) $request->get_param( 'ausgeschiedene' );
+	$rows   = array();
+	foreach ( get_posts( array( 'post_type' => HANSEA_CRM_TYPE, 'post_status' => 'private', 'numberposts' => -1 ) ) as $post ) {
+		$r = hansea_crm_record( $post->ID );
+		if ( 'zugelassen' !== $r['status'] && ! ( $former && 'ausgeschieden' === $r['status'] ) ) {
+			continue;
+		}
+		$secrets = hansea_crm_secrets( $post->ID );
+		// "Weitere Geschäftsanteile": every subscription after the first
+		$weitere = array();
+		foreach ( array_slice( $r['zeichnungen'], 1 ) as $z ) {
+			$weitere[] = array( 'zugelassen' => $z['zugelassen'], 'anteile' => $z['anteile'] );
+		}
+		$rows[] = array(
+			'nr'             => $r['nr'],
+			'zulassung'      => $r['zulassung_datum'],
+			'firma'          => $r['firma'],
+			'anrede'         => $r['anrede'],
+			'vorname'        => $r['vorname'],
+			'nachname'       => $r['nachname'],
+			'strasse'        => $r['strasse'],
+			'plz'            => $r['plz'],
+			'ort'            => $r['ort'],
+			'geburtstag'     => $r['geburtstag'],
+			'iban'           => $secrets['iban'],
+			'steuer_id'      => $secrets['steuer_id'],
+			'telefon'        => $r['telefon'],
+			'email'          => $r['email'],
+			'anteile'        => $r['zeichnungen'] ? $r['zeichnungen'][0]['anteile'] : null,
+			'weitere'        => $weitere,
+			'aus_eintragung' => $r['aus_eintragung'],
+			'aus_grund'      => $r['aus_grund'],
+			'aus_datum'      => $r['aus_datum'],
+			'art'            => $r['art'],
+			'bemerkungen'    => $r['bemerkungen'],
+		);
+		hansea_crm_log( $post->ID, 'Export: Mitgliederliste', 'mit IBAN und Steuer-ID' );
+	}
+	usort( $rows, function ( $a, $b ) {
+		return ( $a['nr'] ?? PHP_INT_MAX ) <=> ( $b['nr'] ?? PHP_INT_MAX );
+	} );
+	return rest_ensure_response( array( 'created' => gmdate( 'c' ), 'rows' => $rows ) );
+}
 
 /** Everything that happened, across all members, newest first (tab "Verlauf"). */
 function hansea_crm_rest_log() {

@@ -10,13 +10,13 @@ import { PORTAL, STATUS, date, dateTime, eur, go, kuendigungLabel, num } from '.
 import { Badge, Button, ErrorNote } from '../crm/ui'
 
 /** Views by URL hash: #/ (list), #/antraege, #/bonus, #/neu, #/verlauf, #/mitglied/12. */
-type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' | 'sicherheit' | 'verlauf' } | { view: 'member'; id: number }
+type Route = { view: 'list' | 'antraege' | 'bonus' | 'neu' | 'beschluesse' | 'sicherheit' | 'verlauf' | 'export' } | { view: 'member'; id: number }
 
 function parseHash(): Route {
   const h = location.hash.replace(/^#\/?/, '')
   const m = /^mitglied\/(\d+)/.exec(h)
   if (m) return { view: 'member', id: Number(m[1]) }
-  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse' || h === 'sicherheit' || h === 'verlauf') return { view: h }
+  if (h === 'antraege' || h === 'bonus' || h === 'neu' || h === 'beschluesse' || h === 'sicherheit' || h === 'verlauf' || h === 'export') return { view: h }
   return { view: 'list' }
 }
 
@@ -67,6 +67,7 @@ export default function Mitgliederliste() {
             </Tab>
             <Tab href="#/bonus" active={route.view === 'bonus'}>Zeichnungsbonus</Tab>
             <Tab href="#/verlauf" active={route.view === 'verlauf'}>Verlauf</Tab>
+            <Tab href="#/export" active={route.view === 'export'}>Export</Tab>
             {user?.twoFactor && <Tab href="#/sicherheit" active={route.view === 'sicherheit' || mustSetup2fa}>Sicherheit</Tab>}
           </nav>
           <div className="ml-auto flex items-center gap-4 text-sm">
@@ -97,6 +98,8 @@ export default function Mitgliederliste() {
           <NewAntrag onCreated={reload} />
         ) : route.view === 'verlauf' ? (
           <LogView />
+        ) : route.view === 'export' ? (
+          <Exports />
         ) : !members ? (
           !error && <p className="text-muted">Lade Mitglieder …</p>
         ) : route.view === 'bonus' ? (
@@ -334,6 +337,55 @@ function NewAntrag({ onCreated }: { onCreated: () => void }) {
           go(`#/mitglied/${created.id}`)
         }}
       />
+    </>
+  )
+}
+
+/** Tab "Export": the exports in their fixed layouts, as PDF or Excel. */
+function Exports() {
+  const [former, setFormer] = useState(true)
+  const [busy, setBusy] = useState('')
+  const [error, setError] = useState('')
+  async function run(kind: 'pdf' | 'xlsx') {
+    setBusy(kind)
+    setError('')
+    try {
+      const data = await api.exportMitgliederliste(former)
+      const ex = await import('../crm/exports')
+      await (kind === 'pdf' ? ex.mitgliederlistePdf(data.rows, data.created) : ex.mitgliederlisteXlsx(data.rows, data.created))
+    } catch (e) {
+      setError((e as Error).message)
+    } finally {
+      setBusy('')
+    }
+  }
+  return (
+    <>
+      <h1 className="m-0 mb-2 font-display text-[40px] font-normal leading-tight">Export</h1>
+      <p className="mb-6 mt-0 max-w-[700px] text-muted">Listen im festen Format zum Herunterladen, als PDF oder Excel. Jeder Export wird bei den enthaltenen Mitgliedern im Verlauf festgehalten.</p>
+      {error && <ErrorNote>{error}</ErrorNote>}
+      <div className="grid gap-4">
+        <section className="rounded-card border border-line-soft bg-white px-5 py-4">
+          <div className="flex flex-wrap items-start gap-4">
+            <div className="min-w-0 flex-1 basis-[320px]">
+              <h2 className="m-0 text-[17px] font-semibold">Mitgliederliste</h2>
+              <p className="mb-0 mt-1 text-sm text-muted">
+                Nr., Tag der Zulassung, Firma, Anrede, Vorname, Name, Anschrift, Geburtsdatum, IBAN, Steuer-ID, Telefon, E-Mail, weitere Geschäftsanteile, Ausscheiden und
+                Bemerkungen (o = ordentlich, i = investierend). PDF im Format A3 quer.
+              </p>
+              <label className="mt-3 flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={former} onChange={(e) => setFormer(e.target.checked)} />
+                Ausgeschiedene Mitglieder einschließen
+              </label>
+              <p className="mb-0 mt-2 text-xs text-coral-600">Enthält IBAN und Steuer-ID im Klartext: Datei vertraulich behandeln und nicht per unverschlüsselter E-Mail weitergeben.</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button disabled={!!busy} onClick={() => run('pdf')}>{busy === 'pdf' ? 'Erstellt …' : 'PDF herunterladen'}</Button>
+              <Button variant="secondary" disabled={!!busy} onClick={() => run('xlsx')}>{busy === 'xlsx' ? 'Erstellt …' : 'Excel herunterladen'}</Button>
+            </div>
+          </div>
+        </section>
+      </div>
     </>
   )
 }
