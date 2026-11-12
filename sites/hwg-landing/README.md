@@ -28,9 +28,7 @@ Gerlach.**
 | `superreichensteuer/assets/Leitfaden-Reichensteuer-2027.pdf`, `120-wohnungen/assets/Case-Study-120-Wohnungen.pdf` | Herausgeber line corrected in the PDF |
 | `superreichensteuer/index.html`, `120-wohnungen/index.html` | Consent text names the legal entity |
 
-## Still open: § 34c GewO
+## § 34c GewO
 
-If the company holds a § 34c GewO permit, the Impressum must name it and the
-supervisory authority (§ 5 Abs. 1 Nr. 3 DDG). Both `impressum.html` files
-contain the section as an HTML comment: fill in the permit type and authority,
-then remove the `<!--` and `-->` lines.
+No permit: the company sells only its own apartments, so the Impressum has
+no § 34c section.
