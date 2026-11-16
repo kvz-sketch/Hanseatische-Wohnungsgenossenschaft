@@ -19,11 +19,11 @@ const HANSEA_WELCOME_LINK_DAYS = 14;
 add_filter( 'option_users_can_register', '__return_zero' );
 
 /**
- * Subject and HTML of the welcome email for a user, with a fresh set-password link.
+ * A fresh set-password link for the welcome email, valid HANSEA_WELCOME_LINK_DAYS days.
  *
- * @return array{subject:string, message:string}|WP_Error
+ * @return string|WP_Error
  */
-function hansea_welcome_email( WP_User $user, $note = '' ) {
+function hansea_welcome_link( WP_User $user ) {
 	$key = get_password_reset_key( $user );
 	if ( is_wp_error( $key ) ) {
 		return $key;
@@ -34,10 +34,34 @@ function hansea_welcome_email( WP_User $user, $note = '' ) {
 	list( , $hash ) = explode( ':', $wpdb->get_var( $wpdb->prepare( "SELECT user_activation_key FROM {$wpdb->users} WHERE ID = %d", $user->ID ) ), 2 );
 	$wpdb->update( $wpdb->users, array( 'user_activation_key' => ( time() + ( HANSEA_WELCOME_LINK_DAYS - 1 ) * DAY_IN_SECONDS ) . ':' . $hash ), array( 'ID' => $user->ID ) );
 	clean_user_cache( $user );
+	return hansea_password_url( array( 'key' => $key, 'login' => rawurlencode( $user->user_login ), 'willkommen' => 1 ) );
+}
 
-	$link  = hansea_password_url( array( 'key' => $key, 'login' => rawurlencode( $user->user_login ), 'willkommen' => 1 ) );
-	$name  = trim( $user->first_name . ' ' . $user->last_name );
+/** "Ihre Zugangsdaten" block of the welcome emails (HTML). */
+function hansea_welcome_login_html( WP_User $user ) {
 	$login = esc_url( home_url( '/login/' ) );
+	return '<strong>Ihre Zugangsdaten</strong><br>'
+		. 'Anmeldeseite: <a href="' . $login . '" style="color:#141A46;">' . esc_html( preg_replace( '~^https?://~', '', home_url( '/login/' ) ) ) . '</a><br>'
+		. 'Benutzername: ' . esc_html( $user->user_email ) . '<br>'
+		. 'Passwort: legen Sie über den Button unten selbst fest';
+}
+
+/** Small print under the button of the welcome emails. */
+function hansea_welcome_note() {
+	return sprintf( 'Der Link ist %d Tage gültig und kann einmal verwendet werden. Danach melden Sie sich jederzeit mit Ihrer E-Mail-Adresse und Ihrem Passwort an; über „Passwort vergessen?“ auf der Anmeldeseite erhalten Sie bei Bedarf einen neuen Link. Fragen? Schreiben Sie uns an mitgliederservice@hanseainvest.de.', HANSEA_WELCOME_LINK_DAYS );
+}
+
+/**
+ * Subject and HTML of the welcome email for a user, with a fresh set-password link.
+ *
+ * @return array{subject:string, message:string}|WP_Error
+ */
+function hansea_welcome_email( WP_User $user, $note = '' ) {
+	$link = hansea_welcome_link( $user );
+	if ( is_wp_error( $link ) ) {
+		return $link;
+	}
+	$name  = trim( $user->first_name . ' ' . $user->last_name );
 	$html  = array(
 		esc_html( $name ? "Guten Tag {$name}," : 'Guten Tag,' ),
 		'herzlich willkommen bei der Hanseatischen Invest eG. Wir haben Ihren persönlichen Mitgliederbereich eingerichtet. Dort sehen Sie Ihre Anteile, die Projekte, in die Ihr Geld fließt, jede Ausschüttung und Ihre Dokumente.',
@@ -45,10 +69,7 @@ function hansea_welcome_email( WP_User $user, $note = '' ) {
 	if ( '' !== trim( $note ) ) {
 		$html[] = nl2br( esc_html( trim( $note ) ) );
 	}
-	$html[] = '<strong>Ihre Zugangsdaten</strong><br>'
-		. 'Anmeldeseite: <a href="' . $login . '" style="color:#141A46;">' . esc_html( preg_replace( '~^https?://~', '', home_url( '/login/' ) ) ) . '</a><br>'
-		. 'Benutzername: ' . esc_html( $user->user_email ) . '<br>'
-		. 'Passwort: legen Sie über den Button unten selbst fest';
+	$html[] = hansea_welcome_login_html( $user );
 
 	return array(
 		'subject' => 'Willkommen bei der Hanseatischen Invest eG – Ihr Mitgliederbereich',
@@ -58,7 +79,7 @@ function hansea_welcome_email( WP_User $user, $note = '' ) {
 			'preheader' => 'Ihre Zugangsdaten für den Mitgliederbereich der Hanseatischen Invest eG.',
 			'html'      => $html,
 			'button'    => array( 'label' => 'Passwort festlegen und anmelden', 'url' => $link ),
-			'note'      => sprintf( 'Der Link ist %d Tage gültig und kann einmal verwendet werden. Danach melden Sie sich jederzeit mit Ihrer E-Mail-Adresse und Ihrem Passwort an; über „Passwort vergessen?“ auf der Anmeldeseite erhalten Sie bei Bedarf einen neuen Link. Fragen? Schreiben Sie uns an mitgliederservice@hanseainvest.de.', HANSEA_WELCOME_LINK_DAYS ),
+			'note'      => hansea_welcome_note(),
 		) ),
 	);
 }

@@ -1,5 +1,5 @@
-import { useRef, useState, type FormEvent, type ReactNode } from 'react'
-import { ANTEIL_EUR, emptyRecord, type Kuendigung, type MemberRecord, type Zeichnung, type Secrets, type SecretsInput } from './api'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { ANTEIL_EUR, api, emptyRecord, type Kuendigung, type MemberRecord, type Zeichnung, type Secrets, type SecretsInput } from './api'
 import { AR_NAMES, STATUS, inputClass, labelClass } from './format'
 import { currentMember } from '../auth/auth'
 import { Button, ErrorNote } from './ui'
@@ -10,12 +10,17 @@ type Col<R> = { key: keyof R & string; label: string; type: ColType; width?: str
 /**
  * Form for a new Antrag (mode "neu") or for editing a member. Secret fields
  * stay empty unless they were revealed; left empty they keep the stored value.
+ *
+ * The signed Beitrittserklärung is read only for a new Antrag: it fills the
+ * form once and is attached to the member. Later changes are made by hand
+ * here, so a PDF never overwrites what the team has corrected since.
  */
 export function MemberForm({
   mode,
   initial,
   masked,
   revealed,
+  focus,
   onSave,
   onCancel,
 }: {
@@ -23,22 +28,33 @@ export function MemberForm({
   initial?: MemberRecord
   masked?: Secrets
   revealed?: Secrets | null
-  /** `document`: a dropped PDF, to attach to the member after saving. */
-  onSave: (record: MemberRecord, secrets: SecretsInput, document: File | null) => Promise<void>
+  /** Section to open the form at ('anteile', 'zinsen', 'kuendigungen'; 'kuendigung-neu' adds an empty Kündigung). */
+  focus?: string
+  /** `document`: a dropped PDF, `link`: a DocuSign link; attached to the new Antrag after saving. */
+  onSave: (record: MemberRecord, secrets: SecretsInput, document: File | null, link: string) => Promise<void>
   onCancel: () => void
 }) {
-  const [r, setR] = useState<MemberRecord>(() => structuredClone(initial ?? { ...emptyRecord(), zeichnungen: [blankZeichnung()] }))
+  const [r, setR] = useState<MemberRecord>(() => {
+    const start = structuredClone(initial ?? { ...emptyRecord(), zeichnungen: [blankZeichnung()] })
+    if (focus === 'kuendigung-neu') start.kuendigungen.push(blankKuendigung())
+    return start
+  })
+  useEffect(() => {
+    const target = focus === 'kuendigung-neu' ? 'kuendigungen' : focus
+    if (target) document.getElementById(`form-${target}`)?.scrollIntoView({ block: 'start' })
+  }, [focus])
+  const [link, setLink] = useState('')
   const [secrets, setSecrets] = useState<Secrets>(revealed ?? { iban: '', steuer_id: '', kirchensteuer: '' })
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   // Approval fields: decided by the Aufsichtsrat; only administrators correct them (inc/crm.php, hansea_crm_protect)
   const admin = !!currentMember()?.admin
   const [doc, setDoc] = useState<File | null>(null)
-  const [pdf, setPdf] = useState<{ found: string[]; note: string } | null>(null)
+  const [pdf, setPdf] = useState<{ found: string[]; note?: string } | null>(null)
   const [fromPdf, setFromPdf] = useState<Set<string>>(new Set())
   const hl = (key: string) => (fromPdf.has(key) ? 'border-gold bg-cream' : '')
 
-  /** Reads a dropped Beitrittserklärung and fills the form with what it finds. */
+  /** Reads a dropped Beitrittserklärung (new Antrag only) and fills the form with what it finds. */
   async function readPdf(file: File) {
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
       setError('Bitte eine PDF-Datei ablegen.')
@@ -50,17 +66,10 @@ export function MemberForm({
       const { pdfLines, parseBeitritt } = await import('./pdfImport')
       const res = parseBeitritt(await pdfLines(file))
       const keys = new Set<string>()
-      let note = ''
       setR((prev) => {
         const next = { ...prev }
         for (const [k, v] of Object.entries(res.record) as [keyof MemberRecord, never][]) {
-          if (k === 'zeichnungen') {
-            const units = res.record.zeichnungen?.[0]?.anteile
-            if (mode === 'neu' || prev.zeichnungen.length === 0) {
-              next.zeichnungen = res.record.zeichnungen!
-              keys.add('zeichnungen')
-            } else if (units) note = `Laut PDF ${units} Anteil${units === 1 ? '' : 'e'}: bei weiteren Anteilen bitte unten eine Zeile hinzufügen.`
-          } else if (k === 'bemerkungen') {
+          if (k === 'bemerkungen') {
             if (!prev.bemerkungen.includes(String(v))) next.bemerkungen = [prev.bemerkungen, v].filter(Boolean).join('\n')
           } else {
             next[k] = v
@@ -72,7 +81,7 @@ export function MemberForm({
       setSecrets((prev) => ({ ...prev, ...res.secrets }))
       Object.keys(res.secrets).forEach((k) => keys.add(k))
       setFromPdf(keys)
-      setPdf({ found: res.found, note })
+      setPdf({ found: res.found, note: res.record.art ? '' : 'Die Überschrift nennt keine Art der Mitgliedschaft: bitte unter „Mitgliedschaft“ prüfen (Standard: investierend).' })
     } catch {
       setPdf({ found: [], note: 'Der Text des PDFs konnte nicht gelesen werden (z. B. ein eingescanntes Bild). Es wird trotzdem angehängt; bitte die Felder von Hand ausfüllen.' })
     }
@@ -105,7 +114,7 @@ export function MemberForm({
       if (revealed ? secrets[k] !== revealed[k] : secrets[k] !== '') out[k] = secrets[k]
     }
     try {
-      await onSave(r, out, doc)
+      await onSave(r, out, doc, link.trim())
     } catch (err) {
       setError((err as Error).message)
       setBusy(false)
@@ -118,19 +127,37 @@ export function MemberForm({
     <form onSubmit={submit} className="grid gap-5">
       <datalist id="ar-names">{AR_NAMES.map((n) => <option key={n} value={n} />)}</datalist>
 
-      <DropZone file={doc} onFile={readPdf} onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()) }}>
-        {pdf && (
-          <div className="mt-3 text-sm text-ink-2">
-            {pdf.found.length > 0 && (
-              <p className="m-0">
-                <strong>Übernommen:</strong> {pdf.found.join(', ')}. Die Felder sind gelb markiert, bitte prüfen.
+      {mode === 'neu' && (
+        <DropZone
+          file={doc}
+          onFile={readPdf}
+          onRemove={() => { setDoc(null); setPdf(null); setFromPdf(new Set()); setLink('') }}
+          link={link}
+          onLink={async (url) => {
+            setLink(url)
+            setError('')
+            try {
+              await readPdf(await api.docusignPdf(url))
+            } catch (e) {
+              setPdf({ found: [], note: `Das PDF konnte nicht aus DocuSign geladen werden: ${(e as Error).message} Der Link wird beim Anlegen trotzdem unter „Dokumente“ gespeichert; bitte die Felder von Hand ausfüllen oder das PDF als Datei ablegen.` })
+            }
+          }}
+        >
+          {pdf && (
+            <div className="mt-3 text-sm text-ink-2">
+              {pdf.found.length > 0 && (
+                <p className="m-0">
+                  <strong>Übernommen:</strong> {pdf.found.join(', ')}. Die Felder sind gelb markiert, bitte prüfen.
+                </p>
+              )}
+              {pdf.note && <p className="mb-0 mt-1">{pdf.note}</p>}
+              <p className="mb-0 mt-1 text-xs text-muted">
+                Das PDF wird beim Anlegen verschlüsselt unter „Dokumente“ abgelegt und ist auch im Mitgliederbereich des Mitglieds sichtbar.
               </p>
-            )}
-            {pdf.note && <p className="mb-0 mt-1">{pdf.note}</p>}
-            <p className="mb-0 mt-1 text-xs text-muted">Das PDF wird beim Speichern verschlüsselt an das Profil angehängt.</p>
-          </div>
-        )}
-      </DropZone>
+            </div>
+          )}
+        </DropZone>
+      )}
 
       <Section title="Person und Kontakt">
         <Field label="Anrede">
@@ -151,16 +178,29 @@ export function MemberForm({
         {text('email', 'E-Mail (wird der Portal-Login)', { type: 'email', className: 'sm:col-span-2' })}
       </Section>
 
-      <Section title="Mitgliedschaft">
-        <Field label="Art">
-          <select className={inputClass} value={r.art} onChange={(e) => set('art', e.target.value as MemberRecord['art'])}>
-            <option value="i">investierend</option>
-            <option value="o">ordentlich</option>
+      <Section
+        title="Mitgliedschaft"
+        hint="Ordentliche Mitglieder erhalten keine Zinsen; über sie entscheidet der Vorstand statt des Aufsichtsrats."
+      >
+        <Field label="Art der Mitgliedschaft">
+          <select className={`${inputClass} ${hl('art')}`} value={r.art} onChange={(e) => set('art', e.target.value as MemberRecord['art'])}>
+            <option value="i">Investierendes Mitglied</option>
+            <option value="o">Ordentliches Mitglied</option>
           </select>
         </Field>
+        <Field label="Eintrittsdatum">
+          <input
+            type="date"
+            className={`${inputClass} ${hl('eintritt')}`}
+            value={r.eintritt}
+            onChange={(e) => set('eintritt', e.target.value)}
+            aria-describedby="eintritt-hint"
+          />
+          <span id="eintritt-hint" className="mt-1 block text-xs text-muted">Leer: Tag der Zulassung</span>
+        </Field>
         {mode === 'edit' && !admin && (
-          <p className="m-0 self-end text-xs text-muted sm:col-span-3">
-            Status, Mitgliedsnummer, Zulassung und Zustimmungen ändert ein Beschluss des Aufsichtsrats (Korrekturen: Administratoren).
+          <p className="m-0 self-end text-xs text-muted sm:col-span-2">
+            Status, Mitgliedsnummer, Zulassung und Zustimmungen ändert ein Beschluss von Aufsichtsrat bzw. Vorstand (Korrekturen: Administratoren).
           </p>
         )}
         {mode === 'edit' && admin && (
@@ -172,14 +212,14 @@ export function MemberForm({
               </select>
             </Field>
             {text('zulassung_datum', 'Tag der Zulassung', { type: 'date' })}
-            <Field label="Zustimmung Aufsichtsrat">
+            <Field label={`Zustimmung ${r.art === 'o' ? 'Vorstand' : 'Aufsichtsrat'}`}>
               <select className={inputClass} value={r.zulassung_status} onChange={(e) => set('zulassung_status', e.target.value as MemberRecord['zulassung_status'])}>
                 <option value="offen">offen</option>
                 <option value="zugestimmt">zugestimmt</option>
                 <option value="abgelehnt">abgelehnt</option>
               </select>
             </Field>
-            {text('zulassung_ar', 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
+            {text('zulassung_ar', r.art === 'o' ? 'Zustimmender Vorstand' : 'Zustimmender Aufsichtsrat', { list: 'ar-names' })}
           </>
         )}
         {mode === 'edit' && text('kuendbar_zu', 'Kündigung möglich zu', { type: 'date' })}
@@ -187,8 +227,9 @@ export function MemberForm({
       </Section>
 
       <Rows
+        id="form-anteile"
         title="Anteile und Zahlungen"
-        hint={`Ein Anteil = ${ANTEIL_EUR.toLocaleString('de-DE')} €. Der Betrag wird beim Eintragen der Anteile vorgeschlagen.`}
+        hint={`Ein Anteil = ${ANTEIL_EUR.toLocaleString('de-DE')} €. Der Betrag wird beim Eintragen der Anteile vorgeschlagen. Ändern sich die Anteile einer genehmigten Zeile, wird sie beim Speichern automatisch neu vorgelegt. Wird bei einem zugelassenen Mitglied ein Zahlungseingang neu eingetragen, erhält es beim Speichern automatisch die Bestätigung Zahlungseingang per E-Mail${r.art === 'o' ? '' : '; leere Zinsdaten werden dabei ergänzt'}.`}
         rows={r.zeichnungen}
         cols={[
           { key: 'anteile', label: 'Anteile', type: 'number', width: '90px' },
@@ -196,8 +237,13 @@ export function MemberForm({
           { key: 'zahlung', label: 'Zahlungseingang', type: 'date' },
           { key: 'zugelassen', label: 'Zugelassen am', type: 'date' },
           ...arColumns<Zeichnung>(admin),
-          { key: 'zins_ende', label: 'Erstes Ende Verzinsung', type: 'date' },
-          { key: 'zins_zahlung', label: 'Erste Zinszahlung bis', type: 'date' },
+          // Ordentliche Mitglieder earn no interest
+          ...(r.art === 'o'
+            ? []
+            : ([
+                { key: 'zins_ende', label: 'Erstes Ende Verzinsung', type: 'date' },
+                { key: 'zins_zahlung', label: 'Erste Zinszahlung bis', type: 'date' },
+              ] as Col<Zeichnung>[])),
         ]}
         blank={blankZeichnung}
         onChange={(rows) => set('zeichnungen', rows)}
@@ -210,7 +256,9 @@ export function MemberForm({
       />
 
       <Rows
+        id="form-kuendigungen"
         title="Kündigungen"
+        hint={`Jede Kündigung braucht die Zustimmung ${r.art === 'o' ? 'des Vorstands' : 'aller drei Mitglieder des Aufsichtsrats'}. Wird eine genehmigte oder vorliegende Kündigung geändert (Datum, Anteile, Betrag), wird sie beim Speichern automatisch neu vorgelegt. Das Kündigungsschreiben (PDF oder DocuSign-Link) wird nach dem Speichern auf der Mitgliedsseite hinzugefügt.`}
         rows={r.kuendigungen}
         cols={[
           { key: 'anteile', label: 'Anteile', type: 'number', width: '90px' },
@@ -219,7 +267,7 @@ export function MemberForm({
           { key: 'betrag', label: 'Betrag €', type: 'number', width: '120px' },
           ...arColumns<Kuendigung>(admin),
         ]}
-        blank={() => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const })}
+        blank={blankKuendigung}
         onChange={(rows) => set('kuendigungen', rows)}
         derive={(row, key, prev) =>
           key === 'anteile' && (prev.betrag === null || prev.betrag === (prev.anteile ?? 0) * ANTEIL_EUR)
@@ -284,7 +332,8 @@ export function MemberForm({
         addLabel="Bonus hinzufügen"
       />
 
-      <Rows
+      {(r.art === 'i' || r.zinszahlungen.length > 0) && <Rows
+        id="form-zinsen"
         title="Zinszahlungen"
         hint="Ausgezahlte Zinsen. Der Zeitraum ist das Ende der Zinsperiode, z. B. 31.12.2026 für das vierte Quartal."
         rows={r.zinszahlungen}
@@ -297,7 +346,7 @@ export function MemberForm({
         blank={() => ({ datum: '', zeitraum: '', betrag: null, steuer: null })}
         onChange={(rows) => set('zinszahlungen', rows)}
         addLabel="Zinszahlung hinzufügen"
-      />
+      />}
 
       <Section title="Bemerkungen">
         <Field label="Bemerkungen" className="sm:col-span-full">
@@ -324,6 +373,8 @@ function arColumns<R extends Record<string, unknown>>(admin: boolean): Col<R>[] 
     : []
 }
 
+const blankKuendigung = () => ({ datum: '', anteile: null, zum: '', betrag: null, ar: '', ar_status: '' as const, schreiben: '' })
+
 const blankZeichnung = () => ({ zugelassen: '', anteile: 1, ar: '', ar_status: '' as const, zahlung: '', betrag: ANTEIL_EUR, zins_ende: '', zins_zahlung: '' })
 
 function Section({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
@@ -347,6 +398,7 @@ function Field({ label, className = '', children }: { label: string; className?:
 }
 
 function Rows<R extends Record<string, unknown>>({
+  id,
   title,
   hint,
   rows,
@@ -356,6 +408,7 @@ function Rows<R extends Record<string, unknown>>({
   derive,
   addLabel,
 }: {
+  id?: string
   title: string
   hint?: string
   rows: R[]
@@ -371,7 +424,7 @@ function Rows<R extends Record<string, unknown>>({
     onChange(rows.map((row, n) => (n === i ? (derive ? derive(next, key, rows[i]) : next) : row)))
   }
   return (
-    <fieldset className="m-0 min-w-0 rounded-card border border-line-soft bg-white px-5 pb-5 pt-4">
+    <fieldset id={id} className="m-0 min-w-0 scroll-mt-4 rounded-card border border-line-soft bg-white px-5 pb-5 pt-4">
       <legend className="sr-only">{title}</legend>
       <h2 className="m-0 text-[15px] font-semibold" aria-hidden>{title}</h2>
       {hint && <p className="mb-0 mt-1 text-xs text-muted">{hint}</p>}
@@ -430,10 +483,26 @@ function Rows<R extends Record<string, unknown>>({
   )
 }
 
-/** Drop area (or file picker) for the signed Beitrittserklärung. */
-function DropZone({ file, onFile, onRemove, children }: { file: File | null; onFile: (f: File) => void; onRemove: () => void; children?: ReactNode }) {
+/** Drop area (or file picker, or a DocuSign link) for the signed Beitrittserklärung. */
+function DropZone({
+  file,
+  onFile,
+  onRemove,
+  link,
+  onLink,
+  children,
+}: {
+  file: File | null
+  onFile: (f: File) => void
+  onRemove: () => void
+  link: string
+  onLink: (url: string) => Promise<void>
+  children?: ReactNode
+}) {
   const input = useRef<HTMLInputElement>(null)
   const [over, setOver] = useState(false)
+  const [url, setUrl] = useState('')
+  const [loading, setLoading] = useState(false)
   return (
     <div
       onDragOver={(e) => {
@@ -452,8 +521,8 @@ function DropZone({ file, onFile, onRemove, children }: { file: File | null; onF
       <div className="flex flex-wrap items-center gap-4">
         <span aria-hidden className="grid h-12 w-10 shrink-0 place-items-center rounded bg-navy-050 text-[11px] font-bold text-ink">PDF</span>
         <div className="min-w-0 flex-1">
-          {file ? (
-            <p className="m-0 text-sm font-semibold">{file.name}</p>
+          {file || link ? (
+            <p className="m-0 break-all text-sm font-semibold">{file ? file.name : `DocuSign-Link: ${link}`}</p>
           ) : (
             <>
               <p className="m-0 text-sm font-semibold">Unterschriebene Beitrittserklärung hier ablegen</p>
@@ -462,12 +531,31 @@ function DropZone({ file, onFile, onRemove, children }: { file: File | null; onF
           )}
         </div>
         <input ref={input} type="file" accept="application/pdf,.pdf" className="sr-only" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
-        {file ? (
-          <Button variant="quiet" onClick={onRemove}>Entfernen</Button>
+        {file || link ? (
+          <Button variant="quiet" onClick={() => { setUrl(''); onRemove() }}>Entfernen</Button>
         ) : (
           <Button variant="quiet" onClick={() => input.current?.click()}>PDF auswählen</Button>
         )}
       </div>
+      {!file && !link && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-line-soft pt-3">
+          <label className="min-w-[240px] flex-1">
+            <span className="sr-only">DocuSign-Link</span>
+            <input type="url" className={inputClass} placeholder="oder DocuSign-Link einfügen (https://…)" value={url} onChange={(e) => setUrl(e.target.value)} />
+          </label>
+          <Button
+            variant="quiet"
+            disabled={loading || !/^https:\/\/\S+$/.test(url.trim())}
+            onClick={async () => {
+              setLoading(true)
+              await onLink(url.trim())
+              setLoading(false)
+            }}
+          >
+            {loading ? 'Lädt …' : 'Aus DocuSign laden'}
+          </Button>
+        </div>
+      )}
       {children}
     </div>
   )

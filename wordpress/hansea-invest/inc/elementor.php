@@ -1,7 +1,7 @@
 <?php
 /**
  * Elementor support: brand fonts and styles on Elementor pages, and the
- * [hansea_kontakt] contact form (Elementor's free version has no form widget).
+ * [hansea_kontakt] contact form (the HubSpot embed).
  */
 
 defined( 'ABSPATH' ) || exit;

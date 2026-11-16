@@ -9,8 +9,8 @@ const phaseTone: Record<PortfolioProject['phase'], string> = {
 }
 
 /** Progress report on the projects the Genossenschaft invests the members' money in. */
-/** `next`: the member's next interest payment from the Mitgliederliste; undefined shows the sample date. */
-export default function ShareTracker({ next }: { next?: { date: string; amount: number } | null }) {
+/** `next`: the member's next interest payment from the Mitgliederliste; undefined shows the sample date. `interest`: false for ordentliche Mitglieder (no interest box). */
+export default function ShareTracker({ next, interest = true }: { next?: { date: string; amount: number } | null; interest?: boolean }) {
   const euro = (v: number) => `${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v)} €`
   return (
     <section id="verfolgen" className="section">
@@ -22,7 +22,7 @@ export default function ShareTracker({ next }: { next?: { date: string; amount: 
               Ihre Einlage fließt in die Genossenschaft und von dort in alle laufenden Projekte. So weit sind sie.
             </p>
           </div>
-          <div className="rounded-card bg-section px-5 py-4">
+          {interest && <div className="rounded-card bg-section px-5 py-4">
             <p className="m-0 text-[13px] text-muted">{next === undefined ? 'Nächste Ausschüttung' : 'Nächste Zinszahlung'}</p>
             <p className="m-0 mt-1 text-[18px] font-semibold">
               {next === undefined ? nextPayout.date : next ? next.date.split('-').reverse().join('.') : 'nach Einzahlung'}
@@ -30,7 +30,7 @@ export default function ShareTracker({ next }: { next?: { date: string; amount: 
             <p className="m-0 text-[13px] font-bold text-green">
               {next === undefined ? nextPayout.perShare : next ? `${euro(next.amount)} (Ziel)` : '7 % p.a. Zielverzinsung'}
             </p>
-          </div>
+          </div>}
         </div>
 
         <ul className="m-0 mt-8 grid list-none grid-cols-1 gap-4 p-0">

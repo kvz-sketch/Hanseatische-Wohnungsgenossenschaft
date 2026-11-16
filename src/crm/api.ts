@@ -4,6 +4,9 @@
 import { IS_WORDPRESS, WordPressError, wp, wpPost, wpUrl } from '../backend'
 
 export type Status = 'antrag' | 'zugelassen' | 'abgelehnt' | 'ausgeschieden'
+export type Art = 'i' | 'o'
+/** Who decides: the Aufsichtsrat, or the Vorstand for ordentliche Mitglieder. */
+export type Gremium = 'ar' | 'vorstand'
 export type ArStatus = '' | 'offen' | 'zugestimmt' | 'abgelehnt'
 
 export type Zeichnung = {
@@ -16,7 +19,8 @@ export type Zeichnung = {
   zins_ende: string
   zins_zahlung: string
 }
-export type Kuendigung = { datum: string; anteile: number | null; zum: string; betrag: number | null; ar: string; ar_status: ArStatus }
+/** schreiben: ID of the uploaded Kündigungsschreiben; needed before the Kündigung goes to the Aufsichtsrat. */
+export type Kuendigung = { datum: string; anteile: number | null; zum: string; betrag: number | null; ar: string; ar_status: ArStatus; schreiben: string }
 export type Bonus = { projekt: string; anteile: number | null; betrag: number | null; auszahlung: string }
 /** Interest paid out: date, end of the interest period, gross amount, tax withheld. */
 export type Zinszahlung = { datum: string; zeitraum: string; betrag: number | null; steuer: number | null }
@@ -25,7 +29,8 @@ export type NextInterest = { date: string; amount: number; period: string }
 export type MemberRecord = {
   nr: number | null
   status: Status
-  art: 'i' | 'o'
+  /** Investierendes (default) or ordentliches Mitglied: no interest, decisions by the Vorstand. */
+  art: Art
   firma: string
   anrede: string
   vorname: string
@@ -37,6 +42,8 @@ export type MemberRecord = {
   telefon: string
   email: string
   geburtstag: string
+  /** Eintrittsdatum; empty = the day of the Zulassung. */
+  eintritt: string
   zulassung_datum: string
   zulassung_status: 'offen' | 'zugestimmt' | 'abgelehnt'
   zulassung_ar: string
@@ -60,7 +67,36 @@ export type MemberRecord = {
 export type Secrets = { iban: string; steuer_id: string; kirchensteuer: string }
 export type Totals = { anteile: number; kapital: number; gekuendigt: number; aktiv: number }
 export type Portal = { status: 'keiner' | 'angelegt' | 'eingeladen'; email?: string; invited?: string | null }
-export type LogEntry = { time: string; user: string; action: string; detail: string }
+/** sent: something went to the member (an email, or a document in their members' area). */
+export type LogEntry = { time: string; user: string; action: string; detail: string; sent?: boolean }
+/** One member in the export "Mitgliederliste" (inc/crm.php, src/crm/exports.ts). */
+export type ExportRow = {
+  nr: number | null
+  zulassung: string
+  firma: string
+  anrede: string
+  vorname: string
+  nachname: string
+  strasse: string
+  plz: string
+  ort: string
+  geburtstag: string
+  iban: string
+  steuer_id: string
+  telefon: string
+  email: string
+  anteile: number | null
+  weitere: { zugelassen: string; anteile: number | null }[]
+  aus_eintragung: string
+  aus_grund: string
+  aus_datum: string
+  art: Art
+  bemerkungen: string
+}
+export type ExportData = { created: string; von: string; bis: string; rows: ExportRow[] }
+
+/** A log entry of any member, for the tab "Verlauf". */
+export type LogItem = LogEntry & { member: number; name: string }
 
 export type MemberSummary = Totals & {
   id: number
@@ -69,10 +105,12 @@ export type MemberSummary = Totals & {
   firma: string
   ort: string
   email: string
-  art: 'i' | 'o'
+  art: Art
   status: Status
   zulassung_status: string
   zulassung_datum: string
+  /** Eintrittsdatum, or the day of the Zulassung while none is entered. */
+  eintritt: string
   empfehler: string
   bonus: Bonus[]
   portal: Portal['status']
@@ -90,18 +128,30 @@ export type MemberDetail = {
   log: LogEntry[]
   documents: CrmDocument[]
   beschluesse: Beschluss[]
+  /** After saving: what happened besides (e.g. a changed row put to the Aufsichtsrat again). */
+  message?: string
 }
 
 export type ActionResult = { member: MemberDetail; message: string }
 
-/** Encrypted file attached to a member (e.g. the signed Beitrittserklärung). */
-export type CrmDocument = { id: string; name: string; size: number; time: string; user: string }
+/**
+ * Encrypted file attached to a member, also shown in their members' area.
+ * kind: beitritt (signed Beitrittserklärung), kuendigung (Kündigungsschreiben),
+ * zustimmung (approval document of the Beschluss `beschluss`), or '' (other).
+ */
+export type DocKind = '' | 'beitritt' | 'kuendigung' | 'zustimmung'
+/** url: the DocuSign link it came from; with size 0 there is no stored PDF, only the link. */
+export type CrmDocument = { id: string; name: string; size: number; time: string; user: string; kind: DocKind; beschluss: string; url: string }
+export type UploadOptions = { kind?: DocKind; ref?: number; beschluss?: string; url?: string }
+/** A DocuSign link without a stored PDF. */
+export const linkOnly = (d: CrmDocument) => d.size === 0 && !!d.url
 
 export type BeschlussType = 'zulassung' | 'zeichnung' | 'kuendigung' | 'ausscheiden'
-export type Vote = { name: string; vote: '' | 'zugestimmt' | 'abgelehnt'; time: string; note: string }
+export type Vote = { name: string; fullName: string; vote: '' | 'zugestimmt' | 'abgelehnt'; time: string; note: string }
 /** A decision put to the Aufsichtsrat; every member must agree. */
 export type Beschluss = {
   id: string
+  gremium: Gremium
   type: BeschlussType
   title: string
   /** Row in Anteile/Kündigungen for zeichnung/kuendigung. */
@@ -116,14 +166,14 @@ export type Beschluss = {
   canVote: boolean
 }
 export type InboxItem = Beschluss & { member: number; name: string; documents: CrmDocument[] }
-export type Inbox = { items: InboxItem[]; ar: string[]; size: number }
+export type Inbox = { items: InboxItem[]; ar: string[]; size: number; vorstand: string[] }
 
 /** Secret fields to save: null keeps the stored value. */
 export type SecretsInput = { [K in keyof Secrets]: string | null }
 
 export const emptyRecord = (): MemberRecord => ({
   nr: null, status: 'antrag', art: 'i', firma: '', anrede: '', vorname: '', nachname: '', strasse: '', plz: '', ort: '',
-  land: 'DE', telefon: '', email: '', geburtstag: '', zulassung_datum: '', zulassung_status: 'offen', zulassung_ar: '',
+  land: 'DE', telefon: '', email: '', geburtstag: '', eintritt: '', zulassung_datum: '', zulassung_status: 'offen', zulassung_ar: '',
   bundesland: '', freistellung: null, kontoinhaber: '', kuendbar_zu: '', empfehler: '', bemerkungen: '', aus_eintragung: '',
   aus_grund: '', aus_datum: '', aus_ar_status: '', aus_ar: '', zeichnungen: [], kuendigungen: [], bonus: [], zinszahlungen: [],
 })
@@ -152,10 +202,19 @@ export const api = IS_WORDPRESS
       vote: (id: number, bid: string, body: { vote: 'zugestimmt' | 'abgelehnt'; note: string }) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/vote`, body),
       cancel: (id: number, bid: string) => wpPost<ActionResult>(`crm/members/${id}/beschluss/${bid}/cancel`, {}),
       inbox: () => wpGet<Inbox>('crm/beschluesse'),
-      upload: async (id: number, file: File) => {
+      log: () => wpGet<LogItem[]>('crm/log'),
+      exportMitgliederliste: (von: string, bis: string) => wpGet<ExportData>(`crm/export/mitgliederliste?von=${encodeURIComponent(von)}&bis=${encodeURIComponent(bis)}`),
+      /** The signed PDF behind a DocuSign link (needs the DocuSign connection). */
+      docusignPdf: async (url: string) => {
+        const { data } = await wpPost<{ data: string }>('crm/docusign-pdf', { url })
+        return new File([Uint8Array.from(atob(data), (c) => c.charCodeAt(0))], 'Beitrittserklaerung-DocuSign.pdf', { type: 'application/pdf' })
+      },
+      /** A PDF (file) or a DocuSign link (opts.url, file null). */
+      upload: async (id: number, file: File | null, opts: UploadOptions = {}) => {
         const { restUrl, nonce } = wp()
         const body = new FormData()
-        body.append('file', file)
+        if (file) body.append('file', file)
+        for (const [k, v] of Object.entries(opts)) if (v !== undefined) body.append(k, String(v))
         const res = await fetch(`${restUrl}hansea/v1/crm/members/${id}/documents`, { method: 'POST', credentials: 'same-origin', headers: { 'X-WP-Nonce': nonce }, body })
         const data = await res.json().catch(() => ({}))
         if (!res.ok) throw new WordPressError(data?.message ?? 'Das Dokument konnte nicht hochgeladen werden.', res.status)
@@ -174,9 +233,14 @@ function demoApi() {
   const zeichnung = (zugelassen: string, anteile: number, zahlung: string): Zeichnung => ({
     zugelassen, anteile, ar: 'Muster', ar_status: 'zugestimmt', zahlung, betrag: zahlung ? anteile * ANTEIL_EUR : null, zins_ende: '', zins_zahlung: '',
   })
-  type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string; docs: (CrmDocument & { url: string })[]; beschluesse: Beschluss[] }
-  // Demo: the three Aufsichtsrat members vote one after another from this browser.
+  // A one-page PDF standing in for uploaded letters in the demo
+  const demoPdf = (title: string) => URL.createObjectURL(new Blob([`%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj 3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Contents 4 0 R/Resources<</Font<</F1<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>>>>>>>endobj 4 0 obj<</Length ${title.length + 40}>>stream\nBT /F1 18 Tf 60 760 Td (${title}) Tj ET\nendstream endobj\ntrailer<</Root 1 0 R>>\n%%EOF`], { type: 'application/pdf' }))
+  type Row = { record: MemberRecord; secrets: Secrets; log: LogEntry[]; portal: Portal; updated: string; docs: (CrmDocument & { blob: string })[]; beschluesse: Beschluss[] }
+  const VOLL: Record<string, string> = { Bartlau: 'Rainer Bartlau', Dobuch: 'Sophia Dobuch', Kogan: 'Vadim Kogan', Gerlach: 'Stephan Gerlach' }
+  // Demo: the three Aufsichtsrat members (or the Vorstand) vote one after another from this browser.
   const AR = ['Bartlau', 'Dobuch', 'Kogan']
+  const VORSTAND = ['Gerlach']
+  const voters = (g: Gremium) => (g === 'vorstand' ? VORSTAND : AR)
   const rows = new Map<number, Row>()
   let nextId = 1
   const add = (patch: Partial<MemberRecord>, secrets: Partial<Secrets> = {}, portal: Portal = { status: 'keiner' }) => {
@@ -190,8 +254,8 @@ function demoApi() {
       beschluesse: [],
     })
   }
-  add({ nr: 1, status: 'zugelassen', zulassung_status: 'zugestimmt', art: 'o', vorname: 'Erika', nachname: 'Beispiel', firma: 'Beispiel Verwaltung GmbH', strasse: 'Musterweg 1', plz: '20095', ort: 'Hamburg', email: 'erika@example.org', zulassung_datum: '2024-07-30', zeichnungen: [zeichnung('2024-07-30', 1, '')] })
-  add({ nr: 2, status: 'zugelassen', zulassung_status: 'zugestimmt', zulassung_ar: 'Muster', anrede: 'Herr', vorname: 'Max', nachname: 'Mustermann', strasse: 'Hauptstraße 5', plz: '50667', ort: 'Köln', email: 'max@example.org', telefon: '+49 221 000000', zulassung_datum: '2025-03-04', empfehler: 'Website', kuendbar_zu: '2025-12-31', freistellung: 1000, kontoinhaber: 'Max Mustermann', bundesland: 'NRW', zeichnungen: [zeichnung('2025-03-04', 5, '2025-03-06'), zeichnung('2026-03-13', 2, '2026-03-16')], kuendigungen: [{ datum: '2026-06-24', anteile: 2, zum: '2027-03-31', betrag: 20000, ar: 'Muster', ar_status: 'zugestimmt' }], bonus: [{ projekt: 'Eilbek', anteile: 2, betrag: 600, auszahlung: '2027-09-30' }], zinszahlungen: [{ datum: '2026-07-14', zeitraum: '2026-06-30', betrag: 875, steuer: 0 }, { datum: '2026-10-14', zeitraum: '2026-09-30', betrag: 1225, steuer: 0 }] }, { iban: 'DE02120300000000202051', steuer_id: '12 345 678 901', kirchensteuer: 'nein' }, { status: 'eingeladen', email: 'max@example.org', invited: '2026-04-01T09:00:00Z' })
+  add({ nr: 1, status: 'zugelassen', zulassung_status: 'zugestimmt', art: 'o', eintritt: '2024-07-01', vorname: 'Erika', nachname: 'Beispiel', firma: 'Beispiel Verwaltung GmbH', strasse: 'Musterweg 1', plz: '20095', ort: 'Hamburg', email: 'erika@example.org', zulassung_datum: '2024-07-30', zeichnungen: [zeichnung('2024-07-30', 1, '')] })
+  add({ nr: 2, status: 'zugelassen', zulassung_status: 'zugestimmt', zulassung_ar: 'Muster', anrede: 'Herr', vorname: 'Max', nachname: 'Mustermann', strasse: 'Hauptstraße 5', plz: '50667', ort: 'Köln', email: 'max@example.org', telefon: '+49 221 000000', zulassung_datum: '2025-03-04', empfehler: 'Website', kuendbar_zu: '2025-12-31', freistellung: 1000, kontoinhaber: 'Max Mustermann', bundesland: 'NRW', zeichnungen: [zeichnung('2025-03-04', 5, '2025-03-06'), zeichnung('2026-03-13', 2, '2026-03-16')], kuendigungen: [{ datum: '2026-06-24', anteile: 2, zum: '2027-03-31', betrag: 20000, ar: 'Muster', ar_status: 'zugestimmt', schreiben: '' }], bonus: [{ projekt: 'Eilbek', anteile: 2, betrag: 600, auszahlung: '2027-09-30' }], zinszahlungen: [{ datum: '2026-07-14', zeitraum: '2026-06-30', betrag: 875, steuer: 0 }, { datum: '2026-10-14', zeitraum: '2026-09-30', betrag: 1225, steuer: 0 }] }, { iban: 'DE02120300000000202051', steuer_id: '12 345 678 901', kirchensteuer: 'nein' }, { status: 'eingeladen', email: 'max@example.org', invited: '2026-04-01T09:00:00Z' })
   add({ nr: 3, status: 'ausgeschieden', zulassung_status: 'zugestimmt', anrede: 'Frau', vorname: 'Anna', nachname: 'Probe', ort: 'Berlin', zulassung_datum: '2026-03-10', aus_eintragung: '2026-05-05', aus_datum: '2026-05-05', aus_grund: 'Beitritt zurückgezogen', aus_ar_status: 'zugestimmt', aus_ar: 'Muster' })
   add({ anrede: 'Frau', vorname: 'Petra', nachname: 'Antrag', strasse: 'Am Hafen 3', plz: '22415', ort: 'Hamburg', email: 'petra@example.org', empfehler: 'Veranstaltung', zeichnungen: [zeichnung('', 3, '')] })
 
@@ -203,23 +267,30 @@ function demoApi() {
   }
   const name = (r: MemberRecord) => `${r.vorname} ${r.nachname}`.trim() || r.firma || 'Ohne Namen'
   const row = (id: number) => { const r = rows.get(id); if (!r) throw new Error('Mitglied nicht gefunden.'); return r }
-  const log = (r: Row, action: string, detail = '') => { r.log.unshift({ time: new Date().toISOString(), user: 'Vorschau', action, detail }); r.updated = new Date().toISOString() }
+  const log = (r: Row, action: string, detail = '', sent = false) => { r.log.unshift({ time: new Date().toISOString(), user: 'Vorschau', action, detail, ...(sent ? { sent } : {}) }); r.updated = new Date().toISOString() }
   const detail = (id: number): MemberDetail => {
     const r = row(id)
-    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log], documents: r.docs.map(({ url: _url, ...d }) => d), beschluesse: r.beschluesse.map(publicB) }
+    return { id, record: structuredClone(r.record), masked: { iban: mask(r.secrets.iban), steuer_id: mask(r.secrets.steuer_id, 3), kirchensteuer: r.secrets.kirchensteuer ? '••••' : '' }, portal: r.portal, totals: totals(r.record), next: r.record.status === 'zugelassen' && r.record.art === 'i' && totals(r.record).kapital > 0 && !r.record.zinszahlungen.some((z) => z.zeitraum === '2026-12-31') ? { date: '2027-01-15', amount: totals(r.record).kapital * ZINS / 4, period: '2026-12-31' } : null, log: [...r.log], documents: r.docs.map(({ blob: _blob, ...d }) => d), beschluesse: r.beschluesse.map(publicB) }
   }
   const publicB = (b: Beschluss): Beschluss => ({ ...b, votes: b.votes.map((v) => ({ ...v })), canVote: b.status === 'offen' })
+  const addDoc = (r: Row, name: string, blob: string, kind: DocKind = '', beschluss = '', link = '', size = 1) => {
+    const doc = { id: Math.random().toString(16).slice(2).padEnd(32, '0').slice(0, 32), name, size, time: new Date().toISOString(), user: 'Vorschau', kind, beschluss, url: link, blob }
+    r.docs.push(doc)
+    return doc
+  }
+  const eintritt = (r: MemberRecord) => r.eintritt || r.zulassung_datum
   const TYPES: Record<BeschlussType, string> = { zulassung: 'Aufnahme als Mitglied', zeichnung: 'Weitere Geschäftsanteile', kuendigung: 'Kündigung von Geschäftsanteilen', ausscheiden: 'Ausscheiden' }
   const applyB = (id: number, b: Beschluss) => {
     const r = row(id)
     const ok = b.status === 'zugestimmt'
-    const names = AR.join(', ')
+    const names = voters(b.gremium).join(', ')
+    const agreed = voters(b.gremium).length === 1 ? 'Zugestimmt' : 'Alle haben zugestimmt'
     if (b.type === 'zulassung') {
       Object.assign(r.record, { zulassung_status: b.status, zulassung_ar: names, zulassung_datum: today(), status: ok ? 'zugelassen' : 'abgelehnt' })
       if (ok) {
         r.record.nr = r.record.nr ?? Math.max(0, ...[...rows.values()].map((x) => x.record.nr ?? 0)) + 1
         r.record.zeichnungen = r.record.zeichnungen.map((z) => (z.zugelassen ? z : { ...z, zugelassen: today(), ar: names, ar_status: 'zugestimmt' }))
-        return `Alle haben zugestimmt: Mitglied Nr. ${r.record.nr} ist zugelassen. ${b.portal ? openPortal(id) : 'Kein Portal-Zugang angelegt.'}`
+        return `${agreed}: Mitglied Nr. ${r.record.nr} ist zugelassen. ${b.portal ? openPortal(id) : 'Kein Portal-Zugang angelegt.'}`
       }
     } else if (b.type === 'ausscheiden') {
       Object.assign(r.record, { aus_ar_status: b.status, aus_ar: names }, ok ? { status: 'ausgeschieden' } : {})
@@ -227,22 +298,41 @@ function demoApi() {
       const list = b.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen
       if (list[b.ref]) Object.assign(list[b.ref], { ar_status: b.status, ar: names })
     }
-    return ok ? 'Alle haben zugestimmt, der Beschluss ist gefasst.' : 'Der Beschluss ist abgelehnt.'
+    return ok ? `${agreed}, der Beschluss ist gefasst.` : 'Der Beschluss ist abgelehnt.'
   }
   const setSecrets = (r: Row, s: SecretsInput) => { for (const k of ['iban', 'steuer_id', 'kirchensteuer'] as const) if (s[k] !== null) r.secrets[k] = s[k] ?? '' }
   const openPortal = (id: number) => {
     const r = row(id)
     if (!r.record.email) throw new Error('Für den Portal-Zugang fehlt eine gültige E-Mail-Adresse.')
     r.portal = { status: 'eingeladen', email: r.record.email, invited: new Date().toISOString() }
-    log(r, 'Portal-Zugang eingerichtet', `Willkommensmail an ${r.record.email}`)
-    return `Portal-Zugang eingerichtet. Die Willkommensmail ist an ${r.record.email} unterwegs. (Vorschau: es wird nichts gesendet.)`
+    log(r, `E-Mail: Hanseatische Invest eG – Bestätigung Mitgliedschaft Nr. ${r.record.nr}`, `An ${r.record.email}: Mitgliedsnummer ${r.record.nr}, Zahlungsdaten und Zugang zum Mitgliederbereich`, true)
+    return `Portal-Zugang eingerichtet. Die Bestätigungsmail mit Mitgliedsnummer, Zahlungsdaten und Zugangsdaten ist an ${r.record.email} unterwegs. (Vorschau: es wird nichts gesendet.)`
   }
+  // The open Antrag comes with its signed Beitrittserklärung, as if dropped in when it was created
+  addDoc(row(4), 'Beitrittserklaerung_Petra_Antrag.pdf', demoPdf('Beitrittserklaerung (Beispiel) - Petra Antrag'), 'beitritt')
+  /** Puts a decision to the Aufsichtsrat or Vorstand (Vorlegen, or a changed approved row). */
+  const present = (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => {
+    const r = row(id)
+    const ref = body.ref ?? 0
+    if (r.beschluesse.some((b) => b.status === 'offen' && b.type === body.type && b.ref === ref)) throw new Error('Dazu liegt schon ein offener Beschluss vor.')
+    if (body.type === 'kuendigung' && !r.record.kuendigungen[ref]?.schreiben) throw new Error('Bitte zuerst das ausgefüllte Kündigungsschreiben zu dieser Kündigung hochladen.')
+    const gremium: Gremium = r.record.art === 'o' ? 'vorstand' : 'ar'
+    const b: Beschluss = { id: Math.random().toString(16).slice(2, 18).padEnd(16, '0'), gremium, type: body.type, ref, title: `${TYPES[body.type]}: ${name(r.record)}`, status: 'offen', created: new Date().toISOString(), by: 'Vorschau', portal: !!body.portal, closed: '', votes: voters(gremium).map((n) => ({ name: n, fullName: VOLL[n] ?? n, vote: '', time: '', note: '' })), canVote: true }
+    r.beschluesse.push(b)
+    if (body.type === 'zulassung') r.record.zulassung_status = 'offen'
+    else if (body.type === 'ausscheiden') r.record.aus_ar_status = 'offen'
+    else (body.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen)[ref].ar_status = 'offen'
+    const label = gremium === 'vorstand' ? 'Vorstand' : 'Aufsichtsrat'
+    log(r, `Dem ${label} vorgelegt`, b.title)
+    return `Dem ${label} vorgelegt. ${voters(gremium).join(', ')} ${voters(gremium).length === 1 ? 'wurde' : 'wurden'} per E-Mail benachrichtigt. (Vorschau: es wird nichts gesendet.)`
+}
+
   const wait = <T,>(fn: () => T) => new Promise<T>((ok, fail) => setTimeout(() => { try { ok(fn()) } catch (e) { fail(e) } }, 150))
 
   return {
     list: () => wait(() => [...rows].map(([id, r]): MemberSummary => ({
       id, nr: r.record.nr, name: name(r.record), firma: r.record.firma, ort: r.record.ort, email: r.record.email, art: r.record.art, status: r.record.status,
-      zulassung_status: r.record.zulassung_status, zulassung_datum: r.record.zulassung_datum, empfehler: r.record.empfehler, bonus: r.record.bonus,
+      zulassung_status: r.record.zulassung_status, zulassung_datum: r.record.zulassung_datum, eintritt: eintritt(r.record), empfehler: r.record.empfehler, bonus: r.record.bonus,
       portal: r.portal.status, updated: r.updated, ...totals(r.record),
     }))),
     get: (id: number) => wait(() => detail(id)),
@@ -255,30 +345,53 @@ function demoApi() {
       log(r, 'Antrag angelegt')
       return detail(id)
     }),
-    update: (id: number, record: MemberRecord, secrets: SecretsInput) => wait(() => { const r = row(id); r.record = structuredClone(record); setSecrets(r, secrets); log(r, 'Geändert'); return detail(id) }),
+    update: (id: number, record: MemberRecord, secrets: SecretsInput) => wait(() => {
+      const r = row(id)
+      if (record.art !== r.record.art && r.beschluesse.some((b) => b.status === 'offen')) throw new Error('Die Art der Mitgliedschaft lässt sich erst ändern, wenn keine Vorlage mehr offen ist. Bitte die Vorlage zurückziehen oder die Entscheidung abwarten.')
+      const next = structuredClone(record)
+      // A change to shares or dates of an approved (or open) row goes to the Aufsichtsrat again
+      const again: [BeschlussType, number][] = []
+      const watch = (list: 'zeichnungen' | 'kuendigungen', type: BeschlussType, keys: string[]) =>
+        r.record[list].forEach((was, i) => {
+          const now = next[list][i] as Record<string, unknown> | undefined
+          if (!now || (was.ar_status !== 'zugestimmt' && was.ar_status !== 'offen') || !keys.some((k) => now[k] !== (was as Record<string, unknown>)[k])) return
+          const open = r.beschluesse.find((b) => b.status === 'offen' && b.type === type && b.ref === i)
+          if (open) {
+            open.status = 'zurückgezogen'
+            log(r, 'Vorlage zurückgezogen', `${open.title} – Angaben geändert`)
+          }
+          Object.assign(now, { ar_status: '', ar: '' }, list === 'zeichnungen' ? { zugelassen: '' } : {})
+          again.push([type, i])
+        })
+      watch('zeichnungen', 'zeichnung', ['anteile', 'betrag'])
+      watch('kuendigungen', 'kuendigung', ['datum', 'anteile', 'zum', 'betrag'])
+      r.record = next
+      setSecrets(r, secrets)
+      log(r, 'Geändert')
+      const messages = again.map(([type, i]) => {
+        const label = type === 'zeichnung' ? 'Geänderte Anteile' : 'Geänderte Kündigung'
+        log(r, label, `Zeile ${i + 1}: die Zustimmung wird neu eingeholt`)
+        try {
+          return `${label} (Zeile ${i + 1}): ${present(id, { type, ref: i })}`
+        } catch (e) {
+          return `${label} (Zeile ${i + 1}): nicht vorgelegt – ${(e as Error).message}`
+        }
+      })
+      return { ...detail(id), ...(messages.length ? { message: messages.join(' ') } : {}) }
+    }),
     reveal: (id: number) => wait(() => { const r = row(id); log(r, 'Bank- und Steuerdaten angezeigt'); return { ...r.secrets } }),
     portal: (id: number) => wait(() => ({ message: openPortal(id), member: detail(id) })),
-    vorlegen: (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => wait(() => {
-      const r = row(id)
-      const ref = body.ref ?? 0
-      if (r.beschluesse.some((b) => b.status === 'offen' && b.type === body.type && b.ref === ref)) throw new Error('Dazu liegt dem Aufsichtsrat schon ein offener Beschluss vor.')
-      const b: Beschluss = { id: Math.random().toString(16).slice(2, 18).padEnd(16, '0'), type: body.type, ref, title: `${TYPES[body.type]}: ${name(r.record)}`, status: 'offen', created: new Date().toISOString(), by: 'Vorschau', portal: !!body.portal, closed: '', votes: AR.map((n) => ({ name: n, vote: '', time: '', note: '' })), canVote: true }
-      r.beschluesse.push(b)
-      if (body.type === 'zulassung') r.record.zulassung_status = 'offen'
-      else if (body.type === 'ausscheiden') r.record.aus_ar_status = 'offen'
-      else (body.type === 'zeichnung' ? r.record.zeichnungen : r.record.kuendigungen)[ref].ar_status = 'offen'
-      log(r, 'Dem Aufsichtsrat vorgelegt', b.title)
-      return { member: detail(id), message: `Dem Aufsichtsrat vorgelegt. ${AR.join(', ')} wurden per E-Mail benachrichtigt. (Vorschau: es wird nichts gesendet.)` }
-    }),
+    vorlegen: (id: number, body: { type: BeschlussType; ref?: number; portal?: boolean }) => wait(() => ({ message: present(id, body), member: detail(id) })),
     vote: (id: number, bid: string, body: { vote: 'zugestimmt' | 'abgelehnt'; note: string }) => wait(() => {
       const r = row(id)
       const b = r.beschluesse.find((x) => x.id === bid)
       const slot = b?.votes.find((v) => !v.vote)
       if (!b || b.status !== 'offen' || !slot) throw new Error('Über diesen Beschluss ist schon entschieden.')
       Object.assign(slot, { vote: body.vote, time: new Date().toISOString(), note: body.note })
-      log(r, `Aufsichtsrat: ${body.vote === 'zugestimmt' ? 'Zustimmung' : 'Ablehnung'}`, `${b.title} (${slot.name})`)
+      log(r, `${b.gremium === 'vorstand' ? 'Vorstand' : 'Aufsichtsrat'}: ${body.vote === 'zugestimmt' ? 'Zustimmung' : 'Ablehnung'}`, `${b.title} (${slot.name})`)
       if (body.vote === 'abgelehnt') b.status = 'abgelehnt'
       else if (b.votes.every((v) => v.vote === 'zugestimmt')) b.status = 'zugestimmt'
+      if (b.status !== 'offen') b.closed = new Date().toISOString()
       const done = b.status !== 'offen' ? ` ${applyB(id, b)}` : ` ${b.votes.filter((v) => v.vote).length} von ${b.votes.length} Stimmen liegen vor.`
       return { member: detail(id), message: `Stimme von ${slot.name} gespeichert (Vorschau).${done}` }
     }),
@@ -290,16 +403,59 @@ function demoApi() {
       return { member: detail(id), message: 'Vorlage zurückgezogen.' }
     }),
     inbox: () => wait((): Inbox => ({
-      items: [...rows].flatMap(([id, r]) => r.beschluesse.filter((b) => b.status === 'offen').map((b) => ({ ...publicB(b), member: id, name: name(r.record), documents: r.docs.map(({ url: _url, ...d }) => d) }))),
+      items: [...rows].flatMap(([id, r]) => r.beschluesse.filter((b) => b.status === 'offen').map((b) => ({ ...publicB(b), member: id, name: name(r.record), documents: r.docs.map(({ blob: _blob, ...d }) => d) }))),
       ar: AR,
       size: 3,
+      vorstand: VORSTAND,
     })),
-    upload: (id: number, file: File) => wait(() => {
+    docusignPdf: (_url: string) => wait((): File => {
+      throw new Error('Die DocuSign-Anbindung ist noch nicht eingerichtet (Einstellungen → DocuSign). Vorschau: PDF bitte als Datei ablegen.')
+    }),
+    upload: (id: number, file: File | null, opts: UploadOptions = {}) => wait(() => {
       const r = row(id)
-      r.docs.push({ id: Math.random().toString(16).slice(2).padEnd(32, '0').slice(0, 32), name: file.name, size: file.size, time: new Date().toISOString(), user: 'Vorschau', url: URL.createObjectURL(file) })
-      log(r, 'Dokument hochgeladen', file.name)
+      if (opts.kind === 'zustimmung' && r.docs.some((d) => d.beschluss === opts.beschluss)) throw new Error('Das Dokument zu dieser Zustimmung liegt schon vor.')
+      if (!file && !opts.url?.startsWith('https://')) throw new Error('Bitte einen vollständigen DocuSign-Link (https://…) einfügen.')
+      const label = opts.kind === 'beitritt' ? 'Beitrittserklärung' : opts.kind === 'kuendigung' ? 'Kündigungsschreiben' : 'Dokument'
+      const doc = file
+        ? addDoc(r, file.name, URL.createObjectURL(file), opts.kind ?? '', opts.beschluss ?? '', opts.url ?? '')
+        : addDoc(r, `${label}-DocuSign (Link)`, opts.url!, opts.kind ?? '', '', opts.url!, 0)
+      if (opts.kind === 'kuendigung' && r.record.kuendigungen[opts.ref ?? -1]) {
+        r.record.kuendigungen[opts.ref!].schreiben = doc.id
+        log(r, 'Kündigungsschreiben hochgeladen', `${doc.name} (Kündigung Zeile ${opts.ref! + 1}, im Mitgliederbereich sichtbar)`, true)
+      } else log(r, opts.kind === 'zustimmung' ? 'Zustimmungsdokument abgelegt' : 'Dokument hochgeladen', `${doc.name} (im Mitgliederbereich sichtbar)`, true)
+      const b = r.beschluesse.find((x) => x.id === opts.beschluss)
+      const k = b?.type === 'kuendigung' ? r.record.kuendigungen[b.ref] : null
+      if (!file) return { ...detail(id), message: 'Der DocuSign-Link ist gespeichert. Das PDF konnte nicht geladen werden: Die DocuSign-Anbindung ist in der Vorschau nicht eingerichtet.' }
+      if (k) log(r, 'E-Mail: Hanseatische Invest eG – Bestätigung Ihrer Kündigung', `${k.anteile} Anteile zum ${k.zum.split('-').reverse().join('.')}, an ${r.record.email}, mit PDF im Anhang`, true)
       return detail(id)
     }),
-    documentUrl: (id: number, doc: string) => rows.get(id)?.docs.find((d) => d.id === doc)?.url ?? '#',
+    exportMitgliederliste: (von: string, bis: string) => wait((): ExportData => ({
+      created: new Date().toISOString(),
+      von,
+      bis,
+      // Members during the period: admitted by "bis", not gone before "von"; shares and Ausscheiden as of "bis"
+      rows: [...rows]
+        .filter(([, r]) => {
+          const x = r.record
+          const gone = x.aus_datum || x.aus_eintragung
+          return (x.status === 'zugelassen' || x.status === 'ausgeschieden') && !(x.zulassung_datum && x.zulassung_datum > bis) && !(x.status === 'ausgeschieden' && gone && gone < von)
+        })
+        .map(([, r]): ExportRow => {
+          log(r, 'Export: Mitgliederliste', `Zeitraum ${von} – ${bis}, mit IBAN und Steuer-ID`)
+          const x = { ...r.record }
+          const gone = x.aus_datum || x.aus_eintragung
+          if (!(gone && gone <= bis)) Object.assign(x, { aus_eintragung: '', aus_grund: '', aus_datum: '' })
+          x.zeichnungen = [x.zeichnungen[0], ...x.zeichnungen.slice(1).filter((z) => !z.zugelassen || z.zugelassen <= bis)].filter(Boolean)
+          return {
+            nr: x.nr, zulassung: x.zulassung_datum, firma: x.firma, anrede: x.anrede, vorname: x.vorname, nachname: x.nachname, strasse: x.strasse, plz: x.plz, ort: x.ort,
+            geburtstag: x.geburtstag, iban: r.secrets.iban, steuer_id: r.secrets.steuer_id, telefon: x.telefon, email: x.email, anteile: x.zeichnungen[0]?.anteile ?? null,
+            weitere: x.zeichnungen.slice(1).map((z) => ({ zugelassen: z.zugelassen, anteile: z.anteile })),
+            aus_eintragung: x.aus_eintragung, aus_grund: x.aus_grund, aus_datum: x.aus_datum, art: x.art, bemerkungen: x.bemerkungen,
+          }
+        })
+        .sort((a, b) => (a.nr ?? 1e9) - (b.nr ?? 1e9)),
+    })),
+    log: () => wait((): LogItem[] => [...rows].flatMap(([id, r]) => r.log.map((l) => ({ ...l, member: id, name: name(r.record) }))).sort((a, b) => b.time.localeCompare(a.time))),
+    documentUrl: (id: number, doc: string) => rows.get(id)?.docs.find((d) => d.id === doc)?.blob ?? '#',
   }
 }

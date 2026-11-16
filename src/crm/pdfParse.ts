@@ -6,6 +6,9 @@
 // line or on the line just above the label (DocuSign places field text
 // slightly higher), checkboxes as an "X" just before "Ja"/"Nein". Also reads
 // "Label: value" layouts like our own template (inc/beitritt-dokument.php).
+// The kind of membership: the ticked box in "Ich trete bei als ☐ Ordentliches
+// Mitglied ☐ Investierendes Mitglied" (form F1, Nov 2026), else a heading such
+// as "… als ordentliches Mitglied". Blank lines ("Name: ______") are ignored.
 
 import type { MemberRecord, Secrets } from './api'
 
@@ -49,11 +52,11 @@ const LABELS: { re: RegExp; key: Key }[] = [
   { re: /^land\b/i, key: 'land' },
   { re: /^(telefonnummer|telefon|tel\.|mobil)\b/i, key: 'telefon' },
   { re: /^(e-?mail-?adresse|e-?mail)\b/i, key: 'email' },
-  { re: /^(steuer-?\s*id|steuer-?identifikationsnummer|steuerliche identifikationsnummer)\b/i, key: 'steuer_id' },
+  { re: /^(steuer-?\s*id|steuer-?identifikationsnummer|steuerliche identifikationsnummer|steuer-?\s*nr\.?|steuernummer)(?=[\s:.]|$)/i, key: 'steuer_id' },
   { re: /^kirchensteuer(pflicht|pflichtig)?\b/i, key: 'kirchensteuer' },
   { re: /^bundesland\b/i, key: 'bundesland' },
   { re: /^(kontoempfänger|kontoinhaber(in)?)\b/i, key: 'kontoinhaber' },
-  { re: /^freistellungsauftrag liegt bei/i, key: 'freistellung' },
+  { re: /^(?:[x☐☒✓✔]\s*)?freistellungsauftrag liegt bei/i, key: 'freistellung' },
   { re: /^anzahl\s+(der\s+)?(geschäfts)?anteile\b/i, key: 'anteile' },
   { re: /^gesamtsumme\b/i, key: 'gesamt' },
   { re: /^iban\b/i, key: 'iban' },
@@ -62,6 +65,9 @@ const LABELS: { re: RegExp; key: Key }[] = [
 
 const labelOf = (line: PdfLine) => LABELS.find((l) => l.re.test(line.text))
 
+/** Removes the blank lines of an empty form field ("______"). */
+const blank = (s: string) => s.replace(/_{2,}/g, ' ').replace(/\s+/g, ' ').trim()
+
 /** Raw value for each label: rest of the label line, else the value line above, else the one below. */
 function readLabels(lines: PdfLine[]) {
   const raw: Partial<Record<Key, { value: string; line: PdfLine }>> = {}
@@ -69,19 +75,19 @@ function readLabels(lines: PdfLine[]) {
   // A value-only line: no label, and it starts well right of the label column.
   const valueLine = (i: number, labelX: number) => {
     const l = lines[i]
-    return l && !used.has(i) && !labelOf(l) && l.x > labelX + 60 ? l : null
+    return l && !used.has(i) && !labelOf(l) && l.x > labelX + 60 && blank(l.text) ? l : null
   }
   lines.forEach((line, i) => {
     const label = labelOf(line)
     if (!label || raw[label.key]) return
     const m = label.re.exec(line.text)!
-    let value = line.text.slice(m[0].length).replace(/^[\s:*.\-–()A-Za-zäöüÄÖÜ]*?:\s*/, '').replace(/^[\s:*]+/, '').trim()
+    let value = blank(line.text.slice(m[0].length).replace(/^[\s:*.\-–()A-Za-zäöüÄÖÜ]*?:\s*/, '').replace(/^[\s:*]+/, ''))
     if (label.key === 'kirchensteuer' || label.key === 'freistellung' || label.key === 'gesamt') value = line.text // read in full below
     if (!value || label.key === 'gesamt') {
       const near = valueLine(i - 1, line.x) ? i - 1 : valueLine(i + 1, line.x) ? i + 1 : -1
       if (near >= 0) {
         used.add(near)
-        value = label.key === 'gesamt' ? lines[near].text : value || lines[near].text
+        value = label.key === 'gesamt' ? lines[near].text : value || blank(lines[near].text)
       }
     }
     if (value) raw[label.key] = { value, line }
@@ -106,6 +112,40 @@ function checked(line: PdfLine): 'ja' | 'nein' | '' {
   return next ? (next.s.trim().toLowerCase() as 'ja' | 'nein') : ''
 }
 
+const TICK = /^(x|☒|✓|✔|☑)$/i
+
+/**
+ * "Ich trete bei als ☐ Ordentliches Mitglied ☐ Investierendes Mitglied": the
+ * option with a tick (DocuSign: an "X") just before it. The tick may sit on the
+ * line itself or, placed slightly higher or lower by DocuSign, on the next one.
+ */
+export function membershipFromCheckbox(lines: PdfLine[]): MemberRecord['art'] | null {
+  const i = lines.findIndex((l) => /ich trete bei als/i.test(l.text))
+  if (i < 0) return null
+  const options = lines[i].items.filter((it) => /^(ordentlich|investierend)/i.test(it.s.trim()))
+  const ticks = [lines[i - 1], lines[i], lines[i + 1]].flatMap((l) => l?.items ?? []).filter((it) => TICK.test(it.s.trim()))
+  for (const opt of options) {
+    if (ticks.some((t) => t.x >= opt.x - 30 && t.x <= opt.x + 4)) return /^ordentlich/i.test(opt.s.trim()) ? 'o' : 'i'
+  }
+  // Text extracted as one piece: "… als X Ordentliches Mitglied ☐ Investierendes Mitglied"
+  const m = /(?:^|\s)(?:x|☒|✓|✔|☑)\s*(ordentlich|investierend)/i.exec(lines[i].text)
+  return m ? (/^ordentlich/i.test(m[1]) ? 'o' : 'i') : null
+}
+
+/**
+ * "ordentliches Mitglied" or "investierendes Mitglied" in the heading of the
+ * form: the lines before the first form field (at most the first 12). The
+ * body text may mention the other kind, so it is not searched.
+ */
+export function membershipFromHeading(lines: PdfLine[]): MemberRecord['art'] | null {
+  const first = lines.findIndex((l) => labelOf(l) && !/^name der genossenschaft/i.test(l.text)) // the Genossenschaft's own name may sit in the heading
+  const heading = lines.slice(0, Math.min(first < 0 ? 12 : first, 12)).map((l) => l.text).join(' ')
+  const o = /\bordentliche[nrs]?\s+mitglied/i.exec(heading)
+  const i = /\binvestierende[nrs]?\s+mitglied/i.exec(heading)
+  if (o && i) return o.index < i.index ? 'o' : 'i'
+  return o ? 'o' : i ? 'i' : null
+}
+
 export function parseBeitritt(lines: PdfLine[]): PdfResult {
   const raw = readLabels(lines)
   const v = (k: Key) => raw[k]?.value.trim() ?? ''
@@ -119,6 +159,10 @@ export function parseBeitritt(lines: PdfLine[]): PdfResult {
     found.add(label)
   }
 
+  // Kind of membership: ticked box in "Ich trete bei als …", else the heading
+  const art = membershipFromCheckbox(lines) ?? membershipFromHeading(lines)
+  if (art) set('art', art, art === 'o' ? 'Art: ordentliches Mitglied' : 'Art: investierendes Mitglied')
+
   // Names: "Name, Vorname", separate fields, or "Name: Vorname Nachname"
   if (v('name_komma')) {
     const [last, first] = v('name_komma').split(',').map((x) => x.trim())
@@ -130,7 +174,8 @@ export function parseBeitritt(lines: PdfLine[]): PdfResult {
   if (v('name') && !r.nachname) {
     const parts = v('name').replace(/^(Herr und Frau|Herr|Frau)\s+/i, '').split(/\s+/)
     const last = parts.pop()
-    if (r.vorname || parts.length === 0) set('nachname', last, 'Nachname')
+    if (r.vorname) set('nachname', [...parts, last].join(' '), 'Nachname') // "Name:" next to "Vorname:" is the whole surname
+    else if (parts.length === 0) set('nachname', last, 'Nachname')
     else {
       set('nachname', last, 'Nachname')
       set('vorname', parts.join(' '), 'Vorname')
@@ -158,7 +203,8 @@ export function parseBeitritt(lines: PdfLine[]): PdfResult {
 
   // Freistellungsauftrag: an amount after "EUR", or 0 when none is given / "Keine Freistellung" is ticked
   if (raw.freistellung) {
-    const after = raw.freistellung.value.split(/EUR/i)[1] ?? ''
+    // "… EUR 1.000" (earlier form) or "… in Höhe von: 1.000 €" (form F1)
+    const after = blank(raw.freistellung.value.split(/in Höhe von:?/i)[1] ?? raw.freistellung.value.split(/EUR/i)[1] ?? '')
     const amount = euro(after)
     const none = /\bnein\b/i.test(after) || lines.some((l) => /keine freistellung/i.test(l.text) && l.items.some((i) => i.s.trim().toUpperCase() === 'X'))
     set('freistellung', amount ?? (none ? 0 : undefined), 'Freistellungsauftrag')
@@ -199,7 +245,7 @@ export function parseBeitritt(lines: PdfLine[]): PdfResult {
   // For the record: DocuSign envelope, place and date of signing, number if already assigned
   const envelope = /docusign\s+envelope\s+id:?\s*([0-9A-F-]{20,})/i.exec(text)?.[1]
   const signed = v('ortdatum')
-  const nr = v('mitgliedsnummer')
+  const nr = v('mitgliedsnummer').match(/\d+/)?.[0] ?? ''
   const note = [
     envelope && `DocuSign-Umschlag ${envelope}`,
     signed && `unterschrieben in ${signed.replace(/(\d{1,2}\.\d{1,2}\.\d{4})/, 'am $1').replace(/\s+am/, ' am')}`,
