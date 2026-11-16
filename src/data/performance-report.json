@@ -1,6 +1,6 @@
 {
-  "asOf": "9. November 2026",
-  "updatedAt": "2026-11-09",
+  "asOf": "16. November 2026",
+  "updatedAt": "2026-11-16",
   "note": "Kampagnen- und Anzeigendaten live aus dem Meta-Werbekonto GIGxHansea (Stand 9. November 2026). Lead-Zahlen aus Perspective ersetzen die von Meta gemeldeten Website-Leads: echte CRM-Kontakte je Anzeige, über Meta-Anzeigen-ID bzw. UTM-Parameter zugeordnet, Mehrfach-Anfragen derselben Person einmal gezählt. Lead-Formular-Kampagnen erfassen Leads direkt in Meta und haben keine Perspective-Zuordnung.",
   "metaAdAccount": {
     "id": "1606528074401845",
@@ -32,13 +32,13 @@
       "status": "off",
       "objective": "Website Leads",
       "dailyBudget": 150,
-      "spend": 6188.89,
-      "reach": 44841,
-      "impressions": 121314,
+      "spend": 6210.25,
+      "reach": 44925,
+      "impressions": 121603,
       "delivery": "seit 29. Sep 2026, pausiert am 9. Nov 2026",
       "recommendations": 2,
       "metaResults": 38,
-      "metaCostPerResult": 162.87,
+      "metaCostPerResult": 163.43,
       "perspectiveLeads": 49,
       "perspectiveFunnel": "Hamburg-Bergedorf Off-Market Landing Page",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/bergedorf/",
@@ -69,9 +69,9 @@
           "image": "280926_Bergedorf_Ad2",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 69.15,
+          "spend": 69.59,
           "reach": 1193,
-          "impressions": 2016
+          "impressions": 2020
         },
         {
           "id": "ad3",
@@ -79,10 +79,10 @@
           "metaAdId": "120250588102310344",
           "image": "280926_Bergedorf_Ad3",
           "metaResults": 15,
-          "metaCostPerResult": 171.2,
-          "spend": 2568.04,
-          "reach": 17173,
-          "impressions": 38163,
+          "metaCostPerResult": 171.83,
+          "spend": 2577.52,
+          "reach": 17234,
+          "impressions": 38224,
           "perspectiveLeads": 17,
           "leadDates": [
             "2026-10-05",
@@ -110,10 +110,10 @@
           "metaAdId": "120250588111710344",
           "image": "280926_Bergedorf_Ad4",
           "metaResults": 13,
-          "metaCostPerResult": 157.38,
-          "spend": 2045.89,
-          "reach": 18078,
-          "impressions": 45670,
+          "metaCostPerResult": 157.97,
+          "spend": 2053.57,
+          "reach": 18125,
+          "impressions": 45821,
           "perspectiveLeads": 16,
           "leadDates": [
             "2026-09-29",
@@ -140,10 +140,10 @@
           "metaAdId": "120250588121750344",
           "image": "280926_Bergedorf_Ad5",
           "metaResults": 1,
-          "metaCostPerResult": 272.43,
-          "spend": 272.43,
+          "metaCostPerResult": 272.55,
+          "spend": 272.55,
           "reach": 2721,
-          "impressions": 5448,
+          "impressions": 5450,
           "perspectiveLeads": 1,
           "leadDates": [
             "2026-09-29"
@@ -155,10 +155,10 @@
           "metaAdId": "120250588134270344",
           "image": "280926_Bergedorf_Ad6",
           "metaResults": 9,
-          "metaCostPerResult": 114.5,
-          "spend": 1030.48,
-          "reach": 8433,
-          "impressions": 17818,
+          "metaCostPerResult": 114.9,
+          "spend": 1034.12,
+          "reach": 8443,
+          "impressions": 17889,
           "perspectiveLeads": 14,
           "leadDates": [
             "2026-10-07",
@@ -440,19 +440,19 @@
       "status": "active",
       "objective": "Leads (Formular)",
       "dailyBudget": 200,
-      "spend": 8111.29,
-      "reach": 55381,
-      "impressions": 70510,
+      "spend": 8598.94,
+      "reach": 57281,
+      "impressions": 72768,
       "delivery": "seit 9. Okt 2026",
       "recommendations": 0,
-      "metaResults": 359,
-      "metaCostPerResult": 22.59,
+      "metaResults": 384,
+      "metaCostPerResult": 22.39,
       "perspectiveLeads": 0,
       "perspectiveFunnel": "Full-Service-Modell: Meta Lead-Formular (kein Perspective-Funnel)",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 9.11.2026, 301 Deals aus „Meta forms (051026_HSWG_Full Service)“, doppelt eingefügte Einträge nicht mitgezählt): 50 neue, noch unbearbeitete Leads, 12 Nicht erreicht (2×/3×: 1/11), 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 234 Disqualifiziert (232 im Setting, 2 im Closing). Gründe im Setting: 88 zu oft nicht erreicht, 40 keine oder falsche Nummer, 104 sonstige. Meta-Zahlen oben Stand 13. November 2026; HubSpot-Status Stand 9. November 2026.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 9.11.2026, 301 Deals aus „Meta forms (051026_HSWG_Full Service)“, doppelt eingefügte Einträge nicht mitgezählt): 50 neue, noch unbearbeitete Leads, 12 Nicht erreicht (2×/3×: 1/11), 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 234 Disqualifiziert (232 im Setting, 2 im Closing). Gründe im Setting: 88 zu oft nicht erreicht, 40 keine oder falsche Nummer, 104 sonstige. Meta-Zahlen oben Stand 16. November 2026; HubSpot-Status Stand 9. November 2026.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -548,11 +548,11 @@
           "metaAdId": "120250799876540344",
           "image": "081026_Kai_Tanem_Video_1",
           "videoUrl": "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing",
-          "metaResults": 62,
-          "metaCostPerResult": 19.68,
-          "spend": 1220.04,
-          "reach": 6662,
-          "impressions": 6997
+          "metaResults": 64,
+          "metaCostPerResult": 19.52,
+          "spend": 1249.5,
+          "reach": 6790,
+          "impressions": 7121
         },
         {
           "id": "lf-ad10",
@@ -560,11 +560,11 @@
           "metaAdId": "120250799876490344",
           "image": "081026_Kai_Tanem_Video_2",
           "videoUrl": "https://drive.google.com/file/d/1lviaOcHK10y3lPFMsaa1yXS9QDJHmsB8/view?usp=sharing",
-          "metaResults": 37,
+          "metaResults": 39,
           "metaCostPerResult": 19.53,
-          "spend": 722.55,
-          "reach": 5502,
-          "impressions": 5692
+          "spend": 761.54,
+          "reach": 5714,
+          "impressions": 5888
         },
         {
           "id": "lf-ad11",
@@ -572,11 +572,11 @@
           "metaAdId": "120250799876470344",
           "image": "081026_Kai_Tanem_Video_3",
           "videoUrl": "https://drive.google.com/file/d/1IJKysKs-8y_ZJuzxiHDP_WE6Svh7Wb6D/view?usp=sharing",
-          "metaResults": 238,
-          "metaCostPerResult": 23.94,
-          "spend": 5698.37,
-          "reach": 41535,
-          "impressions": 53243
+          "metaResults": 247,
+          "metaCostPerResult": 23.85,
+          "spend": 5891.33,
+          "reach": 42405,
+          "impressions": 54342
         },
         {
           "id": "lf-ad12",
@@ -585,14 +585,14 @@
           "image": "081026_Kai_Tanem_Video_1",
           "videoUrl": "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing",
           "badge": "Test ab 09.11.",
-          "metaResults": 16,
-          "metaCostPerResult": 23.62,
-          "spend": 377.88,
-          "reach": 1768,
-          "impressions": 1810
+          "metaResults": 28,
+          "metaCostPerResult": 21.58,
+          "spend": 604.12,
+          "reach": 2554,
+          "impressions": 2649
         }
       ],
-      "unattributedLeadsCount": 359,
+      "unattributedLeadsCount": 384,
       "leadStatus": {
         "neu": 50,
         "nichtErreicht": 12,
@@ -667,20 +667,20 @@
       "status": "active",
       "objective": "Leads (Formular)",
       "dailyBudget": 100,
-      "spend": 1334.47,
-      "reach": 13613,
-      "impressions": 25857,
+      "spend": 2003.34,
+      "reach": 16682,
+      "impressions": 35426,
       "delivery": "seit 26. Okt 2026",
       "recommendations": 0,
-      "metaResults": 45,
-      "metaCostPerResult": 29.65,
+      "metaResults": 70,
+      "metaCostPerResult": 28.62,
       "perspectiveLeads": 0,
       "perspectiveFunnel": "Hansea Grow: Meta Lead-Formular (kein Perspective-Funnel)",
       "perspectiveFunnelUrl": "",
       "leadSource": "meta-form",
       "incomplete": false,
-      "unattributedLeadsCount": 45,
-      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 45 Leads bei 1.334,47 € Ausgaben, 29,65 € je Lead (Stand 9. November 2026, Nachmittag). Bild_01 bringt mit 42 Leads bei 1.189,49 € (28,32 € je Lead) fast alle Leads; Bild_02 hat 1 Lead bei 45,82 €, Bild_03 und Bild_04 liefern kaum aus. Die Videos (Dane, Julia) haben zusammen 2 Leads bei 91,44 €.",
+      "unattributedLeadsCount": 70,
+      "note": "Neue Kampagne für Hansea Grow (Genossenschaftsanteile ab 100 € monatlich) mit Meta-nativem Lead-Formular, daher ohne Perspective-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse: 70 Leads bei 2.003,34 € Ausgaben, 28,62 € je Lead (Stand 16. November 2026). Bild_01 bringt mit 67 Leads bei 1.855,40 € (27,69 € je Lead) fast alle Leads; Bild_02 hat 1 Lead bei 47,72 €, Bild_03 und Bild_04 liefern kaum aus. Die Videos (Dane, Julia) haben zusammen 2 Leads bei 91,83 €.",
       "ads": [
         {
           "id": "grow-dane",
@@ -689,10 +689,10 @@
           "image": "261026_Hansea_Grow_Video_Dane",
           "videoUrl": "/videos/261026_Hansea_Grow_Video_Dane.mp4",
           "metaResults": 2,
-          "metaCostPerResult": 34.28,
-          "spend": 68.55,
+          "metaCostPerResult": 34.47,
+          "spend": 68.94,
           "reach": 1456,
-          "impressions": 1682
+          "impressions": 1684
         },
         {
           "id": "grow-julia",
@@ -711,11 +711,11 @@
           "name": "261026_Hansea Grow_Bild_01",
           "metaAdId": "120251181375210344",
           "image": "261026_Hansea_Grow_Bild_01",
-          "metaResults": 42,
-          "metaCostPerResult": 28.32,
-          "spend": 1189.49,
-          "reach": 11650,
-          "impressions": 22783
+          "metaResults": 67,
+          "metaCostPerResult": 27.69,
+          "spend": 1855.4,
+          "reach": 14820,
+          "impressions": 32316
         },
         {
           "id": "grow-bild-02",
@@ -723,10 +723,10 @@
           "metaAdId": "120251181387710344",
           "image": "261026_Hansea_Grow_Bild_02",
           "metaResults": 1,
-          "metaCostPerResult": 45.82,
-          "spend": 45.82,
-          "reach": 773,
-          "impressions": 1043
+          "metaCostPerResult": 47.72,
+          "spend": 47.72,
+          "reach": 788,
+          "impressions": 1061
         },
         {
           "id": "grow-bild-03",
@@ -735,9 +735,9 @@
           "image": "261026_Hansea_Grow_Bild_03",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 2.94,
-          "reach": 46,
-          "impressions": 48
+          "spend": 3.0,
+          "reach": 50,
+          "impressions": 52
         },
         {
           "id": "grow-bild-04",
@@ -746,9 +746,9 @@
           "image": "261026_Hansea_Grow_Bild_04",
           "metaResults": null,
           "metaCostPerResult": null,
-          "spend": 4.78,
-          "reach": 53,
-          "impressions": 64
+          "spend": 5.39,
+          "reach": 60,
+          "impressions": 76
         }
       ]
     },
