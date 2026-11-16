@@ -124,8 +124,17 @@ export type FunnelExtraLeads = Record<
   { dates: string[]; note: string; undatedCount?: number; undatedNote?: string }
 >;
 
+export type ActionPlan = {
+  /** YYYY-MM-DD */
+  updated: string;
+  done: { date: string; campaign: string; text: string }[];
+  planned: { campaign: string; status: string; text: string }[];
+};
+
 export type Report = {
   asOf: string;
+  /** Hand-kept list of measures taken and planned, shown below the campaigns. */
+  actionPlan?: ActionPlan;
   updatedAt: string;
   note: string;
   funnelExtraLeads: FunnelExtraLeads;

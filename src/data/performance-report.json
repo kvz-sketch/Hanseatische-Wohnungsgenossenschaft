@@ -1269,5 +1269,92 @@
       "note": "Meta meldet 11 Website-Leads bei 246,40 € je Lead. Perspective bestätigt 15 echte Kontakte (240926_HI_Hohenfelde_Ad1: 13, 240926_HI_Hohenfelde_Ad2: 2). Stand 9. November 2026.",
       "incomplete": false
     }
-  ]
+  ],
+  "actionPlan": {
+    "updated": "2026-11-16",
+    "done": [
+      {
+        "date": "2026-11-16",
+        "campaign": "Full-Service Leadformular",
+        "text": "Budget von 200 € auf 50 € pro Tag gesenkt: Von 321 Leads sind 316 disqualifiziert, nur 1 Deal ist bereit fürs Closing (rund 8.600 € Ausgaben je Closing-Deal)."
+      },
+      {
+        "date": "2026-11-09",
+        "campaign": "Full-Service Leadformular",
+        "text": "Targeting geschärft: nur deutschsprachige Nutzer mit Wohnsitz in Deutschland, Audience Network ausgeschlossen."
+      },
+      {
+        "date": "2026-11-09",
+        "campaign": "Full-Service Leadformular",
+        "text": "Neues Leadformular: Formulartyp „Höhere Kaufabsicht“, Fragen zu Eigenkapital und Netto-Einkommen, Terminbuchungs-Link auf der Danke-Seite."
+      },
+      {
+        "date": "2026-11-09",
+        "campaign": "Full-Service Leadformular",
+        "text": "Statische Anzeigengruppe pausiert; Test „Kai&Tanem 1“ in eigener Anzeigengruppe gestartet (Budget kurzzeitig 200 €, Haupt-Anzeigengruppe auf 150 € begrenzt)."
+      },
+      {
+        "date": "2026-11-09",
+        "campaign": "Full-Service Leadformular",
+        "text": "Lead-Status im Meta Leads Center gepflegt; Domain diefamiliengenossenschaft.de im Meta-Datensatz freigegeben."
+      },
+      {
+        "date": "2026-11-09",
+        "campaign": "Bergedorf",
+        "text": "Kampagne pausiert: 6.210 € Ausgaben, 49 Leads, 79 % disqualifiziert, kein qualifizierter Abschluss; Kosten je Lead zuletzt über 230 €."
+      },
+      {
+        "date": "2026-11-09",
+        "campaign": "Taboola Infopaket",
+        "text": "Neue Taboola-Kampagne gestartet (180 € pro Tag, Landingpage ratgeber.hanseainvest.de)."
+      }
+    ],
+    "planned": [
+      {
+        "campaign": "Full-Service",
+        "status": "Entwurf liegt vor",
+        "text": "Neuaufbau nach dem Closing-Lab-Modell: Landingpage mit Qualifizierungsfragen (Einkommen, Eigenkapital, Beschäftigung, Alter, Zeitpunkt) und direkter Terminbuchung. Nur passende Interessenten können einen Termin buchen."
+      },
+      {
+        "campaign": "Full-Service",
+        "status": "offen",
+        "text": "Meta-Kampagne für die neue Landingpage auf das Ereignis „Termin gebucht“ optimieren statt auf „Lead“; Start mit 100–150 € pro Tag, danach das Sofortformular auf 0 €."
+      },
+      {
+        "campaign": "Full-Service",
+        "status": "vor Start klären",
+        "text": "Schwellenwerte der Qualifizierung (Netto-Einkommen, Eigenkapital, Altersgrenzen) mit den Closern abstimmen."
+      },
+      {
+        "campaign": "Full-Service",
+        "status": "offen",
+        "text": "Anzeigen: Zielgruppe direkt ansprechen (Berufstätige mit Eigenkapital), Kai&Tanem 1 als Hauptvideo, Objekt-Anzeige nach Vorbild Düsseldorf-Oberbilk (Closing Lab) testen, neues Video als Ersatz für Kai&Tanem 3."
+      },
+      {
+        "campaign": "Full-Service",
+        "status": "Vorschlag",
+        "text": "Platzierungen auf Facebook- und Instagram-Feed begrenzen: Reels und Stories haben in 7 Tagen rund 110 € ohne Lead verbraucht."
+      },
+      {
+        "campaign": "Alle Meta-Kampagnen",
+        "status": "offen",
+        "text": "HubSpot→Meta-Synchronisierung prüfen: Lead-Status-Ereignisse kommen bei Meta noch nicht an. Danach Optimierung auf „Conversion Leads“."
+      },
+      {
+        "campaign": "Taboola Infopaket",
+        "status": "offen",
+        "text": "Conversion-Tracking (Lead nach dem Infopaket-Formular) prüfen und Zahlen aus dem Taboola-Konto regelmäßig nachtragen."
+      },
+      {
+        "campaign": "Hansea Grow",
+        "status": "offen",
+        "text": "Fast alle Leads kommen über Bild_01: neue Motive in dessen Stil testen, bevor es ermüdet."
+      },
+      {
+        "campaign": "ImmoMarketer",
+        "status": "offen",
+        "text": "Mit der Agentur die Planung besprechen: zuletzt nur rund 4 Leads pro Woche bei über 50 € je Lead."
+      }
+    ]
+  }
 }

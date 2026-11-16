@@ -5,6 +5,7 @@ import { AgencySection } from "../components/performanceReport/AgencySection";
 import { ClosingLabSection } from "../components/performanceReport/ClosingLabSection";
 import { ThoughtLeaderSection } from "../components/performanceReport/ThoughtLeaderSection";
 import { CampaignRow } from "../components/performanceReport/CampaignRow";
+import { ActionPlanSection } from "../components/performanceReport/ActionPlanSection";
 import { disqualificationRate, useReport, type Campaign } from "../data/performanceReport";
 import {
   buildPeriodOptions,
@@ -43,7 +44,7 @@ function groupByFunnel(items: Campaign[]): FunnelGroup[] {
 }
 
 export function PerformanceMarketingReport() {
-  const { asOf, campaigns, funnelExtraLeads } = useReport();
+  const { asOf, campaigns, funnelExtraLeads, actionPlan } = useReport();
   const [periodMode, setPeriodMode] = useState<PeriodMode>("all");
   const [periodKey, setPeriodKey] = useState<string | null>(null);
 
@@ -224,6 +225,8 @@ export function PerformanceMarketingReport() {
           </div>
         </div>
       </section>
+
+      <ActionPlanSection plan={actionPlan} />
 
       <AgencySection />
 
