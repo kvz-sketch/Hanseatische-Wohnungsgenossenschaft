@@ -54,69 +54,26 @@ add_action( 'wp_head', function () {
 	echo "<script>(function(d){if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('hs-motion');setTimeout(function(){if(!window.hsMotionReady)d.classList.remove('hs-motion')},2500)})(document.documentElement)</script>\n";
 }, 1 );
 
-/** Contact form posting to the theme's lead endpoint (stored under "Anfragen"). */
+/** HubSpot form behind the [hansea_kontakt] contact section. */
+const HANSEA_HUBSPOT_FORM = array(
+	'portal' => '19607021',
+	'form'   => '267d631e-8b36-4e15-bcfe-e5ba855ad77e',
+	'region' => 'na1',
+);
+
+/** Contact form: the HubSpot embed (submissions land in HubSpot, not under "Anfragen"). */
 add_shortcode( 'hansea_kontakt', function () {
-	$sources = array( 'Empfehlung', 'Google / Suche', 'Social Media', 'Webinar', 'Buch', 'Presse', 'Makler', 'Sonstiges' );
-	$id      = 'hs-kontakt-' . wp_rand( 1000, 9999 );
-	ob_start();
-	?>
-	<form class="hs-form" id="<?php echo esc_attr( $id ); ?>" novalidate>
-		<div class="hs-form__row">
-			<div><label for="<?php echo esc_attr( $id ); ?>-first">Vorname*</label><input id="<?php echo esc_attr( $id ); ?>-first" name="firstName" autocomplete="given-name" required></div>
-			<div><label for="<?php echo esc_attr( $id ); ?>-last">Nachname*</label><input id="<?php echo esc_attr( $id ); ?>-last" name="lastName" autocomplete="family-name" required></div>
-		</div>
-		<div><label for="<?php echo esc_attr( $id ); ?>-email">Email*</label><input id="<?php echo esc_attr( $id ); ?>-email" name="email" type="email" autocomplete="email" required></div>
-		<div>
-			<label for="<?php echo esc_attr( $id ); ?>-source">Wie haben Sie von uns erfahren?</label>
-			<select id="<?php echo esc_attr( $id ); ?>-source" name="source">
-				<option value="">Bitte wählen</option>
-				<?php foreach ( $sources as $source ) : ?>
-					<option><?php echo esc_html( $source ); ?></option>
-				<?php endforeach; ?>
-			</select>
-		</div>
-		<div><label for="<?php echo esc_attr( $id ); ?>-phone">Telefonnummer*</label><input id="<?php echo esc_attr( $id ); ?>-phone" name="phone" type="tel" autocomplete="tel" required></div>
-		<div class="hs-form__hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
-		<p class="hs-form__error" role="alert" hidden></p>
-		<button type="submit">Anfrage senden</button>
-		<p class="hs-form__note">* Pflichtfelder. Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage. <a href="<?php echo esc_url( home_url( '/datenschutz/' ) ); ?>">Datenschutzhinweise</a></p>
-	</form>
-	<script>
-	(function () {
-		var form = document.getElementById(<?php echo wp_json_encode( $id ); ?>);
-		if (!form) return;
-		var endpoint = <?php echo wp_json_encode( esc_url_raw( rest_url( 'hansea/v1/lead' ) ) ); ?>;
-		var error = form.querySelector('.hs-form__error');
-		form.addEventListener('submit', function (e) {
-			e.preventDefault();
-			var data = {};
-			new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
-			var bad = [];
-			if (!data.firstName) bad.push('firstName');
-			if (!data.lastName) bad.push('lastName');
-			if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) bad.push('email');
-			if (data.phone.replace(/\D/g, '').length < 6) bad.push('phone');
-			form.querySelectorAll('input').forEach(function (el) { el.removeAttribute('aria-invalid'); });
-			bad.forEach(function (name) { form.querySelector('[name="' + name + '"]').setAttribute('aria-invalid', 'true'); });
-			if (bad.length) { error.textContent = 'Bitte füllen Sie die markierten Felder aus.'; error.hidden = false; return; }
-			error.hidden = true;
-			var button = form.querySelector('button');
-			button.disabled = true; button.textContent = 'Wird gesendet …';
-			fetch(endpoint, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				credentials: 'same-origin',
-				body: JSON.stringify({ type: 'contact', firstName: data.firstName, lastName: data.lastName, email: data.email, phone: data.phone, source: data.source, page: location.pathname, website: data.website, token: <?php echo wp_json_encode( hansea_lead_token() ); ?> })
-			}).then(function (res) {
-				if (!res.ok) throw new Error(res.status);
-				form.innerHTML = '<div class="hs-form__done" role="status"><strong>Vielen Dank für Ihre Anfrage.</strong>Wir melden uns zeitnah bei Ihnen.</div>';
-			}).catch(function () {
-				error.textContent = 'Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.'; error.hidden = false;
-				button.disabled = false; button.textContent = 'Anfrage senden';
-			});
-		});
-	})();
-	</script>
-	<?php
-	return ob_get_clean();
+	wp_enqueue_script(
+		'hansea-hubspot-form',
+		'https://js.hsforms.net/forms/embed/' . HANSEA_HUBSPOT_FORM['portal'] . '.js',
+		array(),
+		null,
+		array( 'in_footer' => true, 'strategy' => 'defer' )
+	);
+	return sprintf(
+		'<div class="hs-kontakt"><div class="hs-form-frame" data-region="%s" data-form-id="%s" data-portal-id="%s"></div></div>',
+		esc_attr( HANSEA_HUBSPOT_FORM['region'] ),
+		esc_attr( HANSEA_HUBSPOT_FORM['form'] ),
+		esc_attr( HANSEA_HUBSPOT_FORM['portal'] )
+	);
 } );

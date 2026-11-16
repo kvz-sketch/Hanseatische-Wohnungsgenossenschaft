@@ -72,30 +72,9 @@ body.elementor-page [id] { scroll-margin-top: 84px; }
 }
 .hs-card .hs-placeholder { border-radius: 0; }
 
-/* Contact form shortcode */
-.hs-form { display: grid; gap: 18px; padding: 32px; border: 1px solid #e7e8ec; border-radius: 8px; background: #fff; font-family: "Inter", sans-serif; }
-.hs-form__row { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
-@media (max-width: 600px) { .hs-form { padding: 22px; } .hs-form__row { grid-template-columns: 1fr; } }
-.hs-form label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; color: #141a46; }
-.hs-form input, .hs-form select {
-	width: 100%; box-sizing: border-box; height: 48px; padding: 0 14px;
-	border: 1px solid #d2d4da; border-radius: 4px; background: #fff;
-	font: 16px "Inter", sans-serif; color: #141a46;
-}
-.hs-form input:focus, .hs-form select:focus { outline: none; border-color: #141a46; box-shadow: 0 0 0 3px rgba(221, 184, 81, 0.45); }
-.hs-form [aria-invalid="true"] { border-color: #e85a49; }
-.hs-form__error { margin: 6px 0 0; font-size: 13px; color: #e85a49; }
-.hs-form button {
-	height: 52px; border: 0; border-radius: 4px; cursor: pointer;
-	background: #ddb851; color: #141a46; font: 600 16px "Inter", sans-serif;
-}
-.hs-form button:hover { background: #c6a248; }
-.hs-form button[disabled] { opacity: 0.6; cursor: default; }
-.hs-form__note { margin: 0; font-size: 12px; color: #7a7d89; }
-.hs-form__note a { color: #141a46; }
-.hs-form__done { padding: 24px; border-radius: 8px; background: #e6f2ec; color: #141a46; }
-.hs-form__done strong { display: block; font-size: 18px; margin-bottom: 6px; }
-.hs-form__hp { position: absolute; left: -9999px; }
+/* Contact form shortcode (HubSpot embed) */
+.hs-kontakt { min-height: 420px; padding: 32px; border: 1px solid #e7e8ec; border-radius: 8px; background: #fff; }
+@media (max-width: 600px) { .hs-kontakt { padding: 22px; } }
 
 /* Header: nav takes the free space so the actions sit at the right edge */
 .hs-nav { flex: 1 1 auto; padding-left: 16px; }

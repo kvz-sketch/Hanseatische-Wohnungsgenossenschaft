@@ -79,8 +79,8 @@ Scroll animations on the Elementor pages (headings reveal line by line, blocks
 rise in, the header hides on scroll down) come from
 `elementor/hansea-motion.js`; they are off for visitors who prefer reduced
 motion and never run in the Elementor editor.
-`[hansea_kontakt]` shortcode (contact form; Elementor's free version has no
-form widget) and `page.php` for other Elementor pages. Login and dashboard stay
+`[hansea_kontakt]` shortcode (contact form: the HubSpot embed, form ID set in
+`HANSEA_HUBSPOT_FORM` in `inc/elementor.php`) and `page.php` for other Elementor pages. Login and dashboard stay
 React pages from the theme.
 
 ## Authentication

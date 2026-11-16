@@ -1,7 +1,5 @@
-import { useState, type FormEvent } from 'react'
-import { caseStudyStats, publicFaqs, referralSources } from '../../data/landing'
-import { toE164 } from '../../data/phone'
-import { submitLead } from '../../data/leads'
+import { useEffect } from 'react'
+import { caseStudyStats, publicFaqs } from '../../data/landing'
 import { ButtonLink, Placeholder } from '../ui'
 
 export function PressSection() {
@@ -160,66 +158,22 @@ export function Sponsoring() {
   )
 }
 
-const fieldClass =
-  'w-full rounded-control border border-line bg-white px-4 py-3.5 text-base text-ink placeholder:text-muted focus:border-ink focus:shadow-[0_0_0_3px_rgba(221,184,81,0.45)] focus:outline-none aria-invalid:border-coral-600'
+const HUBSPOT_FORM = { portal: '19607021', form: '267d631e-8b36-4e15-bcfe-e5ba855ad77e', region: 'na1' }
 
-type ContactErrors = Partial<Record<'firstName' | 'lastName' | 'email' | 'phone' | 'send', boolean>>
+/** Loads HubSpot's embed script once; it renders the form into every .hs-form-frame. */
+function useHubspotEmbed() {
+  useEffect(() => {
+    const src = `https://js.hsforms.net/forms/embed/${HUBSPOT_FORM.portal}.js`
+    if (document.querySelector(`script[src="${src}"]`)) return
+    const script = document.createElement('script')
+    script.src = src
+    script.defer = true
+    document.body.appendChild(script)
+  }, [])
+}
 
 export function ContactSection() {
-  const [values, setValues] = useState({ firstName: '', lastName: '', email: '', source: referralSources[0], phone: '' })
-  const [errors, setErrors] = useState<ContactErrors>({})
-  const [busy, setBusy] = useState(false)
-  const [done, setDone] = useState(false)
-  const set = (k: keyof typeof values) => (v: string) => setValues((s) => ({ ...s, [k]: v }))
-
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault()
-    const phone = toE164(values.phone)
-    const next: ContactErrors = {
-      firstName: !values.firstName.trim(),
-      lastName: !values.lastName.trim(),
-      email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()),
-      phone: !phone,
-    }
-    setErrors(next)
-    if (Object.values(next).some(Boolean)) return
-    setBusy(true)
-    try {
-      await submitLead({
-        type: 'contact',
-        ...values,
-        phone,
-        source: values.source === referralSources[0] ? undefined : values.source,
-      })
-      setDone(true)
-    } catch {
-      setErrors({ send: true })
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  const field = (key: 'firstName' | 'lastName' | 'email' | 'phone', label: string, type = 'text', autoComplete?: string) => (
-    <div>
-      <label htmlFor={`kontakt-${key}`} className="mb-2 block text-[14px] font-bold">
-        {label}*
-      </label>
-      <input
-        id={`kontakt-${key}`}
-        type={type}
-        autoComplete={autoComplete}
-        value={values[key]}
-        onChange={(e) => set(key)(e.target.value)}
-        aria-invalid={errors[key] || undefined}
-        className={fieldClass}
-      />
-      {errors[key] && (
-        <p className="m-0 mt-1.5 text-[13px] text-coral-600">
-          {key === 'email' ? 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' : key === 'phone' ? 'Bitte prüfen Sie die Telefonnummer.' : 'Bitte ausfüllen.'}
-        </p>
-      )}
-    </div>
-  )
+  useHubspotEmbed()
 
   return (
     <section id="kontakt" className="section bg-section">
@@ -234,52 +188,14 @@ export function ContactSection() {
           <Placeholder label="Bild Beratung / Team" className="mt-8 hidden aspect-[4/3] w-full lg:grid" />
         </div>
 
-        <form onSubmit={onSubmit} noValidate className="rounded-card border border-line bg-white p-6 sm:p-8">
-          {done ? (
-            <div role="status" className="rounded-card bg-green-tint p-6">
-              <p className="m-0 text-lg font-bold">Vielen Dank für Ihre Anfrage.</p>
-              <p className="m-0 mt-2 text-[15px] text-ink-2">Wir melden uns zeitnah bei Ihnen.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {field('firstName', 'Vorname', 'text', 'given-name')}
-              {field('lastName', 'Nachname', 'text', 'family-name')}
-              <div className="sm:col-span-2">{field('email', 'Email', 'email', 'email')}</div>
-              <div className="sm:col-span-2">
-                <label htmlFor="kontakt-source" className="mb-2 block text-[14px] font-bold">
-                  Wie haben Sie von uns erfahren?
-                </label>
-                <select
-                  id="kontakt-source"
-                  value={values.source}
-                  onChange={(e) => set('source')(e.target.value)}
-                  className={fieldClass}
-                >
-                  {referralSources.map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="sm:col-span-2">{field('phone', 'Telefonnummer', 'tel', 'tel')}</div>
-              <div className="sm:col-span-2">
-                <button
-                  type="submit"
-                  disabled={busy}
-                  className="w-full cursor-pointer rounded-control bg-gold px-5 py-4 text-base font-bold text-ink transition-colors hover:bg-gold-600 disabled:opacity-60"
-                >
-                  {busy ? 'Wird gesendet …' : 'Anfrage senden'}
-                </button>
-                {errors.send && (
-                  <p className="m-0 mt-3 text-[13px] text-coral-600">Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.</p>
-                )}
-                <p className="m-0 mt-3 text-[12px] text-muted">
-                  * Pflichtfelder. Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage.{' '}
-                  <a href="/datenschutz/">Datenschutzhinweise</a>
-                </p>
-              </div>
-            </div>
-          )}
-        </form>
+        <div className="min-h-[420px] rounded-card border border-line bg-white p-6 sm:p-8">
+          <div
+            className="hs-form-frame"
+            data-region={HUBSPOT_FORM.region}
+            data-form-id={HUBSPOT_FORM.form}
+            data-portal-id={HUBSPOT_FORM.portal}
+          />
+        </div>
       </div>
     </section>
   )
