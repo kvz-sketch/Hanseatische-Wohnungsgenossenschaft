@@ -452,7 +452,7 @@
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 16.11.2026, 302 Deals aus „Meta forms (051026_HSWG_Full Service)“): 36 neue, noch unbearbeitete Leads, 8 Nicht erreicht, 4 Wiedervorlage, 2 im Closing (Bereit fürs 1. Closing), 252 Disqualifiziert (249 im Setting, 3 im Closing). Seit dem 9.11. wurden 20 Leads nachbearbeitet: 17 disqualifiziert (davon der Deal aus der Bedarfsanalyse), 1 Wiedervorlage. Meta-Zahlen oben Stand 16. November 2026.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 16.11.2026, 321 Deals aus „Meta forms (051026_HSWG_Full Service)“): alle Leads bearbeitet, keine neuen oder unerreichten mehr offen. 316 Disqualifiziert (312 im Setting, 4 im Closing), 4 Wiedervorlage, 1 Bereit fürs 1. Closing. Gründe im Setting: 131 zu oft nicht erreicht, 47 keine oder falsche Nummer, 134 sonstige. Bei 8.602 € Ausgaben entspricht das rund 8.600 € je Deal im Closing. Meta-Zahlen oben Stand 16. November 2026.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -594,13 +594,13 @@
       ],
       "unattributedLeadsCount": 384,
       "leadStatus": {
-        "neu": 36,
-        "nichtErreicht": 8,
-        "disqualifiziert": 252,
+        "neu": 0,
+        "nichtErreicht": 0,
+        "disqualifiziert": 316,
         "wiedervorlage": 4,
-        "closing": 2
+        "closing": 1
       },
-      "leadStatusSource": "HubSpot, 16.11.2026 · 302 Deals",
+      "leadStatusSource": "HubSpot, 16.11.2026 · 321 Deals",
       "changeLog": [
         {
           "date": "2026-11-12",
