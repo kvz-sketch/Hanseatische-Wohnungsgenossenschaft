@@ -63,15 +63,15 @@
     "setup": 1500
   },
   "termine": {
-    "source": "Closing-Lab-Portal, Termin-Übersicht, Stand 02.11.2026",
-    "leads": 114,
-    "ohneTermin": 28,
-    "termine": 86,
-    "stattgefunden": 60,
+    "source": "Closing-Lab-Portal, Termin-Übersicht, Stand 16.11.2026",
+    "leads": 136,
+    "ohneTermin": 37,
+    "termine": 99,
+    "stattgefunden": 68,
     "noShow": 20,
-    "offen": 6,
+    "offen": 11,
     "pricePerTermin": 186.75,
-    "note": "Das Portal nennt die Anzeige nur bei Leads mit Termin; die 28 Leads ohne Termin sind keiner Anzeige zugeordnet. Creatives werden deshalb ab dem Termin verglichen. Kosten je Creative: Termine × 186,75 € (7.470 € pro Monat für 40 Termine). Offen: 5 unbestätigte bzw. verschobene Termine und 1 kommender Termin (07.11.). Die Portal-Zahlen oben enthalten einen Test-Eintrag („Marcel test“, 28.10., No-Show); in der Auswertung je Creative ist er nicht mitgezählt."
+    "note": "Das Portal nennt die Anzeige nur bei Leads mit Termin; Leads ohne Termin sind keiner Anzeige zugeordnet. Creatives werden deshalb ab dem Termin verglichen. Kosten je Creative: Termine × 186,75 € (7.470 € pro Monat für 40 Termine). Offen: 5 unbestätigte, 2 verschobene und 4 kommende Termine (16.–17.11.). Leads gesamt laut HubSpot (136 inkl. Test-Deal), davon 37 ohne Termin. Die Portal-Zahlen oben enthalten einen Test-Eintrag („Marcel test“, 28.10., No-Show); in der Auswertung je Creative ist er nicht mitgezählt."
   },
   "creativeGroups": [
     {
@@ -123,16 +123,16 @@
         "CL_DUS_Oberbilk_Weg200"
       ],
       "firstTermin": "2026-10-03",
-      "lastTermin": "2026-11-07",
-      "termine": 21,
-      "stattgefunden": 16,
+      "lastTermin": "2026-11-17",
+      "termine": 34,
+      "stattgefunden": 24,
       "noShow": 3,
-      "offen": 2,
-      "pipeline": 11,
-      "bereit": 3,
-      "disqualifiziert": 7,
+      "offen": 7,
+      "pipeline": 12,
+      "bereit": 5,
+      "disqualifiziert": 12,
       "offenStage": 2,
-      "ohneStatus": 1
+      "ohneStatus": 3
     },
     {
       "id": "bonn-objekt",
@@ -150,9 +150,9 @@
       "stattgefunden": 3,
       "noShow": 1,
       "offen": 0,
-      "pipeline": 3,
+      "pipeline": 2,
       "bereit": 0,
-      "disqualifiziert": 1,
+      "disqualifiziert": 2,
       "offenStage": 0,
       "ohneStatus": 0
     },
@@ -171,9 +171,9 @@
       "stattgefunden": 1,
       "noShow": 0,
       "offen": 1,
-      "pipeline": 2,
+      "pipeline": 1,
       "bereit": 0,
-      "disqualifiziert": 0,
+      "disqualifiziert": 1,
       "offenStage": 0,
       "ohneStatus": 0
     },
@@ -236,9 +236,9 @@
       "stattgefunden": 13,
       "noShow": 3,
       "offen": 1,
-      "pipeline": 3,
+      "pipeline": 1,
       "bereit": 0,
-      "disqualifiziert": 14,
+      "disqualifiziert": 16,
       "offenStage": 0,
       "ohneStatus": 0
     },
@@ -450,9 +450,9 @@
       "offen": 1,
       "pipeline": 1,
       "bereit": 0,
-      "disqualifiziert": 2,
+      "disqualifiziert": 3,
       "offenStage": 0,
-      "ohneStatus": 1
+      "ohneStatus": 0
     },
     {
       "id": "nrw-312",
