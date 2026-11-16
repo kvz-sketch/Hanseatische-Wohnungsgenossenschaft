@@ -439,7 +439,7 @@
       },
       "status": "active",
       "objective": "Leads (Formular)",
-      "dailyBudget": 200,
+      "dailyBudget": 50,
       "spend": 8602.2,
       "reach": 57281,
       "impressions": 72779,
@@ -602,6 +602,18 @@
       },
       "leadStatusSource": "HubSpot, 16.11.2026 · 321 Deals",
       "changeLog": [
+        {
+          "date": "2026-11-16",
+          "sections": [
+            {
+              "title": "Budget gesenkt",
+              "items": [
+                "Kampagnenbudget von 200 € auf 50 € pro Tag gesenkt: Von 321 Leads sind 316 disqualifiziert, nur 1 Deal ist bereit fürs Closing (rund 8.600 € je Deal im Closing).",
+                "Nächster Schritt: Neuaufbau nach dem Closing-Lab-Modell mit Landingpage, Qualifizierungsfragen und direkter Terminbuchung."
+              ]
+            }
+          ]
+        },
         {
           "date": "2026-11-12",
           "sections": [
