@@ -440,19 +440,19 @@
       "status": "active",
       "objective": "Leads (Formular)",
       "dailyBudget": 200,
-      "spend": 8598.94,
+      "spend": 8602.2,
       "reach": 57281,
-      "impressions": 72768,
+      "impressions": 72779,
       "delivery": "seit 9. Okt 2026",
       "recommendations": 0,
       "metaResults": 384,
-      "metaCostPerResult": 22.39,
+      "metaCostPerResult": 22.4,
       "perspectiveLeads": 0,
       "perspectiveFunnel": "Full-Service-Modell: Meta Lead-Formular (kein Perspective-Funnel)",
       "perspectiveFunnelUrl": "https://kapitalanlagen.hanseatischewohnungsgenossenschaft.de/fullservice/",
       "leadSource": "meta-form",
       "incomplete": false,
-      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 9.11.2026, 301 Deals aus „Meta forms (051026_HSWG_Full Service)“, doppelt eingefügte Einträge nicht mitgezählt): 50 neue, noch unbearbeitete Leads, 12 Nicht erreicht (2×/3×: 1/11), 3 Wiedervorlage, 3 im Closing (2 Bereit fürs 1. Closing, 1 Bedarfsanalysephase), 234 Disqualifiziert (232 im Setting, 2 im Closing). Gründe im Setting: 88 zu oft nicht erreicht, 40 keine oder falsche Nummer, 104 sonstige. Meta-Zahlen oben Stand 16. November 2026; HubSpot-Status Stand 9. November 2026.",
+      "note": "Kampagne mit Meta-nativem Lead-Formular statt Website-Funnel. Leads werden direkt in Meta erfasst, nicht auf der Perspective-Funnel-Seite, daher ohne CRM-Zuordnung je Anzeige. Gezeigt werden die von Meta gemeldeten Lead-Formular-Ergebnisse. Lead-Status laut HubSpot (Stand 16.11.2026, 302 Deals aus „Meta forms (051026_HSWG_Full Service)“): 36 neue, noch unbearbeitete Leads, 8 Nicht erreicht, 4 Wiedervorlage, 2 im Closing (Bereit fürs 1. Closing), 252 Disqualifiziert (249 im Setting, 3 im Closing). Seit dem 9.11. wurden 20 Leads nachbearbeitet: 17 disqualifiziert (davon der Deal aus der Bedarfsanalyse), 1 Wiedervorlage. Meta-Zahlen oben Stand 16. November 2026.",
       "ads": [
         {
           "id": "lf-ad1",
@@ -573,10 +573,10 @@
           "image": "081026_Kai_Tanem_Video_3",
           "videoUrl": "https://drive.google.com/file/d/1IJKysKs-8y_ZJuzxiHDP_WE6Svh7Wb6D/view?usp=sharing",
           "metaResults": 247,
-          "metaCostPerResult": 23.85,
-          "spend": 5891.33,
+          "metaCostPerResult": 23.86,
+          "spend": 5892.42,
           "reach": 42405,
-          "impressions": 54342
+          "impressions": 54348
         },
         {
           "id": "lf-ad12",
@@ -586,21 +586,21 @@
           "videoUrl": "https://drive.google.com/file/d/1VA4FFA3rrN_WSlZonV9JvtGIvP648Js4/view?usp=sharing",
           "badge": "Test ab 09.11.",
           "metaResults": 28,
-          "metaCostPerResult": 21.58,
-          "spend": 604.12,
-          "reach": 2554,
-          "impressions": 2649
+          "metaCostPerResult": 21.65,
+          "spend": 606.29,
+          "reach": 2558,
+          "impressions": 2654
         }
       ],
       "unattributedLeadsCount": 384,
       "leadStatus": {
-        "neu": 50,
-        "nichtErreicht": 12,
-        "disqualifiziert": 234,
-        "wiedervorlage": 3,
-        "closing": 3
+        "neu": 36,
+        "nichtErreicht": 8,
+        "disqualifiziert": 252,
+        "wiedervorlage": 4,
+        "closing": 2
       },
-      "leadStatusSource": "HubSpot, 09.11.2026 · 301 Deals",
+      "leadStatusSource": "HubSpot, 16.11.2026 · 302 Deals",
       "changeLog": [
         {
           "date": "2026-11-12",
@@ -667,9 +667,9 @@
       "status": "active",
       "objective": "Leads (Formular)",
       "dailyBudget": 100,
-      "spend": 2003.34,
+      "spend": 2003.48,
       "reach": 16682,
-      "impressions": 35426,
+      "impressions": 35432,
       "delivery": "seit 26. Okt 2026",
       "recommendations": 0,
       "metaResults": 70,
@@ -713,9 +713,9 @@
           "image": "261026_Hansea_Grow_Bild_01",
           "metaResults": 67,
           "metaCostPerResult": 27.69,
-          "spend": 1855.4,
+          "spend": 1855.54,
           "reach": 14820,
-          "impressions": 32316
+          "impressions": 32322
         },
         {
           "id": "grow-bild-02",
