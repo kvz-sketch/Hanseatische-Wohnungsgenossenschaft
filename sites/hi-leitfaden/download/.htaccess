@@ -1,0 +1,4 @@
+# The guide is only meant to be found through the form
+<IfModule mod_headers.c>
+	Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
