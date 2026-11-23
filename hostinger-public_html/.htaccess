@@ -42,6 +42,14 @@ RewriteRule ^(.*)$ /test/$1 [L]
 RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
 RewriteRule ^test/(.*)$ https://test.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
 
+# Brochure: fullservice.* is served from the /fullservice/ folder
+RewriteCond %{HTTP_HOST} ^fullservice\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/fullservice/
+RewriteRule ^(.*)$ /fullservice/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^fullservice/(.*)$ https://fullservice.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
 # Forgive links with junk pasted after ".html" (e.g. "seite.htmlgedorf" -> "seite.html")
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([a-z0-9-]+\.html).+$ /$1 [R=301,L]
