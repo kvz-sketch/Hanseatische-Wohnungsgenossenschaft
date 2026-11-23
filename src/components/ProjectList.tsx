@@ -89,7 +89,10 @@ function ExposeRow({ project: p, number }: { project: Project; number: number })
                     src={img.src}
                     alt={img.alt}
                     loading="lazy"
-                    className={`w-full rounded-control object-cover ${k === 0 ? 'col-span-2 aspect-[16/9]' : 'aspect-[4/3]'}`}
+                    className={`w-full rounded-control object-cover ${
+                      // the first photo and a last one without a partner span both columns
+                      k === 0 || (k === expose.images.length - 1 && k % 2 === 1) ? 'col-span-2 aspect-[16/9]' : 'aspect-[4/3]'
+                    }`}
                   />
                 ))
               : [0, 1, 2].map((k) => (

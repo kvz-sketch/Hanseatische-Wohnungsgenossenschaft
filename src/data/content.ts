@@ -10,6 +10,9 @@ import obInnen3 from '../assets/expose/oberbilker-innen-3.jpg'
 import obInnen4 from '../assets/expose/oberbilker-innen-4.jpg'
 import letternkamp from '../assets/expose/letternkamp.jpg'
 import brookdeich from '../assets/expose/brookdeich.jpg'
+import bdKueche1 from '../assets/expose/brookdeich-kueche-1.jpg'
+import bdWohnzimmer from '../assets/expose/brookdeich-wohnzimmer.jpg'
+import bdKueche2 from '../assets/expose/brookdeich-kueche-2.jpg'
 import luelsdorfer from '../assets/expose/luelsdorfer-strasse.jpg'
 
 // All copy and figures for the Hanseatische Invest eG site.
@@ -56,7 +59,7 @@ export type PortfolioProject = {
 }
 
 export const portfolioProjects: PortfolioProject[] = [
-  { city: 'Hamburg', name: 'Brookdeich', image: brookdeich, units: { total: 12, free: 12 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 12 Einheiten, 100 % frei', updated: '23.11.2026' },
+  { city: 'Hamburg', name: 'Brookdeich', image: brookdeich, units: { total: 12, free: 12 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 12 Einheiten, 100 % frei', updated: '23.11.2026', expose: 'brookdeich' },
   { city: 'Hamburg', name: 'Letternkamp', image: letternkamp, units: { total: 2, free: 2 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 2 Einheiten, 100 % frei. 2027 folgt die Renovierung der unteren Wohnung: Badezimmer und Malerarbeiten', updated: '23.11.2026' },
   { city: 'Köln', name: 'Lülsdorfer Straße', image: luelsdorfer, units: { total: 5, free: 5 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 5 Einheiten und 6 Stellplätze, 100 % frei', updated: '23.11.2026' },
   { city: 'Düsseldorf', name: 'Oberbilker Allee', image: obAussen, units: { total: 10, free: 6, reserved: 3 }, phase: 'Verkauf', status: 'Neues Objekt im Verkauf: 10 Einheiten, 3 reserviert, 1 verkauft', updated: '23.11.2026', expose: 'oberbilker-allee-113' },
@@ -188,7 +191,27 @@ export type Project = {
 
 // Stand 23.11.2026. Cities marked TODO were not given.
 export const projectsForSale: Project[] = [
-  { street: 'Brookdeich 98, 98a, 100, 100a', city: 'Hamburg', status: 'Im Verkauf', units: { total: 12, free: 12 } },
+  {
+    id: 'brookdeich',
+    street: 'Brookdeich 98, 98a, 100, 100a',
+    city: 'Hamburg',
+    note: '12 Einheiten',
+    status: 'Im Verkauf',
+    units: { total: 12, free: 12 },
+    expose: {
+      summary: 'Mehrfamilienhaus in Hamburg mit 12 Einheiten, alle im Verkauf.',
+      images: [
+        { src: brookdeich, alt: 'Brookdeich, Hamburg: Außenansicht' },
+        { src: bdWohnzimmer, alt: 'Brookdeich: Wohnzimmer mit Terrasse' },
+        { src: bdKueche1, alt: 'Brookdeich: Küche mit Essplatz' },
+        { src: bdKueche2, alt: 'Brookdeich: Küche' },
+      ],
+      facts: [
+        ['Adresse', 'Brookdeich 98, 98a, 100, 100a, Hamburg'],
+        ['Einheiten', '12, alle frei'],
+      ],
+    },
+  },
   { street: 'Diestelkamp 43', city: 'Eckernförde', status: 'Im Verkauf', units: { total: 5, free: 1 } },
   { street: 'Dorfstraße 3', city: '', status: 'Im Verkauf', units: { total: 4, free: 3 } }, // TODO city
   { street: 'Grefenstraße', city: 'Drochtersen', status: 'Im Verkauf', units: { total: 24, free: 5 } },
