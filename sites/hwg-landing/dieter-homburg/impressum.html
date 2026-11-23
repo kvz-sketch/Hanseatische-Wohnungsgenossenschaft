@@ -212,16 +212,18 @@
   .legal p { margin: 0 0 16px; font-size: 16px; line-height: 1.7; color: var(--text-2); }
   .legal a { overflow-wrap: anywhere; }
   .legal .back { display: inline-block; margin-bottom: 24px; font-size: 14px; text-decoration: none; }
+
+  /* Logo */
+  .brand img { display: block; height: 52px; width: auto; }
+  .footer-logo { display: block; height: 52px; width: auto; margin-bottom: 14px; }
+  @media (max-width: 560px) { .brand img { height: 40px; } }
 </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="./" aria-label="Hanseatische Wohnungsgenossenschaft eG, zur Startseite">
-      <strong>HANSEATISCHE</strong>
-      <span>Wohnungsgenossenschaft eG</span>
-    </a>
+    <a class="brand" href="./" aria-label="Hanseatische Wohnungsgenossenschaft eG, zur Startseite"><img src="bilder/logo.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="480" height="206"></a>
     <a class="btn small" href="./#kontakt">Beratung anfragen</a>
   </div>
 </header>
@@ -261,7 +263,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-cols">
-      <div><span class="label">Hanseatische Wohnungsgenossenschaft eG</span><span>Eine Wohnung ist ein Anfang.<br>Mehrere sind ein Plan.</span></div>
+      <div><img class="footer-logo" src="bilder/logo.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="480" height="206" loading="lazy"><span>Eine Wohnung ist ein Anfang.<br>Mehrere sind ein Plan.</span></div>
       <div><span class="label">Kontakt</span><a href="mailto:info@gerlachgroup.de">info@gerlachgroup.de</a><a href="tel:+4940228623720">+49 40 22862372-0</a></div>
       <div><span class="label">Adresse</span><span>Langenhorner Chaussee 155<br>22415 Hamburg</span></div>
       <div><span class="label">Anbieter</span><span>Gerlach Verwaltungs- und<br>Beteiligungsges.mbH</span><span>HRB 153780 · Amtsgericht Hamburg</span><span>USt-IdNr. DE320623851</span></div>

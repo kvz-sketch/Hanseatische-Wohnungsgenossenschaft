@@ -206,16 +206,40 @@
     .fields { grid-template-columns: 1fr; }
     .footer-cols { grid-template-columns: 1fr; }
   }
+
+  /* Logo */
+  .brand img { display: block; height: 52px; width: auto; }
+  .footer-logo { display: block; height: 52px; width: auto; margin-bottom: 14px; }
+  @media (max-width: 560px) { .brand img { height: 40px; } }
+
+  /* Hero image */
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; align-items: center; }
+  .hero-img { margin: 0; }
+  .hero-img img, .gallery img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); background: var(--grey-100); }
+  .hero-img img { aspect-ratio: 4 / 5; }
+  .hero-img figcaption, .gallery-note { margin-top: 10px; font-size: 13px; color: var(--grey-400); }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: 220px 220px; gap: 16px; margin-top: 40px; }
+  .gallery figure { margin: 0; position: relative; overflow: hidden; border-radius: var(--radius); }
+  .gallery figure:first-child { grid-row: span 2; }
+  .gallery figcaption { position: absolute; left: 12px; bottom: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,0.92); color: var(--navy); font-size: 13px; font-weight: 600; }
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-img img { aspect-ratio: 4 / 3; }
+    .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 260px 180px 180px; }
+    .gallery figure:first-child { grid-column: span 2; grid-row: auto; }
+  }
+  @media (max-width: 560px) {
+    .gallery { grid-template-rows: 220px 150px 150px; gap: 10px; }
+  }
 </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Hanseatische Wohnungsgenossenschaft eG, zum Seitenanfang">
-      <strong>HANSEATISCHE</strong>
-      <span>Wohnungsgenossenschaft eG</span>
-    </a>
+    <a class="brand" href="#top" aria-label="Hanseatische Wohnungsgenossenschaft eG, zum Seitenanfang"><img src="bilder/logo.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="480" height="206"></a>
     <a class="btn small" href="#kontakt">Beratung anfragen</a>
   </div>
 </header>
@@ -224,7 +248,8 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="wrap">
+    <div class="wrap hero-grid">
+      <div>
       <p class="eyebrow">Finanzielle Freiheit mit Immobilien</p>
       <h1>Eine Wohnung ist ein Anfang.<span class="soft">Mehrere sind ein Plan.</span></h1>
       <p class="lead">Wie drei bis vier vermietete Eigentumswohnungen zu einem echten Baustein deiner Altersvorsorge werden können: professionell begleitet, Schritt für Schritt aufgebaut.</p>
@@ -239,6 +264,10 @@
         <li>Keine Maklerprovision für Käufer*</li>
       </ul>
       <p class="fine">*Gemäß den jeweiligen Vertragsbedingungen.</p>
+      </div>
+      <figure class="hero-img">
+        <img src="bilder/wohnzimmer.jpg" alt="Helles Wohnzimmer mit Holzboden in einer vermieteten Eigentumswohnung" width="600" height="534">
+      </figure>
     </div>
   </section>
 
@@ -307,6 +336,23 @@
         <div class="card"><h3>Mehr Einkommen</h3><p>Mit jeder Wohnung wächst das mögliche monatliche Zusatzeinkommen im Alter.</p></div>
         <div class="card"><h3>Weniger Klumpenrisiko</h3><p>Steht bei vier Wohnungen eine leer, fehlt ein Viertel der Mieteinnahmen, nicht alles.</p></div>
       </div>
+    </div>
+  </section>
+
+  <!-- Objekte -->
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Einblicke</p>
+      <h2>Echte Wohnungen. Echte Mieter.</h2>
+      <p class="intro">Ein paar Eindrücke aus Objekten aus dem Umfeld der Gerlach Immobilien Gruppe: gepflegte Bestandsimmobilien in gefragten Lagen, vermietet und professionell verwaltet.</p>
+      <div class="gallery">
+        <figure><img src="bilder/langer-kamp.jpg" alt="Gepflegte Wohnanlage aus rotem Klinker mit Grünanlage" loading="lazy" width="1000" height="524"><figcaption>Wohnanlage</figcaption></figure>
+        <figure><img src="bilder/essbereich.jpg" alt="Sonniger Essbereich mit Tisch und Stühlen" loading="lazy" width="600" height="804"><figcaption>Essbereich</figcaption></figure>
+        <figure><img src="bilder/letternkamp.jpg" alt="Klinker-Mehrfamilienhaus mit Vorgarten" loading="lazy" width="800" height="647"><figcaption>Mehrfamilienhaus</figcaption></figure>
+        <figure><img src="bilder/kueche.jpg" alt="Moderne helle Küche mit Holzboden" loading="lazy" width="600" height="544"><figcaption>Küche</figcaption></figure>
+        <figure><img src="bilder/balkon.jpg" alt="Balkon mit Sessel und Blick ins Grüne" loading="lazy" width="600" height="519"><figcaption>Balkon</figcaption></figure>
+      </div>
+      <p class="gallery-note">Beispielobjekte zur Veranschaulichung; aktuelle Angebote und Verfügbarkeit im Beratungsgespräch.</p>
     </div>
   </section>
 
@@ -428,7 +474,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-cols">
-      <div><span class="label">Hanseatische Wohnungsgenossenschaft eG</span><span>Eine Wohnung ist ein Anfang.<br>Mehrere sind ein Plan.</span></div>
+      <div><img class="footer-logo" src="bilder/logo.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="480" height="206" loading="lazy"><span>Eine Wohnung ist ein Anfang.<br>Mehrere sind ein Plan.</span></div>
       <div><span class="label">Kontakt</span><a href="mailto:info@gerlachgroup.de">info@gerlachgroup.de</a><a href="tel:+4940228623720">+49 40 22862372-0</a></div>
       <div><span class="label">Adresse</span><span>Langenhorner Chaussee 155<br>22415 Hamburg</span></div>
       <div><span class="label">Anbieter</span><span>Gerlach Verwaltungs- und<br>Beteiligungsges.mbH</span><span>HRB 153780 · Amtsgericht Hamburg</span><span>USt-IdNr. DE320623851</span></div>

@@ -39,13 +39,24 @@ usual CI). Two self-contained files, no build step and no external assets
 - `index.html`: the page, with the contact form at the bottom
 - `impressum.html`: Impressum in the same style
 
-Deployed to `public_html/dieter-homburg/` of that site. Live at
-https://exposees.hanseatische-wohnungsgenossenschaft.de/dieter-homburg/
-(`hanseatische-wohnungsgenossenschaft.de/dieter-homburg/` forwards there via
-the existing `.htaccess`). To redeploy, upload both files to the same folder.
-For a subdomain of its own, add it as a parked domain and a rewrite rule like
-the `120wohnungen.` one. Renaming later only means
-renaming the folder and changing `PAGE_NAME` in the script.
+Deployed to `public_html/dieter-homburg/` of that site (page, Impressum and
+`bilder/`: HWG logo plus apartment photos from `src/assets/expose/`).
+
+Subdomain `dieterhomburg.hanseatische-wohnungsgenossenschaft.de`:
+
+- Hostinger: added as a parked domain of the site, and `.htaccess` serves it
+  from `/dieter-homburg/` (same pattern as `120wohnungen.`).
+- DNS (netcup, not Hostinger): needs an A record `dieterhomburg` →
+  `72.60.86.52`, like the other subdomains.
+- Once the subdomain works, add the redirect from the old path to `.htaccess`:
+
+  ```
+  RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+  RewriteRule ^dieter-homburg/(.*)$ https://dieterhomburg.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+  ```
+
+Until then the page is also reachable at
+https://exposees.hanseatische-wohnungsgenossenschaft.de/dieter-homburg/.
 
 ## HubSpot form
 
