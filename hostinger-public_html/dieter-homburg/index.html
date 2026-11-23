@@ -7,6 +7,9 @@
 <meta name="theme-color" content="#ffffff">
 <title>Immobilienportfolio für die Altersvorsorge · Hanseatische Wohnungsgenossenschaft</title>
 <meta name="description" content="Wie drei bis vier vermietete Eigentumswohnungen zu einem Baustein deiner Altersvorsorge werden können: professionell begleitet, Schritt für Schritt aufgebaut.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --white: #ffffff;
@@ -139,18 +142,50 @@
   .coop .figure { display: block; margin-bottom: 14px; font-size: 40px; font-weight: 700; line-height: 1; color: var(--white); letter-spacing: -0.02em; }
   .coop .figure small { font-size: 16px; font-weight: 500; opacity: .75; margin-left: 6px; letter-spacing: 0; }
   .coop .fine { color: #9fabc6; margin-top: 18px; max-width: 820px; }
+  /* Big quote banners */
+  .banner { padding: 96px 0; }
+  .banner-dh { background: var(--navy-soft); }
+  .banner-dh figure { margin: 0; max-width: 900px; }
+  .banner-dh blockquote { margin: 0; font-size: clamp(34px, 5.2vw, 60px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
+  .banner-dh blockquote::before { content: "\201C"; display: block; height: 58px; margin-bottom: 6px; font-family: Georgia, "Times New Roman", serif; font-size: 110px; line-height: 1; color: var(--navy-2); }
+  .banner-dh figcaption { margin-top: 28px; display: flex; align-items: center; gap: 14px; font-size: 16px; color: var(--text-2); }
+  .banner-dh figcaption strong { display: block; color: var(--navy); font-size: 18px; }
+  .monogram { display: grid; place-items: center; flex: none; width: 56px; height: 56px; border-radius: 50%; background: var(--navy); color: var(--white); font-weight: 700; letter-spacing: .04em; }
+  .banner-sg { background: var(--navy); color: var(--white); }
+  .banner-sg .wrap { display: grid; grid-template-columns: 180px minmax(0, 1fr) 150px; gap: 48px; align-items: center; }
+  .banner-sg .portrait { width: 180px; height: 220px; object-fit: cover; object-position: 50% 20%; border-radius: var(--radius); display: block; }
+  .banner-sg .eyebrow { color: #b9c3dc; }
+  .banner-sg blockquote { margin: 0; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.4; font-style: italic; color: var(--white); }
+  .banner-sg .who { margin: 20px 0 0; font-size: 15px; color: #d7ddea; }
+  .banner-sg .who strong { display: block; color: var(--white); font-size: 17px; font-style: normal; }
+  .banner-sg .book { width: 150px; height: auto; display: block; border-radius: 4px; box-shadow: 0 18px 40px rgba(0,0,0,.35); }
+  /* Health insurance */
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+  .split img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+  .facts { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--grey-200); }
+  .facts li { padding: 14px 0 14px 30px; border-bottom: 1px solid var(--grey-200); position: relative; color: var(--text-2); font-size: 16px; }
+  .facts li strong { color: var(--text); }
+  .facts li::before { content: ""; position: absolute; left: 0; top: 21px; width: 12px; height: 12px; border-radius: 50%; background: var(--navy-2); }
+  .wide-img { display: block; width: 100%; max-width: 820px; height: auto; margin-top: 40px; border-radius: var(--radius); }
+  @media (max-width: 860px) {
+    .split { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .banner-sg .wrap { grid-template-columns: 110px minmax(0, 1fr); gap: 24px; }
+    .banner-sg .portrait { width: 110px; height: 140px; }
+    .banner-sg .book { display: none; }
+    .banner { padding: 64px 0; }
+  }
   /* Testimonials */
   #stimmen { border-top: 1px solid var(--grey-100); }
-  .voices { list-style: none; margin: 40px 0 0; padding: 0; max-width: 900px; border-top: 1px solid var(--grey-200); }
-  .voice { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 28px; align-items: center; padding: 28px 0; border-bottom: 1px solid var(--grey-200); }
-  .voice img { display: block; width: 140px; height: 166px; object-fit: cover; border-radius: var(--radius); }
-  .voice blockquote { margin: 0; font-size: clamp(18px, 2vw, 21px); line-height: 1.5; font-style: italic; color: var(--navy); }
-  .voice blockquote::before { content: "\201C"; display: block; height: 30px; margin-bottom: 4px; font-family: Georgia, "Times New Roman", serif; font-size: 52px; line-height: 1; font-style: normal; color: var(--navy-2); }
-  .voice .who { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--grey-100); font-size: 15px; color: var(--text-2); }
+  .voices { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .voice { display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--grey-200); border-radius: var(--radius); overflow: hidden; }
+  .voice img { display: block; width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; object-position: 50% 25%; }
+  .voice > div { display: flex; flex-direction: column; flex: 1; padding: 24px 24px 22px; }
+  .voice blockquote { margin: 0; flex: 1; font-size: 17px; line-height: 1.55; font-style: italic; color: var(--navy); }
+  .voice blockquote::before { content: "\201C"; display: block; height: 26px; margin-bottom: 2px; font-family: Georgia, "Times New Roman", serif; font-size: 46px; line-height: 1; font-style: normal; color: var(--navy-2); }
+  .voice .who { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--grey-100); font-size: 14px; color: var(--text-2); }
   .voice .who strong { display: block; color: var(--text); font-size: 16px; }
-  @media (max-width: 560px) {
-    .voice { grid-template-columns: 88px minmax(0, 1fr); gap: 18px; align-items: start; }
-    .voice img { width: 88px; height: 104px; }
+  @media (max-width: 860px) {
+    .voices { grid-template-columns: minmax(0, 1fr); max-width: 520px; }
   }
   /* FAQ */
   .faq { margin-top: 40px; max-width: 820px; border-top: 1px solid var(--grey-200); }
@@ -258,6 +293,32 @@
   @media (max-width: 560px) {
     .gallery { grid-template-rows: 220px 150px 150px; gap: 10px; }
   }
+
+  /* Theme: Dieter Homburg look (anthracite, sand gold, Montserrat) */
+  :root {
+    --navy: #2b2b2b;
+    --navy-2: #8c6e3c;
+    --navy-soft: #f6f0e6;
+    --gold: #d2b582;
+    --gold-dark: #c4a36b;
+    --text: #333333;
+    --text-2: #555555;
+  }
+  h1, h2, h3, .brand strong, .eyebrow, .figure, .practice .big, .monogram { font-family: Montserrat, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  h1, h2 { font-weight: 600; letter-spacing: -0.01em; }
+  .btn { background: var(--gold); border-color: var(--gold); color: #222222; border-radius: 3px; }
+  .btn:hover { background: var(--gold-dark); border-color: var(--gold-dark); color: #222222; }
+  .btn.ghost { background: transparent; border-color: #2b2b2b; color: #2b2b2b; }
+  .btn.ghost:hover { background: var(--navy-soft); }
+  .coop, .banner-sg { background: #282828; }
+  .coop .eyebrow, .banner-sg .eyebrow { color: var(--gold); }
+  .coop .card { background: rgba(255,255,255,0.05); border-color: rgba(210,181,130,0.35); }
+  .coop .figure { color: var(--gold); }
+  .monogram { background: var(--gold); color: #222222; }
+  .banner-dh blockquote::before, .voice blockquote::before { color: var(--gold); }
+  .banner-sg .book { box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+  .facts li::before { background: var(--gold); }
+  .practice { background: #282828; }
 </style>
 </head>
 <body>
@@ -277,7 +338,7 @@
       <div>
       <p class="eyebrow">In Kooperation mit Dieter Homburg</p>
       <h1>Eine Wohnung ist ein Anfang.<span class="soft">Mehrere sind ein Plan.</span></h1>
-      <p class="lead">Wie drei bis vier vermietete Eigentumswohnungen zu einem echten Baustein deiner Altersvorsorge werden können: professionell begleitet, Schritt für Schritt aufgebaut.</p>
+      <p class="lead">Wie vermietete Eigentumswohnungen zu einem echten Baustein deiner Altersvorsorge werden können, bis hin zur privaten Krankenversicherung im Ruhestand: professionell begleitet, Schritt für Schritt aufgebaut.</p>
       <div class="hero-actions">
         <a class="btn" href="#kontakt">Unverbindliche Beratung anfragen</a>
         <a class="btn ghost" href="#portfolio">So funktioniert es</a>
@@ -291,7 +352,17 @@
       <p class="fine">*Gemäß den jeweiligen Vertragsbedingungen.</p>
       </div>
       <figure class="hero-img">
-        <img src="bilder/wohnzimmer.jpg" alt="Helles Wohnzimmer mit Holzboden in einer vermieteten Eigentumswohnung" width="600" height="534">
+        <img src="bilder/ruhestand-balkon.jpg" alt="Älteres Paar trinkt entspannt Kaffee auf dem Balkon eines Hamburger Backsteinhauses" width="1024" height="688" style="object-position: 38% 50%">
+      </figure>
+    </div>
+  </section>
+
+  <!-- Zitat Dieter Homburg -->
+  <section class="banner banner-dh" aria-label="Zitat von Dieter Homburg">
+    <div class="wrap">
+      <figure>
+        <blockquote>Immobilien sind die beste Altersvorsorge.</blockquote>
+        <figcaption><span class="monogram" aria-hidden="true">DH</span><span><strong>Dieter Homburg</strong>Kooperationspartner der Hanseatischen Wohnungsgenossenschaft</span></figcaption>
       </figure>
     </div>
   </section>
@@ -301,7 +372,7 @@
     <div class="wrap">
       <p class="eyebrow">Unsere Kooperation</p>
       <h2>Dieter Homburg und die Hanseatische Wohnungsgenossenschaft</h2>
-      <p class="intro">Wir freuen uns sehr über unsere Kooperation mit Dieter Homburg. Uns verbindet eine Überzeugung: Immobilien sind die beste Altersvorsorge. Sie bringen laufende Einnahmen, die auch dann weiterfließen, wenn das Gehalt wegfällt, und sie lassen sich Schritt für Schritt zu einem Portfolio ausbauen, das im Ruhestand die festen Kosten trägt.</p>
+      <p class="intro">Wir freuen uns sehr über unsere Kooperation mit Dieter Homburg. Gemeinsam zeigen wir, wie vermietete Wohnungen im Alter genau die Kosten tragen können, die bleiben, wenn das Gehalt wegfällt: allen voran die private Krankenversicherung, und mit einem Portfolio die gesamte Altersvorsorge.</p>
       <div class="grid-2">
         <div class="card">
           <span class="figure">1 Wohnung</span>
@@ -315,6 +386,24 @@
         </div>
       </div>
       <p class="fine">Modellrechnung: je Wohnung 700 € Nettokaltmiete pro Monat abzüglich rund 100 € nicht umlagefähiger Kosten und Rücklagen, Darlehen vollständig getilgt, vor Steuern, ohne Mietsteigerung. Keine Prognose; die Höhe deines Krankenversicherungsbeitrags und deiner Versorgungslücke hängt von deinem Tarif und deiner persönlichen Situation ab.</p>
+    </div>
+  </section>
+
+  <!-- Krankenversicherung im Alter -->
+  <section class="section" id="krankenversicherung">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Krankenversicherung im Alter</p>
+        <h2>Ein Posten, der im Ruhestand bleibt.</h2>
+        <p class="intro">Mit dem Renteneintritt sinkt das Einkommen, der Beitrag zur privaten Krankenversicherung läuft aber weiter. Gleichzeitig fällt der Zuschuss des Arbeitgebers weg. Wer dafür im Alter eine eigene, verlässliche Einnahmequelle hat, ist auf der sicheren Seite.</p>
+        <ul class="facts">
+          <li><strong>Der Arbeitgeberzuschuss endet.</strong> Im Berufsleben trägt der Arbeitgeber einen Teil des Beitrags, im Ruhestand nicht mehr.</li>
+          <li><strong>Die Rente ist kleiner als das Gehalt.</strong> Der Beitrag macht dann einen deutlich größeren Teil des Einkommens aus.</li>
+          <li><strong>Eine Wohnung kann ihn tragen.</strong> Rund 600 € Mietüberschuss im Monat aus einer abbezahlten Wohnung können den Beitrag im Beispiel vollständig decken.</li>
+        </ul>
+        <p class="fine" style="margin-top:16px">Modellrechnung wie unten beschrieben. Die Höhe deines Beitrags hängt von deinem Tarif ab; lass sie dir von deinem Versicherer bestätigen.</p>
+      </div>
+      <img src="bilder/krankenversicherung-im-alter.jpg" alt="Älterer Mann prüft am Küchentisch entspannt ein Schreiben seiner Krankenversicherung" width="1024" height="688" loading="lazy">
     </div>
   </section>
 
@@ -362,6 +451,7 @@
         <strong>Tipp: Kenne deine Zahlen.</strong>
         <p>Deine persönliche Renteninformation zeigt dir, mit welcher gesetzlichen Rente du rechnen kannst. Im Beratungsgespräch setzen wir sie gemeinsam ins Verhältnis zu deinen Zielen.</p>
       </div>
+      <img class="wide-img" src="bilder/ruhestand-spaziergang.jpg" alt="Älteres Paar spaziert durch eine herbstliche Straße mit Hamburger Backsteinhäusern" width="1024" height="688" loading="lazy">
     </div>
   </section>
 
@@ -417,6 +507,19 @@
         <li><span class="n">05</span><div><h3>Ruhestand mit Mieteinnahmen</h3><p>Die Mieten ergänzen deine Rente und können einen großen Teil deiner festen Kosten tragen.</p></div></li>
       </ol>
       <p class="note">Je früher du beginnst, desto mehr Zeit bleibt für Tilgung. Ob und wann ein weiterer Schritt möglich ist, hängt von Bonität, Eigenkapital und der Entscheidung der finanzierenden Bank ab.</p>
+    </div>
+  </section>
+
+  <!-- Zitat Stephan Gerlach -->
+  <section class="banner banner-sg" aria-label="Auszug aus dem Buch von Stephan Gerlach">
+    <div class="wrap">
+      <img class="portrait" src="bilder/stephan-gerlach.jpg" alt="Stephan Gerlach" width="684" height="1024" loading="lazy">
+      <figure style="margin:0">
+        <p class="eyebrow">Aus dem Buch</p>
+        <blockquote>„xxxx“</blockquote>
+        <figcaption class="who"><strong>Stephan Gerlach</strong>Geschäftsführer der Gerlach Immobilien Gruppe, Autor des SPIEGEL-Bestsellers „Immobilien-Investitionen leicht gemacht“</figcaption>
+      </figure>
+      <img class="book" src="bilder/buch-stephan-gerlach.jpg" alt="Buchcover: Immobilien-Investitionen leicht gemacht von Stephan Gerlach" width="400" height="600" loading="lazy">
     </div>
   </section>
 
