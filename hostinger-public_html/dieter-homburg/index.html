@@ -54,7 +54,7 @@
 
   /* Header */
   .site-header { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,0.94); backdrop-filter: saturate(1.2) blur(8px); border-bottom: 1px solid var(--grey-100); }
-  .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+  .site-header .wrap { justify-content: flex-end !important;  display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
   .brand { text-decoration: none; color: var(--navy); line-height: 1.2; }
   .brand strong { display: block; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; }
   .brand span { display: block; font-size: 12px; color: var(--text-2); }
@@ -177,6 +177,10 @@
     .banner-sg .book { display: none; }
     .banner { padding: 64px 0; }
   }
+  .quote-attr { margin: 40px 0 0; max-width: 760px; }
+  .quote-attr .quote { margin: 0; border-left-color: var(--gold); }
+  .quote-attr figcaption { margin-top: 10px; padding-left: 27px; font-size: 14px; color: var(--text-2); }
+  .quote-attr figcaption strong { color: var(--text); }
   /* Testimonials */
   #stimmen { border-top: 1px solid var(--grey-100); }
   .voices { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
@@ -309,6 +313,7 @@
   }
   h1, h2, h3, .brand strong, .eyebrow, .figure, .practice .big, .monogram { font-family: Montserrat, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
   h1, h2 { font-weight: 600; letter-spacing: -0.01em; }
+  h1, h2, h3 { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }
   .btn { background: var(--gold); border-color: var(--gold); color: #222222; border-radius: 3px; }
   .btn:hover { background: var(--gold-dark); border-color: var(--gold-dark); color: #222222; }
   .btn.ghost { background: transparent; border-color: #2b2b2b; color: #2b2b2b; }
@@ -328,7 +333,6 @@
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Hanseatische Wohnungsgenossenschaft eG, zum Seitenanfang"><img src="bilder/logo.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="480" height="206"></a>
     <a class="btn small" href="#kontakt">Beratung anfragen</a>
   </div>
 </header>
@@ -366,7 +370,7 @@
       <img class="dh-photo" src="bilder/dieter-homburg.jpg" alt="Dieter Homburg" width="1200" height="675">
       <figure>
         <blockquote>Immobilien sind die beste Altersvorsorge.</blockquote>
-        <figcaption><span><strong>Dieter Homburg</strong>Kooperationspartner der Hanseatischen Wohnungsgenossenschaft</span></figcaption>
+        <figcaption><span><strong>Dieter Homburg</strong>Masterconsultant in Finance, Gründer des Fachzentrums Finanzen in Lippstadt (seit 1999), Autor von „Altersvorsorge für Dummies“ und FOCUS-online-Experte</span></figcaption>
       </figure>
     </div>
   </section>
@@ -436,6 +440,10 @@
       <p class="eyebrow">Vorsorge</p>
       <h2>Die Rente allein reicht oft nicht.</h2>
       <p class="intro">Mit dem Renteneintritt sinkt bei vielen Menschen das Einkommen deutlich. Die Ausgaben bleiben dagegen oft erstaunlich stabil: Wohnen, Lebenshaltung, Gesundheit, Mobilität. Hinzu kommt die Inflation. Die Differenz zwischen dem, was du brauchst, und dem, was die Rente leistet, nennt man Versorgungslücke.</p>
+      <figure class="quote-attr">
+        <blockquote class="quote">„Gesetzliche Rente allein erzeugt fast immer eine Rentenlücke.“</blockquote>
+        <figcaption><strong>Dieter Homburg</strong>, Autor von „Altersvorsorge für Dummies“</figcaption>
+      </figure>
       <div class="gap" role="img" aria-label="Schematische Darstellung: Im Berufsleben deckt das Nettoeinkommen den Bedarf. Im Ruhestand deckt die Rente nur einen Teil, es entsteht eine Versorgungslücke. Mit Mieteinnahmen wird diese Lücke geschlossen.">
         <div class="gap-col">
           <div class="gap-bar"><div class="gap-seg seg-income">Nettoeinkommen</div></div>
@@ -660,7 +668,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-cols">
-      <div><img class="footer-logo" src="bilder/logo.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="480" height="206" loading="lazy"><span>Eine Wohnung ist ein Anfang.<br>Mehrere sind ein Plan.</span></div>
+      <div><span>Eine Wohnung ist ein Anfang.<br>Mehrere sind ein Plan.</span></div>
       <div><span class="label">Kontakt</span><a href="mailto:info@gerlachgroup.de">info@gerlachgroup.de</a><a href="tel:+4940228623720">+49 40 22862372-0</a></div>
       <div><span class="label">Adresse</span><span>Langenhorner Chaussee 155<br>22415 Hamburg</span></div>
       <div><span class="label">Anbieter</span><span>Gerlach Verwaltungs- und<br>Beteiligungsges.mbH</span><span>HRB 153780 · Amtsgericht Hamburg</span><span>USt-IdNr. DE320623851</span></div>
