@@ -50,6 +50,11 @@ RewriteRule ^(.*)$ /fullservice/$1 [L]
 RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
 RewriteRule ^fullservice/(.*)$ https://fullservice.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
 
+# Dieter Homburg page: dieter-homburg.* is served from the /dieter-homburg/ folder
+RewriteCond %{HTTP_HOST} ^dieter-homburg\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/dieter-homburg/
+RewriteRule ^(.*)$ /dieter-homburg/$1 [L]
+
 # Forgive links with junk pasted after ".html" (e.g. "seite.htmlgedorf" -> "seite.html")
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([a-z0-9-]+\.html).+$ /$1 [R=301,L]
