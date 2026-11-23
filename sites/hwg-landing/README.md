@@ -39,8 +39,12 @@ usual CI). Two self-contained files, no build step and no external assets
 - `index.html`: the page, with the contact form at the bottom
 - `impressum.html`: Impressum in the same style
 
-Deploy: upload the folder to that site's `public_html` (reachable at
-`/dieter-homburg/`) or point a subdomain at it. Renaming later only means
+Deployed to `public_html/dieter-homburg/` of that site. Live at
+https://exposees.hanseatische-wohnungsgenossenschaft.de/dieter-homburg/
+(`hanseatische-wohnungsgenossenschaft.de/dieter-homburg/` forwards there via
+the existing `.htaccess`). To redeploy, upload both files to the same folder.
+For a subdomain of its own, add it as a parked domain and a rewrite rule like
+the `120wohnungen.` one. Renaming later only means
 renaming the folder and changing `PAGE_NAME` in the script.
 
 ## HubSpot form
