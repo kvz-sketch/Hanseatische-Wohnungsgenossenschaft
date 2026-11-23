@@ -145,7 +145,10 @@
   /* Big quote banners */
   .banner { padding: 96px 0; }
   .banner-dh { background: var(--navy-soft); }
-  .banner-dh figure { margin: 0; max-width: 900px; }
+  .banner-dh .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 56px; align-items: center; }
+  .banner-dh .dh-photo { display: block; width: 100%; aspect-ratio: 4 / 5; height: auto; object-fit: cover; object-position: 45% 30%; border-radius: var(--radius); box-shadow: 0 20px 50px rgba(40,40,40,.18); }
+  .banner-dh figure { margin: 0; }
+  @media (max-width: 860px) { .banner-dh .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; } .banner-dh .dh-photo { aspect-ratio: 4 / 3; max-width: 520px; } }
   .banner-dh blockquote { margin: 0; font-size: clamp(34px, 5.2vw, 60px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
   .banner-dh blockquote::before { content: "\201C"; display: block; height: 58px; margin-bottom: 6px; font-family: Georgia, "Times New Roman", serif; font-size: 110px; line-height: 1; color: var(--navy-2); }
   .banner-dh figcaption { margin-top: 28px; display: flex; align-items: center; gap: 14px; font-size: 16px; color: var(--text-2); }
@@ -360,9 +363,10 @@
   <!-- Zitat Dieter Homburg -->
   <section class="banner banner-dh" aria-label="Zitat von Dieter Homburg">
     <div class="wrap">
+      <img class="dh-photo" src="bilder/dieter-homburg.jpg" alt="Dieter Homburg" width="1200" height="675">
       <figure>
         <blockquote>Immobilien sind die beste Altersvorsorge.</blockquote>
-        <figcaption><span class="monogram" aria-hidden="true">DH</span><span><strong>Dieter Homburg</strong>Kooperationspartner der Hanseatischen Wohnungsgenossenschaft</span></figcaption>
+        <figcaption><span><strong>Dieter Homburg</strong>Kooperationspartner der Hanseatischen Wohnungsgenossenschaft</span></figcaption>
       </figure>
     </div>
   </section>
