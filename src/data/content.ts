@@ -34,20 +34,33 @@ export const callSlots = ['Schnellstmöglich', '9–12 Uhr', '12–15 Uhr', '15�
 // Anteile are not assigned to single houses; the member's money works across all projects.
 export const memberUnits = 4
 
+/** Units of a house in sale: total, still free, reserved; the rest is sold. */
+export type Units = { total: number; free: number; reserved?: number }
+
+export const soldUnits = (u: Units) => u.total - u.free - (u.reserved ?? 0)
+export const soldPercent = (u: Units) => Math.round((soldUnits(u) / u.total) * 100)
+/** "8 von 21 frei · 4 reserviert" */
+export const unitsText = (u: Units) =>
+  `${u.free} von ${u.total} frei${u.reserved ? ` · ${u.reserved} reserviert` : ''}`
+
 export type PortfolioProject = {
   city: string
   name: string
   image?: string // photo on the left of the card; a placeholder is shown until it is set
-  progress: number // % of the project completed, from purchase to the last sale
+  progress?: number // % of the project completed; without it the card shows the units sold
+  units?: Units
   phase: 'Ankauf' | 'Modernisierung' | 'Vermietung' | 'Verkauf' | 'Abgeschlossen'
   status: string
   updated: string
+  expose?: string // id of the house in the list below whose Exposé the card links to
 }
 
 export const portfolioProjects: PortfolioProject[] = [
-  { city: 'Hamburg-Bergedorf', name: 'Brookdeich', image: brookdeich, progress: 20, phase: 'Ankauf', status: 'Kaufvertrag beurkundet, Übergabe im Oktober', updated: '30.09.2026' },
-  { city: 'Hamburg-Eilbek', name: 'Letternkamp', image: letternkamp, progress: 55, phase: 'Modernisierung', status: 'Dach geschlossen, Bäder in Arbeit', updated: '18.09.2026' },
-  { city: 'Köln', name: 'Lülsdorfer Straße', image: luelsdorfer, progress: 85, phase: 'Verkauf', status: 'Wohnungen im Verkauf, erste Verkäufe beurkundet', updated: '26.09.2026' },
+  { city: 'Hamburg', name: 'Brookdeich', image: brookdeich, units: { total: 12, free: 12 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 12 Einheiten, 100 % frei', updated: '23.11.2026' },
+  { city: 'Hamburg', name: 'Letternkamp', image: letternkamp, units: { total: 2, free: 2 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 2 Einheiten, 100 % frei. 2027 folgt die Renovierung der unteren Wohnung: Badezimmer und Malerarbeiten', updated: '23.11.2026' },
+  { city: 'Köln', name: 'Lülsdorfer Straße', image: luelsdorfer, units: { total: 5, free: 5 }, phase: 'Verkauf', status: 'Befindet sich im Verkauf, 5 Einheiten und 6 Stellplätze, 100 % frei', updated: '23.11.2026' },
+  { city: 'Düsseldorf', name: 'Oberbilker Allee', image: obAussen, units: { total: 10, free: 6, reserved: 3 }, phase: 'Verkauf', status: 'Neues Objekt im Verkauf: 10 Einheiten, 3 reserviert, 1 verkauft', updated: '23.11.2026', expose: 'oberbilker-allee-113' },
+  { city: 'Pinneberg', name: 'Im Bans', progress: 90, units: { total: 22, free: 3 }, phase: 'Verkauf', status: 'Zu 90 % abgeschlossen, noch 3 von 22 Einheiten frei', updated: '23.11.2026', expose: 'im-bans-20' },
 ]
 
 // One share (Geschäftsanteil) is 10.000 €: 7 % p.a. paid quarterly gives the 175 € per share above.
@@ -59,14 +72,14 @@ export const anteile = (n: number) => `${n} ${n === 1 ? 'Anteil' : 'Anteile'}`
 export const nextPayout = { date: '31.12.2026', perShare: '175 € je Anteil (vorgesehen)' }
 
 export const trackRecord = {
-  completed: 15,
+  completed: 38,
   investedMio: 40.4,
   revenueMio: 52.3,
   facts: [
-    { strong: '13 von 15', rest: ' Häusern vollständig verkauft, die übrigen zwei im Verkauf' },
+    { strong: '38 Häuser', rest: ' zu 100 % abgeschlossen, 13 weitere im Verkauf' },
     {
-      strong: '13.269 m²',
-      rest: ' Wohnfläche in Hamburg, Kiel, Eckernförde, Pinneberg, Oldenburg, Cuxhaven, Lauenburg und Tönning',
+      strong: '29.855,36 m²',
+      rest: ' Wohnfläche insgesamt im Bestand all unserer Einheiten',
     },
     {
       strong: '10 Standorte in 4 Bundesländern',
@@ -158,26 +171,36 @@ export const faqs: Faq[] = [
 export type ProjectStatus = 'Im Verkauf' | 'Verkauft' | 'Im Ankauf'
 
 export type Project = {
+  id?: string // anchor of the row (#projekt-<id>), e.g. for links from the cards above
   street?: string
   city: string
-  note: string
+  note?: string
   date?: string
   status: ProjectStatus
   // Position on the Germany map (viewBox 0 0 600 760); the map shows
   // completed projects and the pipeline only
   pin?: [number, number]
+  // Houses in sale: units free, reserved and sold
+  units?: Units
   // Details from the Exposé, shown when the row is opened (projects for sale)
-  expose?: { sold: number; summary: string; images: { src: string; alt: string }[]; facts: [string, string][] }
+  expose?: { summary: string; images: { src: string; alt: string }[]; facts: [string, string][] }
 }
 
+// Stand 23.11.2026. Cities marked TODO were not given.
 export const projectsForSale: Project[] = [
+  { street: 'Brookdeich 98, 98a, 100, 100a', city: 'Hamburg', status: 'Im Verkauf', units: { total: 12, free: 12 } },
+  { street: 'Diestelkamp 43', city: 'Eckernförde', status: 'Im Verkauf', units: { total: 5, free: 1 } },
+  { street: 'Dorfstraße 3', city: '', status: 'Im Verkauf', units: { total: 4, free: 3 } }, // TODO city
+  { street: 'Grefenstraße', city: 'Drochtersen', status: 'Im Verkauf', units: { total: 24, free: 5 } },
+  { street: 'Hohe Straße 1, 2, 3', city: 'Drochtersen', status: 'Im Verkauf', units: { total: 24, free: 1 } },
+  { id: 'im-bans-20', street: 'Im Bans 20a, 20b', city: 'Pinneberg', note: 'Mehrfamilienhaus, zu 90 % abgeschlossen', status: 'Im Verkauf', units: { total: 22, free: 3 } },
   {
     street: 'Langer Kamp 49',
     city: 'Norderstedt',
     note: 'Mehrfamilienhaus von 1997, Wohnungen von 56 bis 115 m²',
     status: 'Im Verkauf',
+    units: { total: 21, free: 8, reserved: 4 },
     expose: {
-      sold: 75,
       summary: 'Gepflegtes Mehrfamilienhaus direkt im Hamburger Umland, mit 18 Garagen und möbliertem Vermietungskonzept.',
       images: [
         { src: lkAussen, alt: 'Langer Kamp 49, Norderstedt: Außenansicht' },
@@ -201,13 +224,16 @@ export const projectsForSale: Project[] = [
       ],
     },
   },
+  { street: 'Letternkamp', city: 'Hamburg', status: 'Im Verkauf', units: { total: 2, free: 2 } },
+  { street: 'Lülsdorfer Straße 210a', city: 'Köln', note: '5 Einheiten, 6 Stellplätze', status: 'Im Verkauf', units: { total: 5, free: 5 } },
   {
+    id: 'oberbilker-allee-113',
     street: 'Oberbilker Allee 113',
     city: 'Düsseldorf',
-    note: 'Gründerzeithaus von 1908, 9 Wohnungen von 41 bis 151 m²',
+    note: 'Gründerzeithaus von 1908, Wohnungen von 41 bis 151 m²',
     status: 'Im Verkauf',
+    units: { total: 10, free: 6, reserved: 3 },
     expose: {
-      sold: 68,
       summary: 'Mehrfamilienhaus aus der Gründerzeit in Düsseldorf-Oberbilk, laufend modernisiert, mit möbliertem Vermietungskonzept.',
       images: [
         { src: obAussen, alt: 'Oberbilker Allee 113, Düsseldorf: Außenansicht' },
@@ -220,7 +246,7 @@ export const projectsForSale: Project[] = [
         ['Adresse', 'Oberbilker Allee 113, 40227 Düsseldorf'],
         ['Gesamtinvestition', 'ab 171.300 €'],
         ['Baujahr', '1908'],
-        ['Wohneinheiten', '9'],
+        ['Wohneinheiten', '10'],
         ['Wohnfläche gesamt', '770 m²'],
         ['Wohnungsgrößen', '40,77 bis 150,71 m²'],
         ['Zimmer', '3 bis 4'],
@@ -231,11 +257,16 @@ export const projectsForSale: Project[] = [
       ],
     },
   },
+  { street: 'Richard-Linde-Weg 63, 63a', city: '', status: 'Im Verkauf', units: { total: 4, free: 2 } }, // TODO city
+  { street: 'Segeberger Chaussee 102a, b, c', city: 'Norderstedt', status: 'Im Verkauf', units: { total: 26, free: 0, reserved: 1 } },
+  { street: 'Uhlgasse 17', city: 'Bonn', status: 'Im Verkauf', units: { total: 5, free: 1, reserved: 2 } },
 ]
 
+/** Key figures of the overview (Stand 23.11.2026). */
+export const projectFigures = { completed: 38, livingSpace: '29.855,36' }
+
 export const projectsCompleted: Project[] = [
-  { street: 'Im Bans 20A–B', city: 'Pinneberg', note: 'Mehrfamilienhaus, 18 Wohnungen', date: 'vsl. Mai 26', status: 'Im Verkauf', pin: [258.7, 144] },
-  { street: 'Diestelkamp 23–33', city: 'Eckernförde', note: '6 Hauseingänge, 36 Wohnungen', date: 'vsl. Apr 26', status: 'Im Verkauf', pin: [261.1, 68.1] },
+  { street: 'Diestelkamp 23–33', city: 'Eckernförde', note: '6 Hauseingänge, 36 Wohnungen', date: 'Apr 26', status: 'Verkauft', pin: [261.1, 68.1] },
   { street: 'Borgfelder Straße 52', city: 'Hamburg', note: '20 Wohnungen, Baujahr 1955, saniert, aufgeteilt und vermietet', date: 'Apr 26', status: 'Verkauft', pin: [269.9, 154.3] },
   { street: 'Diestelkamp 43–45', city: 'Eckernförde', note: 'Mehrfamilienhaus, 16 Wohnungen, Verkauf als Kapitalanlage', date: 'Apr 26', status: 'Verkauft', pin: [247.1, 58.1] },
   { street: 'Eppendorfer Weg 155', city: 'Hamburg', note: '7 von 10 Einheiten erworben, Baujahr 1958', date: 'Apr 26', status: 'Verkauft', pin: [255.9, 144.3] },
@@ -254,26 +285,12 @@ export const projectsCompleted: Project[] = [
 export const projectsPipeline: Project[] = [
   { city: 'Lübeck', note: '40 Wohnungen · 1.454 m²', status: 'Im Ankauf', pin: [311, 124.3] },
   { city: 'Hamburg-Eilbek', note: '12 Wohnungen · 660 m²', status: 'Im Ankauf', pin: [253.9, 164.3] },
-  { city: 'Hamburg-Bergedorf', note: '12 Wohnungen · 971 m²', status: 'Im Ankauf', pin: [285.9, 164.3] },
-  { city: 'Köln', note: '5 Wohnungen · 63 m²', status: 'Im Ankauf', pin: [91.9, 399] },
-  { city: 'Bonn', note: '5 Wohnungen · 1.800 m²', status: 'Im Ankauf', pin: [100.1, 418.7] },
 ]
 
 export const legalNotice =
   'Genossenschaftsanteile sind eine unternehmerische Beteiligung. Die Zielrendite von 7 % p.a. ist nicht garantiert und hängt vom wirtschaftlichen Erfolg der Genossenschaft ab. Kein Anspruch auf Ausschüttung oder Rückzahlung; Verlust bis zum Totalverlust möglich. Keine gesetzliche Einlagensicherung. Keine Anlageberatung. Bitte lesen Sie vor einer Entscheidung Risikohinweis und Satzung.'
 
-// ---- Mitgliederbereich: Dokumente und Termine (Beispieldaten) ------------------
-
-export type MemberDocument = { title: string; note: string; kind: 'Persönlich' | 'Genossenschaft' }
-
-export const memberDocuments: MemberDocument[] = [
-  { title: 'Mitgliedsbestätigung', note: 'Ihre Aufnahme in die Genossenschaft', kind: 'Persönlich' },
-  { title: 'Steuerbescheinigung 2025', note: 'Für Ihre Steuererklärung', kind: 'Persönlich' },
-  { title: 'Zinsabrechnung Q3 2026', note: 'Auszahlung vom 30.09.2026', kind: 'Persönlich' },
-  { title: 'Satzung', note: 'Grundordnung der Genossenschaft', kind: 'Genossenschaft' },
-  { title: 'Allgemeine Geschäftsordnung', note: 'Verzinsung, Laufzeit, Kündigung', kind: 'Genossenschaft' },
-  { title: 'Jahresabschluss 2025', note: 'Geprüft durch den DIVK e. V.', kind: 'Genossenschaft' },
-]
+// ---- Mitgliederbereich: Termine (Beispieldaten) ------------------
 
 export type MemberEvent = { day: string; month: string; title: string; place: string; note: string }
 

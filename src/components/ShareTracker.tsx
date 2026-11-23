@@ -1,4 +1,4 @@
-import { nextPayout, portfolioProjects, type PortfolioProject } from '../data/content'
+import { nextPayout, portfolioProjects, projectsForSale, soldPercent, unitsText, type PortfolioProject } from '../data/content'
 
 const phaseTone: Record<PortfolioProject['phase'], string> = {
   Ankauf: 'bg-gold-100 text-gold-700',
@@ -63,25 +63,43 @@ export default function ShareTracker({ next, interest = true }: { next?: { date:
                   </span>
                 </div>
 
-                <div className="mt-5 flex items-baseline justify-between">
-                  <span className="text-[13px] text-muted">Fortschritt</span>
-                  <span className="font-display text-[32px] leading-none tabular-nums">{p.progress} %</span>
-                </div>
-                <div
-                  className="mt-2 h-2 overflow-hidden rounded-full bg-line"
-                  role="progressbar"
-                  aria-valuenow={p.progress}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-label={`Fortschritt ${p.name}`}
-                >
-                  <div className="h-full rounded-full bg-gold" style={{ width: `${p.progress}%` }} />
-                </div>
+                {(() => {
+                  // Progress if given (e.g. 90 % abgeschlossen), else the share of units sold
+                  const value = p.progress ?? (p.units ? soldPercent(p.units) : 0)
+                  const label = p.progress !== undefined ? 'Fortschritt' : 'verkauft'
+                  return (
+                    <>
+                      <div className="mt-5 flex items-baseline justify-between">
+                        <span className="text-[13px] text-muted">{label}</span>
+                        <span className="font-display text-[32px] leading-none tabular-nums">{value} %</span>
+                      </div>
+                      <div
+                        className="mt-2 h-2 overflow-hidden rounded-full bg-line"
+                        role="progressbar"
+                        aria-valuenow={value}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label={`${p.name}: ${value} % ${label}`}
+                      >
+                        <div className="h-full rounded-full bg-gold" style={{ width: `${value}%` }} />
+                      </div>
+                      {p.units && <p className="m-0 mt-2 text-[13px] text-muted tabular-nums">{unitsText(p.units)}</p>}
+                    </>
+                  )
+                })()}
 
                 <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                   <p className="m-0 text-[14px] leading-snug text-ink-2">{p.status}</p>
                   <p className="m-0 text-[12px] text-muted">Stand {p.updated}</p>
                 </div>
+                {p.expose && projectsForSale.some((h) => h.id === p.expose && h.expose) && (
+                  <a
+                    href={`#projekt-${p.expose}`}
+                    className="mt-4 inline-flex self-start rounded-control border border-line px-3 py-2 text-[14px] font-semibold text-ink no-underline hover:border-ink"
+                  >
+                    Exposé ansehen
+                  </a>
+                )}
               </div>
             </li>
           ))}
