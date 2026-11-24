@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<!-- Ad template. render.mjs opens it at the ad's pixel size with ?c=<concept>&f=<format>
+     and screenshots it. Sizes use vmin (--u), so one layout scales to every format. -->
+<link rel="stylesheet" href="../../assets/campaign.css">
+<style>
+  :root { --u: 1vmin; --pad: calc(var(--u)*6.5); }
+  html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; }
+  .ad { position: absolute; inset: 0; display: flex; flex-direction: column; padding: var(--pad); color: var(--white);
+        background: radial-gradient(120vw 80vh at 80% 0%, #252e72 0%, var(--panel) 55%, #0a0f33 100%); }
+  .ad.snow::before { content: ""; position: absolute; inset: 0; opacity: .45; pointer-events: none;
+    background-image:
+      radial-gradient(calc(var(--u)*.35) calc(var(--u)*.35) at 8% 12%, #fff 50%, transparent 51%),
+      radial-gradient(calc(var(--u)*.25) calc(var(--u)*.25) at 28% 40%, #fff 50%, transparent 51%),
+      radial-gradient(calc(var(--u)*.4) calc(var(--u)*.4) at 46% 18%, rgba(255,255,255,.8) 50%, transparent 51%),
+      radial-gradient(calc(var(--u)*.25) calc(var(--u)*.25) at 64% 52%, #fff 50%, transparent 51%),
+      radial-gradient(calc(var(--u)*.3) calc(var(--u)*.3) at 86% 30%, rgba(255,255,255,.7) 50%, transparent 51%);
+    background-size: calc(var(--u)*22) calc(var(--u)*18); }
+
+  .brand { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 2vw; }
+  .brand .wordmark b { font-size: calc(var(--u)*3); }
+  .brand .wordmark span { font-size: calc(var(--u)*1.55); }
+  .pill { display: inline-flex; align-items: center; gap: .5em; padding: .55em 1.1em; border-radius: 99px; font-weight: 700; font-size: calc(var(--u)*2); letter-spacing: .08em; text-transform: uppercase; background: var(--berry); color: #fff; white-space: nowrap; }
+
+  .body { position: relative; z-index: 2; flex: 1; display: grid; align-content: center; gap: calc(var(--u)*3.5); }
+  .text { display: grid; gap: calc(var(--u)*2.6); align-content: start; }
+  .eyebrow { color: var(--gold-400); font-size: calc(var(--u)*2.1); }
+  .eyebrow::before { width: calc(var(--u)*4); }
+  h1 { font-size: calc(var(--u)*8); line-height: 1.02; }
+  h1 em { color: var(--gold-400); }
+  .sub { margin: 0; font-size: calc(var(--u)*2.9); line-height: 1.4; color: rgba(255,255,255,.85); }
+  .actions { display: grid; gap: calc(var(--u)*2.6); align-content: start; justify-items: start; }
+  .cta { display: inline-flex; gap: .6em; align-items: center; padding: .8em 1.4em; border-radius: 6px; background: var(--gold); color: var(--ink); font-weight: 700; font-size: calc(var(--u)*3); white-space: nowrap; }
+  .visual { display: flex; justify-content: center; align-items: center; }
+  .gift { width: var(--gift); transform: rotate(-4deg); filter: drop-shadow(0 calc(var(--u)*3) calc(var(--u)*5) rgba(0,0,0,.5)); }
+  .times { display: flex; gap: calc(var(--u)*1.6); flex-wrap: wrap; }
+  .times span { display: inline-flex; align-items: center; gap: .5em; padding: .5em .85em; border: 1px solid rgba(221,184,81,.55); border-radius: 6px; font-size: calc(var(--u)*2.3); color: rgba(255,255,255,.9); }
+  .legal { position: relative; z-index: 3; margin: calc(var(--u)*2) 0 0; font-size: calc(var(--u)*1.5); color: rgba(255,255,255,.55); }
+
+  /* ---- Split formats: square 1080x1080, landscape 1200x674 ---- */
+  .f-square .body, .f-land .body { grid-template-columns: 1.3fr .7fr; grid-template-areas: "text visual" "actions visual"; align-content: center; column-gap: calc(var(--u)*5); }
+  .f-square .text, .f-land .text { grid-area: text; align-self: end; }
+  .f-square .actions, .f-land .actions { grid-area: actions; }
+  .f-square .visual, .f-land .visual { grid-area: visual; }
+  .f-square { --gift: calc(var(--u)*33); }
+  .f-square h1 { font-size: calc(var(--u)*7.6); }
+  .f-land { --gift: calc(var(--u)*50); --pad: calc(var(--u)*6); }
+  .f-land h1 { font-size: calc(var(--u)*8.4); }
+  .f-land .legal { display: none; }
+
+  /* ---- Stacked formats: portrait 1080x1350, story 1080x1920 ---- */
+  .f-portrait .body, .f-story .body { grid-template-areas: "text" "visual" "actions"; justify-items: center; text-align: center; }
+  .f-portrait .text, .f-story .text { grid-area: text; justify-items: center; }
+  .f-portrait .visual, .f-story .visual { grid-area: visual; }
+  .f-portrait .actions, .f-story .actions { grid-area: actions; justify-items: center; }
+  .f-portrait .times, .f-story .times { justify-content: center; }
+  .f-portrait .eyebrow::after, .f-story .eyebrow::after { content: ""; width: calc(var(--u)*4); height: 1px; background: currentColor; }
+  .f-portrait { --gift: calc(var(--u)*42); }
+  .f-portrait h1 { font-size: calc(var(--u)*8.4); }
+  .f-portrait .body { gap: calc(var(--u)*4); }
+  /* Story: keep the top 14 % and bottom 20 % free of key content (UI overlays). */
+  .f-story { --gift: calc(var(--u)*58); --pad: calc(var(--u)*7); }
+  .f-story .ad { padding-top: 14vh; padding-bottom: 20vh; }
+  .f-story .brand { position: absolute; left: 0; right: 0; top: 6vh; justify-content: center; }
+  .f-story .brand .pill { display: none; }
+  .f-story h1 { font-size: calc(var(--u)*10.5); }
+  .f-story .sub { font-size: calc(var(--u)*3.6); }
+  .f-story .cta { font-size: calc(var(--u)*4); }
+  .f-story .body { gap: calc(var(--u)*6); }
+  .f-story .legal { position: absolute; left: 0; right: 0; bottom: 14vh; text-align: center; }
+
+  /* ---- Concept B: Stephan's portrait on cream ---- */
+  .ad.b { background: var(--cream); color: var(--ink); }
+  .ad.b .wordmark span, .ad.b .eyebrow { color: var(--gold-700); }
+  .ad.b .sub { color: var(--ink-2); }
+  .ad.b h1 em { color: var(--berry); }
+  .ad.b .cta { background: var(--panel); color: #fff; }
+  .ad.b .legal { color: var(--muted); }
+  .ad.b .name { font-family: var(--serif); font-style: italic; font-size: calc(var(--u)*3.2); }
+  .photo { position: absolute; z-index: 1; bottom: 0; aspect-ratio: 760/1138; background: url("../../assets/stephan-gerlach-portraet.jpg") center top/cover; }
+  .ad.b .gift { --gift: calc(var(--u)*22); transform: rotate(-6deg); }
+  .ad.b .gift .free { display: none; }
+  /* split: photo right, fading in from the left */
+  .f-square .ad.b .photo, .f-land .ad.b .photo { right: -4%; height: 84%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 25%); mask-image: linear-gradient(90deg, transparent 0, #000 25%); }
+  .f-land .ad.b .photo { height: 100%; }
+  .f-square .ad.b .body, .f-land .ad.b .body { grid-template-columns: 1fr; grid-template-areas: "text" "actions"; max-width: 54%; }
+  .f-square .ad.b h1 { font-size: calc(var(--u)*7); }
+  .f-square .ad.b .visual, .f-land .ad.b .visual { position: absolute; z-index: 2; right: 4%; bottom: 5%; }
+  .f-land .ad.b .visual { right: 34%; bottom: 4%; }
+  .f-land .ad.b .gift { --gift: calc(var(--u)*24); }
+  /* stacked: text on top, photo from the bottom edge, book in front */
+  .f-portrait .ad.b .photo, .f-story .ad.b .photo { left: 50%; transform: translateX(-50%); -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%); mask-image: linear-gradient(180deg, transparent 0, #000 18%); }
+  .f-portrait .ad.b .photo { height: 52%; left: 64%; }
+  .f-story .ad.b .photo { height: 50%; }
+  .f-portrait .ad.b .body, .f-story .ad.b .body { grid-template-areas: "text" "actions"; align-content: start; }
+  .f-portrait .ad.b .visual { position: absolute; z-index: 2; left: 5%; bottom: 9%; }
+  .f-portrait .ad.b .gift { --gift: calc(var(--u)*32); }
+  .f-story .ad.b .visual { position: absolute; z-index: 2; left: 5%; bottom: 6%; }
+  .f-story .ad.b .gift { --gift: calc(var(--u)*34); }
+  .f-story .ad.b .actions { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; transform: translateY(calc(100% + var(--u)*3)); }
+  .f-story .ad.b .cta { box-shadow: 0 calc(var(--u)*1) calc(var(--u)*3) rgba(0,0,0,.3); }
+  .f-story .ad.b .legal { display: none; }
+  .f-portrait .ad.b .legal, .f-square .ad.b .legal { margin-top: auto; }
+
+  .ad.c { background: radial-gradient(110vw 70vh at 20% 100%, #2b1424 0%, transparent 60%), radial-gradient(120vw 80vh at 80% 0%, #252e72 0%, var(--panel) 55%, #0a0f33 100%); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<template id="gift">
+  <div class="gift" role="img" aria-label="Hörbuch als Geschenk">
+    <div class="cover"><div class="cover-art">
+      <span class="author">Stephan Gerlach</span>
+      <span class="title">Immobilien-Investitionen <em>leicht gemacht</em></span>
+      <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="7" rx="1.5"/><rect x="17" y="14" width="4" height="7" rx="1.5"/></svg>Hörbuch</span>
+    </div></div>
+    <div class="ribbon-v"></div><div class="ribbon-h"></div>
+    <svg class="bow" viewBox="0 0 200 140" aria-hidden="true">
+      <defs><linearGradient id="bw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c44a5a"/><stop offset=".55" stop-color="#9e2b3a"/><stop offset="1" stop-color="#6f1825"/></linearGradient></defs>
+      <path d="M100 70 C70 20 20 10 18 45 C16 78 60 84 100 70Z" fill="url(#bw)"/>
+      <path d="M100 70 C130 20 180 10 182 45 C184 78 140 84 100 70Z" fill="url(#bw)"/>
+      <path d="M96 74 L70 132 L84 126 L92 138 L102 80Z" fill="#84202f"/>
+      <path d="M104 74 L130 132 L116 126 L108 138 L98 80Z" fill="#9e2b3a"/>
+      <ellipse cx="100" cy="71" rx="15" ry="13" fill="#b8404f"/>
+    </svg>
+    <div class="free"><div><b>0&nbsp;€</b><span>Gratis</span></div></div>
+  </div>
+</template>
+
+<script>
+const p = new URLSearchParams(location.search);
+const c = p.get('c') || 'a', f = p.get('f') || 'square';
+document.body.className = 'f-' + f;
+
+const brand = (pill) => `<div class="brand"><span class="wordmark"><b>Hanseatische Wohnungsgenossenschaft</b><span>Gerlach Immobilien Gruppe</span></span>${pill ? `<span class="pill">${pill}</span>` : ''}</div>`;
+const gift = `<div class="visual">${document.getElementById('gift').innerHTML}</div>`;
+const legal = '<p class="legal">Kostenloses Hörbuch per E-Mail-Download. Keine Anlageberatung.</p>';
+
+const concepts = {
+  a: `<div class="ad snow">${brand('Weihnachtsaktion')}
+      <div class="body">
+        <div class="text">
+          <span class="eyebrow">Unser Weihnachtsgeschenk an Sie</span>
+          <h1>Das Hörbuch zum Bestseller – <em>gratis.</em></h1>
+          <p class="sub">„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach. Sicher investieren, mit klarem Plan.</p>
+        </div>
+        ${gift}
+        <div class="actions"><span class="cta">Hörbuch gratis sichern →</span></div>
+      </div>${legal}</div>`,
+
+  b: `<div class="ad b"><div class="photo"></div>${brand('')}
+      <div class="body">
+        <div class="text">
+          <span class="eyebrow">Bestseller jetzt als Hörbuch</span>
+          <h1>Mein Geschenk für Ihre <em>Weihnachtstage.</em></h1>
+          <p class="sub">Wie Sie mit Immobilien sicher Vermögen aufbauen – zum Anhören.</p>
+          <span class="name">– Stephan Gerlach</span>
+        </div>
+        <div class="actions"><span class="cta">Gratis-Hörbuch anfordern →</span></div>
+      </div>${gift}${legal}</div>`,
+
+  c: `<div class="ad c snow">${brand('Kostenlos')}
+      <div class="body">
+        <div class="text">
+          <span class="eyebrow">Für die Tage zwischen den Jahren</span>
+          <h1>Kopfhörer auf. <em>Plan fürs Immobilien-Vermögen</em> an.</h1>
+        </div>
+        ${gift}
+        <div class="actions">
+          <div class="times"><span>☕ Unterm Baum</span><span>🚗 Im Auto</span><span>❄️ Beim Spaziergang</span></div>
+          <span class="cta">Hörbuch gratis anhören →</span>
+        </div>
+      </div>${legal}</div>`,
+};
+document.getElementById('root').innerHTML = concepts[c];
+</script>
+</body>
+</html>
