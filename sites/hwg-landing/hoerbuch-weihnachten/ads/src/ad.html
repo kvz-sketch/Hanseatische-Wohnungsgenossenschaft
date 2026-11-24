@@ -27,7 +27,7 @@
   .body { position: relative; z-index: 2; flex: 1; display: grid; align-content: center; gap: calc(var(--u)*3.5); }
   .text { display: grid; gap: calc(var(--u)*2.6); align-content: start; }
   .eyebrow { color: var(--gold-400); font-size: calc(var(--u)*2.1); }
-  .eyebrow::before { width: calc(var(--u)*4); }
+  .eyebrow::before { content: none; }
   h1 { font-size: calc(var(--u)*8); line-height: 1.02; }
   h1 em { color: var(--gold-400); }
   .sub { margin: 0; font-size: calc(var(--u)*2.9); line-height: 1.4; color: rgba(255,255,255,.85); }
@@ -56,7 +56,6 @@
   .f-portrait .visual, .f-story .visual { grid-area: visual; }
   .f-portrait .actions, .f-story .actions { grid-area: actions; justify-items: center; }
   .f-portrait .times, .f-story .times { justify-content: center; }
-  .f-portrait .eyebrow::after, .f-story .eyebrow::after { content: ""; width: calc(var(--u)*4); height: 1px; background: currentColor; }
   .f-portrait { --gift: calc(var(--u)*42); }
   .f-portrait h1 { font-size: calc(var(--u)*8.4); }
   .f-portrait .body { gap: calc(var(--u)*4); }
@@ -144,7 +143,7 @@ const concepts = {
       <div class="body">
         <div class="text">
           <span class="eyebrow">Unser Weihnachtsgeschenk an Sie</span>
-          <h1>Das Hörbuch zum Bestseller – <em>gratis.</em></h1>
+          <h1>Das Hörbuch zum Bestseller. <em>Gratis.</em></h1>
           <p class="sub">„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach. Sicher investieren, mit klarem Plan.</p>
         </div>
         ${gift}
@@ -156,8 +155,8 @@ const concepts = {
         <div class="text">
           <span class="eyebrow">Bestseller jetzt als Hörbuch</span>
           <h1>Mein Geschenk für Ihre <em>Weihnachtstage.</em></h1>
-          <p class="sub">Wie Sie mit Immobilien sicher Vermögen aufbauen – zum Anhören.</p>
-          <span class="name">– Stephan Gerlach</span>
+          <p class="sub">Wie Sie mit Immobilien sicher Vermögen aufbauen. Kompakt zum Anhören.</p>
+          <span class="name">Stephan Gerlach</span>
         </div>
         <div class="actions"><span class="cta">Gratis-Hörbuch anfordern →</span></div>
       </div>${gift}${legal}</div>`,
@@ -170,7 +169,7 @@ const concepts = {
         </div>
         ${gift}
         <div class="actions">
-          <div class="times"><span>☕ Unterm Baum</span><span>🚗 Im Auto</span><span>❄️ Beim Spaziergang</span></div>
+          <div class="times"><span>Unterm Baum</span><span>Im Auto</span><span>Beim Spaziergang</span></div>
           <span class="cta">Hörbuch gratis anhören →</span>
         </div>
       </div>${legal}</div>`,
