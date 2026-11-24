@@ -46,7 +46,10 @@ h2 { font-size: clamp(34px, 4.6vw, 52px); }
 
 /* Header */
 .site-header { position: relative; z-index: 3; background: var(--panel); color: var(--white); border-bottom: 1px solid rgba(255,255,255,.08); }
-.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 84px; }
+.logo { display: block; line-height: 0; }
+.logo img { width: auto; height: 56px; }
+.site-footer .logo img { height: 72px; }
 .wordmark { display: flex; flex-direction: column; text-decoration: none; line-height: 1.15; }
 .wordmark b { font-family: var(--serif); font-weight: 600; font-size: 20px; letter-spacing: .01em; }
 .wordmark span { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-400); }

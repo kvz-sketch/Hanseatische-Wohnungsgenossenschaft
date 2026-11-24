@@ -20,6 +20,8 @@
     background-size: calc(var(--u)*22) calc(var(--u)*18); }
 
   .brand { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 2vw; }
+  .brandlogo { height: calc(var(--u)*12); width: auto; display: block; }
+  .f-land .brandlogo { height: calc(var(--u)*13); }
   .brand .wordmark b { font-size: calc(var(--u)*3); }
   .brand .wordmark span { font-size: calc(var(--u)*1.55); }
   .pill { display: inline-flex; align-items: center; gap: .5em; padding: .55em 1.1em; border-radius: 99px; font-weight: 700; font-size: calc(var(--u)*2); letter-spacing: .08em; text-transform: uppercase; background: var(--berry); color: #fff; white-space: nowrap; }
@@ -134,7 +136,8 @@ const p = new URLSearchParams(location.search);
 const c = p.get('c') || 'a', f = p.get('f') || 'square';
 document.body.className = 'f-' + f;
 
-const brand = (pill) => `<div class="brand"><span class="wordmark"><b>Hanseatische Wohnungsgenossenschaft</b><span>Gerlach Immobilien Gruppe</span></span>${pill ? `<span class="pill">${pill}</span>` : ''}</div>`;
+const logo = c === 'b' ? 'logo-hwg-navy.png' : 'logo-hwg-weiss.png';
+const brand = (pill) => `<div class="brand"><img class="brandlogo" src="../../assets/${logo}" alt="Hanseatische Wohnungsgenossenschaft"><span>${pill ? `<span class="pill">${pill}</span>` : ''}</span></div>`;
 const gift = `<div class="visual">${document.getElementById('gift').innerHTML}</div>`;
 const legal = '<p class="legal">Kostenloses Hörbuch per E-Mail-Download. Keine Anlageberatung.</p>';
 
