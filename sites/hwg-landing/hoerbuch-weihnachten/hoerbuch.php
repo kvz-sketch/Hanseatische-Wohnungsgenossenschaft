@@ -83,11 +83,17 @@ $headers = [
     'Reply-To: ' . TEAM_EMAIL,
 ];
 
+// Until HOERBUCH_URL is set, nobody gets a placeholder link: the requester is
+// told the link follows shortly and the team is asked to send it by hand.
+$hasLink = strpos(HOERBUCH_URL, 'HIER-') === false;
+$linkText = $hasLink
+    ? "Hier ist Ihr Hörbuch „Immobilien-Investitionen leicht gemacht“:\n" . HOERBUCH_URL . "\n\n"
+    : "Ihr Hörbuch „Immobilien-Investitionen leicht gemacht“ ist reserviert – den Download-Link senden wir Ihnen in Kürze per E-Mail.\n\n";
+
 // 1) Requester: the download link.
 $body = "Hallo {$vorname},\n\n"
       . "vielen Dank für Ihr Interesse – und frohe Weihnachten!\n\n"
-      . "Hier ist Ihr Hörbuch „Immobilien-Investitionen leicht gemacht“:\n"
-      . HOERBUCH_URL . "\n\n"
+      . $linkText
       . "Ich wünsche Ihnen viel Freude beim Zuhören und ein paar ruhige Tage zwischen den Jahren.\n"
       . "Wenn Sie danach Fragen zu Ihrer eigenen Kapitalanlage haben, buchen Sie gern ein kostenloses Erstgespräch:\n"
       . "https://calendly.com/dpp-gerlachgroup/30min-erstgesprach-gig\n\n"
@@ -103,7 +109,8 @@ $sent = mail($email, $encode('Ihr Weihnachtsgeschenk: das Hörbuch von Stephan G
 // 2) Team notification.
 $team = "Neuer Lead (Weihnachts-Hörbuch)\n\n"
       . "Zeit:     {$now}\nVorname:  {$vorname}\nE-Mail:   {$email}\nQuelle:   " . ($quelle ?: '–') . "\n"
-      . "Einwilligung Werbe-E-Mails: ja\n";
+      . "Einwilligung Werbe-E-Mails: ja\n"
+      . ($hasLink ? '' : "\nACHTUNG: HOERBUCH_URL ist noch nicht gesetzt – bitte Download-Link manuell senden.\n");
 mail(TEAM_EMAIL, $encode('Lead Hörbuch: ' . $vorname), $team, implode("\r\n", $headers), '-f' . FROM_EMAIL);
 
 if (!$sent) {

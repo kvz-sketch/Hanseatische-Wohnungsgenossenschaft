@@ -34,10 +34,38 @@ auf der Hostinger-Site (z. B. als `hoerbuch.hanseatische-wohnungsgenossenschaft.
 
 ## Deploy
 
-Ordnerinhalt (ohne `ads/src` und die README-Dateien) nach `public_html/<ordner>/`
-hochladen. `hoerbuch.php` schreibt die Leads nach
-`leads-hoerbuch-weihnachten.csv` zwei Ebenen höher (außerhalb von
-`public_html`), mit Zeitstempel der Einwilligung.
+Live seit 24.11.2026 im Ordner `public_html/hoerbuch/` der Hostinger-Site
+`hanseainvest-de-735810.hostingersite.com`:
+**https://exposees.hanseatische-wohnungsgenossenschaft.de/hoerbuch/**
+
+Hochgeladen wurden `index.html`, `danke.html`, `impressum.html`,
+`hoerbuch.php`, `assets/` und `ads/png/a-geschenk-1200x674.png` (Vorschaubild
+für Link-Vorschauen). `hoerbuch.php` schreibt die Leads nach
+`/home/u873563229/domains/hanseainvest-de-735810.hostingersite.com/leads-hoerbuch-weihnachten.csv`
+(außerhalb von `public_html`).
+
+Solange `HOERBUCH_URL` nicht gesetzt ist, bekommt der Interessent keinen
+Platzhalter-Link, sondern „Link folgt in Kürze“; die Team-Mail sagt dann, dass
+der Link von Hand geschickt werden muss.
+
+### Eigene Subdomain (optional)
+
+Die DNS-Zone von hanseatische-wohnungsgenossenschaft.de liegt bei netcup. Für
+`hoerbuch.hanseatische-wohnungsgenossenschaft.de`:
+
+1. netcup CCP → DNS: A-Record `hoerbuch` → `72.60.86.52`.
+2. Hostinger: die Subdomain als Parked Domain der Site hinzufügen.
+3. In `public_html/.htaccess` (vor dem Block „Forgive links …“) ergänzen:
+
+   ```apache
+   # Lead magnet: hoerbuch.* is served from the /hoerbuch/ folder
+   RewriteCond %{HTTP_HOST} ^hoerbuch\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+   RewriteCond %{REQUEST_URI} !^/hoerbuch/
+   RewriteRule ^(.*)$ /hoerbuch/$1 [L]
+
+   RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+   RewriteRule ^hoerbuch/(.*)$ https://hoerbuch.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+   ```
 
 ## Motive neu erzeugen
 
