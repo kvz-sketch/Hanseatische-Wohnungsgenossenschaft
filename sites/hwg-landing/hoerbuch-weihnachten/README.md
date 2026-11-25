@@ -13,7 +13,7 @@ auf der Hostinger-Site (z. B. als `hoerbuch.hanseatische-wohnungsgenossenschaft.
 | `assets/` | Stylesheet, selbst gehostete Schriften (kein Google Fonts), Fotos, Siegel |
 | `ads/png/` | 12 Anzeigenmotive (3 Konzepte × 4 Formate) |
 | `ads/ANZEIGENTEXTE.md` | Texte für Meta und Taboola, UTM-Links |
-| `ads/src/` | Vorlage und Skript, mit dem die Motive erzeugt werden |
+| `ads/src/` | Vorlage (`creatives.py`) und Render-Skript für die Motive |
 
 ## Vor dem Start
 
@@ -69,8 +69,14 @@ Die DNS-Zone von hanseatische-wohnungsgenossenschaft.de liegt bei netcup. Für
 
 ## Motive neu erzeugen
 
-Nach Änderungen an `ads/src/ad.html` (vom Repository-Root):
+Alle 12 Motive kommen aus einer Vorlage, `ads/src/creatives.py`. Sie schreibt
+die Artboards für den Design-Canvas und je eine Vorschauseite nach
+`ads/src/preview/`, aus der `render.mjs` die PNGs macht (vom Repository-Root):
 
 ```bash
+python3 sites/hwg-landing/hoerbuch-weihnachten/ads/src/creatives.py <Ordner für die Canvas-Artboards>
 node sites/hwg-landing/hoerbuch-weihnachten/ads/src/render.mjs
 ```
+
+Hintergrund und Buch-Mockup: `assets/buch-hintergrund.jpg` und
+`assets/buch-mockup.jpg` (Ausschnitt mit SPIEGEL-Bestseller-Siegel).
