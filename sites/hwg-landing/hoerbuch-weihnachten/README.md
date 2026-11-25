@@ -78,5 +78,5 @@ python3 sites/hwg-landing/hoerbuch-weihnachten/ads/src/creatives.py <Ordner für
 node sites/hwg-landing/hoerbuch-weihnachten/ads/src/render.mjs
 ```
 
-Hintergrund und Buch-Mockup: `assets/buch-hintergrund.jpg` und
-`assets/buch-mockup.jpg` (Ausschnitt mit SPIEGEL-Bestseller-Siegel).
+Bilder: `assets/stadt-hintergrund.jpg` (Hintergrund), `assets/buch-mockup.png`
+und `assets/spiegel-bestseller.png` (freigestellt, einzeln platziert).

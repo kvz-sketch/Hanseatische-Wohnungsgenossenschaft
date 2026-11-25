@@ -17,15 +17,17 @@ CANVAS_IMG = {
     'logo_w': '/_blob/82fdfd5f8c49cd80dfd22641f5b605cc',
     'logo_n': '/_blob/174969af013a3d2f8fa223ad9955c3ac',
     'photo': '/_blob/663298861e08f39c23c8a144d32349a1',
-    'bg': '/_blob/3d0c8ff8bf92aa8625d860781ded5b67',
-    'book': '/_blob/fc7441da13289e92f0cca7d121fc24b7',
+    'bg': '/_blob/ac87b16eb25e41566c55069aadce9aba',
+    'book': '/_blob/de1213932a2523b61e6fee8210df7795',
+    'badge': '/_blob/5b979248576b4d9195e15814b42b93bd',
 }
 PREVIEW_IMG = {
     'logo_w': '../../../assets/logo-hwg-weiss.png',
     'logo_n': '../../../assets/logo-hwg-navy.png',
     'photo': '../../../assets/stephan-gerlach-portraet.jpg',
-    'bg': '../../../assets/buch-hintergrund.jpg',
-    'book': '../../../assets/buch-mockup.jpg',
+    'bg': '../../../assets/stadt-hintergrund.jpg',
+    'book': '../../../assets/buch-mockup.png',
+    'badge': '../../../assets/spiegel-bestseller.png',
 }
 
 NAVY = '12,16,48'
@@ -41,7 +43,7 @@ SNOW_CSS = ('.snow{background-image:radial-gradient(3px 3px at 8% 12%, rgba(255,
             'radial-gradient(3px 3px at 86% 30%, rgba(255,255,255,.4) 50%, transparent 51%);background-size:240px 200px}')
 
 LEGAL = 'Kostenloses Hörbuch per E-Mail-Download. Keine Anlageberatung.'
-BOOK_ALT = 'Buch „Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach, SPIEGEL-Bestseller'
+BOOK_ALT = 'Buch „Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach'
 
 
 class Ctx:
@@ -68,8 +70,14 @@ def bg_layers(c, objpos, overlay, snow):
 
 
 def book(c, style):
+    """The book cutout plus the SPIEGEL-Bestseller badge on its lower left.
+    Its parent must be positioned (the badge is placed against it)."""
+    w = int(style.split('width:')[1].split('px')[0])
     return (f'<img src="{c.img["book"]}" alt="{BOOK_ALT}" style="display: block; {style} height: auto; '
-            f'border-radius: 12px; border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 30px 60px rgba(0,0,0,0.5);">')
+            f'filter: drop-shadow(0 30px 36px rgba(0,0,0,0.55));">\n    '
+            f'<img src="{c.img["badge"]}" alt="SPIEGEL-Bestseller" style="position: absolute; left: {-round(w * 0.07)}px; '
+            f'bottom: {round(w * 0.10)}px; width: {round(w * 0.40)}px; height: auto; transform: rotate(-6deg); '
+            f'filter: drop-shadow(0 10px 18px rgba(0,0,0,0.45));">')
 
 
 def coin(size, style):
@@ -125,14 +133,14 @@ COPY = {
               h1=f'Das Hörbuch zum Bestseller. <em style="{EM}">Gratis.</em>',
               sub='„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach. Sicher investieren, mit klarem Plan.',
               sub_short='„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach.',
-              cta='Hörbuch gratis sichern', objpos='78% 50%'),
+              cta='Hörbuch gratis sichern', objpos='50% 50%'),
     'c': dict(eyebrow='Für die Tage zwischen den Jahren', pill='Kostenlos',
               h1=f'Kopfhörer auf. <em style="{EM}">Plan fürs Immobilien-Vermögen</em> an.',
-              cta='Hörbuch gratis anhören', objpos='66% 50%'),
+              cta='Hörbuch gratis anhören', objpos='50% 50%'),
     'b': dict(eyebrow='SPIEGEL-Bestseller jetzt als Hörbuch',
               h1=f'Mein Geschenk für Ihre <em style="{EM}">Weihnachtstage.</em>',
               sub='Wie Sie mit Immobilien sicher Vermögen aufbauen. Kompakt zum Anhören.',
-              cta='Gratis-Hörbuch anfordern', objpos='70% 50%'),
+              cta='Gratis-Hörbuch anfordern', objpos='50% 50%'),
 }
 
 
@@ -145,14 +153,14 @@ def ac_square(c, k):
     {logo(c, 110)}
     {pill(t['pill'], 20, '12px 24px')}
   </div>
-  <div style="position: absolute; left: 70px; top: 240px; width: 520px; display: flex; flex-direction: column; gap: 24px;">
+  <div style="position: absolute; left: 70px; top: 310px; width: 520px; display: flex; flex-direction: column; gap: 24px;">
     {eyebrow(t['eyebrow'], 20)}
     {h1(t['h1'], 72 if k == 'a' else 66)}
     {mid}
     {c.button(t['cta'], 1.8, extra=' align-self: flex-start; margin-top: 8px;')}
   </div>
-  <div style="position: absolute; left: 600px; top: 300px; transform: rotate(3deg);">
-    {book(c, 'width: 430px;')}
+  <div style="position: absolute; left: 640px; top: 380px;">
+    {book(c, 'width: 400px;')}
     {coin(140, 'right: -10px; top: -70px;')}
   </div>
   {legal('left: 70px; bottom: 40px;', 15)}
@@ -172,7 +180,7 @@ def ac_portrait(c, k):
       {h1(t['h1'], 80)}
       {mid}
     </div>
-    <div style="position: relative; transform: rotate(-2deg);">
+    <div style="position: relative;">
       {book(c, 'width: 520px;')}
       {coin(140, 'right: -60px; top: -40px;')}
     </div>
@@ -194,7 +202,7 @@ def ac_story(c, k):
       {h1(t['h1'], 100)}
       {mid}
     </div>
-    <div style="position: relative; transform: rotate(-2deg);">
+    <div style="position: relative;">
       {book(c, 'width: 640px;')}
       {coin(170, 'right: -60px; top: -50px;')}
     </div>
@@ -207,7 +215,7 @@ def ac_story(c, k):
 def ac_taboola(c, k):
     t = COPY[k]
     mid = sub(t['sub'], 20) if k == 'a' else chips(15, '7px 12px', 10)
-    return (bg_layers(c, '100% 50%', OV_H, True) + f'''  <div style="position: absolute; left: 56px; right: 56px; top: 34px; display: flex; justify-content: space-between; align-items: center;">
+    return (bg_layers(c, '50% 50%', OV_H, True) + f'''  <div style="position: absolute; left: 56px; right: 56px; top: 34px; display: flex; justify-content: space-between; align-items: center;">
     {logo(c, 78)}
     {pill(t['pill'], 14, '8px 18px')}
   </div>
@@ -217,7 +225,7 @@ def ac_taboola(c, k):
     {mid}
     {c.button(t['cta'], 1.4, extra=' align-self: flex-start; margin-top: 6px;')}
   </div>
-  <div style="position: absolute; left: 700px; top: 150px; transform: rotate(3deg);">
+  <div style="position: absolute; left: 700px; top: 150px;">
     {book(c, 'width: 420px;')}
     {coin(110, 'right: -30px; top: -50px;')}
   </div>
@@ -248,7 +256,7 @@ def b_square(c):
     {NAME.format(32)}
     {c.button(t['cta'], 1.8, extra=' align-self: flex-start;')}
   </div>
-  <div style="position: absolute; left: 610px; top: 640px; transform: rotate(-4deg);">
+  <div style="position: absolute; left: 610px; top: 640px;">
     {book(c, 'width: 320px;')}
   </div>
   {legal('left: 70px; bottom: 40px;', 15)}
@@ -267,7 +275,7 @@ def b_portrait(c):
     {sub(t['sub'], 27)}
     {NAME.format(32)}
   </div>
-  <div style="position: absolute; left: 70px; top: 740px; transform: rotate(-4deg);">
+  <div style="position: absolute; left: 70px; top: 740px;">
     {book(c, 'width: 400px;')}
   </div>
   <div style="position: absolute; left: 70px; top: 1150px;">
@@ -290,7 +298,7 @@ def b_story(c):
     {NAME.format(38)}
     {c.button(t['cta'], 2.4, extra=' margin-top: 10px;')}
   </div>
-  <div style="position: absolute; left: 76px; top: 1090px; transform: rotate(-4deg);">
+  <div style="position: absolute; left: 76px; top: 1090px;">
     {book(c, 'width: 460px;')}
   </div>
 ''')
@@ -298,7 +306,7 @@ def b_story(c):
 
 def b_taboola(c):
     t = COPY['b']
-    return (bg_layers(c, '100% 50%', OV_B_H, False) + f'''  {photo(c, 'right: 0; top: 0; width: 460px; height: 674px;', '90deg')}
+    return (bg_layers(c, '50% 50%', OV_B_H, False) + f'''  {photo(c, 'right: 0; top: 0; width: 460px; height: 674px;', '90deg')}
   <div style="position: absolute; left: 56px; top: 34px;">
     {logo(c, 78)}
   </div>
@@ -309,7 +317,7 @@ def b_taboola(c):
     {NAME.format(24)}
     {c.button(t['cta'], 1.4, extra=' align-self: flex-start;')}
   </div>
-  <div style="position: absolute; left: 640px; top: 400px; transform: rotate(-4deg);">
+  <div style="position: absolute; left: 640px; top: 400px;">
     {book(c, 'width: 250px;')}
   </div>
 ''')
