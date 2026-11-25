@@ -107,8 +107,9 @@ def eyebrow(text, size):
 
 
 def h1(html, size):
-    return (f'<h1 style="margin: 0; font-family: var(--font-display); font-weight: 500; font-size: {size}px; '
-            f'line-height: 1.02; letter-spacing: -0.01em;">{html}</h1>')
+    # Inter, bold; sizes in the layouts are given for the display face, Inter runs wider.
+    return (f'<h1 style="margin: 0; font-family: var(--font-ui); font-weight: 700; font-size: {round(size * 0.78)}px; '
+            f'line-height: 1.1; letter-spacing: -0.02em;">{html}</h1>')
 
 
 def sub(text, size, extra=''):
@@ -127,7 +128,7 @@ def legal(style, size):
     return f'<p style="position: absolute; {style} margin: 0; font-size: {size}px; color: rgba(255,255,255,0.6);">{LEGAL}</p>'
 
 
-EM = 'font-style: italic; color: var(--gold-400);'
+EM = 'font-style: normal; color: var(--gold-400);'
 COPY = {
     'a': dict(eyebrow='Unser Weihnachtsgeschenk an Sie', pill='Weihnachtsaktion',
               h1=f'Das Hörbuch zum Bestseller. <em style="{EM}">Gratis.</em>',

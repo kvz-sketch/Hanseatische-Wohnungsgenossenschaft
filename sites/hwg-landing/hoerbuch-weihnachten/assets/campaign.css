@@ -40,8 +40,8 @@ a { color: inherit; }
 .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .serif { font-family: var(--serif); }
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-700); }
-h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.08; letter-spacing: -.01em; margin: 0; }
-h2 { font-size: clamp(34px, 4.6vw, 52px); }
+h1, h2, h3 { font-family: var(--sans); font-weight: 700; line-height: 1.12; letter-spacing: -.02em; margin: 0; }
+h2 { font-size: clamp(28px, 3.4vw, 40px); }
 .lead { font-size: 19px; color: var(--ink-2); }
 
 /* Header */
@@ -57,7 +57,7 @@ h2 { font-size: clamp(34px, 4.6vw, 52px); }
 .header-note b { color: var(--gold-400); font-weight: 600; }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; background: radial-gradient(1200px 600px at 75% 0%, #222a6a 0%, var(--panel) 55%, #0b1035 100%); color: var(--white); padding: 56px 0 72px; }
+.hero { position: relative; overflow: hidden; background: linear-gradient(90deg, rgba(12,16,48,.95) 0%, rgba(12,16,48,.86) 50%, rgba(12,16,48,.55) 100%), url("stadt-hintergrund.jpg") center / cover, var(--panel); color: var(--white); padding: 56px 0 72px; }
 .hero::before { /* falling snow, two layers of dots */
   content: ""; position: absolute; inset: -200px 0 0; pointer-events: none; opacity: .55;
   background-image:
@@ -72,43 +72,27 @@ h2 { font-size: clamp(34px, 4.6vw, 52px); }
 @keyframes snow { to { transform: translateY(220px); } }
 @media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } }
 .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
-.hero .gift { width: min(290px, 64vw); }
 .hero-stack { display: grid; gap: 36px; justify-items: center; width: 100%; max-width: 440px; }
 .hero .eyebrow { color: var(--gold-400); }
-.hero h1 { margin: 18px 0 20px; font-size: clamp(42px, 6vw, 72px); }
-.hero h1 em { font-style: italic; color: var(--gold-400); }
+.hero h1 { margin: 18px 0 20px; font-size: clamp(34px, 4.8vw, 58px); }
+.hero h1 em { font-style: normal; color: var(--gold-400); }
 .hero .lead { color: rgba(255,255,255,.82); max-width: 540px; }
 .hero-visual { display: flex; justify-content: center; }
 .checks { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 10px; }
 .checks li { display: flex; gap: 12px; align-items: flex-start; color: rgba(255,255,255,.9); }
 .checks li::before { content: ""; flex: none; width: 20px; height: 20px; margin-top: 3px; border-radius: 50%; background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-7' fill='none' stroke='%23141a46' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat; }
 
-/* Gift-wrapped audiobook (pure CSS + SVG bow). Everything inside scales with
-   the box (container units), so one markup works from 200 to 700 px.
-   Swap .cover-art for the real cover when it is available:
-   <img class="cover-img" src="assets/cover.jpg" alt=""> */
-.gift { position: relative; width: min(400px, 82vw); aspect-ratio: 1; container-type: inline-size; filter: drop-shadow(0 30px 50px rgba(0,0,0,.45)); transform: rotate(-3deg); }
-.cover { position: absolute; inset: 0; border-radius: 1.5cqw; overflow: hidden; background: linear-gradient(145deg, #1d2560 0%, #121a4c 55%, #0d1338 100%); }
-.cover-img { width: 100%; height: 100%; object-fit: cover; }
-.cover-art { position: absolute; inset: 6cqw; border: max(1px, .35cqw) solid rgba(221,184,81,.65); display: flex; flex-direction: column; justify-content: space-between; padding: 16cqw 22cqw 6cqw 6cqw; color: var(--white); }
-.cover-art .author { font-size: 3.4cqw; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.85); }
-.cover-art .title { font-family: var(--serif); font-weight: 600; font-size: 9.6cqw; line-height: 1.0; }
-.cover-art .title em { display: block; font-style: italic; font-weight: 500; color: var(--gold-400); }
-.cover-art .tag { display: inline-flex; align-items: center; gap: .6em; font-size: 3.4cqw; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-400); }
-.cover-art .tag svg { width: 1.5em; height: 1.5em; }
-.ribbon-v, .ribbon-h { position: absolute; background: linear-gradient(90deg, var(--berry-600), var(--berry) 40%, #b8404f 55%, var(--berry-600)); box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
-.ribbon-v { top: 0; bottom: 0; left: 81cqw; width: 8cqw; }
-.ribbon-h { left: 0; right: 0; top: 9cqw; height: 8cqw; background: linear-gradient(180deg, var(--berry-600), var(--berry) 40%, #b8404f 55%, var(--berry-600)); }
-.bow { position: absolute; width: 44cqw; left: 63cqw; top: -2.5cqw; }
-.gift-tag { position: absolute; right: -7cqw; bottom: 8cqw; transform: rotate(7deg); background: var(--cream); color: var(--ink); border: 1px solid var(--cream-line); border-radius: 1cqw; padding: 2cqw 4cqw 2cqw 5.5cqw; font-family: var(--serif); font-size: 6cqw; font-style: italic; line-height: 1.2; box-shadow: 0 2cqw 4cqw rgba(0,0,0,.25); }
-.gift-tag::before { content: ""; position: absolute; left: 2cqw; top: 50%; width: 1.8cqw; height: 1.8cqw; margin-top: -.9cqw; border-radius: 50%; background: var(--panel); }
-.free { position: absolute; right: -8cqw; bottom: -8cqw; width: 32cqw; height: 32cqw; border-radius: 50%; display: grid; place-items: center; text-align: center; background: var(--gold); color: var(--ink); font-family: var(--serif); font-weight: 600; line-height: .9; transform: rotate(12deg); box-shadow: 0 2cqw 5cqw rgba(0,0,0,.35); }
-.free b { display: block; font-size: 12cqw; }
-.free span { display: block; margin-top: .5em; font-family: var(--sans); font-size: 3cqw; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+/* Book mockup with the SPIEGEL-Bestseller badge and the "0 € Gratis" coin */
+.book-stack { position: relative; width: min(360px, 74vw); }
+.book-stack .book { width: 100%; height: auto; filter: drop-shadow(0 30px 36px rgba(0,0,0,.55)); }
+.book-stack .badge { position: absolute; left: -7%; bottom: 10%; width: 40%; height: auto; transform: rotate(-6deg); filter: drop-shadow(0 10px 18px rgba(0,0,0,.45)); }
+.book-stack .coin { position: absolute; right: -6%; top: -4%; width: 28%; aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--gold); color: var(--ink); transform: rotate(12deg); box-shadow: 0 8px 20px rgba(0,0,0,.35); }
+.book-stack .coin b { font-family: var(--serif); font-weight: 600; font-size: clamp(26px, 7vw, 38px); line-height: .9; }
+.book-stack .coin span { margin-top: 4px; font-size: clamp(9px, 2.2vw, 11px); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 
 /* Form card */
 .form-card { background: var(--white); color: var(--ink); border-radius: 10px; padding: 28px; box-shadow: 0 24px 60px rgba(4,8,40,.35); border-top: 4px solid var(--gold); }
-.form-card h2 { font-size: 30px; margin-bottom: 6px; }
+.form-card h2 { font-size: 24px; margin-bottom: 6px; }
 .form-card .sub { margin: 0 0 18px; color: var(--muted); font-size: 15px; }
 .field { display: grid; gap: 6px; margin-bottom: 14px; }
 .field label { font-size: 14px; font-weight: 600; }
@@ -136,7 +120,7 @@ section { padding: 88px 0; }
 .learn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .learn article { background: var(--white); border: 1px solid var(--cream-line); border-radius: var(--radius); padding: 26px; }
 .learn .num { font-family: var(--serif); font-size: 40px; line-height: 1; color: var(--gold-600); }
-.learn h3 { font-size: 25px; margin: 12px 0 8px; }
+.learn h3 { font-size: 20px; margin: 12px 0 8px; }
 .learn p { margin: 0; color: var(--ink-2); font-size: 16px; }
 
 .author { display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: center; }
@@ -149,12 +133,12 @@ section { padding: 88px 0; }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: s; }
 .steps li { list-style: none; position: relative; padding-top: 58px; }
 .steps li::before { counter-increment: s; content: counter(s); position: absolute; top: 0; left: 0; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--panel); color: var(--gold-400); font-family: var(--serif); font-size: 22px; font-weight: 600; }
-.steps h3 { font-size: 24px; margin-bottom: 6px; }
+.steps h3 { font-size: 19px; margin-bottom: 6px; }
 .steps p { margin: 0; color: var(--ink-2); }
 .steps { padding: 0; margin: 0; }
 
 .share { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; background: var(--panel); color: var(--white); border-radius: 10px; padding: 34px 36px; margin-top: 56px; }
-.share h3 { font-size: 30px; }
+.share h3 { font-size: 22px; }
 .share p { margin: 6px 0 0; color: rgba(255,255,255,.78); }
 .share .btn { width: auto; background: transparent; color: var(--gold-400); border: 1px solid var(--gold); }
 .share .btn:hover { background: rgba(221,184,81,.12); }
