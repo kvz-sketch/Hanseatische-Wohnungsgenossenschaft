@@ -15,7 +15,7 @@
 <link rel="icon" href="/wp-content/themes/hansea-invest/dist/favicon.ico" sizes="any">
 <link rel="icon" href="/wp-content/themes/hansea-invest/dist/icon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/leitfaden.css?v=2">
+<link rel="stylesheet" href="assets/leitfaden.css?v=3">
 </head>
 <body>
 
@@ -141,6 +141,7 @@
 			<a href="https://hanseainvest.de/impressum/">Impressum</a>
 			<a href="https://hanseainvest.de/datenschutz/">Datenschutz</a>
 			<a href="https://hanseainvest.de/">hanseainvest.de</a>
+			<a href="#cookie-einstellungen">Cookie-Einstellungen</a>
 		</nav>
 		<p>Hanseatische Invest eG · Langenhorner Chaussee 155 · 22415 Hamburg · Amtsgericht Hamburg, GnR 1175 · Vorstand: Stephan Hilmar Gerlach, Christine Georgia Pistorius · Prüfungsverband: DIVK e.V., Hildesheim · <a href="mailto:mitgliederservice@hanseainvest.de">mitgliederservice@hanseainvest.de</a></p>
 		<p class="site-footer__risk">Hinweis: Eine Beteiligung an der Genossenschaft ist eine unternehmerische Beteiligung und mit Risiken verbunden. Die 7&nbsp;% p.&nbsp;a. gemäß §&nbsp;10 AGO sind angestrebt und nicht garantiert. Es besteht Totalausfallrisiko. Diese Seite dient der allgemeinen Information und ist keine Anlage-, Rechts- oder Steuerberatung.</p>
@@ -148,5 +149,14 @@
 </footer>
 
 <script src="https://js.hsforms.net/forms/embed/19607021.js" defer></script>
+<script>
+/* After a successful submission go straight to the guide (also works if no
+   redirect is set in HubSpot). */
+window.addEventListener('hs-form-event:on-submission:success', function (e) {
+	if (e.detail && e.detail.formId && e.detail.formId !== 'b91364d5-2395-488d-87bf-b366f43ee68b') return;
+	window.location.href = '/leitfaden/download/';
+});
+</script>
+<script src="assets/consent.js?v=1" defer></script>
 </body>
 </html>
