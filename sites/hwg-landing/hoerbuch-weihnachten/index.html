@@ -11,8 +11,7 @@
 <meta property="og:type" content="website">
 <link rel="preload" href="assets/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script src="https://js.hsforms.net/forms/embed/19607021.js" defer></script>
-<link rel="stylesheet" href="assets/campaign.css?v=6">
-<!-- Tracking (Meta-Pixel / Taboola-Pixel / GA4): erst nach Einwilligung über den Cookie-Banner der Seite laden. -->
+<link rel="stylesheet" href="assets/campaign.css?v=7">
 </head>
 <body>
 
@@ -155,6 +154,7 @@
       <nav aria-label="Rechtliches">
         <a href="impressum.html">Impressum</a>
         <a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener">Datenschutz</a>
+        <a href="#" data-consent-settings>Cookie-Einstellungen</a>
       </nav>
     </div>
     <p class="disclaimer">Das Hörbuch dient der allgemeinen Information und ist keine Anlage-, Steuer- oder Rechtsberatung.</p>
@@ -165,13 +165,12 @@
 (function () {
   var form = document.getElementById('lead-form');
 
-  // HubSpot form sent: report the lead to the ad pixels (when they are loaded).
-  // The page after sending (thank-you page or message) is set in HubSpot.
+  // HubSpot form sent: report the lead to the Meta Pixel (assets/consent.js,
+  // only with consent). The page after sending is set in HubSpot.
   var reported = false;
   function lead() {
     if (reported) return; reported = true;
-    if (window.fbq) fbq('track', 'Lead');
-    if (window._tfa) _tfa.push({ notify: 'event', name: 'lead' });
+    if (window.hwgTrackLead) window.hwgTrackLead();
   }
   window.addEventListener('hs-form-event:on-submission:success', lead);
   window.addEventListener('message', function (e) {
@@ -192,5 +191,6 @@
   }
 })();
 </script>
+<script src="assets/consent.js?v=2"></script>
 </body>
 </html>
