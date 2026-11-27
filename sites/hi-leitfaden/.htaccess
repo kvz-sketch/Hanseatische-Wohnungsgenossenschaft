@@ -1,0 +1,9 @@
+# Pages are checked with the server on every visit, so changes show at once
+# (the host's default lets browsers keep HTML for a week). Files in assets/
+# keep their long cache; their links carry ?v=… and change with each update.
+<IfModule mod_headers.c>
+	<FilesMatch "\.html$">
+		Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+		Header unset Expires
+	</FilesMatch>
+</IfModule>
