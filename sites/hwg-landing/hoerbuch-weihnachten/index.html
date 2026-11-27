@@ -10,7 +10,8 @@
 <meta property="og:image" content="ads/png/a-geschenk-1200x674.png">
 <meta property="og:type" content="website">
 <link rel="preload" href="assets/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/campaign.css?v=5">
+<script src="https://js.hsforms.net/forms/embed/19607021.js" defer></script>
+<link rel="stylesheet" href="assets/campaign.css?v=6">
 <!-- Tracking (Meta-Pixel / Taboola-Pixel / GA4): erst nach Einwilligung über den Cookie-Banner der Seite laden. -->
 </head>
 <body>
@@ -44,28 +45,12 @@
             <div class="coin" aria-hidden="true"><b>0 €</b><span>Gratis</span></div>
           </div>
 
-          <form class="form-card" id="lead-form" action="hoerbuch.php" method="post" novalidate>
+          <div class="form-card" id="lead-form">
             <h2>Hörbuch gratis sichern</h2>
-            <p class="sub">Wir senden Ihnen den Download-Link sofort per E-Mail.</p>
-            <p class="form-error" role="alert" id="form-error"></p>
-            <div class="field">
-              <label for="vorname">Vorname</label>
-              <input id="vorname" name="vorname" type="text" autocomplete="given-name" required maxlength="80">
-            </div>
-            <div class="field">
-              <label for="email">E-Mail-Adresse</label>
-              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="160">
-            </div>
-            <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-            <input type="hidden" name="ts" id="ts">
-            <input type="hidden" name="quelle" id="quelle">
-            <label class="consent">
-              <input type="checkbox" name="einwilligung" value="ja" required>
-              <span>Ja, senden Sie mir das kostenlose Hörbuch und informieren Sie mich per E-Mail über Kapitalanlage-Immobilien der Hanseatischen Wohnungsgenossenschaft und der Gerlach Immobilien Gruppe. Die Einwilligung kann ich jederzeit widerrufen. Details in der <a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span>
-            </label>
-            <button class="btn" type="submit">🎁 Jetzt Hörbuch gratis erhalten</button>
+            <p class="sub">Wir senden Ihnen den Download-Link per E-Mail.</p>
+            <div class="hs-form-frame" data-region="na1" data-form-id="7a2ce313-39df-4d99-81f2-19b76b62d273" data-portal-id="19607021"></div>
             <p class="form-note">Kostenlos · Kein Abo · Abmeldung jederzeit</p>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -179,38 +164,18 @@
 <script>
 (function () {
   var form = document.getElementById('lead-form');
-  var err = document.getElementById('form-error');
-  document.getElementById('ts').value = String(Math.floor(Date.now() / 1000));
-  // Keep the ad source (utm_* / Taboola / Meta click ids) with the lead.
-  var q = new URLSearchParams(location.search), src = [];
-  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'tblci', 'fbclid'].forEach(function (k) {
-    if (q.get(k)) src.push(k + '=' + q.get(k).slice(0, 100));
-  });
-  document.getElementById('quelle').value = src.join('&');
 
-  function fail(msg) { err.textContent = msg; err.classList.add('show'); }
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    err.classList.remove('show');
-    var name = form.vorname.value.trim(), mail = form.email.value.trim();
-    if (!name) return fail('Bitte geben Sie Ihren Vornamen ein.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) return fail('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
-    if (!form.einwilligung.checked) return fail('Bitte bestätigen Sie die Einwilligung, damit wir Ihnen das Hörbuch senden dürfen.');
-    var btn = form.querySelector('button[type=submit]');
-    btn.disabled = true; btn.textContent = 'Wird gesendet …';
-    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
-      .then(function (res) {
-        if (!res.ok || !res.d.ok) throw new Error(res.d && res.d.error);
-        if (window.fbq) fbq('track', 'Lead');
-        if (window._tfa) _tfa.push({ notify: 'event', name: 'lead' });
-        location.href = 'danke.html';
-      })
-      .catch(function (x) {
-        fail((x && x.message) || 'Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an info@gerlachgroup.de.');
-        btn.disabled = false; btn.textContent = '🎁 Jetzt Hörbuch gratis erhalten';
-      });
+  // HubSpot form sent: report the lead to the ad pixels (when they are loaded).
+  // The page after sending (thank-you page or message) is set in HubSpot.
+  var reported = false;
+  function lead() {
+    if (reported) return; reported = true;
+    if (window.fbq) fbq('track', 'Lead');
+    if (window._tfa) _tfa.push({ notify: 'event', name: 'lead' });
+  }
+  window.addEventListener('hs-form-event:on-submission:success', lead);
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'hsFormCallback' && e.data.eventName === 'onFormSubmitted') lead();
   });
 
   document.getElementById('share-btn').addEventListener('click', function () {
