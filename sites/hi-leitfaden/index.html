@@ -15,7 +15,7 @@
 <link rel="icon" href="/wp-content/themes/hansea-invest/dist/favicon.ico" sizes="any">
 <link rel="icon" href="/wp-content/themes/hansea-invest/dist/icon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/leitfaden.css?v=3">
+<link rel="stylesheet" href="assets/leitfaden.css?v=4">
 </head>
 <body>
 
@@ -46,11 +46,50 @@
 			</div>
 
 			<div class="form-card" id="leitfaden-anfordern">
-				<!-- HubSpot form; its "after submit" redirect in HubSpot should point to
-				     https://hanseainvest.de/leitfaden/download/ -->
+				<!-- Own form in the page design; it sends to HubSpot form
+				     b91364d5-2395-488d-87bf-b366f43ee68b (portal 19607021) via the
+				     Forms API, with the consent texts configured in HubSpot. -->
 				<h2>Leitfaden anfordern</h2>
 				<p class="form-card__sub">Tragen Sie Ihre Daten ein. Im nächsten Schritt öffnet sich Ihr Leitfaden.</p>
-				<div class="hs-form-frame" data-region="na1" data-form-id="b91364d5-2395-488d-87bf-b366f43ee68b" data-portal-id="19607021"></div>
+				<form class="form" id="lead-form" novalidate>
+					<div class="form__row">
+						<div class="field">
+							<label for="f-first">Vorname <span aria-hidden="true">*</span></label>
+							<input id="f-first" name="firstname" autocomplete="given-name" required>
+						</div>
+						<div class="field">
+							<label for="f-last">Nachname <span aria-hidden="true">*</span></label>
+							<input id="f-last" name="lastname" autocomplete="family-name" required>
+						</div>
+					</div>
+					<div class="field">
+						<label for="f-email">E-Mail <span aria-hidden="true">*</span></label>
+						<input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+					</div>
+					<div class="field">
+						<label for="f-phone">Telefonnummer <span aria-hidden="true">*</span></label>
+						<input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+49 40 123456" required>
+					</div>
+					<div class="consent-text">
+						<p id="t-communication">Ich willige ein, dass die Gerlach Verwaltungs- und Beteiligungsgesellschaft mbH sowie die mit ihr verbundenen Unternehmen (§§ 15 ff. AktG) meine Kontaktdaten nutzen, um mich per E-Mail und Telefon zu kontaktieren.</p>
+					</div>
+					<label class="check">
+						<input type="checkbox" name="communications">
+						<span id="t-communications-label">Ich stimme zu, andere Benachrichtigungen von GIG zu erhalten.</span>
+					</label>
+					<div class="consent-text">
+						<p id="t-processing">Um Ihre Anfrage bearbeiten zu können, benötigen wir Ihre Zustimmung zur Speicherung und Verarbeitung Ihrer personenbezogenen Daten. Bitte aktivieren Sie das Kontrollkästchen unten, um Ihre Einwilligung zu bestätigen:</p>
+					</div>
+					<label class="check">
+						<input type="checkbox" name="processing" required>
+						<span><span id="t-processing-label">Ich stimme der Speicherung und Verarbeitung meiner personenbezogenen Daten durch GIG zu.</span> <span class="req" aria-hidden="true">*</span></span>
+					</label>
+					<p class="consent-text">Ich kann diese Einwilligung jederzeit widerrufen. Weitere Informationen finde ich in der <a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+					<p class="field__error" id="form-error" role="alert" hidden></p>
+					<button class="btn" type="submit">Leitfaden anfordern
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+					</button>
+				</form>
 			</div>
 		</div>
 	</section>
@@ -148,14 +187,71 @@
 	</div>
 </footer>
 
-<script src="https://js.hsforms.net/forms/embed/19607021.js" defer></script>
 <script>
-/* After a successful submission go straight to the guide (also works if no
-   redirect is set in HubSpot). */
-window.addEventListener('hs-form-event:on-submission:success', function (e) {
-	if (e.detail && e.detail.formId && e.detail.formId !== 'b91364d5-2395-488d-87bf-b366f43ee68b') return;
-	window.location.href = '/leitfaden/download/';
-});
+/* Sends the form to HubSpot (Forms API v3) and opens the guide. The consent
+   texts sent along are the ones shown above, word for word. */
+(function () {
+	var ENDPOINT = 'https://api.hsforms.com/submissions/v3/integration/submit/19607021/b91364d5-2395-488d-87bf-b366f43ee68b';
+	var form = document.getElementById('lead-form');
+	var error = document.getElementById('form-error');
+	var text = function (id) { return document.getElementById(id).textContent.trim(); };
+	var cookie = function (name) { var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; };
+
+	form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		var bad = [];
+		['firstname', 'lastname'].forEach(function (n) { if (!form[n].value.trim()) bad.push(form[n]); });
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim())) bad.push(form.email);
+		var phone = form.phone.value.trim();
+		if (!/^\+?[0-9 ()\-./]{6,}$/.test(phone) || phone.replace(/\D/g, '').length < 6) bad.push(form.phone);
+		form.querySelectorAll('input').forEach(function (el) { el.removeAttribute('aria-invalid'); });
+		bad.forEach(function (el) { el.setAttribute('aria-invalid', 'true'); });
+		var consent = form.processing.checked;
+		form.processing.closest('.check').toggleAttribute('data-invalid', !consent);
+		if (bad.length || !consent) {
+			error.textContent = bad.length ? 'Bitte füllen Sie die markierten Felder aus.' : 'Bitte bestätigen Sie die Einwilligung zur Speicherung und Verarbeitung Ihrer Daten.';
+			error.hidden = false;
+			(bad[0] || form.processing).focus();
+			return;
+		}
+		error.hidden = true;
+		var button = form.querySelector('button');
+		button.disabled = true;
+		var label = button.firstChild.nodeValue;
+		button.firstChild.nodeValue = 'Wird gesendet … ';
+
+		var context = { pageUri: location.href, pageName: document.title };
+		if (cookie('hubspotutk')) context.hutk = cookie('hubspotutk');
+		fetch(ENDPOINT, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				fields: [
+					{ objectTypeId: '0-1', name: 'firstname', value: form.firstname.value.trim() },
+					{ objectTypeId: '0-1', name: 'lastname', value: form.lastname.value.trim() },
+					{ objectTypeId: '0-1', name: 'email', value: form.email.value.trim() },
+					{ objectTypeId: '0-1', name: 'weitere_telefonnummer', value: phone }
+				],
+				context: context,
+				legalConsentOptions: {
+					consent: {
+						consentToProcess: true,
+						text: text('t-processing') + ' ' + text('t-processing-label'),
+						communications: [{ value: form.communications.checked, subscriptionTypeId: 3213889120, text: text('t-communication') + ' ' + text('t-communications-label') }]
+					}
+				}
+			})
+		}).then(function (res) {
+			if (!res.ok) throw new Error(res.status);
+			window.location.href = '/leitfaden/download/';
+		}).catch(function () {
+			error.textContent = 'Das hat leider nicht geklappt. Bitte prüfen Sie Ihre Angaben und versuchen Sie es noch einmal.';
+			error.hidden = false;
+			button.disabled = false;
+			button.firstChild.nodeValue = label;
+		});
+	});
+})();
 </script>
 <script src="assets/consent.js?v=1" defer></script>
 </body>

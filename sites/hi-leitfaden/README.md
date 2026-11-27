@@ -9,7 +9,8 @@ Plain static files, uploaded to `public_html/leitfaden/` next to WordPress
 
 ## Form
 
-The form on `index.html` is the HubSpot embed (portal 19607021, form
+The form on `index.html` is our own form in the page design; it sends to the
+HubSpot form (portal 19607021, form
 b91364d5-2395-488d-87bf-b366f43ee68b). Where visitors go after sending it is
 set in HubSpot (form options, "after submit"): redirect to
 `https://hanseainvest.de/leitfaden/download/`.
