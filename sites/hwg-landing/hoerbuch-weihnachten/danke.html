@@ -4,14 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Ihr Hörbuch ist unterwegs · Hanseatische Wohnungsgenossenschaft</title>
+<title>Ihr Hörbuch · Hanseatische Wohnungsgenossenschaft</title>
 <link rel="stylesheet" href="assets/campaign.css?v=7">
 <style>
   .thanks { padding: 80px 0 96px; text-align: center; }
   .thanks h1 { font-size: clamp(34px, 4.6vw, 52px); margin: 18px auto 18px; max-width: 760px; }
   .thanks h1 em { font-style: normal; color: var(--gold-400); }
   .thanks .lead { max-width: 600px; margin: 0 auto; color: rgba(255,255,255,.85); }
-  .mail-icon { width: 76px; height: 76px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: var(--ink); }
+  .player { max-width: 760px; margin: 40px auto 0; text-align: left; background: var(--white); color: var(--ink); border-radius: 10px; border-top: 4px solid var(--gold); box-shadow: 0 24px 60px rgba(4,8,40,.35); padding: 28px; }
+  .player-head { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .player-head h2 { font-size: 22px; }
+  .player-head p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  .player-head .btn { width: auto; padding: 12px 18px; font-size: 15px; }
+  .tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .track { display: grid; grid-template-columns: 40px 1fr auto; gap: 8px 14px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 8px; }
+  .track.playing { border-color: var(--gold-600); background: var(--cream); }
+  .track .no { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--panel); color: var(--gold-400); font-weight: 700; }
+  .track .meta b { display: block; font-size: 16px; }
+  .track .meta span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .track .dl { font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .track audio { grid-column: 1 / -1; width: 100%; height: 40px; }
+  .hint { margin: 16px 0 0; font-size: 13px; color: var(--muted); }
+  @media (max-width: 640px) { .player { padding: 20px 14px; } .track { grid-template-columns: 36px 1fr; } .track .dl { grid-column: 2; } }
   .next { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
   .next .btn { width: auto; }
   .next img { border-radius: var(--radius); max-height: 420px; object-fit: cover; object-position: top; width: 100%; }
@@ -30,9 +44,52 @@
 <main>
   <section class="hero thanks">
     <div class="wrap" style="display:block">
-      <div class="mail-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
-      <h1>Ihr Geschenk ist <em>unterwegs.</em></h1>
-      <p class="lead">Vielen Dank! Wir haben Ihnen soeben eine E-Mail mit dem Download-Link zum Hörbuch „Immobilien-Investitionen leicht gemacht“ geschickt. Falls sie in ein paar Minuten nicht da ist, schauen Sie bitte im Spam- oder Werbung-Ordner nach.</p>
+      <span class="eyebrow">Vielen Dank</span>
+      <h1>Ihr Hörbuch ist <em>da.</em></h1>
+      <p class="lead">„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach. Hören Sie direkt hier hinein oder laden Sie die Dateien herunter, für unterwegs, im Auto oder unterm Weihnachtsbaum.</p>
+
+      <div class="player" id="hoerbuch">
+        <div class="player-head">
+          <div>
+            <h2>Immobilien-Investitionen leicht gemacht</h2>
+            <p>5 Teile · rund 24 Minuten · MP3</p>
+          </div>
+          <a class="btn" href="audio/immobilien-investitionen-leicht-gemacht-hoerbuch.zip" download>Alle Teile herunterladen (ZIP, 56 MB)</a>
+        </div>
+        <ol class="tracks">
+          <li class="track">
+            <span class="no">1</span>
+            <span class="meta"><b>Teil 1</b><span>0:24 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-01.mp3" download>Herunterladen (0,9 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-01.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">2</span>
+            <span class="meta"><b>Teil 2</b><span>7:37 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-02.mp3" download>Herunterladen (17,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-02.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">3</span>
+            <span class="meta"><b>Teil 3</b><span>3:12 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-03.mp3" download>Herunterladen (7,3 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-03.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">4</span>
+            <span class="meta"><b>Teil 4</b><span>10:41 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-04.mp3" download>Herunterladen (24,5 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-04.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">5</span>
+            <span class="meta"><b>Teil 5</b><span>2:42 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-05.mp3" download>Herunterladen (6,2 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-05.mp3"></audio>
+          </li>
+        </ol>
+        <p class="hint">Tipp: Speichern Sie sich diese Seite als Lesezeichen, dann können Sie das Hörbuch jederzeit wieder abrufen. Auf dem iPhone die einzelnen Teile am besten über „Herunterladen“ in der Dateien-App sichern.</p>
+      </div>
     </div>
   </section>
 
@@ -70,6 +127,19 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var items = [].slice.call(document.querySelectorAll('.track'));
+  var players = items.map(function (li) { return li.querySelector('audio'); });
+  players.forEach(function (a, i) {
+    a.addEventListener('play', function () {
+      players.forEach(function (o, j) { if (j !== i) o.pause(); });
+      items.forEach(function (li, j) { li.classList.toggle('playing', j === i); });
+    });
+    a.addEventListener('ended', function () { if (players[i + 1]) players[i + 1].play(); });
+  });
+})();
+</script>
 <script src="assets/consent.js?v=2"></script>
 </body>
 </html>

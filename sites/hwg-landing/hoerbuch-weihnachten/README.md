@@ -67,6 +67,18 @@ Die DNS-Zone von hanseatische-wohnungsgenossenschaft.de liegt bei netcup. Für
    RewriteRule ^hoerbuch/(.*)$ https://hoerbuch.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
    ```
 
+## Hörbuch-Dateien
+
+`danke.html` ist zugleich die Hörbuch-Seite: 5 Teile zum Anhören und einzeln
+herunterladen, dazu alle Teile als ZIP. Die Dateien liegen auf Hostinger unter
+`public_html/hoerbuch/audio/` (nicht im Repository, siehe `.gitignore`):
+`immobilien-investitionen-leicht-gemacht-teil-01.mp3` … `-teil-05.mp3` und
+`immobilien-investitionen-leicht-gemacht-hoerbuch.zip`.
+
+In HubSpot muss das Formular nach dem Absenden auf
+`https://exposees.hanseatische-wohnungsgenossenschaft.de/hoerbuch/danke.html`
+weiterleiten, und die Bestätigungs-E-Mail sollte denselben Link enthalten.
+
 ## Motive neu erzeugen
 
 Alle 12 Motive kommen aus einer Vorlage, `ads/src/creatives.py`. Sie schreibt
