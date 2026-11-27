@@ -9,14 +9,10 @@ Plain static files, uploaded to `public_html/leitfaden/` next to WordPress
 
 ## Form
 
-The form on `index.html` is a dummy: it checks the fields and opens
-`download/`, it sends nothing. To connect HubSpot:
-
-1. Replace the `<form id="lead-form">` and the script at the end of
-   `index.html` with the HubSpot embed (as in `inc/elementor.php` of the
-   theme), and remove the "Testformular" badge.
-2. In HubSpot, set the form's "after submit" action to redirect to
-   `https://hanseainvest.de/leitfaden/download/`.
+The form on `index.html` is the HubSpot embed (portal 19607021, form
+b91364d5-2395-488d-87bf-b366f43ee68b). Where visitors go after sending it is
+set in HubSpot (form options, "after submit"): redirect to
+`https://hanseainvest.de/leitfaden/download/`.
 
 `download/` is `noindex` (meta tag and `X-Robots-Tag` for the PDF), but anyone
 with the link can open it; a static page cannot check that the form was sent.

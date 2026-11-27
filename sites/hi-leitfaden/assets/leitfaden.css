@@ -116,6 +116,7 @@ p { margin: 0; }
 .form .btn { width: 100%; margin-top: 4px; }
 .form__note { font-size: 12px; color: var(--muted); text-align: center; }
 .form__note svg { display: inline; vertical-align: -2px; margin-right: 4px; }
+.hs-form-frame { min-height: 420px; }
 .dummy-badge { position: absolute; top: -13px; right: 20px; padding: 4px 10px; border-radius: 99px; background: var(--coral); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 
 /* Sections */

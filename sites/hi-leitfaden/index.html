@@ -15,7 +15,7 @@
 <link rel="icon" href="/wp-content/themes/hansea-invest/dist/favicon.ico" sizes="any">
 <link rel="icon" href="/wp-content/themes/hansea-invest/dist/icon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/leitfaden.css?v=1">
+<link rel="stylesheet" href="assets/leitfaden.css?v=2">
 </head>
 <body>
 
@@ -46,40 +46,11 @@
 			</div>
 
 			<div class="form-card" id="leitfaden-anfordern">
-				<!-- DUMMY FORM: replace this <form> with the HubSpot embed and set the
-				     form's redirect in HubSpot to https://hanseainvest.de/leitfaden/download/ -->
-				<span class="dummy-badge" aria-hidden="true">Testformular</span>
+				<!-- HubSpot form; its "after submit" redirect in HubSpot should point to
+				     https://hanseainvest.de/leitfaden/download/ -->
 				<h2>Leitfaden anfordern</h2>
 				<p class="form-card__sub">Tragen Sie Ihre Daten ein. Im nächsten Schritt öffnet sich Ihr Leitfaden.</p>
-				<form class="form" id="lead-form" action="download/" method="get" novalidate>
-					<div class="form__row">
-						<div class="field">
-							<label for="f-first">Vorname <span aria-hidden="true">*</span></label>
-							<input id="f-first" name="firstname" autocomplete="given-name" required>
-						</div>
-						<div class="field">
-							<label for="f-last">Nachname <span aria-hidden="true">*</span></label>
-							<input id="f-last" name="lastname" autocomplete="family-name" required>
-						</div>
-					</div>
-					<div class="field">
-						<label for="f-email">E-Mail <span aria-hidden="true">*</span></label>
-						<input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
-					</div>
-					<div class="field">
-						<label for="f-phone">Telefon <small>(optional)</small></label>
-						<input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
-					</div>
-					<label class="check">
-						<input type="checkbox" name="consent" required>
-						<span>Ich bin einverstanden, dass die Hanseatische Invest eG meine Angaben nutzt, um mir den Leitfaden bereitzustellen und mich zu meiner Anfrage zu kontaktieren. Widerruf jederzeit möglich. <a href="https://hanseainvest.de/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a></span>
-					</label>
-					<p class="field__error" id="form-error" role="alert" hidden></p>
-					<button class="btn" type="submit">Leitfaden anfordern
-						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-					</button>
-					<p class="form__note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Kostenlos und unverbindlich. Keine Weitergabe an Dritte.</p>
-				</form>
+				<div class="hs-form-frame" data-region="na1" data-form-id="b91364d5-2395-488d-87bf-b366f43ee68b" data-portal-id="19607021"></div>
 			</div>
 		</div>
 	</section>
@@ -176,31 +147,6 @@
 	</div>
 </footer>
 
-<script>
-/* Dummy form: checks the fields and opens the guide. Sends nothing anywhere.
-   Remove this script when the HubSpot form is in place. */
-(function () {
-	var form = document.getElementById('lead-form');
-	var error = document.getElementById('form-error');
-	form.addEventListener('submit', function (e) {
-		e.preventDefault();
-		var bad = [];
-		['firstname', 'lastname'].forEach(function (n) { if (!form[n].value.trim()) bad.push(form[n]); });
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim())) bad.push(form.email);
-		form.querySelectorAll('input').forEach(function (el) { el.removeAttribute('aria-invalid'); });
-		bad.forEach(function (el) { el.setAttribute('aria-invalid', 'true'); });
-		var consent = form.consent.checked;
-		form.querySelector('.check').toggleAttribute('data-invalid', !consent);
-		if (bad.length || !consent) {
-			error.textContent = bad.length ? 'Bitte füllen Sie die markierten Felder aus.' : 'Bitte bestätigen Sie die Einwilligung.';
-			error.hidden = false;
-			(bad[0] || form.consent).focus();
-			return;
-		}
-		error.hidden = true;
-		window.location.href = 'download/';
-	});
-})();
-</script>
+<script src="https://js.hsforms.net/forms/embed/19607021.js" defer></script>
 </body>
 </html>
