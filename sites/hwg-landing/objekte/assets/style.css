@@ -296,3 +296,14 @@ p { margin: 0; }
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+/* Calendly booking widget on the thank-you step */
+.calendar { margin-top: 36px; padding: 24px 24px 16px; border: 2px solid var(--line); border-radius: var(--radius); }
+.calendar h2 { font-size: 22px; font-weight: 600; }
+.calendar > p { margin-top: 8px; color: var(--muted); }
+.calendly-box { height: 700px; margin: 12px -12px 0; }
+.calendar .calendar-fallback { margin-top: 8px; font-size: 14px; }
+@media (max-width: 640px) {
+  .calendar { padding: 16px 12px 12px; }
+  .calendly-box { height: 1000px; margin: 8px -8px 0; }
+}

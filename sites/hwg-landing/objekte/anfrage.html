@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161b47">
 <link rel="preload" href="assets/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body>
 
@@ -119,6 +119,12 @@
           <li><b>2</b><span>Wir rufen dich zu deiner Wunschzeit an – unverbindlich und persönlich.</span></li>
           <li><b>3</b><span>Du erhältst die Unterlagen und Kennzahlen zu den passenden Wohnungen.</span></li>
         </ol>
+        <div class="calendar">
+          <h2>Wunschtermin direkt buchen</h2>
+          <p>Wähle gleich hier einen passenden Termin für ein kurzes Telefonat.</p>
+          <div id="calendly" class="calendly-box"></div>
+          <p class="calendar-fallback">Kalender wird nicht angezeigt? <a href="https://calendly.com/mv-gerlachgroup/15-minuten-telefonat-klon" target="_blank" rel="noopener">Termin bei Calendly buchen</a></p>
+        </div>
         <div class="step-nav"><a class="link-back" href="./"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M7.5 4.5L3 9l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Zur Startseite</a></div>
       </section>
     </form>
@@ -176,6 +182,24 @@
     });
   })(groups[g]);
 
+  // Calendly booking widget on the thank-you step: loaded only once that step
+  // is visible, with name and email from the form already filled in.
+  var CALENDLY_URL = 'https://calendly.com/mv-gerlachgroup/15-minuten-telefonat-klon';
+  function loadCalendly(name, email) {
+    var box = document.getElementById('calendly');
+    var s = document.createElement('script');
+    s.src = 'https://assets.calendly.com/assets/external/widget.js';
+    s.async = true;
+    s.onload = function () {
+      window.Calendly.initInlineWidget({
+        url: CALENDLY_URL + '?hide_gdpr_banner=1&primary_color=161b47'
+          + '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email),
+        parentElement: box
+      });
+    };
+    document.body.appendChild(s);
+  }
+
   form.addEventListener('input', function (e) {
     if (e.target.getAttribute('aria-invalid') === 'true') e.target.setAttribute('aria-invalid', 'false');
   });
@@ -206,6 +230,7 @@
         document.getElementById('thanks-name').textContent = ', ' + f.vorname.value.trim();
         if (window.hwgTrackLead) window.hwgTrackLead();
         show(total, true);
+        loadCalendly(f.vorname.value.trim() + ' ' + f.nachname.value.trim(), f.email.value.trim());
       })
       .catch(function (x) {
         err.textContent = (x && x.message) || 'Das hat leider nicht geklappt. Bitte versuche es gleich noch einmal oder ruf uns an: +49 40 22862372-0.';
