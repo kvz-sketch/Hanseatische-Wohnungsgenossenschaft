@@ -28,3 +28,21 @@ The text is the Impressum of gerlachgroup.de (Gerlach Verwaltungs- und
 Beteiligungsges.mbH), updated: it cites the DDG instead of the TMG (§ 5,
 § 7 Abs. 1, §§ 8 bis 10) and no longer links the EU online dispute
 platform, which closed in July 2025.
+
+# objekte.hanseatische-wohnungsgenossenschaft.de
+
+Landing page plus a five-step request funnel (`objekte/`), live in the same
+Hostinger site under `public_html/objekte/`:
+
+- `index.html`: landing page; the example offer card is HTML, not an image.
+- `anfrage.html`: funnel (goals, net income, equity, contact, thank you).
+- `anfrage.php`: stores each request in `~/leads-objekte.csv` (outside
+  `public_html`), emails the team (`info@gerlachgroup.de`, reply goes to the
+  requester) and sends the requester a short confirmation.
+- `assets/consent.js`: consent bar and Meta Pixel (`Lead` after a request);
+  the shield button bottom left reopens it.
+
+Routing: `objekte.hanseatische-wohnungsgenossenschaft.de` is a parked domain
+of the site; the root `.htaccess` (copy in `htaccess-root`) serves it from
+`/objekte/`. DNS for the domain is at netcup: the subdomain needs an A record
+`objekte` → `72.60.86.52` there (same as the other subdomains).

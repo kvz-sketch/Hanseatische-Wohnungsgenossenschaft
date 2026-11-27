@@ -1,0 +1,7 @@
+# Pages are checked for updates on every visit, so copy changes show at once.
+# Assets keep the server's normal caching (the stylesheet link carries ?v=N).
+<IfModule mod_headers.c>
+<FilesMatch "\.(html|php)$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
+</IfModule>
