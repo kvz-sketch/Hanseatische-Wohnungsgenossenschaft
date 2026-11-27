@@ -216,6 +216,9 @@ p { margin: 0; }
 .slot:has(input:checked) { border-color: var(--navy); background: #f6f7fb; }
 .consent { display: flex; gap: 16px; margin-top: 24px; font-size: 17px; line-height: 1.6; color: var(--muted); font-weight: 300; cursor: pointer; }
 .consent input { flex: none; width: 26px; height: 26px; margin: 2px 0 0; accent-color: var(--navy); cursor: pointer; }
+.consent + .consent { margin-top: 14px; }
+.consent-note { margin-top: 14px; padding-left: 42px; font-size: 15px; color: var(--muted); font-weight: 300; }
+.consent-note a { color: var(--ink); }
 .submit { width: 100%; justify-content: flex-start; min-height: 76px; margin-top: 34px; padding: 0 34px; font-size: 22px; }
 .submit-note { margin-top: 22px; text-align: center; font-size: 16px; color: var(--muted); }
 .legal-links { margin-top: 22px; text-align: center; font-size: 16px; color: var(--muted); }
@@ -288,6 +291,7 @@ p { margin: 0; }
   .slot span { font-size: 14px; }
   .consent { font-size: 14px; gap: 12px; }
   .consent input { width: 22px; height: 22px; }
+  .consent-note { font-size: 13px; padding-left: 34px; }
   .submit { min-height: 60px; font-size: 17px; padding: 0 22px; }
   .submit-note, .legal-links { font-size: 14px; }
   .consent-fab { left: 16px; bottom: 16px; width: 42px; height: 42px; }

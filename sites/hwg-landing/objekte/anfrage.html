@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161b47">
 <link rel="preload" href="assets/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="stylesheet" href="assets/style.css?v=4">
 </head>
 <body>
 
@@ -96,7 +96,9 @@
           <label class="slot"><input type="checkbox" name="erreichbarkeit[]" value="Nachmittags (14–17 Uhr)"><b>Nachmittags</b><span>14–17 Uhr</span></label>
           <label class="slot"><input type="checkbox" name="erreichbarkeit[]" value="Abends (17–19 Uhr)"><b>Abends</b><span>17–19 Uhr</span></label>
         </div>
-        <label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich willige ein, dass GIG sowie alle mit GIG verbundenen Unternehmen (Tochtergesellschaften) mich künftig per E-Mail zu Marketingzwecken kontaktieren dürfen, insbesondere mit Informationen zu Produkten, Dienstleistungen, Aktionen und Veranstaltungen. Mir ist bekannt, dass ich diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen kann, z.&nbsp;B. über den Abmeldelink in jeder E-Mail.*</span></label>
+        <label class="consent"><input type="checkbox" name="verarbeitung" value="ja" required><span id="text-verarbeitung">Ich stimme der Speicherung und Verarbeitung meiner personenbezogenen Daten durch GIG zu, damit meine Anfrage bearbeitet werden kann.*</span></label>
+        <label class="consent"><input type="checkbox" name="einwilligung" value="ja"><span id="text-einwilligung">Ich willige ein, dass GIG sowie alle mit GIG verbundenen Unternehmen (Tochtergesellschaften) mich künftig per E-Mail zu Marketingzwecken kontaktieren dürfen, insbesondere mit Informationen zu Produkten, Dienstleistungen, Aktionen und Veranstaltungen. Mir ist bekannt, dass ich diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen kann, z.&nbsp;B. über den Abmeldelink in jeder E-Mail.</span></label>
+        <p class="consent-note">* Pflichtfeld. Du kannst deine Einwilligungen jederzeit widerrufen. Mehr in der <a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
         <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
         <input type="hidden" name="ts" id="ts">
         <input type="hidden" name="quelle" id="quelle">
@@ -209,6 +211,50 @@
     if (e.target.getAttribute('aria-invalid') === 'true') e.target.setAttribute('aria-invalid', 'false');
   });
 
+  // HubSpot form "Objekte Anfrage" (portal 19607021). Field names and consent
+  // IDs come from that form; the consent texts are the ones shown on this page.
+  var HUBSPOT = 'https://api.hsforms.com/submissions/v3/integration/submit/19607021/fbd9e681-ba67-4dcb-91d1-6c323a157067';
+  var SUBSCRIPTION_ID = 3213889120;
+  function phoneE164(v) {
+    v = v.trim().replace(/[^\d+]/g, '');
+    if (v.indexOf('00') === 0) return '+' + v.slice(2);
+    if (v.charAt(0) === '0') return '+49' + v.slice(1);
+    return v;
+  }
+  function checkedValues(name) {
+    return Array.prototype.map.call(form.querySelectorAll('input[name="' + name + '"]:checked'), function (i) { return i.value; });
+  }
+  function sendToHubSpot(f) {
+    var phone = phoneE164(f.telefon.value);
+    var message = [
+      'Ziele: ' + (checkedValues('ziele[]').join(', ') || '–'),
+      'Nettoeinkommen: ' + (f.einkommen.value || '–'),
+      'Eigenkapital: ' + (f.eigenkapital.value || '–'),
+      'Erreichbar: ' + (checkedValues('erreichbarkeit[]').join(', ') || 'keine Angabe'),
+      'Quelle: objekte.hanseatische-wohnungsgenossenschaft.de' + (location.search ? ' (' + location.search.slice(1, 300) + ')' : '')
+    ].join('\n');
+    var body = {
+      fields: [
+        { objectTypeId: '0-1', name: 'firstname', value: f.vorname.value.trim() },
+        { objectTypeId: '0-1', name: 'lastname', value: f.nachname.value.trim() },
+        { objectTypeId: '0-1', name: 'email', value: f.email.value.trim() },
+        { objectTypeId: '0-1', name: 'weitere_telefonnummer', value: phone },
+        { objectTypeId: '0-1', name: 'phone', value: phone },
+        { objectTypeId: '0-1', name: 'message', value: message }
+      ],
+      context: { pageUri: location.href.split('#')[0], pageName: document.title },
+      legalConsentOptions: { consent: {
+        consentToProcess: f.verarbeitung.checked,
+        text: document.getElementById('text-verarbeitung').textContent.replace(/\*$/, ''),
+        communications: [{ value: f.einwilligung.checked, subscriptionTypeId: SUBSCRIPTION_ID, text: document.getElementById('text-einwilligung').textContent }]
+      } }
+    };
+    var hutk = document.cookie.match(/(?:^|; )hubspotutk=([^;]*)/);
+    if (hutk) body.context.hutk = decodeURIComponent(hutk[1]);
+    return fetch(HUBSPOT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.ok; });
+  }
+
   function invalid(el, bad) { el.setAttribute('aria-invalid', bad ? 'true' : 'false'); return bad; }
 
   form.addEventListener('submit', function (e) {
@@ -222,14 +268,20 @@
     if (!missing && !badMail && f.telefon.value.replace(/\D/g, '').length < 6) { invalid(f.telefon, true); msg = 'Bitte gib eine gültige Telefonnummer ein.'; }
     if (missing) msg = 'Bitte fülle alle Felder aus.';
     else if (badMail) msg = 'Bitte gib eine gültige E-Mail-Adresse ein.';
-    else if (!msg && !f.einwilligung.checked) msg = 'Bitte bestätige die Einwilligung.';
+    else if (!msg && !f.verarbeitung.checked) msg = 'Bitte stimme der Verarbeitung deiner Daten zu, damit wir deine Anfrage bearbeiten können.';
     err.textContent = msg;
     if (msg) { var first = form.querySelector('[aria-invalid="true"]'); if (first) first.focus(); return; }
 
     var btn = document.getElementById('submit');
     btn.disabled = true; btn.textContent = 'Wird gesendet …';
-    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+    // Two routes, so a request is never lost: anfrage.php (CSV + team email)
+    // and the HubSpot form. The request counts as sent when either accepts it.
+    var toServer = fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
       .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .catch(function () { return { ok: false }; });
+    var toHubSpot = sendToHubSpot(f).catch(function () { return false; });
+    Promise.all([toServer, toHubSpot])
+      .then(function (r) { return r[0].ok || r[1] ? { ok: true } : r[0]; })
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || '');
         document.getElementById('thanks-name').textContent = ', ' + f.vorname.value.trim();

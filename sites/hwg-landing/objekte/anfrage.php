@@ -11,7 +11,7 @@ const TEAM_EMAIL = 'info@gerlachgroup.de';
 const FROM_EMAIL = 'info@hanseatische-wohnungsgenossenschaft.de';
 const FROM_NAME  = 'Hanseatische Wohnungsgenossenschaft';
 // Two levels up from public_html/objekte/ = the account's home, not served.
-define('LEADS_CSV', dirname(__DIR__, 2) . '/leads-objekte.csv');
+define('LEADS_CSV', dirname(__DIR__, 2) . '/leads-objekte-v2.csv');
 // ---------------------------------------------------------------------------
 
 $wantsJson = stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
@@ -64,12 +64,13 @@ $nachname = $clean($_POST['nachname'] ?? '', 80);
 $email    = $clean($_POST['email'] ?? '', 160);
 $telefon  = $clean($_POST['telefon'] ?? '', 40);
 $quelle   = $clean($_POST['quelle'] ?? '', 400);
+$verarbeitung = ($_POST['verarbeitung'] ?? '') === 'ja';
 $consent  = ($_POST['einwilligung'] ?? '') === 'ja';
 
 if ($vorname === '' || $nachname === '') respond(false, 'Bitte gib deinen Vor- und Nachnamen ein.', 422);
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) respond(false, 'Bitte gib eine gültige E-Mail-Adresse ein.', 422);
 if (strlen(preg_replace('/\D/', '', $telefon)) < 6) respond(false, 'Bitte gib eine gültige Telefonnummer ein.', 422);
-if (!$consent) respond(false, 'Bitte bestätige die Einwilligung.', 422);
+if (!$verarbeitung) respond(false, 'Bitte stimme der Verarbeitung deiner Daten zu, damit wir deine Anfrage bearbeiten können.', 422);
 
 $now = date('Y-m-d H:i:s');
 $zieleText  = $ziele ? implode('; ', $ziele) : '–';
@@ -81,12 +82,12 @@ $fh = @fopen(LEADS_CSV, 'a');
 if ($fh) {
     if (flock($fh, LOCK_EX)) {
         if (filesize(LEADS_CSV) === 0) {
-            fputcsv($fh, ['zeit', 'vorname', 'nachname', 'email', 'telefon', 'ziele', 'nettoeinkommen', 'eigenkapital', 'erreichbarkeit', 'einwilligung_marketing', 'quelle', 'ip_gekuerzt'], ',', '"', '');
+            fputcsv($fh, ['zeit', 'vorname', 'nachname', 'email', 'telefon', 'ziele', 'nettoeinkommen', 'eigenkapital', 'erreichbarkeit', 'einwilligung_verarbeitung', 'einwilligung_marketing', 'quelle', 'ip_gekuerzt'], ',', '"', '');
         }
         $ip = preg_replace('/\.\d+$/', '.0', $_SERVER['REMOTE_ADDR'] ?? ''); // last octet dropped
         // Leading = + - @ would make spreadsheet apps run formulas.
         $safe = fn($v) => preg_match('/^[=+\-@]/', $v) ? "'" . $v : $v;
-        $row = array_map($safe, [$now, $vorname, $nachname, $email, $telefon, $zieleText, $einkommen, $eigenkapital, $zeitenText, 'ja', $quelle]);
+        $row = array_map($safe, [$now, $vorname, $nachname, $email, $telefon, $zieleText, $einkommen, $eigenkapital, $zeitenText, 'ja', $consent ? 'ja' : 'nein', $quelle]);
         $row[] = $ip;
         fputcsv($fh, $row, ',', '"', '');
         $stored = true;
@@ -114,7 +115,7 @@ $team = "Neue Anfrage über objekte.hanseatische-wohnungsgenossenschaft.de\n\n"
       . "Ziele:           {$zieleText}\n"
       . "Nettoeinkommen:  " . ($einkommen ?: '–') . "\n"
       . "Eigenkapital:    " . ($eigenkapital ?: '–') . "\n\n"
-      . "Einwilligung Marketing-E-Mails: ja\n"
+      . "Einwilligung Marketing-E-Mails: " . ($consent ? 'ja' : 'nein') . "\n"
       . "Quelle:          " . ($quelle ?: '–') . "\n";
 $teamSent = mail(TEAM_EMAIL, $encode("Anfrage Objekte: {$vorname} {$nachname}"), $team, $headers($email), '-f' . FROM_EMAIL);
 
@@ -128,7 +129,7 @@ $body = "Hallo {$vorname},\n\n"
       . "Gerlach Immobilien Gruppe\n\n"
       . "--\n"
       . "Gerlach Verwaltungs- und Beteiligungsges.mbH · Langenhorner Chaussee 155 · 22415 Hamburg\n"
-      . "Keine weiteren E-Mails gewünscht? Antworte einfach mit „Abmelden“.\n";
+      . ($consent ? "Keine weiteren E-Mails gewünscht? Antworte einfach mit „Abmelden“.\n" : "");
 mail($email, $encode('Deine Anfrage ist bei uns eingegangen'), $body, $headers(TEAM_EMAIL), '-f' . FROM_EMAIL);
 
 if (!$teamSent && !$stored) {
