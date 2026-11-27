@@ -136,7 +136,7 @@ COPY = {
               sub_short='„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach.',
               cta='Hörbuch gratis sichern', objpos='50% 50%'),
     'c': dict(eyebrow='Für die Tage zwischen den Jahren', pill='Kostenlos',
-              h1=f'Kopfhörer auf. <em style="{EM}">Plan fürs Immobilien-Vermögen</em> an.',
+              h1=f'Kopfhörer auf. <em style="{EM}">Plan fürs Immobilien-Vermögen</em>&nbsp;an.',
               cta='Hörbuch gratis anhören', objpos='50% 50%'),
     'b': dict(eyebrow='SPIEGEL-Bestseller jetzt als Hörbuch',
               h1=f'Mein Geschenk für Ihre <em style="{EM}">Weihnachtstage.</em>',
@@ -194,13 +194,16 @@ def ac_portrait(c, k):
 def ac_story(c, k):
     t = COPY[k]
     mid = sub(t['sub_short'], 34) if k == 'a' else chips(28, '12px 22px', 16, center=True)
+    # C: keep "Immobilien-Vermögen an." together on the last line (non-breaking hyphen)
+    head = t['h1'].replace('Immobilien-Vermögen', 'Immobilien\u2011Vermögen') if k == 'c' else t['h1']
+    head_size = 96 if k == 'c' else 100
     return (bg_layers(c, t['objpos'], OV_V, True) + f'''  <div style="position: absolute; left: 0; right: 0; top: 100px; display: flex; justify-content: center;">
     {logo(c, 130)}
   </div>
   <div style="position: absolute; left: 76px; right: 76px; top: 290px; bottom: 390px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center;">
     <div style="display: flex; flex-direction: column; align-items: center; gap: 26px;">
       {eyebrow(t['eyebrow'], 26)}
-      {h1(t['h1'], 100)}
+      {h1(head, head_size)}
       {mid}
     </div>
     <div style="position: relative;">
