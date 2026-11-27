@@ -1,0 +1,69 @@
+DirectoryIndex index.php index.html
+
+# Security headers for every site served from this folder
+<IfModule mod_headers.c>
+Header always set Strict-Transport-Security "max-age=31536000"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+Header always unset X-Powered-By
+Header unset X-Powered-By
+</IfModule>
+
+RewriteEngine On
+
+# Main domain (with or without www) forwards to the Exposé site, keeping the path
+RewriteCond %{HTTP_HOST} ^(www\.)?hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^(.*)$ https://exposees.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Lead magnet: superreichensteuer.* is served from the /superreichensteuer/ folder
+RewriteCond %{HTTP_HOST} ^superreichensteuer\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/superreichensteuer/
+RewriteRule ^(.*)$ /superreichensteuer/$1 [L]
+
+# The lead magnet folder is only reachable under its own address
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^superreichensteuer/(.*)$ https://superreichensteuer.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Lead magnet: 120wohnungen.* is served from the /120-wohnungen/ folder
+RewriteCond %{HTTP_HOST} ^120wohnungen\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/120-wohnungen/
+RewriteRule ^(.*)$ /120-wohnungen/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^120-wohnungen/(.*)$ https://120wohnungen.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Test site: test.* is served from the /test/ folder
+RewriteCond %{HTTP_HOST} ^test\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/test/
+RewriteRule ^(.*)$ /test/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^test/(.*)$ https://test.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Brochure: fullservice.* opens the brochure PDF directly
+RewriteCond %{HTTP_HOST} ^fullservice\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^(index\.html)?$ https://fullservice.hanseatische-wohnungsgenossenschaft.de/HSWG-Full-Service-Broschuere.pdf [R=302,L]
+
+# Files of the brochure are served from the /fullservice/ folder
+RewriteCond %{HTTP_HOST} ^fullservice\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/fullservice/
+RewriteRule ^(.*)$ /fullservice/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^exposees\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteRule ^fullservice/(.*)$ https://fullservice.hanseatische-wohnungsgenossenschaft.de/$1 [R=301,L]
+
+# Objekte funnel: objekte.* is served from the /objekte/ folder
+RewriteCond %{HTTP_HOST} ^objekte\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/objekte/
+RewriteRule ^(.*)$ /objekte/$1 [L]
+
+# Dieter Homburg page: dieter-homburg.* is served from the /dieter-homburg/ folder
+RewriteCond %{HTTP_HOST} ^dieter-homburg\.hanseatische-wohnungsgenossenschaft\.de$ [NC]
+RewriteCond %{REQUEST_URI} !^/dieter-homburg/
+RewriteRule ^(.*)$ /dieter-homburg/$1 [L]
+
+# Forgive links with junk pasted after ".html" (e.g. "seite.htmlgedorf" -> "seite.html")
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-z0-9-]+\.html).+$ /$1 [R=301,L]

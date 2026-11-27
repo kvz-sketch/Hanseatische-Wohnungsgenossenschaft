@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passende Immobilien finden · Hanseatische Wohnungsgenossenschaft</title>
+<meta name="description" content="Beantworte wenige kurze Fragen und erhalte persönliche Immobilienangebote, die zu deinen Zielen passen.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#161b47">
+<link rel="preload" href="assets/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css?v=1">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="./"><img src="assets/logo-hwg-weiss.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="1000" height="428"></a>
+  </div>
+</header>
+
+<main class="funnel">
+  <div class="wrap">
+    <div class="progress" aria-hidden="true"><span id="progress-text">Schritt 1 von 5</span><div class="bar"><span id="progress-bar" style="width:20%"></span></div></div>
+
+    <noscript><p class="hint" style="margin-top:40px">Bitte aktiviere JavaScript, um die Fragen zu beantworten – oder ruf uns an: <a href="tel:+4940228623720">+49 40 22862372-0</a>.</p></noscript>
+
+    <form id="funnel" action="anfrage.php" method="post" novalidate>
+      <!-- Step 1: goals (multiple choice) -->
+      <section class="step" data-step="1" tabindex="-1" aria-labelledby="h1">
+        <h1 id="h1">Was ist dir bei einer Immobilie als Kapitalanlage besonders wichtig?</h1>
+        <p class="hint">Wir möchten verstehen, welche Ziele du mit deinem Immobilieninvestment verfolgst. Mehrfachauswahl möglich.</p>
+        <div class="options" role="group" aria-labelledby="h1">
+          <label class="check"><input type="checkbox" name="ziele[]" value="Langfristig Vermögen aufbauen"><span class="box"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.3l3.2 3.2L14 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Langfristig Vermögen aufbauen</label>
+          <label class="check"><input type="checkbox" name="ziele[]" value="Zusätzliche Mieteinnahmen erzielen"><span class="box"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.3l3.2 3.2L14 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Zusätzliche Mieteinnahmen erzielen</label>
+          <label class="check"><input type="checkbox" name="ziele[]" value="Für das Rentenalter vorsorgen"><span class="box"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.3l3.2 3.2L14 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Für das Rentenalter vorsorgen</label>
+          <label class="check"><input type="checkbox" name="ziele[]" value="Steuerliche Möglichkeiten prüfen"><span class="box"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.3l3.2 3.2L14 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Steuerliche Möglichkeiten prüfen</label>
+          <label class="check"><input type="checkbox" name="ziele[]" value="Investieren ohne eigene Verwaltung"><span class="box"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.3l3.2 3.2L14 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>In Immobilien investieren, ohne mich selbst um die Verwaltung zu kümmern</label>
+          <label class="check"><input type="checkbox" name="ziele[]" value="Zunächst informieren"><span class="box"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.3l3.2 3.2L14 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ich möchte mich zunächst informieren</label>
+        </div>
+        <p class="error" id="err-1" role="alert"></p>
+        <div class="step-nav">
+          <a class="link-back" href="./"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M7.5 4.5L3 9l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Zurück</a>
+          <button class="btn" type="button" data-next>Weiter <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Step 2: net income (single choice, advances on click) -->
+      <section class="step" data-step="2" tabindex="-1" aria-labelledby="h2" hidden>
+        <h1 id="h2">Wie hoch ist dein monatliches Nettoeinkommen?</h1>
+        <p class="hint">Damit wir einschätzen können, welche Immobilienangebote und Finanzierungsmöglichkeiten für dich infrage kommen.</p>
+        <input type="hidden" name="einkommen">
+        <div class="options" data-choice="einkommen">
+          <button class="option" type="button" value="Unter 3.000 €">Unter 3.000&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="3.000–3.999 €">3.000–3.999&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="4.000–4.999 €">4.000–4.999&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="5.000–6.999 €">5.000–6.999&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="7.000 € oder mehr">7.000&nbsp;€ oder mehr<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="step-nav">
+          <button class="link-back" type="button" data-back><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M7.5 4.5L3 9l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Zurück</button>
+        </div>
+      </section>
+
+      <!-- Step 3: equity (single choice, advances on click) -->
+      <section class="step" data-step="3" tabindex="-1" aria-labelledby="h3" hidden>
+        <h1 id="h3">Wie viel Eigenkapital könntest du grundsätzlich für einen Immobilienkauf einsetzen?</h1>
+        <p class="hint">Eine grobe Einschätzung reicht. Welche Finanzierung möglich ist, prüfen wir individuell.</p>
+        <input type="hidden" name="eigenkapital">
+        <div class="options" data-choice="eigenkapital">
+          <button class="option" type="button" value="Unter 10.000 €">Unter 10.000&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="10.000–24.999 €">10.000–24.999&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="25.000–49.999 €">25.000–49.999&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="50.000–99.999 €">50.000–99.999&nbsp;€<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="100.000 € oder mehr">100.000&nbsp;€ oder mehr<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="option" type="button" value="Zunächst besprechen">Das möchte ich zunächst besprechen<svg class="chev" viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4.5l6.5 6.5L8 17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="step-nav">
+          <button class="link-back" type="button" data-back><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M7.5 4.5L3 9l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Zurück</button>
+        </div>
+      </section>
+
+      <!-- Step 4: contact details -->
+      <section class="step" data-step="4" tabindex="-1" aria-labelledby="h4" hidden>
+        <h1 id="h4">Entdecke Immobilienangebote, die zu deinen Zielen passen.</h1>
+        <p class="hint">Hinterlasse uns deine Kontaktdaten. Wir melden uns persönlich bei dir, um deine Wünsche und mögliche Immobilienangebote zu besprechen.</p>
+        <div class="fields">
+          <div class="field"><label for="vorname">Vorname</label><input id="vorname" name="vorname" autocomplete="given-name" required maxlength="80"></div>
+          <div class="field"><label for="nachname">Nachname</label><input id="nachname" name="nachname" autocomplete="family-name" required maxlength="80"></div>
+          <div class="field"><label for="email">E-Mail-Adresse</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="160"></div>
+          <div class="field"><label for="telefon">Telefonnummer</label><input id="telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required maxlength="40"></div>
+        </div>
+        <p class="slots-label" id="slots-label">Wann können wir dich am besten erreichen?</p>
+        <div class="slots" role="group" aria-labelledby="slots-label">
+          <label class="slot"><input type="checkbox" name="erreichbarkeit[]" value="Vormittags (9–12 Uhr)"><b>Vormittags</b><span>9–12 Uhr</span></label>
+          <label class="slot"><input type="checkbox" name="erreichbarkeit[]" value="Mittags (12–14 Uhr)"><b>Mittags</b><span>12–14 Uhr</span></label>
+          <label class="slot"><input type="checkbox" name="erreichbarkeit[]" value="Nachmittags (14–17 Uhr)"><b>Nachmittags</b><span>14–17 Uhr</span></label>
+          <label class="slot"><input type="checkbox" name="erreichbarkeit[]" value="Abends (17–19 Uhr)"><b>Abends</b><span>17–19 Uhr</span></label>
+        </div>
+        <label class="consent"><input type="checkbox" name="einwilligung" value="ja" required><span>Ich willige ein, dass GIG sowie alle mit GIG verbundenen Unternehmen (Tochtergesellschaften) mich künftig per E-Mail zu Marketingzwecken kontaktieren dürfen, insbesondere mit Informationen zu Produkten, Dienstleistungen, Aktionen und Veranstaltungen. Mir ist bekannt, dass ich diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen kann, z.&nbsp;B. über den Abmeldelink in jeder E-Mail.*</span></label>
+        <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+        <input type="hidden" name="ts" id="ts">
+        <input type="hidden" name="quelle" id="quelle">
+        <p class="error" id="err-4" role="alert"></p>
+        <button class="btn submit" type="submit" id="submit">Persönliche Immobilienangebote anfragen</button>
+        <p class="submit-note">Unverbindliche Anfrage. Objekte und Verfügbarkeit vorbehaltlich Prüfung.</p>
+        <p class="legal-links"><a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener">Datenschutz</a> · <a href="impressum.html">Impressum</a></p>
+        <div class="step-nav">
+          <button class="link-back" type="button" data-back><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M7.5 4.5L3 9l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Zurück</button>
+        </div>
+      </section>
+
+      <!-- Step 5: thank you -->
+      <section class="step" data-step="5" tabindex="-1" aria-labelledby="h5" hidden>
+        <div class="done-icon"><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M7 15.5l5.5 5.5L23.5 9.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h1 id="h5">Vielen Dank<span id="thanks-name"></span>!</h1>
+        <p class="hint">Deine Anfrage ist bei uns eingegangen. Wir melden uns persönlich bei dir, um deine Ziele und passende Immobilienangebote zu besprechen.</p>
+        <ol class="next-steps">
+          <li><b>1</b><span>Wir sehen uns deine Angaben an und wählen passende Objekte aus.</span></li>
+          <li><b>2</b><span>Wir rufen dich zu deiner Wunschzeit an – unverbindlich und persönlich.</span></li>
+          <li><b>3</b><span>Du erhältst die Unterlagen und Kennzahlen zu den passenden Wohnungen.</span></li>
+        </ol>
+        <div class="step-nav"><a class="link-back" href="./"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M7.5 4.5L3 9l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Zur Startseite</a></div>
+      </section>
+    </form>
+  </div>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById('funnel');
+  var steps = form.querySelectorAll('.step');
+  var total = steps.length;
+  var current = 1;
+
+  document.getElementById('ts').value = Math.floor(Date.now() / 1000);
+  // Campaign parameters (utm_*, click IDs) travel with the lead.
+  document.getElementById('quelle').value = location.search.slice(1, 400);
+
+  function show(n, push) {
+    current = n;
+    for (var i = 0; i < steps.length; i++) steps[i].hidden = Number(steps[i].dataset.step) !== n;
+    document.getElementById('progress-text').textContent = 'Schritt ' + n + ' von ' + total;
+    document.getElementById('progress-bar').style.width = (n / total * 100) + '%';
+    if (push) history.pushState({ step: n }, '', '#schritt-' + n);
+    window.scrollTo(0, 0);
+    var s = form.querySelector('.step[data-step="' + n + '"]');
+    if (s) s.focus({ preventScroll: true });
+  }
+
+  // Browser back/forward moves between steps; the thank-you step cannot be left backwards.
+  history.replaceState({ step: 1 }, '', location.pathname + location.search);
+  window.addEventListener('popstate', function (e) {
+    if (current === total) { history.pushState({ step: total }, '', '#schritt-' + total); return; }
+    show((e.state && e.state.step) || 1, false);
+  });
+
+  form.querySelector('[data-next]').addEventListener('click', function () {
+    var picked = form.querySelectorAll('input[name="ziele[]"]:checked').length;
+    document.getElementById('err-1').textContent = picked ? '' : 'Bitte wähle mindestens eine Antwort aus.';
+    if (picked) show(2, true);
+  });
+
+  var backs = form.querySelectorAll('[data-back]');
+  for (var b = 0; b < backs.length; b++) backs[b].addEventListener('click', function () { history.back(); });
+
+  var groups = form.querySelectorAll('[data-choice]');
+  for (var g = 0; g < groups.length; g++) (function (group) {
+    var field = form.elements[group.dataset.choice];
+    group.addEventListener('click', function (e) {
+      var btn = e.target.closest('.option');
+      if (!btn) return;
+      field.value = btn.value;
+      var opts = group.querySelectorAll('.option');
+      for (var o = 0; o < opts.length; o++) opts[o].classList.toggle('selected', opts[o] === btn);
+      // Less than 3.000 € net income: no flat offers, show the Hansea Grow alternative instead
+      if (group.dataset.choice === 'einkommen' && btn.value === 'Unter 3.000 €') {
+        setTimeout(function () { window.location.href = 'hansea-grow.html' + location.search; }, 160);
+        return;
+      }
+      setTimeout(function () { show(current + 1, true); }, 160);
+    });
+  })(groups[g]);
+
+  form.addEventListener('input', function (e) {
+    if (e.target.getAttribute('aria-invalid') === 'true') e.target.setAttribute('aria-invalid', 'false');
+  });
+
+  function invalid(el, bad) { el.setAttribute('aria-invalid', bad ? 'true' : 'false'); return bad; }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = document.getElementById('err-4');
+    var msg = '';
+    var f = form.elements;
+    var missing = false;
+    ['vorname', 'nachname', 'telefon'].forEach(function (k) { if (invalid(f[k], !f[k].value.trim())) missing = true; });
+    var badMail = invalid(f.email, !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()));
+    if (!missing && !badMail && f.telefon.value.replace(/\D/g, '').length < 6) { invalid(f.telefon, true); msg = 'Bitte gib eine gültige Telefonnummer ein.'; }
+    if (missing) msg = 'Bitte fülle alle Felder aus.';
+    else if (badMail) msg = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+    else if (!msg && !f.einwilligung.checked) msg = 'Bitte bestätige die Einwilligung.';
+    err.textContent = msg;
+    if (msg) { var first = form.querySelector('[aria-invalid="true"]'); if (first) first.focus(); return; }
+
+    var btn = document.getElementById('submit');
+    btn.disabled = true; btn.textContent = 'Wird gesendet …';
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.error || '');
+        document.getElementById('thanks-name').textContent = ', ' + f.vorname.value.trim();
+        if (window.hwgTrackLead) window.hwgTrackLead();
+        show(total, true);
+      })
+      .catch(function (x) {
+        err.textContent = (x && x.message) || 'Das hat leider nicht geklappt. Bitte versuche es gleich noch einmal oder ruf uns an: +49 40 22862372-0.';
+        btn.disabled = false; btn.textContent = 'Persönliche Immobilienangebote anfragen';
+      });
+  });
+})();
+</script>
+<script src="assets/consent.js?v=1"></script>
+</body>
+</html>
