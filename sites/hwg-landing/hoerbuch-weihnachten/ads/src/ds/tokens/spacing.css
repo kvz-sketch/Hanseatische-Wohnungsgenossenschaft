@@ -1,0 +1,41 @@
+/* SPACING & LAYOUT — Gerlach Immobilien Gruppe
+   The Markenbuch derives clear space from the mark itself: X = height of the
+   roof symbol, 1X protection on all sides. The scale below is an 8px-based
+   system with a --space-x token echoing that clear-space rule. */
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Brand clear-space unit (Schutzraum = 1X). Set --space-x to the mark height
+     in a given context; padding of 1X keeps the logo protected. */
+  --space-x: 24px;
+
+  /* Radii — the brand is restrained and architectural: small radii only.
+     Logos and marks are never rounded. */
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Containers */
+  --container-sm: 640px;
+  --container-md: 960px;
+  --container-lg: 1200px;
+  --container-xl: 1360px;
+  --gutter: 24px;
+
+  /* Minimum logo sizes from the Markenbuch */
+  --logo-min-print: 24mm;   /* @kind spacing */
+  --logo-min-digital: 100px;
+}

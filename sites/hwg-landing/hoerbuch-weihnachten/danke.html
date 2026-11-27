@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ihr Hörbuch · Hanseatische Wohnungsgenossenschaft</title>
+<link rel="stylesheet" href="assets/campaign.css?v=8">
+<style>
+  .thanks { padding: 80px 0 96px; text-align: center; }
+  .thanks h1 { font-size: clamp(34px, 4.6vw, 52px); margin: 18px auto 18px; max-width: 760px; }
+  .thanks h1 em { font-style: normal; color: var(--gold-400); }
+  .thanks .lead { max-width: 600px; margin: 0 auto; color: rgba(255,255,255,.85); }
+  .player { max-width: 760px; margin: 40px auto 0; text-align: left; background: var(--white); color: var(--ink); border-radius: 10px; border-top: 4px solid var(--gold); box-shadow: 0 24px 60px rgba(4,8,40,.35); padding: 28px; }
+  .player-head { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .player-head h2 { font-size: 22px; }
+  .player-head p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  .player-head .btn { width: auto; padding: 12px 18px; font-size: 15px; }
+  .tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .track { display: grid; grid-template-columns: 40px 1fr auto; gap: 8px 14px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 8px; }
+  .track.playing { border-color: var(--gold-600); background: var(--cream); }
+  .track .no { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--panel); color: var(--gold-400); font-weight: 700; }
+  .track .meta b { display: block; font-size: 16px; }
+  .track .meta span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .track .dl { font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .track audio { grid-column: 1 / -1; width: 100%; height: 40px; }
+  .hint { margin: 16px 0 0; font-size: 13px; color: var(--muted); }
+  @media (max-width: 640px) { .player { padding: 20px 14px; } .track { grid-template-columns: 36px 1fr; } .track .dl { grid-column: 2; } }
+  .next { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .next .btn { width: auto; }
+  .next img { border-radius: var(--radius); max-height: 420px; object-fit: cover; object-position: top; width: 100%; }
+  @media (max-width: 860px) { .next { grid-template-columns: 1fr; } .next img { max-width: 320px; } }
+</style>
+</head>
+<body data-lead-page>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="./"><img src="assets/logo-hwg-weiss.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="1000" height="428"></a>
+    <span class="header-note"><b>Weihnachtsaktion</b> · Hörbuch gratis</span>
+  </div>
+</header>
+
+<main>
+  <section class="hero thanks">
+    <div class="wrap" style="display:block">
+      <span class="eyebrow">Vielen Dank</span>
+      <h1>Ihr Hörbuch ist <em>da.</em></h1>
+      <p class="lead">„Immobilien-Investitionen leicht gemacht“ von Stephan Gerlach. Hören Sie direkt hier hinein oder laden Sie die Dateien herunter, für unterwegs, im Auto oder unterm Weihnachtsbaum.</p>
+
+      <div class="player" id="hoerbuch">
+        <div class="player-head">
+          <div>
+            <h2>Immobilien-Investitionen leicht gemacht</h2>
+            <p>34 Teile · rund 212 Minuten · MP3</p>
+          </div>
+          <a class="btn" href="audio/immobilien-investitionen-leicht-gemacht-hoerbuch.zip" download>Alle Teile herunterladen (ZIP, 194 MB)</a>
+        </div>
+        <ol class="tracks">
+          <li class="track">
+            <span class="no">1</span>
+            <span class="meta"><b>Teil 1</b><span>0:24 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-01.mp3" download>Herunterladen (0,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-01.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">2</span>
+            <span class="meta"><b>Teil 2</b><span>7:37 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-02.mp3" download>Herunterladen (7,0 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-02.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">3</span>
+            <span class="meta"><b>Teil 3</b><span>3:12 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-03.mp3" download>Herunterladen (2,9 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-03.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">4</span>
+            <span class="meta"><b>Teil 4</b><span>10:42 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-04.mp3" download>Herunterladen (9,8 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-04.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">5</span>
+            <span class="meta"><b>Teil 5</b><span>2:42 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-05.mp3" download>Herunterladen (2,5 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-05.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">6</span>
+            <span class="meta"><b>Teil 6</b><span>14:55 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-06.mp3" download>Herunterladen (13,7 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-06.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">7</span>
+            <span class="meta"><b>Teil 7</b><span>3:41 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-07.mp3" download>Herunterladen (3,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-07.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">8</span>
+            <span class="meta"><b>Teil 8</b><span>2:04 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-08.mp3" download>Herunterladen (1,9 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-08.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">9</span>
+            <span class="meta"><b>Teil 9</b><span>5:18 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-09.mp3" download>Herunterladen (4,8 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-09.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">10</span>
+            <span class="meta"><b>Teil 10</b><span>6:59 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-10.mp3" download>Herunterladen (6,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-10.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">11</span>
+            <span class="meta"><b>Teil 11</b><span>6:43 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-11.mp3" download>Herunterladen (6,2 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-11.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">12</span>
+            <span class="meta"><b>Teil 12</b><span>3:39 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-12.mp3" download>Herunterladen (3,3 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-12.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">13</span>
+            <span class="meta"><b>Teil 13</b><span>4:28 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-13.mp3" download>Herunterladen (4,1 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-13.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">14</span>
+            <span class="meta"><b>Teil 14</b><span>16:49 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-14.mp3" download>Herunterladen (15,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-14.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">15</span>
+            <span class="meta"><b>Teil 15</b><span>5:56 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-15.mp3" download>Herunterladen (5,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-15.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">16</span>
+            <span class="meta"><b>Teil 16</b><span>6:36 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-16.mp3" download>Herunterladen (6,0 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-16.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">17</span>
+            <span class="meta"><b>Teil 17</b><span>17:14 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-17.mp3" download>Herunterladen (15,8 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-17.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">18</span>
+            <span class="meta"><b>Teil 18</b><span>2:39 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-18.mp3" download>Herunterladen (2,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-18.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">19</span>
+            <span class="meta"><b>Teil 19</b><span>2:01 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-19.mp3" download>Herunterladen (1,9 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-19.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">20</span>
+            <span class="meta"><b>Teil 20</b><span>2:40 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-20.mp3" download>Herunterladen (2,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-20.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">21</span>
+            <span class="meta"><b>Teil 21</b><span>4:40 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-21.mp3" download>Herunterladen (4,3 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-21.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">22</span>
+            <span class="meta"><b>Teil 22</b><span>8:14 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-22.mp3" download>Herunterladen (7,5 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-22.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">23</span>
+            <span class="meta"><b>Teil 23</b><span>3:35 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-23.mp3" download>Herunterladen (3,3 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-23.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">24</span>
+            <span class="meta"><b>Teil 24</b><span>6:49 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-24.mp3" download>Herunterladen (6,2 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-24.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">25</span>
+            <span class="meta"><b>Teil 25</b><span>19:31 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-25.mp3" download>Herunterladen (17,9 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-25.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">26</span>
+            <span class="meta"><b>Teil 26</b><span>3:39 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-26.mp3" download>Herunterladen (3,3 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-26.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">27</span>
+            <span class="meta"><b>Teil 27</b><span>4:53 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-27.mp3" download>Herunterladen (4,5 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-27.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">28</span>
+            <span class="meta"><b>Teil 28</b><span>4:12 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-28.mp3" download>Herunterladen (3,8 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-28.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">29</span>
+            <span class="meta"><b>Teil 29</b><span>16:10 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-29.mp3" download>Herunterladen (14,8 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-29.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">30</span>
+            <span class="meta"><b>Teil 30</b><span>3:15 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-30.mp3" download>Herunterladen (3,0 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-30.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">31</span>
+            <span class="meta"><b>Teil 31</b><span>2:51 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-31.mp3" download>Herunterladen (2,6 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-31.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">32</span>
+            <span class="meta"><b>Teil 32</b><span>4:50 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-32.mp3" download>Herunterladen (4,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-32.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">33</span>
+            <span class="meta"><b>Teil 33</b><span>2:40 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-33.mp3" download>Herunterladen (2,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-33.mp3"></audio>
+          </li>
+          <li class="track">
+            <span class="no">34</span>
+            <span class="meta"><b>Teil 34</b><span>0:24 Min.</span></span>
+            <a class="dl" href="audio/immobilien-investitionen-leicht-gemacht-teil-34.mp3" download>Herunterladen (0,4 MB)</a>
+            <audio controls preload="none" src="audio/immobilien-investitionen-leicht-gemacht-teil-34.mp3"></audio>
+          </li>
+        </ol>
+        <p class="hint">Tipp: Speichern Sie sich diese Seite als Lesezeichen, dann können Sie das Hörbuch jederzeit wieder abrufen. Auf dem iPhone die einzelnen Teile am besten über „Herunterladen“ in der Dateien-App sichern.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="wrap next">
+      <div>
+        <span class="eyebrow">Der nächste Schritt</span>
+        <h2 style="margin:14px 0 16px">Lieber direkt persönlich sprechen?</h2>
+        <p class="lead" style="margin:0 0 26px">Sie haben schon konkrete Fragen zu Ihrer Kapitalanlage? Vereinbaren Sie ein kostenloses, unverbindliches Erstgespräch (30 Minuten) mit unserem Team, gern auch erst im neuen Jahr.</p>
+        <a class="btn" href="https://calendly.com/dpp-gerlachgroup/30min-erstgesprach-gig" target="_blank" rel="noopener">Kostenloses Erstgespräch buchen</a>
+      </div>
+      <img src="assets/stephan-gerlach-portraet.jpg" alt="Stephan Gerlach" width="760" height="1138">
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <a class="logo" href="./"><img src="assets/logo-hwg-weiss.png" alt="Hanseatische Wohnungsgenossenschaft · Gerlach Immobilien Gruppe" width="1000" height="428"></a>
+      <div class="footer-cols">
+        <div><span class="label">Kontakt</span><a href="mailto:info@gerlachgroup.de">info@gerlachgroup.de</a><a href="tel:+4940228623720">+49 40 22862372-0</a></div>
+        <div><span class="label">Adresse</span><span>Langenhorner Chaussee 155<br>22415 Hamburg</span></div>
+        <div><span class="label">Anbieter</span><span>Gerlach Verwaltungs- und<br>Beteiligungsges.mbH</span><span>HRB 153780 · Amtsgericht Hamburg</span><span>USt-IdNr. DE320623851</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="claim">Mehr Rendite. Weniger Risiko. Kein Aufwand.</span>
+      <nav aria-label="Rechtliches">
+        <a href="impressum.html">Impressum</a>
+        <a href="https://gerlachgroup.de/datenschutzerklarung/" target="_blank" rel="noopener">Datenschutz</a>
+        <a href="#" data-consent-settings>Cookie-Einstellungen</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var items = [].slice.call(document.querySelectorAll('.track'));
+  var players = items.map(function (li) { return li.querySelector('audio'); });
+  players.forEach(function (a, i) {
+    a.addEventListener('play', function () {
+      players.forEach(function (o, j) { if (j !== i) o.pause(); });
+      items.forEach(function (li, j) { li.classList.toggle('playing', j === i); });
+    });
+    a.addEventListener('ended', function () { if (players[i + 1]) players[i + 1].play(); });
+  });
+})();
+</script>
+<script src="assets/consent.js?v=2"></script>
+</body>
+</html>

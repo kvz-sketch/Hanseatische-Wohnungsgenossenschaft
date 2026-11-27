@@ -1,0 +1,7 @@
+/* Webfonts — Gerlach Immobilien Gruppe
+   Display / Wortmarke: Cormorant Garamond (Antiqua / serif) — Light, Regular
+   UI / Namenszusatz / Fliesstext: Inter (Grotesk) — 300-600
+   NOTE: Loaded from the Google Fonts CDN (the brand book specifies these two
+   families but ships no binaries). Swap in self-hosted .woff2 @font-face rules
+   here if licensing requires it. */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap");
