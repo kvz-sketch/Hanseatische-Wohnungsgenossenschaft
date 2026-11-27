@@ -187,10 +187,10 @@ a{color:#141A46}a:hover{color:#2A3270}
 <h3 style="margin: 0; font-weight: 500; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em">Oberbilker Allee 113</h3>
 <p style="margin: 0; font-size: 15px; color: #3A3F63">Mehrfamilienhaus aus der Gründerzeit (1908) in Düsseldorf Oberbilk. Laufend modernisiert, mit möbliertem Vermietungskonzept.</p>
 <dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; font-size: 14px">
-<div style="padding: 12px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase">Kaufpreis</dt><dd style="margin: 4px 0 0; font-weight: 500; font-size: 18px">ab 171.300 €</dd></div>
+<div style="padding: 12px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase">Kaufpreis</dt><dd style="margin: 4px 0 0; font-weight: 500; font-size: 18px">ab 172.000 €</dd></div>
 <div style="padding: 12px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase">Zimmer</dt><dd style="margin: 4px 0 0; font-weight: 500; font-size: 18px">3 bis 4</dd></div>
 <div style="padding: 12px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase">Wohnungsgrößen</dt><dd style="margin: 4px 0 0; font-weight: 500; font-size: 18px">41 bis 151 m²</dd></div>
-<div style="padding: 12px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase">Zielmiete</dt><dd style="margin: 4px 0 0; font-weight: 500; font-size: 18px">17,00 €/m²</dd></div>
+<div style="padding: 12px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase">Mietgarantie</dt><dd style="margin: 4px 0 0; font-weight: 500; font-size: 18px">17,00 €/m²</dd></div>
 </dl>
 <span style="display: inline-flex; align-self: flex-start; align-items: center; min-height: 48px; padding: 0 28px; background: #141A46; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: 0.04em">Zum digitalen Exposé</span>
 </div>
@@ -203,10 +203,10 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Norderstedt</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Langer Kamp 49</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Gepflegtes Mehrfamilienhaus (Baujahr 1997) direkt im Hamburger Umland, mit 18 Garagen, 4 Stellplätzen und möbliertem Vermietungskonzept.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Solide Kapitalanlage in gefragter Lage von Norderstedt: 21 Einheiten, ca. 1.722 m² Wohnfläche, Baujahr 1997, 18 Garagen und 4 Stellplätze.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1997</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">56 bis 115 m²</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">56,2 bis 115 m²</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Gesamtinvestition</dt><dd style="margin: 0; font-weight: 500">ab 300.000 €</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE; border-bottom: 1px solid #141A46"><dt style="color: #5A5F80">Mietgarantie pro m²</dt><dd style="margin: 0; font-weight: 500">17,00 €</dd></div>
 </dl>
@@ -231,10 +231,10 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Bonn</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Uhlgasse 17</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Mehrfamilienhaus aus dem Jahr 1962 in Bonn-Hardtberg, zwischen Rhein und Naherholungsgebieten. Frisch renovierte Apartments und 8 Garagen.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Bonn-Hardtberg: Baujahr 1962, 6 Einheiten, 8 Garagen, Erdgasheizung 2023, 5,5 % Abschreibung.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1962</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">60 bis 93 m²</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">60,29 bis 92,57 m²</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Kaufpreis</dt><dd style="margin: 0; font-weight: 500">ab 271.000 €</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE; border-bottom: 1px solid #141A46"><dt style="color: #5A5F80">Mietgarantie pro m²</dt><dd style="margin: 0; font-weight: 500">16,00 €</dd></div>
 </dl>
@@ -245,7 +245,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Drochtersen</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Grefenstraße 36–40</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Mehrfamilienhaus aus dem Jahr 1971 bei Stade. Neue Fenster, gedämmte Fassade und sanierte Balkone, mit möbliertem Vermietungskonzept.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Drochtersen nahe Stade: Baujahr 1971, 5 Einheiten, Fenster in 3-fach-Verglasung, Fassadendämmung und Balkonsanierung vorgesehen.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1971</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgröße</dt><dd style="margin: 0; font-weight: 500">ca. 82,90 m²</dd></div>
@@ -259,7 +259,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Köln</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Lülsdorfer Straße 210A</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Gepflegtes Mehrfamilienhaus aus dem Jahr 1991 in Köln-Porz Langel, nahe dem Rhein. Neue Gasheizung 2024, kein Instandhaltungsstau.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Köln-Porz Langel zwischen Rhein und Naherholungsgebieten: Baujahr 1991, Gasheizung 2024, keinerlei Instandhaltungsstau.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1991</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">63 bis 102 m²</dd></div>
@@ -273,11 +273,11 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Pinneberg</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Im Bans 20a-b</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Solide Kapitalanlage in gefragter Lage von Pinneberg, rund 20 Minuten von Hamburg. Baujahr 1965, Fernwärme, Garagen und Stellplätze.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Solide Kapitalanlage in gefragter Lage von Pinneberg, ca. 20 Min. bis Hamburg Hbf: 15 Einheiten, Baujahr 1965, Fernwärme, 4 Garagen und 8 Stellplätze.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1965</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">ab 80,8 m²</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Gesamtinvestition</dt><dd style="margin: 0; font-weight: 500">ab 267.000 €</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">ab 80,80 m²</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Gesamtinvestition</dt><dd style="margin: 0; font-weight: 500">275.000 €</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE; border-bottom: 1px solid #141A46"><dt style="color: #5A5F80">Mietgarantie pro m²</dt><dd style="margin: 0; font-weight: 500">15,00 €</dd></div>
 </dl>
 <a href="im-bans-20a-b.html" style="align-self: flex-start; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; padding: 10px 0">Zum digitalen Exposé →</a>
@@ -287,10 +287,10 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Norderstedt</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Segeberger Chaussee 102a</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Mehrfamilienhaus aus dem Jahr 1964 in Norderstedt, direkt im Hamburger Umland. Gasheizung von 2018 und geplanter Dachgeschossausbau.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Norderstedt: Baujahr 1964, 26 Einheiten, Gasheizung 2018, gute Anbindung nach Hamburg und möbliertes Vermietungskonzept.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1964</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">ab 85,32 m²</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">ab 85 m²</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Gesamtinvestition</dt><dd style="margin: 0; font-weight: 500">310.000 €</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE; border-bottom: 1px solid #141A46"><dt style="color: #5A5F80">Mietgarantie pro m²</dt><dd style="margin: 0; font-weight: 500">18,00 €</dd></div>
 </dl>
@@ -301,10 +301,10 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Hamburg</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Letternkamp 6</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Klinkerhaus aus dem Jahr 1904 in Hamburg-Billstedt mit zwei großzügigen Wohnungen und Gaszentralheizung von 2022.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Hamburg-Billstedt: Baujahr 1904, 2 Einheiten mit 253 m² Wohnfläche, Gaszentralheizung 2022, 4,16 % Abschreibung.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1904</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">126 und 127 m²</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">126 m² + 127 m²</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Gesamtinvestition</dt><dd style="margin: 0; font-weight: 500">ab 410.000 €</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE; border-bottom: 1px solid #141A46"><dt style="color: #5A5F80">Mietgarantie pro m²</dt><dd style="margin: 0; font-weight: 500">ab 16,50 €</dd></div>
 </dl>
@@ -315,7 +315,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Hamburg</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Steinbeker Marktstraße 49</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Mehrfamilienhaus aus dem Jahr 1919, aufgestockt 1994, in Hamburg-Billstedt. Gepflegte Substanz und Gasheizung von 2019.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Mehrfamilienhaus aus dem Jahr 1919, aufgestockt 1994, in Hamburg-Billstedt. Gepflegte Substanz und Gaszentralheizung von 2019.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1919</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">ab 106 m²</dd></div>
@@ -329,7 +329,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Hamburg</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Steinbeker Marktstraße 49 · Einzelwohnungen</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Einzelne Wohnungen in einem Mehrfamilienhaus aus dem Jahr 1919, aufgestockt 1994, in Hamburg-Billstedt.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Einzelne Wohnungen in einem Haus aus dem Jahr 1919, aufgestockt 1994, in Hamburg-Billstedt. Gaszentralheizung von 2019, Energieklasse D.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1919</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">54 bis 132 m²</dd></div>
@@ -371,7 +371,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Grönwohld</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Dorfstraße 3</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Wohnanlage aus dem Jahr 1972, ruhig und naturnah im Kreis Stormarn, rund 35 Minuten bis Hamburg.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Nähe Hamburg: Baujahr 1972, 4 Einheiten in Grönwohld, 35 Min. bis Hamburg, mit möbliertem Vermietungskonzept.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1972</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">ca. 100 bis 129 m²</dd></div>
@@ -385,7 +385,7 @@ a{color:#141A46}a:hover{color:#2A3270}
 
 <div style="font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5A5F80">Hamburg-Bergedorf</div>
 <h3 style="margin: 0; font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.02em">Brookdeich 98–100a</h3>
-<p style="margin: 0; font-size: 14px; color: #3A3F63">Wohnanlage aus dem Jahr 1994 in Hamburg-Bergedorf, nahe Dove Elbe und Bergedorfer Zentrum, mit Erdgasheizung von 2017.</p>
+<p style="margin: 0; font-size: 14px; color: #3A3F63">Attraktive Kapitalanlage in Hamburg-Bergedorf: Baujahr 1994, 12 Einheiten, 2–3 Zimmer, nahe Dove Elbe und Bergedorfer Zentrum.</p>
 <dl style="margin: 0; display: flex; flex-direction: column; font-size: 14px">
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #141A46"><dt style="color: #5A5F80">Baujahr</dt><dd style="margin: 0; font-weight: 500">1994</dd></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid #E6E7EE"><dt style="color: #5A5F80">Wohnungsgrößen</dt><dd style="margin: 0; font-weight: 500">72 bis 88,3 m²</dd></div>
