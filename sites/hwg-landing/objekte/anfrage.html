@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161b47">
 <link rel="preload" href="assets/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
 </head>
 <body>
 
@@ -178,6 +178,11 @@
       field.value = btn.value;
       var opts = group.querySelectorAll('.option');
       for (var o = 0; o < opts.length; o++) opts[o].classList.toggle('selected', opts[o] === btn);
+      // Less than 3.000 € net income: no flat offers, show the Hansea Grow alternative instead
+      if (group.dataset.choice === 'einkommen' && btn.value === 'Unter 3.000 €') {
+        setTimeout(function () { window.location.href = 'hansea-grow.html' + location.search; }, 160);
+        return;
+      }
       setTimeout(function () { show(current + 1, true); }, 160);
     });
   })(groups[g]);

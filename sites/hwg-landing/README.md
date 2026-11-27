@@ -36,6 +36,10 @@ Hostinger site under `public_html/objekte/`:
 
 - `index.html`: landing page; the example offer card is HTML, not an image.
 - `anfrage.html`: funnel (goals, net income, equity, contact, thank you).
+  Choosing "Unter 3.000 €" net income opens `hansea-grow.html` instead. The
+  thank-you step shows the Calendly booking widget.
+- `hansea-grow.html`: alternative for less than 3.000 € net income: Hansea
+  Grow (from 100 € a month), buttons to hanseagrow.de/kontakt and hanseagrow.de.
 - `anfrage.php`: stores each request in `~/leads-objekte.csv` (outside
   `public_html`), emails the team (`info@gerlachgroup.de`, reply goes to the
   requester) and sends the requester a short confirmation.

@@ -307,3 +307,24 @@ p { margin: 0; }
   .calendar { padding: 16px 12px 12px; }
   .calendly-box { height: 1000px; margin: 8px -8px 0; }
 }
+
+/* Hansea Grow page (hansea-grow.html): for requests with less than 3.000 € net income */
+.grow-intro { padding: 56px 0 40px; }
+.grow-intro h1 { font-size: clamp(28px, 3.6vw, 34px); font-weight: 600; }
+.grow-intro p { margin-top: 16px; font-size: 15px; line-height: 1.7; color: var(--muted); font-weight: 300; }
+.grow-intro p.thanks { margin-top: 18px; }
+.grow-intro p.strong { color: var(--ink); font-weight: 600; }
+.grow { padding: 40px 0 36px; background: var(--mist); }
+.grow h2 { margin-top: 0; font-size: clamp(28px, 3.4vw, 34px); font-weight: 600; }
+.grow .intro { margin-top: 14px; color: var(--muted); font-weight: 300; }
+.grow .card { box-shadow: 0 1px 2px rgba(22, 27, 71, .04); }
+.grow-logo { display: block; width: 92px; height: auto; margin-bottom: 18px; color: var(--navy); fill: var(--navy); }
+.grow-logo text { fill: currentColor; }
+.grow-logo--small { margin: 22px 0 0; width: 84px; }
+.grow-risk { margin-top: 12px; padding: 14px 16px; border-left: 3px solid var(--gold); border-radius: 8px; background: var(--white); font-size: 12.5px; font-weight: 600; line-height: 1.55; scroll-margin-top: 24px; }
+.grow-call { padding: 36px 0 40px; }
+.grow-call h2, .grow-discover h2 { font-size: clamp(28px, 3.4vw, 34px); font-weight: 600; }
+.grow-call .lead { margin-top: 14px; color: #d5d8e8; font-weight: 300; line-height: 1.65; }
+.grow-discover { padding: 40px 0 36px; }
+.grow-discover .lead { margin-top: 14px; color: var(--muted); font-weight: 300; line-height: 1.65; }
+.btn-wide { width: 100%; max-width: 500px; margin-top: 24px; }
