@@ -69,11 +69,18 @@ Die DNS-Zone von hanseatische-wohnungsgenossenschaft.de liegt bei netcup. Für
 
 ## Hörbuch-Dateien
 
-`danke.html` ist zugleich die Hörbuch-Seite: 5 Teile zum Anhören und einzeln
-herunterladen, dazu alle Teile als ZIP. Die Dateien liegen auf Hostinger unter
-`public_html/hoerbuch/audio/` (nicht im Repository, siehe `.gitignore`):
-`immobilien-investitionen-leicht-gemacht-teil-01.mp3` … `-teil-05.mp3` und
+`danke.html` ist zugleich die Hörbuch-Seite: 34 Teile (rund 212 Minuten) zum
+Anhören und einzeln herunterladen, dazu alle Teile als ZIP (rund 485 MB). Die
+Dateien liegen auf Hostinger unter `public_html/hoerbuch/audio/` (nicht im
+Repository, siehe `.gitignore`):
+`immobilien-investitionen-leicht-gemacht-teil-01.mp3` … `-teil-34.mp3` und
 `immobilien-investitionen-leicht-gemacht-hoerbuch.zip`.
+
+Die ZIP lässt sich nicht über die Upload-Schnittstelle hochladen (Uploads über
+etwa 50 MB brechen ab). Sie wird deshalb auf dem Server aus den MP3s gebaut:
+ein kurzes PHP-Skript mit zufälligem Namen in `public_html/hoerbuch/` ablegen,
+das mit `ZipArchive` (ohne Kompression) alle Teile in die ZIP schreibt, einmal
+aufrufen; es löscht sich danach selbst.
 
 In HubSpot muss das Formular nach dem Absenden auf
 `https://exposees.hanseatische-wohnungsgenossenschaft.de/hoerbuch/danke.html`
