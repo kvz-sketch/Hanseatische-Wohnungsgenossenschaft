@@ -86,7 +86,7 @@ def coin(size, style):
     return (f'<div style="position: absolute; {style} width: {size}px; height: {size}px; border-radius: 50%; '
             f'background: var(--gig-gold); color: var(--gig-navy); display: flex; flex-direction: column; '
             f'align-items: center; justify-content: center; transform: rotate(12deg); box-shadow: 0 8px 20px rgba(0,0,0,0.35);">\n'
-            f'      <span style="font-family: var(--font-display); font-weight: 600; font-size: {big}px; line-height: 0.9;">0 €</span>\n'
+            f'      <span style="font-family: var(--font-ui); font-weight: 800; font-size: {round(big * 0.82)}px; line-height: 0.9; letter-spacing: -0.02em;">0 €</span>\n'
             f'      <span style="margin-top: 4px; font-size: {small}px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;">Gratis</span>\n'
             f'    </div>')
 
@@ -241,7 +241,7 @@ def photo(c, style, mask_dir):
             f'object-position: 50% 0%; -webkit-mask-image: {m}; mask-image: {m};">')
 
 
-NAME = '<span style="font-family: var(--font-display); font-style: italic; font-size: {}px;">Stephan Gerlach</span>'
+NAME = '<span style="font-family: var(--font-ui); font-weight: 600; font-size: {}px;">Stephan Gerlach</span>'
 
 
 def b_square(c):
@@ -254,7 +254,7 @@ def b_square(c):
     {eyebrow(t['eyebrow'], 20)}
     {h1(t['h1'], 72)}
     {sub(t['sub'], 26)}
-    {NAME.format(32)}
+    {NAME.format(26)}
     {c.button(t['cta'], 1.8, extra=' align-self: flex-start;')}
   </div>
   <div style="position: absolute; left: 610px; top: 640px;">
@@ -274,7 +274,7 @@ def b_portrait(c):
     {eyebrow(t['eyebrow'], 21)}
     {h1(t['h1'], 80)}
     {sub(t['sub'], 27)}
-    {NAME.format(32)}
+    {NAME.format(26)}
   </div>
   <div style="position: absolute; left: 70px; top: 740px;">
     {book(c, 'width: 400px;')}
@@ -296,7 +296,7 @@ def b_story(c):
     {eyebrow(t['eyebrow'], 26)}
     {h1(t['h1'], 100)}
     {sub(t['sub'], 34)}
-    {NAME.format(38)}
+    {NAME.format(30)}
     {c.button(t['cta'], 2.4, extra=' margin-top: 10px;')}
   </div>
   <div style="position: absolute; left: 76px; top: 1090px;">
@@ -315,7 +315,7 @@ def b_taboola(c):
     {eyebrow(t['eyebrow'], 15)}
     {h1(t['h1'], 54)}
     {sub(t['sub'], 20)}
-    {NAME.format(24)}
+    {NAME.format(20)}
     {c.button(t['cta'], 1.4, extra=' align-self: flex-start;')}
   </div>
   <div style="position: absolute; left: 640px; top: 400px;">
