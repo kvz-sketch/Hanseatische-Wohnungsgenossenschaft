@@ -70,7 +70,7 @@ Die DNS-Zone von hanseatische-wohnungsgenossenschaft.de liegt bei netcup. Für
 ## Hörbuch-Dateien
 
 `danke.html` ist zugleich die Hörbuch-Seite: 34 Teile (rund 212 Minuten) zum
-Anhören und einzeln herunterladen, dazu alle Teile als ZIP (rund 485 MB). Die
+Anhören und einzeln herunterladen, dazu alle Teile als ZIP (rund 194 MB, MP3 mit 128 kbit/s). Die
 Dateien liegen auf Hostinger unter `public_html/hoerbuch/audio/` (nicht im
 Repository, siehe `.gitignore`):
 `immobilien-investitionen-leicht-gemacht-teil-01.mp3` … `-teil-34.mp3` und
